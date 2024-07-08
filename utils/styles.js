@@ -8,7 +8,7 @@ export const LOGIN = {
         padding: 15
     },
     headerText: {
-        fontSize: 25,
+        fontSize: 20,
         fontWeight: 'bold',
         marginLeft: 15, 
     },

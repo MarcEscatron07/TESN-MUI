@@ -106,8 +106,8 @@ export default function Login() {
               <Image
                 className="page-logo"
                 src="/images/tagbilaran-seal.png"
-                width={70}
-                height={70}
+                width={50}
+                height={50}
                 alt="Tagbilaran Seal"
               />
               <Typography variant="h5" noWrap component="div" style={LOGIN.headerText}>
