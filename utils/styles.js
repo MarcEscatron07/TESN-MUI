@@ -2,7 +2,10 @@ export const LOGIN = {
     headerContainer: { 
         display: 'flex', 
         alignItems: 'center', 
-        justifyContent: 'center' 
+        justifyContent: 'center',
+        borderRadius: '50px 10px 50px 20px',
+        backgroundColor: '#FBD11A',
+        padding: 15
     },
     headerText: {
         fontSize: 25,
@@ -15,7 +18,7 @@ export const LOGIN = {
         paddingRight: 30,
         paddingBottom: 20,
         paddingLeft: 30,
-        borderRadius: 10,
+        borderRadius: '10px 50px 20px 50px',
         backgroundColor: '#79B391'
     },
     formInputProps: {

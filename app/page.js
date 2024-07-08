@@ -102,18 +102,18 @@ export default function Login() {
             justifyContent: 'space-between'
           }}
         >
-          <Box style={LOGIN.headerContainer}>
-            <Image
-              className="page-logo"
-              src="/images/tagbilaran-seal.png"
-              width={70}
-              height={70}
-              alt="Tagbilaran Seal"
-            />
-            <Typography variant="h5" noWrap component="div" style={LOGIN.headerText}>
-              {SITENAME_FULL}
-            </Typography>
-          </Box>
+          <Paper elevation={3} style={LOGIN.headerContainer}>
+              <Image
+                className="page-logo"
+                src="/images/tagbilaran-seal.png"
+                width={70}
+                height={70}
+                alt="Tagbilaran Seal"
+              />
+              <Typography variant="h5" noWrap component="div" style={LOGIN.headerText}>
+                {SITENAME_FULL}
+              </Typography>
+          </Paper>
           <Paper elevation={3} style={LOGIN.formContainer}>
             <Box noValidate component="form" onSubmit={onFormSubmit}>
               <TextField
@@ -179,6 +179,7 @@ export default function Login() {
                 variant="contained"
                 sx={{ mt: 4, mb: 2 }}
                 color="secondary"
+                startIcon={<FontAwesomeIcon icon={faKey} size="lg" />}
               >
                 Sign In
               </Button>
