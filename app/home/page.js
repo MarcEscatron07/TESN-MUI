@@ -28,6 +28,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import ChatIcon from '@mui/icons-material/Chat';
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
@@ -125,9 +126,9 @@ export default function Home() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+        <IconButton size="large" aria-label="show 4 new chat messages" color="inherit">
           <Badge badgeContent={4} color="error">
-            <MailIcon />
+            <ChatIcon />
           </Badge>
         </IconButton>
         <p>Messages</p>
@@ -201,11 +202,11 @@ export default function Home() {
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
               size="large"
-              aria-label="show 4 new mails"
+              aria-label="show 4 new chat messages"
               color="inherit"
             >
               <Badge badgeContent={4} color="error">
-                <MailIcon />
+                <ChatIcon />
               </Badge>
             </IconButton>
             <IconButton
