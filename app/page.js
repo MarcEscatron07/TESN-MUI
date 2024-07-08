@@ -1,32 +1,33 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Image from 'next/image';
+import Image from "next/image";
 
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 // import Link from '@mui/material/Link';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import InputAdornment from '@mui/material/InputAdornment';
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import InputAdornment from "@mui/material/InputAdornment";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserCircle, faLock, faKey, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-
 import {
-  LOGIN
-} from '@/utils/styles';
+  faUserCircle,
+  faLock,
+  faKey,
+  faEye,
+  faEyeSlash,
+} from "@fortawesome/free-solid-svg-icons";
 
-import {
-  SITENAME_FULL,
-  SITENAME_ABBR
-} from '@/utils/variables';
+import { LOGIN } from "@/utils/styles";
+
+import { SITENAME_FULL, SITENAME_ABBR } from "@/utils/variables";
 
 import { getUsers } from "@/lib";
 
@@ -34,8 +35,8 @@ export default function Login() {
   const router = useRouter();
 
   const [usersData, setUsersData] = useState([]);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const maxValidCount = 2;
@@ -52,13 +53,13 @@ export default function Login() {
         res ? setUsersData(res) : null;
       },
       (err) => {
-        console.log('Login > users > err', err);
+        console.log("Login > users > err", err);
         setUsersData(null);
       }
     );
   }
 
-  const onFormSubmit = (event) => {
+  const handleFormSubmit = (event) => {
     event.preventDefault();
     let validCount = 0;
     let userId = -1;
@@ -85,37 +86,42 @@ export default function Login() {
 
   const onShowPasswordClick = () => {
     setShowPassword(!showPassword);
-  }
+  };
 
   return (
-    <Grid container component="main" sx={{ height: '100vh' }}>
+    <Grid container component="main" sx={{ height: "100vh" }}>
       <CssBaseline />
       <Grid item sm={12} md={5} square>
         <Box
-          height={'100%'}
+          height={"100%"}
           sx={{
             py: 8,
             px: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'space-between'
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
           <Paper elevation={3} style={LOGIN.headerContainer}>
-              <Image
-                className="page-logo"
-                src="/images/tagbilaran-seal.png"
-                width={50}
-                height={50}
-                alt="Tagbilaran Seal"
-              />
-              <Typography variant="h5" noWrap component="div" style={LOGIN.headerText}>
-                {SITENAME_FULL}
-              </Typography>
+            <Image
+              className="page-logo"
+              src="/images/tagbilaran-seal.png"
+              width={50}
+              height={50}
+              alt="Tagbilaran Seal"
+            />
+            <Typography
+              variant="h5"
+              noWrap
+              component="div"
+              style={LOGIN.headerText}
+            >
+              {SITENAME_FULL}
+            </Typography>
           </Paper>
           <Paper elevation={3} style={LOGIN.formContainer}>
-            <Box noValidate component="form" onSubmit={onFormSubmit}>
+            <Box noValidate component="form" onSubmit={handleFormSubmit}>
               <TextField
                 margin="normal"
                 required
@@ -134,7 +140,10 @@ export default function Login() {
                     </InputAdornment>
                   ),
                 }}
-                InputLabelProps={{shrink: true, style: LOGIN.formInputLabelProps}}
+                InputLabelProps={{
+                  shrink: true,
+                  style: LOGIN.formInputLabelProps,
+                }}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
@@ -144,7 +153,7 @@ export default function Login() {
                 fullWidth
                 name="password"
                 // label="Password"
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 id="password"
                 autoComplete="current-password"
                 placeholder="Password"
@@ -158,19 +167,30 @@ export default function Login() {
                   endAdornment: (
                     <InputAdornment position="start">
                       {password.length > 0 ? (
-                        <span className="input-action" title={showPassword ? 'Hide' : 'Show'} onClick={onShowPasswordClick}>
-                          <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} size="lg" />
+                        <span
+                          className="input-action"
+                          title={showPassword ? "Hide" : "Show"}
+                          onClick={onShowPasswordClick}
+                        >
+                          <FontAwesomeIcon
+                            icon={showPassword ? faEyeSlash : faEye}
+                            size="lg"
+                          />
                         </span>
                       ) : null}
                     </InputAdornment>
-                  )
+                  ),
                 }}
-                InputLabelProps={{shrink: true, style: LOGIN.formInputLabelProps}}
+                InputLabelProps={{
+                  shrink: true,
+                  style: LOGIN.formInputLabelProps,
+                }}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
               <FormControlLabel
-                control={<Checkbox value="remember" color="accent1" />}
+                style={LOGIN.formControlLabel}
+                control={<Checkbox value="remember" color="secondary" />}
                 label="Remember me"
               />
               <Button
@@ -190,9 +210,10 @@ export default function Login() {
                   </Link>
                 </Grid>
               </Grid> */}
-              <Box sx={{mt: 10}}>
-                <Typography variant="body1" align="center">
-                  {'© '}{new Date().getFullYear()}{' '}{SITENAME_ABBR}
+              <Box sx={{ mt: 10 }}>
+                <Typography variant="body1" align="center" color="white">
+                  {"© "}
+                  {new Date().getFullYear()} {SITENAME_ABBR}
                 </Typography>
               </Box>
             </Box>
@@ -205,8 +226,8 @@ export default function Login() {
         md={7}
         sx={{
           backgroundImage: 'url("/images/tagbilaran-city-hall.png")',
-          backgroundSize: 'cover',
-          backgroundPosition: 'left',
+          backgroundSize: "cover",
+          backgroundPosition: "left",
         }}
       />
     </Grid>

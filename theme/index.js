@@ -11,7 +11,8 @@ const roboto = Roboto({
 const theme = createTheme({
     palette: {
         primary: {
-            main: "#00703C"
+            main: "#00703C",
+            light: "#699B7E"
         },
         secondary: {
             main: "#FBD11A"
@@ -32,6 +33,9 @@ const theme = createTheme({
     typography: {
         fontFamily: roboto.style.fontFamily,
     },
+    listItemIcon: {
+        color: 'white'
+    }
 });
 
 export default theme;

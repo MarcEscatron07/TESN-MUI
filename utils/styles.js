@@ -19,7 +19,7 @@ export const LOGIN = {
         paddingBottom: 20,
         paddingLeft: 30,
         borderRadius: '10px 50px 20px 50px',
-        backgroundColor: '#79B391'
+        backgroundColor: '#699B7E'
     },
     formInputProps: {
         backgroundColor: '#FFFFFF'
@@ -32,6 +32,9 @@ export const LOGIN = {
         borderRadius: 5, 
         border: '3px solid #00703C', 
         backgroundColor: '#FFFFFF' 
+    },
+    formControlLabel: {
+        color: '#FFFFFF'
     },
     formForgotPassword: { 
         display: 'flex', 
