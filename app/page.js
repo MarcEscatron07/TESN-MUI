@@ -21,8 +21,8 @@ import {
 
 function Copyright(props) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
+    <Typography variant="body1" color="text.secondary" align="center" {...props}>
+      {'© '}
       {new Date().getFullYear()}
       {' '}
       {SITENAME_ABBR}
@@ -69,7 +69,7 @@ export default function Login() {
               height={80}
               alt="Tagbilaran Seal"
             />
-            <Typography variant="h5" noWrap component="div" style={{marginLeft: 10}}>
+            <Typography variant="h5" noWrap component="div" style={{marginLeft: 10, fontWeight: 'bold', fontSize: 30}}>
               {SITENAME_FULL}
             </Typography>
           </Box>
