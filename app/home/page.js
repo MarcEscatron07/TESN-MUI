@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useTheme } from "@mui/material/styles";
 
+import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
@@ -266,25 +267,24 @@ export default function Home() {
             backgroundColor: theme.palette.primary.light,
           }}
         >
-          <Image
-            className="page-logo"
-            src="/images/tagbilaran-seal.png"
-            width={40}
-            height={40}
-            alt="Tagbilaran Seal"
-          />
-          <Box
+          <Paper
             style={{
-              width: "80%",
+              width: "85%",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              marginLeft: 10,
-              padding: 2,
-              borderRadius: "10px 25px 10px 25px",
+              padding: 4,
+              borderRadius: '10px 50px 20px 50px',
               backgroundColor: theme.palette.secondary.main,
             }}
           >
+            <Image
+                className="page-logo"
+                src="/images/tagbilaran-seal.png"
+                width={40}
+                height={40}
+                alt="Tagbilaran Seal"
+            />
             <Typography
               variant="h6"
               noWrap
@@ -294,8 +294,8 @@ export default function Home() {
             >
               {SITENAME_ABBR}
             </Typography>
-          </Box>
-          <Box style={{ width: "20%" }}>
+          </Paper>
+          <Box style={{ width: "15%" }}>
             <IconButton
               onClick={handleDrawerClose}
               style={{ color: theme.palette.light.main }}
