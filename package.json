@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "sass": "sass --watch ./app/globals.scss ./app/globals.css",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -17,6 +18,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.3.0",
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@mui/icons-material": "^5.16.0",
     "@mui/material-nextjs": "^5.15.11",
     "bootstrap": "^5.3.3",
     "emoji-picker-react": "^4.9.4",

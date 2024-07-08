@@ -1,0 +1,1 @@
+This directory is where the uploaded attachments will be stored

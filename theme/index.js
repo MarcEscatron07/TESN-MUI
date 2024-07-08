@@ -3,15 +3,29 @@ import { Roboto } from 'next/font/google';
 import { createTheme } from '@mui/material/styles';
 
 const roboto = Roboto({
-  weight: ['300', '400', '500', '700'],
-  subsets: ['latin'],
-  display: 'swap',
+    weight: ['300', '400', '500', '700'],
+    subsets: ['latin'],
+    display: 'swap',
 });
 
 const theme = createTheme({
-  typography: {
-    fontFamily: roboto.style.fontFamily,
-  },
+    palette: {
+        primary: {
+            main: "#00703C"
+        },
+        secondary: {
+            main: "#FBD11A"
+        },
+        accent1: {
+            main: '#28166F'
+        },
+        accent2: {
+            main: '#DA251D'
+        },
+    },
+    typography: {
+        fontFamily: roboto.style.fontFamily,
+    },
 });
 
 export default theme;
