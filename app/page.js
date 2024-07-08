@@ -9,10 +9,14 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
+// import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+
+import {
+  LOGIN
+} from '@/utils/styles';
 
 import {
   SITENAME_FULL,
@@ -61,19 +65,19 @@ export default function Login() {
             justifyContent: 'space-between'
           }}
         >
-          <Box style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <Box style={LOGIN.headerContainer}>
             <Image
               className="page-logo"
               src="/images/tagbilaran-seal.png"
-              width={80}
-              height={80}
+              width={70}
+              height={70}
               alt="Tagbilaran Seal"
             />
-            <Typography variant="h5" noWrap component="div" style={{marginLeft: 10, fontWeight: 'bold', fontSize: 30}}>
+            <Typography variant="h5" noWrap component="div" style={LOGIN.headerText}>
               {SITENAME_FULL}
             </Typography>
           </Box>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+          <Box component="form" noValidate onSubmit={handleSubmit}>
             <TextField
               margin="normal"
               required
@@ -106,14 +110,14 @@ export default function Login() {
             >
               Sign In
             </Button>
-            <Grid container>
+            {/* <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2" style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  Forgot password?
+                <Link href="#" variant="body2" style={LOGIN.formForgotPassword}>
+                  Forgot your password?
                 </Link>
               </Grid>
-            </Grid>
-            <Copyright sx={{ mt: 5 }} />
+            </Grid> */}
+            <Copyright sx={{ mt: 12 }} />
           </Box>
         </Box>
       </Grid>
