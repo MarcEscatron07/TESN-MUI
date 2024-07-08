@@ -10,6 +10,7 @@ export const LOGIN = {
         marginLeft: 15, 
     },
     formContainer: {
+        maxWidth: '75%',
         paddingTop: 20,
         paddingRight: 30,
         paddingBottom: 20,
