@@ -3,7 +3,7 @@ export const LOGIN = {
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'center',
-        borderRadius: '50px 10px 50px 20px',
+        borderRadius: '10px 50px 20px 50px',
         backgroundColor: '#FBD11A',
         padding: 15
     },
