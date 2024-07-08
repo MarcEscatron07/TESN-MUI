@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useTheme } from '@mui/material/styles';
 import { useRouter } from "next/navigation";
 import Image from 'next/image';
+
 
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -36,6 +38,7 @@ function Copyright(props) {
 
 export default function Login() {
   const router = useRouter();
+  const theme = useTheme();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -77,7 +80,7 @@ export default function Login() {
               {SITENAME_FULL}
             </Typography>
           </Box>
-          <Box component="form" noValidate onSubmit={handleSubmit}>
+          <Box noValidate component="form" style={LOGIN.formContainer} onSubmit={handleSubmit}>
             <TextField
               margin="normal"
               required
@@ -87,6 +90,8 @@ export default function Login() {
               name="username"
               autoComplete="username"
               autoFocus
+              InputProps={{style: {backgroundColor: theme.palette.light.main}}}
+              InputLabelProps={{style: {left: '-3px', fontWeight: 'bold', padding: '2px 4px', borderRadius: 5, border: '1px dashed #00703C', backgroundColor: theme.palette.light.main }}}
             />
             <TextField
               margin="normal"
@@ -97,6 +102,8 @@ export default function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
+              InputProps={{style: {backgroundColor: theme.palette.light.main}}}
+              InputLabelProps={{style: {left: '-3px',fontWeight: 'bold', padding: '2px 4px', borderRadius: 5, border: '1px dashed #00703C', backgroundColor: theme.palette.light.main }}}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -106,7 +113,8 @@ export default function Login() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 4, mb: 2 }}
+              color="secondary"
             >
               Sign In
             </Button>

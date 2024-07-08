@@ -22,6 +22,12 @@ const theme = createTheme({
         accent2: {
             main: '#DA251D'
         },
+        light: {
+            main: '#FFFFFF'
+        },
+        dark: {
+            main: '#000000'
+        },
     },
     typography: {
         fontFamily: roboto.style.fontFamily,
