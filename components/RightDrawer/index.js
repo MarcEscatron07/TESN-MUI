@@ -30,7 +30,7 @@ export default function RightDrawer(props) {
       PaperProps={{
         style: {
           backgroundColor: theme.palette.primary.main,
-          color: theme.palette.light.main,
+          color: theme.palette.primary.contrastText,
         },
       }}
     >

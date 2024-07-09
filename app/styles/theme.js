@@ -13,30 +13,38 @@ const theme = createTheme({
     palette: {
         primary: {
             main: "#00703C",
-            light: "#699B7E"
+            light: "#699B7E",
+            dark: '#015930',
+            contrastText: '#FFFFFF',
         },
         secondary: {
-            main: "#FBD11A"
+            main: "#FBD11A",
+            light: "#FFDD47",
+            dark: '#D4B015',
+            contrastText: '#000000',
         },
         accent1: {
-            main: '#28166F'
+            main: '#28166F',
+            light: "#3D259C",
+            dark: '#1D104F',
+            contrastText: '#FFFFFF',
         },
         accent2: {
-            main: '#DA251D'
+            main: '#DA251D',
+            light: "#D63E38",
+            dark: '#B52019',
+            contrastText: '#FFFFFF',
         },
         light: {
-            main: '#FFFFFF'
+            main: '#FFFFFF',
         },
         dark: {
-            main: '#000000'
+            main: '#000000',
         },
     },
     typography: {
         fontFamily: roboto.style.fontFamily,
     },
-    listItemIcon: {
-        color: 'white'
-    }
 });
 
 export default theme;

@@ -47,7 +47,7 @@ export default function LeftDrawer(props) {
       PaperProps={{
         style: {
           backgroundColor: theme.palette.primary.main,
-          color: theme.palette.light.main,
+          color: theme.palette.primary.contrastText,
         },
       }}
     >
@@ -130,7 +130,7 @@ export default function LeftDrawer(props) {
       </List>
 
       <Divider />
-      
+
       <List>
         {["All mail", "Trash", "Spam"].map((text, index) => (
           <ListItem key={text} disablePadding sx={{ display: "block" }}>
