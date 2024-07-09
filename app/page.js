@@ -32,7 +32,7 @@ import { SITENAME_FULL, SITENAME_ABBR } from "@/lib/variables";
 export default function Login() {
   const router = useRouter();
 
-  const [usersData, setUsersData] = useState([]);
+  const [usersList, setUsersList] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -48,11 +48,11 @@ export default function Login() {
       (res) => {
         // console.log('Login > users > res', res);
 
-        res ? setUsersData(res) : null;
+        res ? setUsersList(res) : null;
       },
       (err) => {
         console.log("Login > users > err", err);
-        setUsersData(null);
+        setUsersList(null);
       }
     );
   }
@@ -62,8 +62,8 @@ export default function Login() {
     let validCount = 0;
     let userId = -1;
 
-    if (usersData) {
-      usersData.forEach((data) => {
+    if (usersList) {
+      usersList.forEach((data) => {
         if (data.username == username && data.password == password) {
           validCount++;
           userId = data.id;

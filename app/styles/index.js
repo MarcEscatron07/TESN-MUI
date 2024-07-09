@@ -16,6 +16,7 @@ export const LOGIN = {
         backgroundPosition: "left",
     },
     headerContainer: { 
+        width: '75%',
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'center',

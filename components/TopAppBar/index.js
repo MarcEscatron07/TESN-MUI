@@ -144,7 +144,7 @@ export default function TopAppBar(props) {
 
     return (
         <>
-            <AppBar position="fixed" open={props.isLeftDrawerOpen} style={{ backgroundColor: theme.palette.primary.light }}>
+            <AppBar position="fixed" open={props.isLeftDrawerOpen} sx={{ backgroundColor: theme.palette.primary.light }}>
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -169,7 +169,7 @@ export default function TopAppBar(props) {
                         />
                     ) : null}
 
-                    <Search style={{ marginLeft: 15 }}>
+                    <Search sx={{ marginLeft: 15 }}>
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>

@@ -13,12 +13,16 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import ListSubheader from '@mui/material/ListSubheader';
 import Typography from "@mui/material/Typography";
 
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome, faBullhorn, faCalendar, faFile } from '@fortawesome/free-solid-svg-icons';
 
 import {
   DrawerHeader,
@@ -29,6 +33,25 @@ import { SITENAME_ABBR } from "@/lib/variables";
 
 export default function LeftDrawer(props) {
   const theme = useTheme();
+
+  const navigationList = [
+    {
+      icon: <FontAwesomeIcon icon={faHome} size="lg" /> ,
+      text: 'Home',
+    },
+    {
+      icon: <FontAwesomeIcon icon={faBullhorn} size="lg" /> ,
+      text: 'Announcements',
+    },
+    {
+      icon: <FontAwesomeIcon icon={faCalendar} size="lg" /> ,
+      text: 'Calendar',
+    },
+    {
+      icon: <FontAwesomeIcon icon={faFile} size="lg" /> ,
+      text: 'Reports',
+    },
+  ]
 
   useEffect(() => {}, []);
 
@@ -52,7 +75,7 @@ export default function LeftDrawer(props) {
       }}
     >
       <DrawerHeader
-        style={{
+        sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -87,10 +110,10 @@ export default function LeftDrawer(props) {
             {SITENAME_ABBR}
           </Typography>
         </Paper>
-        <Box style={{ width: "15%" }}>
+        <Box sx={{ width: "15%" }}>
           <IconButton
             onClick={handleCloseDrawerClick}
-            style={{ color: theme.palette.light.main }}
+            sx={{ color: theme.palette.light.main }}
           >
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
@@ -101,11 +124,17 @@ export default function LeftDrawer(props) {
         </Box>
       </DrawerHeader>
 
-      <Divider />
+      <Divider sx={{backgroundColor: theme.palette.dark.main}} />
 
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding sx={{ display: "block" }}>
+      <List 
+        subheader={
+          <ListSubheader component="div" sx={{backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, textTransform: 'uppercase', fontWeight: 'bold'}}>
+            {props.isLeftDrawerOpen ? 'Navigation' : null}
+          </ListSubheader>
+        }
+      >
+        {navigationList.map((item, index) => (
+          <ListItem key={index} disablePadding sx={{ display: "block" }}>
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -121,18 +150,24 @@ export default function LeftDrawer(props) {
                   color: theme.palette.light.main,
                 }}
               >
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {item.icon}
               </ListItemIcon>
-              <ListItemText primary={text} sx={{ opacity: props.isLeftDrawerOpen ? 1 : 0 }} />
+              <ListItemText primary={item.text} sx={{ opacity: props.isLeftDrawerOpen ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
 
-      <Divider />
+      <Divider sx={{backgroundColor: theme.palette.light.dark}} />
 
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
+      <List 
+        subheader={
+          <ListSubheader component="div" sx={{backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, textTransform: 'uppercase', fontWeight: 'bold'}}>
+            {props.isLeftDrawerOpen ? 'Others' : null}
+          </ListSubheader>
+        }
+      >
+        {["Trash", "Spam"].map((text, index) => (
           <ListItem key={text} disablePadding sx={{ display: "block" }}>
             <ListItemButton
               sx={{

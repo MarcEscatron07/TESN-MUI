@@ -35,7 +35,7 @@ export default function RightDrawer(props) {
       }}
     >
       <DrawerHeader
-        style={{
+        sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
