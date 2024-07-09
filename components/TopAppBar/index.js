@@ -8,10 +8,12 @@ import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
-
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
+import Avatar from '@mui/material/Avatar';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
 
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
@@ -207,8 +209,15 @@ export default function TopAppBar(props) {
                             aria-haspopup="true"
                             onClick={handleProfileMenuOpen}
                             color="inherit"
+                            sx={{marginLeft: 3}}
                         >
-                            <AccountCircle />
+                            <Stack direction="row" spacing={1}>
+                                <Chip
+                                    avatar={<Avatar alt="User" src="/images/avatars/avatar_default.png" />}
+                                    label="Marc Escatron"
+                                    sx={{backgroundColor: theme.palette.secondary.main, px: 2, minWidth: 100, fontWeight: 'bold', fontSize: '.95rem'}}
+                                />
+                            </Stack>
                         </IconButton>
                     </Box>
                     <Box sx={{ display: { xs: "flex", md: "none" } }}>
