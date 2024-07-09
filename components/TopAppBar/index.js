@@ -211,7 +211,7 @@ export default function TopAppBar(props) {
                             aria-haspopup="true"
                             onClick={handleProfileMenuOpen}
                             color="inherit"
-                            sx={{marginLeft: 5}}
+                            sx={{marginLeft: 5, marginRight: 1}}
                         >
                             <Stack direction="row" spacing={1}>
                                 <Chip
