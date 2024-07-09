@@ -1,11 +1,13 @@
-import Loader from "./Loader";
 import TopAppBar from "./TopAppBar";
 import LeftDrawer from "./LeftDrawer";
 import RightDrawer from "./RightDrawer";
+import Loader from "./Loader";
+import CardPost from "./CardPost";
 
 export {
-    Loader,
     TopAppBar,
     LeftDrawer,
-    RightDrawer
+    RightDrawer,    
+    Loader,
+    CardPost
 }

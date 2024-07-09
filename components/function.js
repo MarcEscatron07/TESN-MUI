@@ -4,6 +4,7 @@ import MuiAppBar from "@mui/material/AppBar";
 import InputBase from "@mui/material/InputBase";
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
 
 
 /** DRAWER **/
@@ -153,3 +154,16 @@ export const SmallAvatar = styled(Avatar)(({ theme }) => ({
   border: `2px solid ${theme.palette.background.paper}`,
 }));
 /** CHAT AVATAR **/
+
+/** CARD POST **/
+export const ExpandMore = styled((props) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+  marginLeft: 'auto',
+  transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+  }),
+}));
+/** CARD POST **/

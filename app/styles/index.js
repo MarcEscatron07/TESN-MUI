@@ -72,6 +72,10 @@ export const HOME = {
         display: 'flex'
     },
     sectionContent: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
         flexGrow: 1, 
         p: 3
     },
