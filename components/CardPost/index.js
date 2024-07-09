@@ -29,7 +29,7 @@ export default function CardPost() {
     };
 
     return (
-        <Card sx={{ maxWidth: 800 }}>
+        <Card sx={{ maxWidth: 700 }}>
             <CardHeader
                 avatar={<Avatar alt="Account Avatar" src={'/images/avatars/avatar_male_2.png'} />}
                 action={
@@ -41,6 +41,12 @@ export default function CardPost() {
                 subheader="July 09, 2024"
             />
 
+            <CardContent>
+                <Typography variant="body2" color="text.secondary">
+                    TAGBILARAN OUT-OF-SCHOOL YOUTH TO GAIN BETTER EMPLOYMENT OPPORTUNITIES THROUGH NEW CAREER READINESS PROGRAM
+                </Typography>
+            </CardContent>
+
             <CardActionArea>
                 <CardMedia
                     component="img"
@@ -48,12 +54,6 @@ export default function CardPost() {
                     alt="Card Post"
                 />
             </CardActionArea>
-
-            <CardContent>
-                <Typography variant="body2" color="text.secondary">
-                    TAGBILARAN OUT-OF-SCHOOL YOUTH TO GAIN BETTER EMPLOYMENT OPPORTUNITIES THROUGH NEW CAREER READINESS PROGRAM
-                </Typography>
-            </CardContent>
 
             <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites">
