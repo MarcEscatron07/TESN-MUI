@@ -187,6 +187,7 @@ export default function TopAppBar(props) {
                             size="large"
                             aria-label="show 4 new chat messages"
                             color="inherit"
+                            sx={{marginLeft: 1}}
                         >
                             <Badge badgeContent={4} color="error">
                                 <ChatIcon />
@@ -196,6 +197,7 @@ export default function TopAppBar(props) {
                             size="large"
                             aria-label="show 17 new notifications"
                             color="inherit"
+                            sx={{marginLeft: 1}}
                         >
                             <Badge badgeContent={17} color="error">
                                 <NotificationsIcon />
@@ -209,7 +211,7 @@ export default function TopAppBar(props) {
                             aria-haspopup="true"
                             onClick={handleProfileMenuOpen}
                             color="inherit"
-                            sx={{marginLeft: 3}}
+                            sx={{marginLeft: 5}}
                         >
                             <Stack direction="row" spacing={1}>
                                 <Chip

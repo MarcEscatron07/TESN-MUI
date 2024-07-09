@@ -37,48 +37,50 @@ import { SITENAME_ABBR } from "@/lib/variables";
 export default function LeftDrawer(props) {
   const theme = useTheme();
 
+  const [activeNav, setActiveNav] = useState('Home')
+
   const navigationList = [
     {
-      icon: <HomeIcon /> ,
+      icon: <HomeIcon />,
       text: 'Home',
     },
     {
-      icon: <CampaignIcon /> ,
+      icon: <CampaignIcon />,
       text: 'Announcements',
     },
     {
-      icon: <EventIcon /> ,
+      icon: <EventIcon />,
       text: 'Events',
     },
     {
-      icon: <DescriptionIcon /> ,
+      icon: <DescriptionIcon />,
       text: 'Reports',
     },
   ];
 
   const othersList = [
     {
-      icon: <PeopleIcon /> ,
+      icon: <PeopleIcon />,
       text: 'Friends',
     },
     {
-      icon: <GroupsIcon /> ,
+      icon: <GroupsIcon />,
       text: 'Groups',
     },
     {
-      icon: <BookmarkIcon /> ,
+      icon: <BookmarkIcon />,
       text: 'Saved',
     },
     {
-      icon: <SettingsIcon /> ,
+      icon: <SettingsIcon />,
       text: 'Settings',
     },
   ];
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const handleCloseDrawerClick = () => {
-    if(props.onDrawerToggleClick) {
+    if (props.onDrawerToggleClick) {
       props.onDrawerToggleClick(false);
     }
   }
@@ -146,17 +148,25 @@ export default function LeftDrawer(props) {
         </Box>
       </DrawerHeader>
 
-      <Divider sx={{backgroundColor: theme.palette.dark.main}} />
+      <Divider sx={{ backgroundColor: theme.palette.dark.main }} />
 
-      <List 
+      <List
         subheader={
-          <ListSubheader component="div" sx={{backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, textTransform: 'uppercase', fontWeight: 'bold'}}>
+          <ListSubheader component="div" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, textTransform: 'uppercase', fontWeight: 'bold' }}>
             {props.isLeftDrawerOpen ? 'Navigation' : null}
           </ListSubheader>
         }
       >
         {navigationList.map((item, index) => (
-          <ListItem key={index} disablePadding sx={{ display: "block" }}>
+          <ListItem key={index}
+            disablePadding
+            sx={{
+              display: "block",
+              backgroundColor: activeNav == item.text ? theme.palette.secondary.main : null,
+              color: activeNav == item.text ? theme.palette.secondary.contrastText : null
+            }}
+            onClick={() => setActiveNav(item.text)}
+          >
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -169,22 +179,22 @@ export default function LeftDrawer(props) {
                   minWidth: 0,
                   mr: props.isLeftDrawerOpen ? 3 : "auto",
                   justifyContent: "center",
-                  color: theme.palette.light.main,
+                  color: activeNav == item.text ? theme.palette.secondary.contrastText : theme.palette.light.main,
                 }}
               >
                 {item.icon}
               </ListItemIcon>
-              <ListItemText primary={item.text} primaryTypographyProps={{style: { fontWeight: 'bold '}}} sx={{ opacity: props.isLeftDrawerOpen ? 1 : 0 }} />
+              <ListItemText primary={item.text} primaryTypographyProps={{ style: { fontWeight: 'bold ' } }} sx={{ opacity: props.isLeftDrawerOpen ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
 
-      <Divider sx={{backgroundColor: theme.palette.light.dark}} />
+      <Divider sx={{ backgroundColor: theme.palette.light.dark }} />
 
-      <List 
+      <List
         subheader={
-          <ListSubheader component="div" sx={{backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, textTransform: 'uppercase', fontWeight: 'bold'}}>
+          <ListSubheader component="div" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, textTransform: 'uppercase', fontWeight: 'bold' }}>
             {props.isLeftDrawerOpen ? 'Others' : null}
           </ListSubheader>
         }
@@ -208,7 +218,7 @@ export default function LeftDrawer(props) {
               >
                 {item.icon}
               </ListItemIcon>
-              <ListItemText primary={item.text} primaryTypographyProps={{style: { fontWeight: 'bold '}}} sx={{ opacity: props.isLeftDrawerOpen ? 1 : 0 }} />
+              <ListItemText primary={item.text} primaryTypographyProps={{ style: { fontWeight: 'bold ' } }} sx={{ opacity: props.isLeftDrawerOpen ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
         ))}
