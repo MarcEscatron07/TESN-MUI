@@ -40,9 +40,9 @@ import {
   Search,
   SearchIconWrapper,
   StyledInputBase,
-} from "@/utils/mui";
+} from "@/components/function";
 
-import { SITENAME_ABBR } from "@/utils/variables";
+import { SITENAME_ABBR } from "@/lib/variables";
 
 export default function Home() {
   const theme = useTheme();

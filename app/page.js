@@ -25,11 +25,9 @@ import {
   faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { LOGIN } from "@/utils/styles";
-
-import { SITENAME_FULL, SITENAME_ABBR } from "@/utils/variables";
-
-import { getUsers } from "@/lib";
+import { getUsers } from "@/lib/api";
+import { LOGIN } from "@/app/styles";
+import { SITENAME_FULL, SITENAME_ABBR } from "@/lib/variables";
 
 export default function Login() {
   const router = useRouter();
@@ -89,19 +87,12 @@ export default function Login() {
   };
 
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
+    <Grid container component="main" sx={LOGIN.mainContainer}>
       <CssBaseline />
       <Grid item sm={12} md={5} square>
         <Box
           height={"100%"}
-          sx={{
-            py: 8,
-            px: 4,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
+          sx={LOGIN.sectionLeft}
         >
           <Paper elevation={3} style={LOGIN.headerContainer}>
             <Image
@@ -197,7 +188,7 @@ export default function Login() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 4, mb: 2 }}
+                sx={LOGIN.formButtonSignIn}
                 color="secondary"
                 startIcon={<FontAwesomeIcon icon={faKey} size="lg" />}
               >
@@ -210,7 +201,7 @@ export default function Login() {
                   </Link>
                 </Grid>
               </Grid> */}
-              <Box sx={{ mt: 10 }}>
+              <Box sx={LOGIN.formCopyright}>
                 <Typography variant="body1" align="center" color="white">
                   {"© "}
                   {new Date().getFullYear()} {SITENAME_ABBR}
@@ -224,11 +215,7 @@ export default function Login() {
         item
         xs={false}
         md={7}
-        sx={{
-          backgroundImage: 'url("/images/tagbilaran-city-hall.png")',
-          backgroundSize: "cover",
-          backgroundPosition: "left",
-        }}
+        sx={LOGIN.sectionRight}
       />
     </Grid>
   );

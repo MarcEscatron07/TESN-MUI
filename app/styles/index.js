@@ -1,4 +1,20 @@
 export const LOGIN = {
+    mainContainer: {
+        height: "100vh"
+    },
+    sectionLeft: {
+        py: 8,
+        px: 4,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "space-between",
+    },
+    sectionRight: {
+        backgroundImage: 'url("/images/tagbilaran-city-hall.png")',
+        backgroundSize: "cover",
+        backgroundPosition: "left",
+    },
     headerContainer: { 
         display: 'flex', 
         alignItems: 'center', 
@@ -36,8 +52,15 @@ export const LOGIN = {
     formControlLabel: {
         color: '#FFFFFF'
     },
+    formButtonSignIn: {
+        mt: 4, 
+        mb: 2
+    },
     formForgotPassword: { 
         display: 'flex', 
         justifyContent: 'flex-end' 
+    },
+    formCopyright: {
+        mt: 10
     }
 }
