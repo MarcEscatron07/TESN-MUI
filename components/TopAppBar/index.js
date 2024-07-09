@@ -144,8 +144,8 @@ export default function TopAppBar(props) {
 
     return (
         <>
-            <AppBar position="fixed" open={props.isLeftDrawerOpen}>
-                <Toolbar style={{ backgroundColor: theme.palette.primary.light }}>
+            <AppBar position="fixed" open={props.isLeftDrawerOpen} style={{ backgroundColor: theme.palette.primary.light }}>
+                <Toolbar>
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
