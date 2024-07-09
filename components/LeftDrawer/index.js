@@ -18,11 +18,14 @@ import Typography from "@mui/material/Typography";
 
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faBullhorn, faCalendar, faFile } from '@fortawesome/free-solid-svg-icons';
+import HomeIcon from "@mui/icons-material/Home";
+import CampaignIcon from "@mui/icons-material/Campaign";
+import EventIcon from '@mui/icons-material/Event';
+import DescriptionIcon from '@mui/icons-material/Description';
+import PeopleIcon from '@mui/icons-material/People';
+import GroupsIcon from '@mui/icons-material/Groups';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 import {
   DrawerHeader,
@@ -36,20 +39,39 @@ export default function LeftDrawer(props) {
 
   const navigationList = [
     {
-      icon: <FontAwesomeIcon icon={faHome} size="lg" /> ,
+      icon: <HomeIcon /> ,
       text: 'Home',
     },
     {
-      icon: <FontAwesomeIcon icon={faBullhorn} size="lg" /> ,
+      icon: <CampaignIcon /> ,
       text: 'Announcements',
     },
     {
-      icon: <FontAwesomeIcon icon={faCalendar} size="lg" /> ,
-      text: 'Calendar',
+      icon: <EventIcon /> ,
+      text: 'Events',
     },
     {
-      icon: <FontAwesomeIcon icon={faFile} size="lg" /> ,
+      icon: <DescriptionIcon /> ,
       text: 'Reports',
+    },
+  ];
+
+  const othersList = [
+    {
+      icon: <PeopleIcon /> ,
+      text: 'Friends',
+    },
+    {
+      icon: <GroupsIcon /> ,
+      text: 'Groups',
+    },
+    {
+      icon: <BookmarkIcon /> ,
+      text: 'Saved',
+    },
+    {
+      icon: <SettingsIcon /> ,
+      text: 'Settings',
     },
   ]
 
@@ -167,8 +189,8 @@ export default function LeftDrawer(props) {
           </ListSubheader>
         }
       >
-        {["Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding sx={{ display: "block" }}>
+        {othersList.map((item, index) => (
+          <ListItem key={index} disablePadding sx={{ display: "block" }}>
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -184,9 +206,9 @@ export default function LeftDrawer(props) {
                   color: theme.palette.light.main,
                 }}
               >
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {item.icon}
               </ListItemIcon>
-              <ListItemText primary={text} sx={{ opacity: props.isLeftDrawerOpen ? 1 : 0 }} />
+              <ListItemText primary={item.text} sx={{ opacity: props.isLeftDrawerOpen ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
         ))}
