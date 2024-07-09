@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "sass": "sass --watch ./app/globals.scss ./app/globals.css",
+    "sass": "sass --watch ./app/styles/globals.scss ./app/styles/globals.css",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

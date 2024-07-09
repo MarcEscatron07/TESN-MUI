@@ -68,6 +68,10 @@ export const LOGIN = {
 
 export const HOME = {
     mainContainer: {
+        position: 'relative',
+        display: 'flex'
+    },
+    sectionContent: {
         flexGrow: 1, 
         p: 3
     },

@@ -12,6 +12,66 @@ $chat-width: 350px;
 
 $chat-multiple-gap: 23rem;
 
+body {
+    position: relative;
+}
+
 .input-action {
     cursor: pointer;
+}
+
+.loader {
+    position: fixed;
+    top: 0;
+    display: block;
+    background: rgba(255, 255, 255, 0.4);
+    height: 100%;
+    width: 100%;
+    z-index: 99999;
+
+    .loader-element {
+        position: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 50%;
+        right: 50%;
+        bottom: 50%;
+        left: 50%;
+        z-index: 99998;
+
+        .loader-image {
+            position: absolute;
+            height: 284px;
+            width: 284px;
+            background-image: url(../../public/images/tagbilaran-seal.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .loader-border {
+            filter: blur(1px);
+            -webkit-filter: blur(1px);
+            position: absolute;
+            height: 300px;
+            width: 300px;
+            border: 15px solid $accent1-color;
+            border-radius: 50%;
+            border-top: 15px solid $accent2-color;
+            z-index: 99997;
+            -webkit-animation: spin .7s linear infinite;
+            animation: spin .7s linear infinite;
+        }
+    }
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+  
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

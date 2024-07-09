@@ -26,12 +26,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { getUsers } from "@/lib/api";
+import { Loader } from '@/components';
 import { LOGIN } from "@/app/styles";
 import { SITENAME_FULL, SITENAME_ABBR } from "@/lib/variables";
 
 export default function Login() {
   const router = useRouter();
 
+  const [isLoading, setIsLoading] = useState(false);
   const [usersList, setUsersList] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -59,6 +61,8 @@ export default function Login() {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
+    setIsLoading(true);
+
     let validCount = 0;
     let userId = -1;
 
@@ -75,11 +79,15 @@ export default function Login() {
       validCount++;
     }
 
-    if (validCount == maxValidCount) {
-      router.push(`/home?id=${userId}`);
-    } else {
-      alert("An error occured. Unable to login.");
-    }
+    setTimeout(() => {
+      setIsLoading(false);
+      
+      if (validCount == maxValidCount) {
+        router.push(`/home?id=${userId}`);
+      } else {
+        alert("An error occured. Unable to login.");
+      }
+    }, 1000)
   };
 
   const onShowPasswordClick = () => {
@@ -87,136 +95,142 @@ export default function Login() {
   };
 
   return (
-    <Grid container component="main" sx={LOGIN.mainContainer}>
-      <CssBaseline />
-      <Grid item sm={12} md={5} square>
-        <Box
-          height={"100%"}
-          sx={LOGIN.sectionLeft}
-        >
-          <Paper elevation={3} style={LOGIN.headerContainer}>
-            <Image
-              className="page-logo"
-              src="/images/tagbilaran-seal.png"
-              width={50}
-              height={50}
-              alt="Tagbilaran Seal"
-            />
-            <Typography
-              variant="h5"
-              noWrap
-              component="div"
-              style={LOGIN.headerText}
+    <>
+      {isLoading ? <Loader /> : null}
+
+      <Box component="main">
+        <Grid container sx={LOGIN.mainContainer}>
+          <CssBaseline />
+          <Grid item sm={12} md={5} square>
+            <Box
+              height={"100%"}
+              sx={LOGIN.sectionLeft}
             >
-              {SITENAME_FULL}
-            </Typography>
-          </Paper>
-          <Paper elevation={3} style={LOGIN.formContainer}>
-            <Box noValidate component="form" onSubmit={handleFormSubmit}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                // label="Username"
-                name="username"
-                autoComplete="username"
-                autoFocus
-                placeholder="Username"
-                InputProps={{
-                  style: LOGIN.formInputProps,
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <FontAwesomeIcon icon={faUserCircle} size="lg" />
-                    </InputAdornment>
-                  ),
-                }}
-                InputLabelProps={{
-                  shrink: true,
-                  style: LOGIN.formInputLabelProps,
-                }}
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                // label="Password"
-                type={showPassword ? "text" : "password"}
-                id="password"
-                autoComplete="current-password"
-                placeholder="Password"
-                InputProps={{
-                  style: LOGIN.formInputProps,
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <FontAwesomeIcon icon={faLock} size="lg" />
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="start">
-                      {password.length > 0 ? (
-                        <span
-                          className="input-action"
-                          title={showPassword ? "Hide" : "Show"}
-                          onClick={onShowPasswordClick}
-                        >
-                          <FontAwesomeIcon
-                            icon={showPassword ? faEyeSlash : faEye}
-                            size="lg"
-                          />
-                        </span>
-                      ) : null}
-                    </InputAdornment>
-                  ),
-                }}
-                InputLabelProps={{
-                  shrink: true,
-                  style: LOGIN.formInputLabelProps,
-                }}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <FormControlLabel
-                style={LOGIN.formControlLabel}
-                control={<Checkbox value="remember" color="secondary" />}
-                label="Remember me"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={LOGIN.formButtonSignIn}
-                color="secondary"
-                startIcon={<FontAwesomeIcon icon={faKey} size="lg" />}
-              >
-                Sign In
-              </Button>
-              {/* <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2" style={LOGIN.formForgotPassword}>
-                    Forgot your password?
-                  </Link>
-                </Grid>
-              </Grid> */}
-              <Box sx={LOGIN.formCopyright}>
-                <Typography variant="body1" align="center" color="white">
-                  {"© "}
-                  {new Date().getFullYear()} {SITENAME_ABBR}
+              <Paper elevation={3} style={LOGIN.headerContainer}>
+                <Image
+                  className="page-logo"
+                  src="/images/tagbilaran-seal.png"
+                  width={50}
+                  height={50}
+                  alt="Tagbilaran Seal"
+                />
+                <Typography
+                  variant="h5"
+                  noWrap
+                  component="div"
+                  style={LOGIN.headerText}
+                >
+                  {SITENAME_FULL}
                 </Typography>
-              </Box>
+              </Paper>
+              <Paper elevation={3} style={LOGIN.formContainer}>
+                <Box noValidate component="form" onSubmit={handleFormSubmit}>
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="username"
+                    // label="Username"
+                    name="username"
+                    autoComplete="username"
+                    autoFocus
+                    placeholder="Username"
+                    InputProps={{
+                      style: LOGIN.formInputProps,
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <FontAwesomeIcon icon={faUserCircle} size="lg" />
+                        </InputAdornment>
+                      ),
+                    }}
+                    InputLabelProps={{
+                      shrink: true,
+                      style: LOGIN.formInputLabelProps,
+                    }}
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="password"
+                    // label="Password"
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    autoComplete="current-password"
+                    placeholder="Password"
+                    InputProps={{
+                      style: LOGIN.formInputProps,
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <FontAwesomeIcon icon={faLock} size="lg" />
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="start">
+                          {password.length > 0 ? (
+                            <span
+                              className="input-action"
+                              title={showPassword ? "Hide" : "Show"}
+                              onClick={onShowPasswordClick}
+                            >
+                              <FontAwesomeIcon
+                                icon={showPassword ? faEyeSlash : faEye}
+                                size="lg"
+                              />
+                            </span>
+                          ) : null}
+                        </InputAdornment>
+                      ),
+                    }}
+                    InputLabelProps={{
+                      shrink: true,
+                      style: LOGIN.formInputLabelProps,
+                    }}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <FormControlLabel
+                    style={LOGIN.formControlLabel}
+                    control={<Checkbox value="remember" color="secondary" />}
+                    label="Remember me"
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={LOGIN.formButtonSignIn}
+                    color="secondary"
+                    startIcon={<FontAwesomeIcon icon={faKey} size="lg" />}
+                  >
+                    Sign In
+                  </Button>
+                  {/* <Grid container>
+                    <Grid item xs>
+                      <Link href="#" variant="body2" style={LOGIN.formForgotPassword}>
+                        Forgot your password?
+                      </Link>
+                    </Grid>
+                  </Grid> */}
+                  <Box sx={LOGIN.formCopyright}>
+                    <Typography variant="body1" align="center" color="white">
+                      {"© "}
+                      {new Date().getFullYear()} {SITENAME_ABBR}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Paper>
             </Box>
-          </Paper>
-        </Box>
-      </Grid>
-      <Grid
-        item
-        xs={false}
-        md={7}
-        sx={LOGIN.sectionRight}
-      />
-    </Grid>
+          </Grid>
+          <Grid
+            item
+            xs={false}
+            md={7}
+            sx={LOGIN.sectionRight}
+          />
+        </Grid>
+      </Box>
+    </>
   );
 }
