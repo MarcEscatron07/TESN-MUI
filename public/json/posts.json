@@ -11,7 +11,7 @@
         "title": { "text": "TAGBILARAN OUT-OF-SCHOOL YOUTH TO GAIN BETTER EMPLOYMENT OPPORTUNITIES THROUGH NEW CAREER READINESS PROGRAM" },
         "summary": { "text": "The out-of-school youth in Tagbilaran, Bohol will soon have better access to employment opportunities, as the local government of Tagbilaran City, key government agencies, and private sector representatives signed a memorandum of agreement to implement a career readiness program for the city’s vulnerable sector." },
         "tags": ["#AsensoPaMoreTagbilaran", "#JaneYapAdamJala", "#JaneYapBabaYap"],
-        "button": { "text": "Read More" }
+        "button": { "mainText": "Show More", "altText": "Show Less" }
     },
     {
         "id": 2,
@@ -25,7 +25,7 @@
         "title": { "text": "BAGONG URGENT CARE AND AMBULATORY SERVICES (BUCAS)" },
         "summary": { "text": "Access to healthcare levels up as BUCAS center opens in Tagbilaran City marked a historic milestone in healthcare accessibility with the inauguration of the first Bagong Urgent Care and Ambulatory Services (BUCAS) Center in Central Visayas which would be lodged in the Tagbilaran City Primary Care Facility. Mayor Jane Yap, alongside Department of Health (DOH) Secretary Dr. Teodoro Herbosa and Medical Center Chief Dr. Mutya Kismet Macuno of the Gov. Celestino Gallares Memorial Medical Center (GCGMMC), led the momentous occasion by signing the Memorandum of Agreement (MOA)." },
         "tags": ["#AsensoPaMoreTagbilaran", "#JaneYapAdamJala", "#JaneYapBabaYap"],
-        "button": { "text": "Read More" }
+        "button": { "mainText": "Show More", "altText": "Show Less" }
     },
     {
         "id": 3,
@@ -39,7 +39,7 @@
         "title": { "text": "TRIBU BOL-ANON IS IN DAEGU FESTIVAL – SOUTH KOREA" },
         "summary": { "text": "Tribu Bol-anon represented by Tagbilaran City Contingent won the SILVER Award & BEST GLOBAL AWARD in the recent Daegu Festival in South Korea, competing against 94 other contenders from different countries. Sakalam kaayo!" },
         "tags": ["#AsensoPaMoreTagbilaran", "#JaneYapAdamJala", "#JaneYapBabaYap"],
-        "button": { "text": "Read More" }
+        "button": { "mainText": "Show More", "altText": "Show Less" }
     },
     {
         "id": 4,
@@ -53,7 +53,7 @@
         "title": { "text": "CVRAA 2024" },
         "summary": { "text": "Back to back win for Tagbilaran City! Congratulations to all our Tagbilaran City CVRAA 2024 athletes - 6th Place Overall Winner - 1st Runner Up in Elementary Level - 8th Runner Up in Secondary Level" },
         "tags": ["#AsensoPaMoreTagbilaran", "#JaneYapAdamJala", "#JaneYapBabaYap"],
-        "button": { "text": "Read More" }
+        "button": { "mainText": "Show More", "altText": "Show Less" }
     },
     {
         "id": 5,
@@ -67,7 +67,7 @@
         "title": { "text": "CONGRATULATIONS, TAGBILARAN CITY!" },
         "summary": { "text": "Department of Budget and Management Secretary Amenah F. Pangandaman, Chair of the Philippine Open Government Partnership (PH-OGP), congratulates the four Local Government Units (LGUs) from the Philippines—Tagbilaran, Larena, Quezon City, and Baguio—who have been accepted into the OGP. The OGP is an initiative among national and sub-national governments around the world promoting transparency in government and taking measures to fight corruption and strengthen governance. In 2016, the OGP Local program opened membership to local governments for initiatives promoting the values of OGP that are even closer to the people." },
         "tags": ["#AsensoPaMoreTagbilaran", "#JaneYapAdamJala", "#JaneYapBabaYap"],
-        "button": { "text": "Read More" }
+        "button": { "mainText": "Show More", "altText": "Show Less" }
     },
     {
         "id": 6,
@@ -81,7 +81,7 @@
         "title": { "text": "SAULOG PHOTO CONTEST 2024" },
         "summary": { "text": "This coming May 01, 2024. Registration will be at RC Lucky Graphics, Galleria Luisa, Calestino Gallares St., Tagbilaran City. You may contact Mr. Sherwin Sapong for more details. 09255639455/ 09174774516." },
         "tags": ["#LifeIsAFiesta"],
-        "button": { "text": "Read More" }
+        "button": { "mainText": "Show More", "altText": "Show Less" }
     },
     {
         "id": 7,
@@ -95,7 +95,7 @@
         "title": { "text": "MUTYA SA TAGBILARAN 2024" },
         "summary": { "text": "The Official Candidates of Mutya sa Tagbilaran 2024 shine in their traditional Filipinana attire by Cary Santiago. The captivating showcase not only highlights the charm and resilience of Filipina women but also serves as proof of their timeless allure. These remarkable ladies embody the radiant and empowering spirit that defines the Filipina identity." },
         "tags": ["#AsensoPaMoreTagbilaran", "#JaneYapAdamJala", "#JaneYapBabaYap", "#LifeIsAFiesta"],
-        "button": { "text": "Read More" }
+        "button": { "mainText": "Show More", "altText": "Show Less" }
     },
     {
         "id": 8,
@@ -109,6 +109,6 @@
         "title": { "text": "ONGOING CONSTRUCTION OF THE TAGBILARAN CITY COLISEUM" },
         "summary": { "text": "Photo shows the ongoing construction of the Tagbilaran City Coliseum in Brgy. Dampas. Hopefully, Tagbilaran City will be an ideal venue for local, national, and even international conventions in the near future." },
         "tags": ["#AsensoPaMoreTagbilaran"],
-        "button": { "text": "Read More" }
+        "button": { "mainText": "Show More", "altText": "Show Less" }
     }
 ]

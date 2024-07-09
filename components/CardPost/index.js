@@ -76,7 +76,7 @@ export default function CardPost() {
                         onClick={handleExpandClick}
                         startIcon={expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                     >
-                        Read more
+                        {expanded ? 'Show Less' : 'Show More'}
                     </Button>
                 </Box>
             </CardActions>
