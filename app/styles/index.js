@@ -65,3 +65,10 @@ export const LOGIN = {
         mt: 10
     }
 }
+
+export const HOME = {
+    mainContainer: {
+        flexGrow: 1, 
+        p: 3
+    },
+}

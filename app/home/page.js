@@ -9,8 +9,8 @@ import Typography from "@mui/material/Typography";
 import {
   DrawerHeader,
 } from "@/components/function";
-
 import { TopAppBar, LeftDrawer, RightDrawer } from '@/components';
+import { HOME } from "@/app/styles";
 
 export default function Home() {
 
@@ -30,7 +30,7 @@ export default function Home() {
 
       <LeftDrawer onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
       
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={HOME.mainContainer}>
         <DrawerHeader />
         
         {/* HOME CONTENT HERE */}
