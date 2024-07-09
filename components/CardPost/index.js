@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useTheme } from "@mui/material/styles";
 import moment from 'moment-timezone';
 
 import Box from "@mui/material/Box";
@@ -15,6 +16,7 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Divider from "@mui/material/Divider";
 
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ShareIcon from '@mui/icons-material/Share';
@@ -22,8 +24,11 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import CloseIcon from '@mui/icons-material/Close';
+import ImageIcon from '@mui/icons-material/Image';
 
-export default function CardPost() {
+export default function CardPost(props) {
+    const theme = useTheme();
+
     const [expanded, setExpanded] = useState(false);
 
     const handleExpandClick = () => {
@@ -31,35 +36,40 @@ export default function CardPost() {
     };
 
     return (
-        <Card sx={{ maxWidth: 700 }}>
+        <Card sx={{ height: 'auto', width: 700, my: 2 }}>
             <CardHeader
-                avatar={<Avatar alt="Account Avatar" src={'/images/avatars/avatar_ticto_seal.png'} />}
+                avatar={<Avatar alt="Owner Avatar" src={props?.data?.owner?.image ?? '/images/avatars/avatar_default.png'} />}
                 action={
                     <>
-                        <IconButton aria-label="settings">
+                        <IconButton aria-label="options">
                             <MoreHorizIcon />
                         </IconButton>
-                        <IconButton aria-label="settings">
+                        <IconButton aria-label="close">
                             <CloseIcon />
                         </IconButton>
                     </>
                 }
-                title="TICTO"
-                subheader={moment('07/09/2024').fromNow()}
+                title={props?.data?.owner?.name ?? 'Post Owner'}
+                subheader={props?.data?.owner?.timestamp ? moment(props?.data?.owner?.timestamp).fromNow(true) : moment().fromNow()}
             />
 
             <CardContent>
                 <Typography variant="body2">
-                    TAGBILARAN OUT-OF-SCHOOL YOUTH TO GAIN BETTER EMPLOYMENT OPPORTUNITIES THROUGH NEW CAREER READINESS PROGRAM
+                    {props?.data?.title?.text ?? 'Post Caption'}
                 </Typography>
             </CardContent>
 
             <CardActionArea>
-                <CardMedia
-                    component="img"
-                    image={'/images/thumbnails/thumbnail_1.jpg'}
-                    alt="Card Post"
-                />
+                {props?.data?.thumbnail?.src ? (
+                    <CardMedia
+                        component="img"
+                        image={props?.data?.thumbnail?.src ?? ''}
+                        alt="Card Post"
+                    />
+
+                ) : (
+                    <ImageIcon style={{height: '100%', width: 700}} />
+                )}
             </CardActionArea>
 
             <CardActions disableSpacing sx={{display: 'flex', justifyContent: 'space-between'}}>
@@ -82,9 +92,10 @@ export default function CardPost() {
             </CardActions>
 
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
+                <Divider sx={{backgroundColor: theme.palette.primary.main}} />
+                <CardContent sx={{px: 3}}>
                     <Typography paragraph>
-                        The out-of-school youth in Tagbilaran, Bohol will soon have better access to employment opportunities, as the local government of Tagbilaran City, key government agencies, and private sector representatives signed a memorandum of agreement to implement a career readiness program for the city’s vulnerable sector.
+                        {props?.data?.description?.text ?? 'Post Description'}
                     </Typography>
                 </CardContent>
             </Collapse>
