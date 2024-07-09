@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 
 
 /** DRAWER **/
-const drawerWidth = 240;
+const drawerWidth = 300;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
