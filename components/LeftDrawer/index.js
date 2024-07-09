@@ -73,7 +73,7 @@ export default function LeftDrawer(props) {
       icon: <SettingsIcon /> ,
       text: 'Settings',
     },
-  ]
+  ];
 
   useEffect(() => {}, []);
 
@@ -174,7 +174,7 @@ export default function LeftDrawer(props) {
               >
                 {item.icon}
               </ListItemIcon>
-              <ListItemText primary={item.text} sx={{ opacity: props.isLeftDrawerOpen ? 1 : 0 }} />
+              <ListItemText primary={item.text} primaryTypographyProps={{style: { fontWeight: 'bold '}}} sx={{ opacity: props.isLeftDrawerOpen ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -208,7 +208,7 @@ export default function LeftDrawer(props) {
               >
                 {item.icon}
               </ListItemIcon>
-              <ListItemText primary={item.text} sx={{ opacity: props.isLeftDrawerOpen ? 1 : 0 }} />
+              <ListItemText primary={item.text} primaryTypographyProps={{style: { fontWeight: 'bold '}}} sx={{ opacity: props.isLeftDrawerOpen ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
         ))}

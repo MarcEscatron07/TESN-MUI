@@ -8,18 +8,87 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import ListSubheader from '@mui/material/ListSubheader';
+import Avatar from '@mui/material/Avatar';
+
+import CakeIcon from '@mui/icons-material/Cake';
 
 import {
   DrawerHeader,
   Drawer,
+  StyledBadge,
 } from "@/components/function";
 
 export default function RightDrawer(props) {
   const theme = useTheme();
 
-  useEffect(() => {}, []);
+  const birthdaysList = [
+    {
+      name: 'Jerson Albit',
+      office: 'TICTO'
+    },
+    {
+      name: 'Beverly Malima',
+      office: 'CHO'
+    },
+  ];
+
+  const friendConvoList = [
+    {
+      id: 2,
+      name: "Jerson Albit",
+      image: "/images/avatars/avatar_male_2.png",
+      type: "single",
+      unread: 0,
+      isOnline: true
+    },
+    {
+      id: 3,
+      name: "Joel Buena",
+      image: "/images/avatars/avatar_male_3.png",
+      type: "single",
+      unread: 0,
+      isOnline: false
+    },
+    {
+      id: 4,
+      name: "Rommel Digal",
+      image: "/images/avatars/avatar_male_4.png",
+      type: "single",
+      unread: 0,
+      isOnline: true
+    },
+    {
+      id: 5,
+      name: "Junjie Bautista",
+      image: "/images/avatars/avatar_male_5.png",
+      type: "single",
+      unread: 0,
+      isOnline: false
+    },
+    {
+      id: 6,
+      name: "Ian Tambis",
+      image: "/images/avatars/avatar_male_6.png",
+      type: "single",
+      unread: 0,
+      isOnline: true
+    },
+  ];
+
+  const groupConvoList = [
+    {
+      id: 7,
+      name: "TICTO",
+      image: "/images/avatars/avatar_ticto_seal.png",
+      type: "multiple",
+      userIds: [1, 2, 3, 4, 5, 6],
+      unread: 0,
+      isOnline: true
+    }
+  ];
+
+  useEffect(() => { }, []);
 
   return (
     <Drawer
@@ -44,11 +113,17 @@ export default function RightDrawer(props) {
       >
       </DrawerHeader>
 
-      <Divider />
+      <Divider sx={{backgroundColor: theme.palette.dark.main}} />
 
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding sx={{ display: "block" }}>
+      <List
+        subheader={
+          <ListSubheader component="div" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, textTransform: 'uppercase', fontWeight: 'bold' }}>
+            Birthdays Today
+          </ListSubheader>
+        }
+      >
+        {birthdaysList.map((item, index) => (
+          <ListItem key={index} disablePadding sx={{ display: "block" }}>
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -64,19 +139,25 @@ export default function RightDrawer(props) {
                   color: theme.palette.light.main,
                 }}
               >
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <CakeIcon />
               </ListItemIcon>
-              <ListItemText primary={text} sx={{ opacity: 1 }} />
+              <ListItemText primary={`${item.name} (${item.office})`} sx={{ opacity: 1 }} />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
 
-      <Divider />
-      
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding sx={{ display: "block" }}>
+      <Divider sx={{backgroundColor: theme.palette.light.dark}} />
+
+      <List
+        subheader={
+          <ListSubheader component="div" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, textTransform: 'uppercase', fontWeight: 'bold' }}>
+            Friend Conversations
+          </ListSubheader>
+        }
+      >
+        {friendConvoList.map((item, index) => (
+          <ListItem key={index} disablePadding sx={{ display: "block" }}>
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -92,9 +173,67 @@ export default function RightDrawer(props) {
                   color: theme.palette.light.main,
                 }}
               >
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <StyledBadge
+                  overlap="circular"
+                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                  variant="dot"
+                  sx={{
+                    "& .MuiBadge-badge": {
+                      color: item?.isOnline ? "lightgreen" : "lightred",
+                      backgroundColor: item?.isOnline ? "green" : "red"
+                    }
+                  }}
+                >
+                  <Avatar alt="Friend Avatar" src={item.image} />
+                </StyledBadge>
               </ListItemIcon>
-              <ListItemText primary={text} sx={{ opacity: 1 }} />
+              <ListItemText primary={item.name} sx={{ opacity: 1 }} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+
+      <Divider sx={{backgroundColor: theme.palette.light.dark}} />
+
+      <List
+        subheader={
+          <ListSubheader component="div" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, textTransform: 'uppercase', fontWeight: 'bold' }}>
+            Group Conversations
+          </ListSubheader>
+        }
+      >
+        {groupConvoList.map((item, index) => (
+          <ListItem key={index} disablePadding sx={{ display: "block" }}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: "initial",
+                px: 2.5,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: 3,
+                  justifyContent: "center",
+                  color: theme.palette.light.main,
+                }}
+              >
+                <StyledBadge
+                  overlap="circular"
+                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                  variant="dot"
+                  sx={{
+                    "& .MuiBadge-badge": {
+                      color: item?.isOnline ? "lightgreen" : "lightred",
+                      backgroundColor: item?.isOnline ? "green" : "red"
+                    }
+                  }}
+                >
+                  <Avatar alt="Group Avatar" src={item.image} />
+                </StyledBadge>
+              </ListItemIcon>
+              <ListItemText primary={item.name} sx={{ opacity: 1 }} />
             </ListItemButton>
           </ListItem>
         ))}
