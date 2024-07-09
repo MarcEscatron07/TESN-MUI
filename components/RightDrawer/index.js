@@ -98,8 +98,8 @@ export default function RightDrawer(props) {
       elevation={3}
       PaperProps={{
         style: {
-          backgroundColor: theme.palette.primary.main,
-          color: theme.palette.primary.contrastText,
+          backgroundColor: theme.palette.dark.light,
+          color: theme.palette.light.main,
         },
       }}
     >
@@ -117,7 +117,7 @@ export default function RightDrawer(props) {
 
       <List
         subheader={
-          <ListSubheader component="div" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, textTransform: 'uppercase', fontWeight: 'bold' }}>
+          <ListSubheader component="div" sx={{ backgroundColor: theme.palette.dark.light, color: theme.palette.light.main, textTransform: 'uppercase', fontWeight: 'bold' }}>
             Birthdays Today
           </ListSubheader>
         }
@@ -151,7 +151,7 @@ export default function RightDrawer(props) {
 
       <List
         subheader={
-          <ListSubheader component="div" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, textTransform: 'uppercase', fontWeight: 'bold' }}>
+          <ListSubheader component="div" sx={{ backgroundColor: theme.palette.dark.light, color: theme.palette.light.main, textTransform: 'uppercase', fontWeight: 'bold' }}>
             Friend Conversations
           </ListSubheader>
         }
@@ -197,7 +197,7 @@ export default function RightDrawer(props) {
 
       <List
         subheader={
-          <ListSubheader component="div" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, textTransform: 'uppercase', fontWeight: 'bold' }}>
+          <ListSubheader component="div" sx={{ backgroundColor: theme.palette.dark.light, color: theme.palette.light.main, textTransform: 'uppercase', fontWeight: 'bold' }}>
             Group Conversations
           </ListSubheader>
         }

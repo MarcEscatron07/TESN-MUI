@@ -37,11 +37,11 @@ const theme = createTheme({
         },
         light: {
             main: '#FFFFFF',
-            dark: '#D3D3D3'
+            dark: '#D5D5D5'
         },
         dark: {
             main: '#000000',
-            light: '#555555'
+            light: '#454545'
         },
     },
     typography: {
