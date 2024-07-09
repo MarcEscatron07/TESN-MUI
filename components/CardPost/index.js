@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import moment from 'moment-timezone';
 
 import Box from "@mui/material/Box";
 import Card from '@mui/material/Card';
@@ -15,11 +16,12 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function CardPost() {
     const [expanded, setExpanded] = useState(false);
@@ -31,14 +33,19 @@ export default function CardPost() {
     return (
         <Card sx={{ maxWidth: 700 }}>
             <CardHeader
-                avatar={<Avatar alt="Account Avatar" src={'/images/avatars/avatar_male_2.png'} />}
+                avatar={<Avatar alt="Account Avatar" src={'/images/avatars/avatar_ticto_seal.png'} />}
                 action={
-                    <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                    </IconButton>
+                    <>
+                        <IconButton aria-label="settings">
+                            <MoreHorizIcon />
+                        </IconButton>
+                        <IconButton aria-label="settings">
+                            <CloseIcon />
+                        </IconButton>
+                    </>
                 }
-                title="Jerson Albit"
-                subheader="July 09, 2024"
+                title="TICTO"
+                subheader={moment('07/09/2024').fromNow()}
             />
 
             <CardContent>
@@ -57,8 +64,8 @@ export default function CardPost() {
 
             <CardActions disableSpacing sx={{display: 'flex', justifyContent: 'space-between'}}>
                 <Box>
-                    <IconButton aria-label="add to favorites">
-                        <FavoriteIcon />
+                    <IconButton aria-label="like">
+                        <ThumbUpIcon />
                     </IconButton>
                     <IconButton aria-label="share">
                         <ShareIcon />

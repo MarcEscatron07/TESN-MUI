@@ -1,3 +1,6 @@
+import moment from 'moment-timezone';
+moment().tz("Asia/Manila").format();
+
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import { Inter } from "next/font/google";
