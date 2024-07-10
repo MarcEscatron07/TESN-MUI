@@ -8,7 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 
 import { getUsers, getPosts } from "@/lib/api";
 import { DrawerHeader, } from "@/components/function";
-import { TopAppBar, LeftDrawer, RightDrawer, Loader, CardPost, ChatBox } from '@/components';
+import { TopAppBar, LeftDrawer, RightDrawer, Loader, CardPost, ChatBox, ChatList } from '@/components';
 import { HOME } from "@/app/styles";
 
 export default function Home() {
@@ -102,6 +102,7 @@ export default function Home() {
 
         <RightDrawer />
 
+        <ChatList />
         {/* MULTIPLE INSTANCES OF CHATBOX HERE */}
         <ChatBox />
         {/* MULTIPLE INSTANCES OF CHATBOX HERE */}

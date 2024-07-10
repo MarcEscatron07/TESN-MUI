@@ -225,8 +225,8 @@ export default function RightDrawer(props) {
                   variant="dot"
                   sx={{
                     "& .MuiBadge-badge": {
-                      color: item?.isOnline ? "lightgreen" : "lightred",
-                      backgroundColor: item?.isOnline ? "green" : "red"
+                      color: item?.isOnline ? "lightgreen" : "lightgray",
+                      backgroundColor: item?.isOnline ? "green" : "gray"
                     }
                   }}
                 >

@@ -86,6 +86,15 @@ body {
     }
 }
 
+.chat-list {
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+    display: flex;
+    flex-direction: column-reverse;
+    z-index: 99996,
+}
+
 @-webkit-keyframes spin {
     0% { -webkit-transform: rotate(0deg); }
     100% { -webkit-transform: rotate(360deg); }
