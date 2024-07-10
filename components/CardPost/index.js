@@ -54,7 +54,7 @@ export default function CardPost(props) {
                 title={props?.data?.owner?.name ?? 'Post Owner'}
                 subheader={
                     <span title={formatDateTime(props?.data?.owner?.timestamp, 'dddd, MMMM DD, YYYY @ hh:mm A')}>
-                        {`Posted ${formatDateTime(props?.data?.owner?.timestamp, null, { origin: 'post-timestamp', suffix: ' ago' })}`}
+                        {`${formatDateTime(props?.data?.owner?.timestamp, 'MMMM DD, YYYY', { origin: 'post-timestamp', suffix: ' ago' })}`}
                     </span>
                 }
             />
