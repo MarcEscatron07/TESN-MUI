@@ -19,7 +19,7 @@ export default function ChatList() {
         <div
             className="chat-list"
         >
-            <Fab sx={{ mt: 1 }} color="primary" size="small" aria-label="add">
+            <Fab sx={{ mt: 2, mb: 1 }} color="secondary" size="small" aria-label="add">
                 <AddIcon />
             </Fab>
 
