@@ -35,21 +35,23 @@ export default function ChatBox(props) {
             elevation={5}
         >
             <Card sx={{ height: '100%' }}>
-                <CardHeader
-                    sx={{ height: '12%', backgroundColor: theme.palette.light.dark, padding: 1 }}
-                    avatar={<Avatar alt="Owner Avatar" src={props?.data?.owner?.image ?? '/images/avatars/avatar_default.png'} />}
-                    action={
-                        <>
-                            <IconButton aria-label="minimize">
-                                <RemoveIcon />
-                            </IconButton>
-                            <IconButton aria-label="close">
-                                <CloseIcon />
-                            </IconButton>
-                        </>
-                    }
-                    title={<span style={{ fontWeight: 'bold', fontSize: '.95rem' }}>{props?.data?.owner?.name ?? 'Chat Fullname'}</span>}
-                />
+                <Paper elevation={2}>
+                    <CardHeader
+                        sx={{ height: '12%', backgroundColor: theme.palette.light.dark, padding: 1 }}
+                        avatar={<Avatar alt="Owner Avatar" src={props?.data?.owner?.image ?? '/images/avatars/avatar_default.png'} />}
+                        action={
+                            <>
+                                <IconButton aria-label="minimize">
+                                    <RemoveIcon />
+                                </IconButton>
+                                <IconButton aria-label="close">
+                                    <CloseIcon />
+                                </IconButton>
+                            </>
+                        }
+                        title={<span style={{ fontWeight: 'bold', fontSize: '.95rem' }}>{props?.data?.owner?.name ?? 'Chat Fullname'}</span>}
+                    />
+                </Paper>
 
                 <CardContent className="chatbox-content" sx={{ height: '76%', px: 2, overflowX: 'hidden', overflowY: 'auto' }}>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
