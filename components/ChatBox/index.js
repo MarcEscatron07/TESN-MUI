@@ -12,7 +12,7 @@ import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import TextField from '@mui/material/TextField';
+import Input from '@mui/material/Input';
 
 import RemoveIcon from '@mui/icons-material/Remove';
 import CloseIcon from '@mui/icons-material/Close';
@@ -105,7 +105,7 @@ export default function ChatBox(props) {
                         </IconButton>
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <TextField
+                        <Input
                             multiline
                             variant="filled"
                             maxRows={1}
@@ -113,9 +113,7 @@ export default function ChatBox(props) {
                             onChange={onChatAreaChange}
                             onKeyDown={onChatAreaKeyDown}
                             onFocus={onChatAreaFocus}
-                            InputProps={{
-                                style: { paddingTop: 8, paddingBottom: 8, overflow: 'hidden', backgroundColor: theme.palette.light.main, borderRadius: '0px 0px 0px 4px' }
-                            }}
+                            sx={{p: 1, overflow: 'hidden', backgroundColor: theme.palette.light.main, borderRadius: '0px 0px 0px 4px'}}
                         />
                         <Button variant="contained" color="primary" sx={{ borderRadius: '0px 4px 4px 0px' }}>
                             <SendIcon sx={{ color: theme.palette.light.main }} />
