@@ -114,7 +114,7 @@ export default function ChatBox(props) {
                             onKeyDown={onChatAreaKeyDown}
                             onFocus={onChatAreaFocus}
                             InputProps={{
-                                style: { paddingTop: 8, paddingBottom: 8, overflow: 'hidden', backgroundColor: theme.palette.light.main, borderRadius: '4px 0px 0px 4px' }
+                                style: { paddingTop: 8, paddingBottom: 8, overflow: 'hidden', backgroundColor: theme.palette.light.main, borderRadius: '0px 0px 0px 4px' }
                             }}
                         />
                         <Button variant="contained" color="primary" sx={{ borderRadius: '0px 4px 4px 0px' }}>
