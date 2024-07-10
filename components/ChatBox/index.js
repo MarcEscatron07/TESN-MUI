@@ -43,7 +43,7 @@ export default function ChatBox(props) {
             sx={{
                 position: 'fixed',
                 bottom: 0,
-                right: 80,
+                right: 100,
                 height: 450,
                 width: 330,
                 zIndex: 99996
