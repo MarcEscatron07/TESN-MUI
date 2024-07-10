@@ -31,7 +31,7 @@ import { formatDateTime } from '@/lib/helpers';
 export default function CardPost(props) {
     const theme = useTheme();
 
-    const [expanded, setExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(true);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);

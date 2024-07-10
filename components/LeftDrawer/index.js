@@ -25,7 +25,6 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import PeopleIcon from '@mui/icons-material/People';
 import GroupsIcon from '@mui/icons-material/Groups';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
-import SettingsIcon from '@mui/icons-material/Settings';
 
 import {
   DrawerHeader,
@@ -69,11 +68,7 @@ export default function LeftDrawer(props) {
     },
     {
       icon: <BookmarkIcon />,
-      text: 'Saved',
-    },
-    {
-      icon: <SettingsIcon />,
-      text: 'Settings',
+      text: 'Bookmarks',
     },
   ];
 
