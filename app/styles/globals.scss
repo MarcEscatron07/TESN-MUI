@@ -67,6 +67,26 @@ body {
     }
 }
 
+.chatbox-content {
+    &::-webkit-scrollbar {
+        width: 12px;
+    }
+    
+    &::-webkit-scrollbar-track {
+        background: #F1F1F1;
+        border-radius: 12px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        background: #888888;
+        border-radius: 12px;
+    }
+    
+    &::-webkit-scrollbar-thumb:hover {
+        background: #555555; 
+    }
+}
+
 @-webkit-keyframes spin {
     0% { -webkit-transform: rotate(0deg); }
     100% { -webkit-transform: rotate(360deg); }

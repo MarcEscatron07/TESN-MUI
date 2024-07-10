@@ -8,7 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 
 import { getUsers, getPosts } from "@/lib/api";
 import { DrawerHeader, } from "@/components/function";
-import { TopAppBar, LeftDrawer, RightDrawer, Loader, CardPost } from '@/components';
+import { TopAppBar, LeftDrawer, RightDrawer, Loader, CardPost, ChatBox } from '@/components';
 import { HOME } from "@/app/styles";
 
 export default function Home() {
@@ -101,6 +101,8 @@ export default function Home() {
         </Box>
 
         <RightDrawer />
+
+        <ChatBox />
       </Box>
     </>
   );

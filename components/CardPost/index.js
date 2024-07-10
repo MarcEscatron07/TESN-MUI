@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
-import moment from 'moment-timezone';
 
 import Box from "@mui/material/Box";
 import Card from '@mui/material/Card';

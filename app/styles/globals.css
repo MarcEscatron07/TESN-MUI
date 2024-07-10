@@ -50,6 +50,21 @@ body {
   animation: spin 0.7s linear infinite;
 }
 
+.chatbox-content::-webkit-scrollbar {
+  width: 12px;
+}
+.chatbox-content::-webkit-scrollbar-track {
+  background: #F1F1F1;
+  border-radius: 12px;
+}
+.chatbox-content::-webkit-scrollbar-thumb {
+  background: #888888;
+  border-radius: 12px;
+}
+.chatbox-content::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
+
 @-webkit-keyframes spin {
   0% {
     -webkit-transform: rotate(0deg);
