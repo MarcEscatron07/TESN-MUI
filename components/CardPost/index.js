@@ -26,6 +26,8 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import CloseIcon from '@mui/icons-material/Close';
 import ImageIcon from '@mui/icons-material/Image';
 
+import { formatDateTime } from '@/lib/helpers';
+
 export default function CardPost(props) {
     const theme = useTheme();
 
@@ -50,7 +52,11 @@ export default function CardPost(props) {
                     </>
                 }
                 title={props?.data?.owner?.name ?? 'Post Owner'}
-                subheader={props?.data?.owner?.timestamp ? moment(props?.data?.owner?.timestamp).fromNow(true) : moment().fromNow()}
+                subheader={
+                    <span title={formatDateTime(props?.data?.owner?.timestamp, 'dddd, MMMM DD, YYYY @ hh:mm A')}>
+                        {`Posted ${formatDateTime(props?.data?.owner?.timestamp, null, { origin: 'post-timestamp', suffix: ' ago' })}`}
+                    </span>
+                }
             />
 
             <CardContent>
@@ -68,11 +74,11 @@ export default function CardPost(props) {
                     />
 
                 ) : (
-                    <ImageIcon style={{height: '100%', width: 700}} />
+                    <ImageIcon style={{ height: '100%', width: 700 }} />
                 )}
             </CardActionArea>
 
-            <CardActions disableSpacing sx={{display: 'flex', justifyContent: 'space-between'}}>
+            <CardActions disableSpacing sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Box>
                     <IconButton aria-label="like">
                         <ThumbUpIcon />
@@ -92,8 +98,8 @@ export default function CardPost(props) {
             </CardActions>
 
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <Divider sx={{backgroundColor: theme.palette.primary.main}} />
-                <CardContent sx={{px: 3}}>
+                <Divider sx={{ backgroundColor: theme.palette.primary.main }} />
+                <CardContent sx={{ px: 3 }}>
                     <Typography paragraph>
                         {props?.data?.description?.text ?? 'Post Description'}
                     </Typography>
