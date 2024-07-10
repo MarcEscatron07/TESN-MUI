@@ -38,7 +38,7 @@ export default function ChatBox(props) {
                 <Paper elevation={2}>
                     <CardHeader
                         sx={{ height: '12%', backgroundColor: theme.palette.light.dark, padding: 1 }}
-                        avatar={<Avatar alt="Owner Avatar" src={props?.data?.owner?.image ?? '/images/avatars/avatar_default.png'} />}
+                        avatar={<Avatar alt="Chat Avatar" src={props?.data?.owner?.image ?? '/images/avatars/avatar_male_2.png'} />}
                         action={
                             <>
                                 <IconButton aria-label="minimize">
@@ -49,7 +49,7 @@ export default function ChatBox(props) {
                                 </IconButton>
                             </>
                         }
-                        title={<span style={{ fontWeight: 'bold', fontSize: '.95rem' }}>{props?.data?.owner?.name ?? 'Chat Fullname'}</span>}
+                        title={<span style={{ fontWeight: 'bold', fontSize: '.95rem' }}>{props?.data?.owner?.name ?? 'Jerson Albit'}</span>}
                     />
                 </Paper>
 
