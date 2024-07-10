@@ -23,7 +23,7 @@ import SendIcon from '@mui/icons-material/Send';
 export default function ChatBox(props) {
     const theme = useTheme();
 
-    const [chatMessage, setChatMessage] = useState('')
+    const [chatMessage, setChatMessage] = useState('');
 
     const onChatAreaChange = (event) => {
         setChatMessage(event.target.value);
@@ -35,7 +35,7 @@ export default function ChatBox(props) {
     }
 
     const onChatAreaFocus = (event) => {
-
+        console.log('onChatAreaFocus > event', event)
     }
 
     return (

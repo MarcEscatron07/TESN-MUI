@@ -102,7 +102,9 @@ export default function Home() {
 
         <RightDrawer />
 
+        {/* MULTIPLE INSTANCES OF CHATBOX HERE */}
         <ChatBox />
+        {/* MULTIPLE INSTANCES OF CHATBOX HERE */}
       </Box>
     </>
   );
