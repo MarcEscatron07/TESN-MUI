@@ -25,17 +25,17 @@ export default function ChatBox(props) {
 
     const [chatMessage, setChatMessage] = useState('');
 
-    const onChatAreaChange = (event) => {
+    const onChatInputChange = (event) => {
         setChatMessage(event.target.value);
     }
 
-    const onChatAreaKeyDown = (event) => {
+    const onChatInputKeyDown = (event) => {
         const charCode = event.keyCode || event.which;
-        console.log('onChatAreaKeyDown > charCode', charCode)
+        console.log('onChatInputKeyDown > charCode', charCode)
     }
 
-    const onChatAreaFocus = (event) => {
-        console.log('onChatAreaFocus > event', event)
+    const onChatInputFocus = (event) => {
+        console.log('onChatInputFocus > event', event)
     }
 
     return (
@@ -110,9 +110,9 @@ export default function ChatBox(props) {
                             variant="filled"
                             maxRows={1}
                             value={chatMessage}
-                            onChange={onChatAreaChange}
-                            onKeyDown={onChatAreaKeyDown}
-                            onFocus={onChatAreaFocus}
+                            onChange={onChatInputChange}
+                            onKeyDown={onChatInputKeyDown}
+                            onFocus={onChatInputFocus}
                             sx={{p: 1, overflow: 'hidden', backgroundColor: theme.palette.light.main, borderRadius: '0px 0px 0px 4px'}}
                         />
                         <Button variant="contained" color="primary" sx={{ borderRadius: '0px 4px 4px 0px' }}>
