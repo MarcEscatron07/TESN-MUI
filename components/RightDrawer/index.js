@@ -13,11 +13,8 @@ import Avatar from '@mui/material/Avatar';
 
 import CakeIcon from '@mui/icons-material/Cake';
 
-import {
-  DrawerHeader,
-  Drawer,
-  StyledBadge,
-} from "@/components/function";
+import { DrawerHeader, Drawer, StyledBadge } from "@/components/function";
+import { RIGHT_DRAWER } from '@/components/styles';
 
 export default function RightDrawer(props) {
   const theme = useTheme();
@@ -105,9 +102,7 @@ export default function RightDrawer(props) {
     >
       <DrawerHeader
         sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          ...RIGHT_DRAWER.rightDrawerHeader,
           backgroundColor: theme.palette.primary.light,
         }}
       >
@@ -117,25 +112,19 @@ export default function RightDrawer(props) {
 
       <List
         subheader={
-          <ListSubheader component="div" sx={{ backgroundColor: theme.palette.dark.light, color: theme.palette.light.main, textTransform: 'uppercase', fontWeight: 'bold' }}>
+          <ListSubheader component="div" sx={{...RIGHT_DRAWER.rightDrawerList, backgroundColor: theme.palette.dark.light, color: theme.palette.light.main }}>
             Birthdays Today
           </ListSubheader>
         }
       >
         {birthdaysList.map((item, index) => (
-          <ListItem key={index} disablePadding sx={{ display: "block" }}>
+          <ListItem key={index} disablePadding sx={RIGHT_DRAWER.rightDrawerListItem}>
             <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: "initial",
-                px: 2.5,
-              }}
+              sx={RIGHT_DRAWER.rightDrawerListItemButton}
             >
               <ListItemIcon
                 sx={{
-                  minWidth: 0,
-                  mr: 3,
-                  justifyContent: "center",
+                  ...RIGHT_DRAWER.rightDrawerListItemIcon,
                   color: theme.palette.light.main,
                 }}
               >
@@ -151,25 +140,19 @@ export default function RightDrawer(props) {
 
       <List
         subheader={
-          <ListSubheader component="div" sx={{ backgroundColor: theme.palette.dark.light, color: theme.palette.light.main, textTransform: 'uppercase', fontWeight: 'bold' }}>
+          <ListSubheader component="div" sx={{...RIGHT_DRAWER.rightDrawerList, backgroundColor: theme.palette.dark.light, color: theme.palette.light.main }}>
             Friend Conversations
           </ListSubheader>
         }
       >
         {friendConvoList.map((item, index) => (
-          <ListItem key={index} disablePadding sx={{ display: "block" }}>
+          <ListItem key={index} disablePadding sx={RIGHT_DRAWER.rightDrawerListItem}>
             <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: "initial",
-                px: 2.5,
-              }}
+              sx={RIGHT_DRAWER.rightDrawerListItemButton}
             >
               <ListItemIcon
                 sx={{
-                  minWidth: 0,
-                  mr: 3,
-                  justifyContent: "center",
+                  ...RIGHT_DRAWER.rightDrawerListItemIcon,
                   color: theme.palette.light.main,
                 }}
               >
@@ -197,25 +180,19 @@ export default function RightDrawer(props) {
 
       <List
         subheader={
-          <ListSubheader component="div" sx={{ backgroundColor: theme.palette.dark.light, color: theme.palette.light.main, textTransform: 'uppercase', fontWeight: 'bold' }}>
+          <ListSubheader component="div" sx={{...RIGHT_DRAWER.rightDrawerList, backgroundColor: theme.palette.dark.light, color: theme.palette.light.main }}>
             Group Conversations
           </ListSubheader>
         }
       >
         {groupConvoList.map((item, index) => (
-          <ListItem key={index} disablePadding sx={{ display: "block" }}>
+          <ListItem key={index} disablePadding sx={RIGHT_DRAWER.rightDrawerListItem}>
             <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: "initial",
-                px: 2.5,
-              }}
+              sx={RIGHT_DRAWER.rightDrawerListItemButton}
             >
               <ListItemIcon
                 sx={{
-                  minWidth: 0,
-                  mr: 3,
-                  justifyContent: "center",
+                  ...RIGHT_DRAWER.rightDrawerListItemIcon,
                   color: theme.palette.light.main,
                 }}
               >

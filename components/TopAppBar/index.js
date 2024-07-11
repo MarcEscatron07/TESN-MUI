@@ -22,12 +22,8 @@ import ChatIcon from '@mui/icons-material/Chat';
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
-import {
-    AppBar,
-    Search,
-    SearchIconWrapper,
-    StyledInputBase,
-} from "@/components/function";
+import { AppBar, Search, SearchIconWrapper, StyledInputBase } from "@/components/function";
+import { TOP_APP_BAR } from '@/components/styles';
 
 export default function TopAppBar(props) {
     const theme = useTheme();
@@ -154,7 +150,7 @@ export default function TopAppBar(props) {
                         onClick={handleOpenDrawerClick}
                         edge="start"
                         sx={{
-                            marginRight: 5,
+                            ...TOP_APP_BAR.topAppBarLeftDrawerToggle,
                             ...(props.isLeftDrawerOpen && { display: "none" }),
                         }}
                     >
@@ -171,23 +167,23 @@ export default function TopAppBar(props) {
                         />
                     ) : null}
 
-                    <Search sx={{ marginLeft: 15 }}>
+                    <Search sx={TOP_APP_BAR.topAppBarSearch}>
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
                         <StyledInputBase
                             placeholder="Search…"
-                            inputProps={{ "aria-label": "search", style: { width: "400px" } }}
+                            inputProps={{ "aria-label": "search", style: TOP_APP_BAR.topAppBarSearchInput }}
                         />
                     </Search>
 
                     <Box sx={{ flexGrow: 1 }} />
-                    <Box sx={{ display: { xs: "none", md: "flex" } }}>
+                    <Box sx={TOP_APP_BAR.topAppBarNotifications}>
                         <IconButton
                             size="large"
                             aria-label="show 4 new chat messages"
                             color="inherit"
-                            sx={{marginLeft: 1}}
+                            sx={TOP_APP_BAR.topAppBarNotificationButtons}
                         >
                             <Badge badgeContent={4} color="error">
                                 <ChatIcon />
@@ -197,7 +193,7 @@ export default function TopAppBar(props) {
                             size="large"
                             aria-label="show 17 new notifications"
                             color="inherit"
-                            sx={{marginLeft: 1}}
+                            sx={TOP_APP_BAR.topAppBarNotificationButtons}
                         >
                             <Badge badgeContent={17} color="error">
                                 <NotificationsIcon />
@@ -211,18 +207,18 @@ export default function TopAppBar(props) {
                             aria-haspopup="true"
                             onClick={handleProfileMenuOpen}
                             color="inherit"
-                            sx={{marginLeft: 5, marginRight: 1}}
+                            sx={TOP_APP_BAR.topAppBarAvatar}
                         >
                             <Stack direction="row" spacing={1}>
                                 <Chip
                                     avatar={<Avatar alt="User" src="/images/avatars/avatar_default.png" />}
                                     label="Marc Escatron"
-                                    sx={{backgroundColor: theme.palette.secondary.main, px: 2, minWidth: 100, fontWeight: 'bold', fontSize: '.95rem'}}
+                                    sx={{...TOP_APP_BAR.topAppBarAvatarChip, backgroundColor: theme.palette.secondary.main}}
                                 />
                             </Stack>
                         </IconButton>
                     </Box>
-                    <Box sx={{ display: { xs: "flex", md: "none" } }}>
+                    <Box sx={TOP_APP_BAR.topAppBarMobileMenuToggle}>
                         <IconButton
                             size="large"
                             aria-label="show more"

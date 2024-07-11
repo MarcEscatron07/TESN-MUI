@@ -134,3 +134,65 @@ export const LEFT_DRAWER = {
         justifyContent: "center",
     }
 }
+
+export const RIGHT_DRAWER = {
+    rightDrawerHeader: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    rightDrawerList: {
+        fontWeight: 'bold',
+        textTransform: 'uppercase'
+    },
+    rightDrawerListItem: {
+        display: "block",
+    },
+    rightDrawerListItemButton: {
+        minHeight: 48,
+        px: 2.5,
+        justifyContent: "initial"
+    },
+    rightDrawerListItemIcon: {
+        minWidth: 0,
+        mr: 3,
+        justifyContent: "center",
+    }
+}
+
+export const TOP_APP_BAR = {
+    topAppBarLeftDrawerToggle: {
+        marginRight: 5
+    },
+    topAppBarSearch: {
+        marginLeft: 15
+    },
+    topAppBarSearchInput: {
+        width: "400px"
+    },
+    topAppBarNotifications: {
+        display: { 
+            xs: "none", 
+            md: "flex" 
+        }
+    },
+    topAppBarNotificationButtons: {
+        marginLeft: 1
+    },
+    topAppBarAvatar: {
+        marginLeft: 5, 
+        marginRight: 1
+    },
+    topAppBarAvatarChip: {
+        px: 2, 
+        minWidth: 100, 
+        fontSize: '.95rem',
+        fontWeight: 'bold', 
+    },
+    topAppBarMobileMenuToggle: {
+        display: { 
+            xs: "flex", 
+            md: "none" 
+        }
+    }
+}
