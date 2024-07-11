@@ -35,7 +35,7 @@ export default function LeftDrawer(props) {
   const router = useRouter();
   const theme = useTheme();
 
-  const [activeNav, setActiveNav] = useState('Home');
+  const [activeNav, setActiveNav] = useState(localStorage.getItem('nav_data') ?? 'Home');
 
   const navigationList = [
     {
@@ -71,7 +71,15 @@ export default function LeftDrawer(props) {
     },
   ];
 
-  useEffect(() => { }, []);
+  useEffect(() => {
+    if(localStorage.getItem('nav_data')) {
+      setActiveNav(localStorage.getItem('nav_data'));
+    }
+  }, []);
+
+  useEffect(() => {
+    router.push(`/${activeNav.toLowerCase()}`);
+  }, [activeNav])
 
   const handleCloseDrawerClick = () => {
     if (props.onDrawerToggleClick) {
@@ -80,8 +88,8 @@ export default function LeftDrawer(props) {
   }
 
   const handleNavItemClick = (value) => {
+    localStorage.setItem('nav_data', value);
     setActiveNav(value);
-    value ? router.push(`/${value.toLowerCase()}`) : null;
   }
 
   return (
