@@ -10,7 +10,7 @@ $dark-color: #000000;
 $chat-height: 400px;
 $chat-width: 350px;
 
-$chat-multiple-gap: 23rem;
+$chat-multiple-gap: 325px;
 
 body {
     position: relative;
@@ -49,6 +49,7 @@ body {
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
+            z-index: 99997;
         }
 
         .loader-border {
@@ -69,27 +70,35 @@ body {
 
 .chatbox-content {
     &::-webkit-scrollbar {
-        width: 12px;
+        width: 10px;
     }
-    
+
     &::-webkit-scrollbar-track {
         background: #F1F1F1;
     }
-    
+
     &::-webkit-scrollbar-thumb {
         background: #888888;
-        border-radius: 12px;
+        border-radius: 10px;
     }
-    
+
     &::-webkit-scrollbar-thumb:hover {
-        background: #555555; 
+        background: #555555;
     }
+}
+
+.chat-box {
+    position: fixed;
+    bottom: 0px;
+    height: 450px;
+    width: 310px;
+    z-index: 99996;
 }
 
 .chat-list {
     position: fixed;
     bottom: 0px;
-    right: 20px;
+    left: 285px;
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
@@ -97,11 +106,21 @@ body {
 }
 
 @-webkit-keyframes spin {
-    0% { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
 }
-  
+
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

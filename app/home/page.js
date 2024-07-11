@@ -104,7 +104,10 @@ export default function Home() {
 
         <ChatList />
         {/* MULTIPLE INSTANCES OF CHATBOX HERE */}
-        <ChatBox />
+        <ChatBox instance={1} />
+        <ChatBox instance={2} />
+        <ChatBox instance={3} />
+        <ChatBox instance={4} />
         {/* MULTIPLE INSTANCES OF CHATBOX HERE */}
       </Box>
     </>

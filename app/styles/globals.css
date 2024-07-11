@@ -35,6 +35,7 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  z-index: 99997;
 }
 .loader .loader-element .loader-border {
   filter: blur(1px);
@@ -51,23 +52,31 @@ body {
 }
 
 .chatbox-content::-webkit-scrollbar {
-  width: 12px;
+  width: 10px;
 }
 .chatbox-content::-webkit-scrollbar-track {
   background: #F1F1F1;
 }
 .chatbox-content::-webkit-scrollbar-thumb {
   background: #888888;
-  border-radius: 12px;
+  border-radius: 10px;
 }
 .chatbox-content::-webkit-scrollbar-thumb:hover {
   background: #555555;
 }
 
+.chat-box {
+  position: fixed;
+  bottom: 0px;
+  height: 450px;
+  width: 310px;
+  z-index: 99996;
+}
+
 .chat-list {
   position: fixed;
   bottom: 0px;
-  right: 20px;
+  left: 285px;
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
