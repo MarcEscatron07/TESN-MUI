@@ -25,9 +25,9 @@ import {
   faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { getUsers } from "@/lib/api";
-import { Loader } from '@/components';
 import { LOGIN } from "@/app/styles";
+import { Loader } from '@/components';
+import { getUsers } from "@/lib/api";
 import { SITENAME_FULL, SITENAME_ABBR } from "@/lib/variables";
 
 export default function Login() {
@@ -83,7 +83,7 @@ export default function Login() {
       setIsLoading(false);
       
       if (validCount == maxValidCount) {
-        router.push(`/home?id=${userId}`);
+        router.push(`/home`);
       } else {
         alert("An error occured. Unable to login.");
       }

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useTheme } from "@mui/material/styles";
 
 import Paper from "@mui/material/Paper";
@@ -28,13 +29,13 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 
 import { DrawerHeader, Drawer } from "@/components/function";
 import { LEFT_DRAWER } from '@/components/styles';
-
 import { SITENAME_ABBR } from "@/lib/variables";
 
 export default function LeftDrawer(props) {
+  const router = useRouter();
   const theme = useTheme();
 
-  const [activeNav, setActiveNav] = useState('Home')
+  const [activeNav, setActiveNav] = useState('Home');
 
   const navigationList = [
     {
@@ -76,6 +77,11 @@ export default function LeftDrawer(props) {
     if (props.onDrawerToggleClick) {
       props.onDrawerToggleClick(false);
     }
+  }
+
+  const handleNavItemClick = (value) => {
+    setActiveNav(value);
+    value ? router.push(`/${value.toLowerCase()}`) : null;
   }
 
   return (
@@ -151,7 +157,7 @@ export default function LeftDrawer(props) {
               backgroundColor: activeNav == item.text ? theme.palette.secondary.main : null,
               color: activeNav == item.text ? theme.palette.secondary.contrastText : null
             }}
-            onClick={() => setActiveNav(item.text)}
+            onClick={() => handleNavItemClick(item.text)}
           >
             <ListItemButton
               sx={{
