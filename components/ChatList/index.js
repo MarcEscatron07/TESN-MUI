@@ -19,7 +19,7 @@ export default function ChatList() {
         <EditNoteIcon fontSize="large" />
       </Fab>
 
-      <Fab sx={{mt: 1, backgroundColor: 'unset'}}>
+      <Fab sx={{mt: 1.2, backgroundColor: 'unset'}}>
         <StyledBadge
           overlap="circular"
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -35,7 +35,7 @@ export default function ChatList() {
           <Avatar alt="Chat Avatar" src={"/images/avatars/avatar_male_2.png"} />
         </StyledBadge>
       </Fab>
-      <Fab sx={{mt: 1, backgroundColor: 'unset'}}>
+      <Fab sx={{mt: 1.2, backgroundColor: 'unset'}}>
         <StyledBadge
           overlap="circular"
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -51,7 +51,7 @@ export default function ChatList() {
           <Avatar alt="Chat Avatar" src={"/images/avatars/avatar_male_3.png"} />
         </StyledBadge>
       </Fab>
-      <Fab sx={{mt: 1, backgroundColor: 'unset'}}>
+      <Fab sx={{mt: 1.2, backgroundColor: 'unset'}}>
         <StyledBadge
           overlap="circular"
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -67,7 +67,7 @@ export default function ChatList() {
           <Avatar alt="Chat Avatar" src={"/images/avatars/avatar_male_4.png"} />
         </StyledBadge>
       </Fab>
-      <Fab sx={{mt: 1, backgroundColor: 'unset'}}>
+      <Fab sx={{mt: 1.2, backgroundColor: 'unset'}}>
         <StyledBadge
           overlap="circular"
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -83,7 +83,7 @@ export default function ChatList() {
           <Avatar alt="Chat Avatar" src={"/images/avatars/avatar_male_5.png"} />
         </StyledBadge>
       </Fab>
-      <Fab sx={{mt: 1, backgroundColor: 'unset'}}>
+      <Fab sx={{mt: 1.2, backgroundColor: 'unset'}}>
         <StyledBadge
           overlap="circular"
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -99,7 +99,7 @@ export default function ChatList() {
           <Avatar alt="Chat Avatar" src={"/images/avatars/avatar_male_6.png"} />
         </StyledBadge>
       </Fab>
-      <Fab sx={{mt: 1, backgroundColor: 'unset'}}>
+      <Fab sx={{mt: 1.2, backgroundColor: 'unset'}}>
         <StyledBadge
           overlap="circular"
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
