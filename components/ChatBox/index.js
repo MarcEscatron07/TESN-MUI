@@ -13,12 +13,14 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
+import Typography from "@mui/material/Typography";
 
 import RemoveIcon from '@mui/icons-material/Remove';
 import CloseIcon from '@mui/icons-material/Close';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import AddReactionIcon from '@mui/icons-material/AddReaction';
 import SendIcon from '@mui/icons-material/Send';
+import LinkIcon from '@mui/icons-material/Link';
 
 export default function ChatBox(props) {
     const theme = useTheme();
@@ -86,8 +88,12 @@ export default function ChatBox(props) {
                     </Paper>
 
                     <CardContent sx={{ height: '76%', px: 2, overflowX: 'hidden', overflowY: 'auto' }} className="chatbox-content">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+                        <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                            <LinkIcon />
+                            <Typography variant="body2" sx={{fontWeight: 'bold'}}>
+                                You are now connected on chat
+                            </Typography>
+                        </Box>                        
                     </CardContent>
 
                     <CardActions sx={{ height: '12%', display: 'flex', justifyContent: 'space-between', backgroundColor: theme.palette.secondary.main }} disableSpacing>
