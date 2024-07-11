@@ -28,7 +28,6 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 
 import { DrawerHeader, Drawer } from "@/components/function";
 import { LEFT_DRAWER } from '@/components/styles';
-
 import { SITENAME_ABBR } from "@/lib/variables";
 
 export default function LeftDrawer(props) {

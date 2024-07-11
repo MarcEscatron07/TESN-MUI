@@ -4,12 +4,11 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
 
-import { getUsers, getPosts } from "@/lib/api";
-import { DrawerHeader, } from "@/components/function";
-import { TopAppBar, LeftDrawer, RightDrawer, Loader, CardPost, ChatBox, ChatList } from '@/components';
 import { HOME } from "@/app/styles";
+import { DrawerHeader, } from "@/components/function";
+import { Loader, CardPost } from '@/components';
+import { getUsers, getPosts } from "@/lib/api";
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -23,7 +22,6 @@ export default function Home() {
     image: ''
   });
   const [postsList, setPostsList] = useState([]);
-  const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(true);
 
   useEffect(() => {
     fetchUsers();
@@ -77,41 +75,16 @@ export default function Home() {
     );
   }
 
-  const onDrawerToggleClick = (value) => {
-    setIsLeftDrawerOpen(value);
-  }
-
   return (
     <>
       {isLoading ? <Loader /> : null}
 
-      <Box component="main" sx={HOME.homeMainContainer}>
-        <CssBaseline />
+      <Box component="section" sx={HOME.homeSectionContent}>
+        <DrawerHeader />
 
-        <TopAppBar onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
-
-        <LeftDrawer onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
-
-        <Box component="section" sx={HOME.homeSectionContent}>
-          <DrawerHeader />
-          
-          {postsList.map((item, idx) => (
-            <CardPost key={idx} data={item} />
-          ))}
-        </Box>
-
-        <RightDrawer />
-
-        <ChatList />
-        
-        {/* MULTIPLE INSTANCES OF CHATBOX HERE */}
-
-        <ChatBox instance={1} />
-        {/* <ChatBox instance={2} />
-        <ChatBox instance={3} />
-        <ChatBox instance={4} /> */}
-
-        {/* MULTIPLE INSTANCES OF CHATBOX HERE */}
+        {postsList.map((item, idx) => (
+          <CardPost key={idx} data={item} />
+        ))}
       </Box>
     </>
   );
