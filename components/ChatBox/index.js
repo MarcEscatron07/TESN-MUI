@@ -70,8 +70,8 @@ export default function ChatBox(props) {
                                     alignItems: 'center',
                                 }
                             }}
-                            avatar={<Avatar alt="Chat Avatar" src={props?.data?.owner?.image ?? '/images/avatars/avatar_male_2.png'} />}
-                            title={<span style={{ fontWeight: 'bold', fontSize: '.95rem' }}>{props?.data?.owner?.name ?? 'Jerson Albit'}</span>}
+                            avatar={<Avatar alt="Chat Avatar" src={props?.data?.owner?.image ?? `/images/avatars/avatar_male_${props?.instance + 1}.png`} />}
+                            title={<span style={{ fontWeight: 'bold', fontSize: '.95rem' }}>{props?.data?.owner?.name ?? ['Jerson Albit', 'Joel Buena', 'Rommel Digal', 'Junjie Bautista'][(props?.instance - 1) ?? 0]}</span>}
                             action={
                                 <>
                                     <IconButton aria-label="minimize">
