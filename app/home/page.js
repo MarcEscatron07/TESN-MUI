@@ -5,6 +5,8 @@ import { useSearchParams } from "next/navigation";
 
 import Box from "@mui/material/Box";
 
+import GlobalLayout from "@/components/layout";
+
 import { HOME } from "@/app/styles";
 import { DrawerHeader, } from "@/components/function";
 import { Loader, CardPost } from '@/components';
@@ -77,15 +79,17 @@ export default function Home() {
 
   return (
     <>
-      {isLoading ? <Loader /> : null}
+      <GlobalLayout>
+        {isLoading ? <Loader /> : null}
 
-      <Box component="section" sx={HOME.homeSectionContent}>
-        <DrawerHeader />
+        <Box component="section" sx={HOME.homeSectionContent}>
+          <DrawerHeader />
 
-        {postsList.map((item, idx) => (
-          <CardPost key={idx} data={item} />
-        ))}
-      </Box>
+          {postsList.map((item, idx) => (
+            <CardPost key={idx} data={item} />
+          ))}
+        </Box>
+      </GlobalLayout>
     </>
   );
 }
