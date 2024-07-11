@@ -16,7 +16,7 @@ export default function ChatList() {
 
   return (
     <div className="chat-list">
-      <Fab sx={{ mt: 1 }} color="secondary" size="medium">
+      <Fab sx={{ my: 1 }} color="secondary" size="medium">
         <EditNoteIcon fontSize="large" />
       </Fab>
 
