@@ -5,7 +5,6 @@ import { useTheme } from "@mui/material/styles";
 
 import Avatar from "@mui/material/Avatar";
 import Fab from "@mui/material/Fab";
-import IconButton from "@mui/material/IconButton";
 
 import EditNoteIcon from "@mui/icons-material/EditNote";
 
@@ -20,7 +19,7 @@ export default function ChatList() {
         <EditNoteIcon fontSize="large" />
       </Fab>
 
-      <IconButton>
+      <Fab sx={{backgroundColor: 'unset'}}>
         <StyledBadge
           overlap="circular"
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -35,8 +34,8 @@ export default function ChatList() {
         >
           <Avatar alt="Chat Avatar" src={"/images/avatars/avatar_male_2.png"} />
         </StyledBadge>
-      </IconButton>
-      <IconButton>
+      </Fab>
+      <Fab sx={{backgroundColor: 'unset'}}>
         <StyledBadge
           overlap="circular"
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -51,8 +50,8 @@ export default function ChatList() {
         >
           <Avatar alt="Chat Avatar" src={"/images/avatars/avatar_male_3.png"} />
         </StyledBadge>
-      </IconButton>
-      <IconButton>
+      </Fab>
+      <Fab sx={{backgroundColor: 'unset'}}>
         <StyledBadge
           overlap="circular"
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -67,8 +66,8 @@ export default function ChatList() {
         >
           <Avatar alt="Chat Avatar" src={"/images/avatars/avatar_male_4.png"} />
         </StyledBadge>
-      </IconButton>
-      <IconButton>
+      </Fab>
+      <Fab sx={{backgroundColor: 'unset'}}>
         <StyledBadge
           overlap="circular"
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -83,8 +82,8 @@ export default function ChatList() {
         >
           <Avatar alt="Chat Avatar" src={"/images/avatars/avatar_male_5.png"} />
         </StyledBadge>
-      </IconButton>
-      <IconButton>
+      </Fab>
+      <Fab sx={{backgroundColor: 'unset'}}>
         <StyledBadge
           overlap="circular"
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -99,7 +98,7 @@ export default function ChatList() {
         >
           <Avatar alt="Chat Avatar" src={"/images/avatars/avatar_male_6.png"} />
         </StyledBadge>
-      </IconButton>
+      </Fab>
     </div>
   );
 }
