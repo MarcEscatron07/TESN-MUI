@@ -103,11 +103,14 @@ export default function Home() {
         <RightDrawer />
 
         <ChatList />
+        
         {/* MULTIPLE INSTANCES OF CHATBOX HERE */}
+
         <ChatBox instance={1} />
-        <ChatBox instance={2} />
+        {/* <ChatBox instance={2} />
         <ChatBox instance={3} />
-        <ChatBox instance={4} />
+        <ChatBox instance={4} /> */}
+
         {/* MULTIPLE INSTANCES OF CHATBOX HERE */}
       </Box>
     </>
