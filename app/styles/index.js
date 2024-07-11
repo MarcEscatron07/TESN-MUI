@@ -1,3 +1,10 @@
+export const GLOBAL = {
+    globalMainContainer: {
+        position: 'relative',
+        display: 'flex'
+    }
+}
+
 export const LOGIN = {
     loginMainContainer: {
         height: "100vh"
@@ -67,10 +74,6 @@ export const LOGIN = {
 }
 
 export const HOME = {
-    homeMainContainer: {
-        position: 'relative',
-        display: 'flex'
-    },
     homeSectionContent: {
         display: 'flex',
         flexDirection: 'column',

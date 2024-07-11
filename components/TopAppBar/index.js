@@ -26,8 +26,8 @@ import { AppBar, Search, SearchIconWrapper, StyledInputBase } from "@/components
 import { TOP_APP_BAR } from '@/components/styles';
 
 export default function TopAppBar(props) {
-    const theme = useTheme();
     const router = useRouter();
+    const theme = useTheme();
 
     const [menuAnchorEl, setMenuAnchorEl] = useState(null);
     const [mobileMenuAnchorEl, setMobileMenuAnchorEl] = useState(null);

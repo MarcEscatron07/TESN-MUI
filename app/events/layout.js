@@ -8,7 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { TopAppBar, LeftDrawer, RightDrawer, ChatBox, ChatList } from '@/components';
 import { GLOBAL } from "@/app/styles";
 
-export default function HomeLayout(props) {
+export default function EventLayout(props) {
     const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(true);
 
     useEffect(() => {

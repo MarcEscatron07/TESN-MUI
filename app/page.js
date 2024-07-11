@@ -83,7 +83,7 @@ export default function Login() {
       setIsLoading(false);
       
       if (validCount == maxValidCount) {
-        router.push(`/home?id=${userId}`);
+        router.push(`/home`);
       } else {
         alert("An error occured. Unable to login.");
       }
