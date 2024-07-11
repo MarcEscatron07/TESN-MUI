@@ -79,6 +79,8 @@ export const CHAT_BOX = {
 
 export const CHAT_LIST = {
     chatListFabNewChat: {
+        height: 55,
+        width: 55,
         my: 1
     },
     chatListFabAvatar: {
