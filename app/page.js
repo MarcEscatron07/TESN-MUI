@@ -99,14 +99,14 @@ export default function Login() {
       {isLoading ? <Loader /> : null}
 
       <Box component="main">
-        <Grid container sx={LOGIN.mainContainer}>
+        <Grid container sx={LOGIN.loginMainContainer}>
           <CssBaseline />
           <Grid item sm={12} md={5} square>
             <Box
               height={"100%"}
-              sx={LOGIN.sectionLeft}
+              sx={LOGIN.loginSectionLeft}
             >
-              <Paper elevation={3} style={LOGIN.headerContainer}>
+              <Paper elevation={3} style={LOGIN.loginHeaderContainer}>
                 <Image
                   className="page-logo"
                   src="/images/tagbilaran-seal.png"
@@ -118,12 +118,12 @@ export default function Login() {
                   variant="h5"
                   noWrap
                   component="div"
-                  style={LOGIN.headerText}
+                  style={LOGIN.loginHeaderText}
                 >
                   {SITENAME_FULL}
                 </Typography>
               </Paper>
-              <Paper elevation={3} style={LOGIN.formContainer}>
+              <Paper elevation={3} style={LOGIN.loginFormContainer}>
                 <Box noValidate component="form" onSubmit={handleFormSubmit}>
                   <TextField
                     margin="normal"
@@ -136,7 +136,7 @@ export default function Login() {
                     autoFocus
                     placeholder="Username"
                     InputProps={{
-                      style: LOGIN.formInputProps,
+                      style: LOGIN.loginFormInputProps,
                       startAdornment: (
                         <InputAdornment position="start">
                           <FontAwesomeIcon icon={faUserCircle} size="lg" />
@@ -145,7 +145,7 @@ export default function Login() {
                     }}
                     InputLabelProps={{
                       shrink: true,
-                      style: LOGIN.formInputLabelProps,
+                      style: LOGIN.loginFormInputLabelProps,
                     }}
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
@@ -161,7 +161,7 @@ export default function Login() {
                     autoComplete="current-password"
                     placeholder="Password"
                     InputProps={{
-                      style: LOGIN.formInputProps,
+                      style: LOGIN.loginFormInputProps,
                       startAdornment: (
                         <InputAdornment position="start">
                           <FontAwesomeIcon icon={faLock} size="lg" />
@@ -186,13 +186,13 @@ export default function Login() {
                     }}
                     InputLabelProps={{
                       shrink: true,
-                      style: LOGIN.formInputLabelProps,
+                      style: LOGIN.loginFormInputLabelProps,
                     }}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
                   <FormControlLabel
-                    style={LOGIN.formControlLabel}
+                    style={LOGIN.loginFormControlLabel}
                     control={<Checkbox value="remember" color="secondary" />}
                     label="Remember me"
                   />
@@ -200,7 +200,7 @@ export default function Login() {
                     type="submit"
                     fullWidth
                     variant="contained"
-                    sx={LOGIN.formButtonSignIn}
+                    sx={LOGIN.loginFormButtonSignIn}
                     color="secondary"
                     startIcon={<FontAwesomeIcon icon={faKey} size="lg" />}
                   >
@@ -208,12 +208,12 @@ export default function Login() {
                   </Button>
                   {/* <Grid container>
                     <Grid item xs>
-                      <Link href="#" variant="body2" style={LOGIN.formForgotPassword}>
+                      <Link href="#" variant="body2" style={LOGIN.loginFormForgotPassword}>
                         Forgot your password?
                       </Link>
                     </Grid>
                   </Grid> */}
-                  <Box sx={LOGIN.formCopyright}>
+                  <Box sx={LOGIN.loginFormCopyright}>
                     <Typography variant="body1" align="center" color="white">
                       {"© "}
                       {new Date().getFullYear()} {SITENAME_ABBR}
@@ -227,7 +227,7 @@ export default function Login() {
             item
             xs={false}
             md={7}
-            sx={LOGIN.sectionRight}
+            sx={LOGIN.loginSectionRight}
           />
         </Grid>
       </Box>

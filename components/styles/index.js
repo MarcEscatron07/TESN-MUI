@@ -1,0 +1,136 @@
+export const CARD_POST = {
+    cardPostContainer: {
+        height: 'auto',
+        width: 700,
+        my: 2
+    },
+    cardPostImagePlaceholder: {
+        height: '100%',
+        width: 700
+    },
+    cardPostActions: {
+        display: 'flex',
+        justifyContent: 'space-between'
+    }
+}
+
+export const CHAT_BOX = {
+    chatBoxPaperContainer: {
+        height: '100%'
+    },
+    chatBoxCardContainer: {
+        height: '100%'
+    },
+    chatBoxCardHeader: {
+        height: '12%',
+        display: 'flex',
+        alignItems: 'center',
+        padding: 1,
+        "& .MuiCardHeader-avatar": {
+            height: 40,
+            display: 'flex',
+            alignItems: 'center',
+        },
+        "& .MuiCardHeader-content": {
+            height: 40,
+            display: 'flex',
+            alignItems: 'center',
+        },
+        "& .MuiCardHeader-action": {
+            height: 48,
+            display: 'flex',
+            alignItems: 'center',
+        }
+    },
+    chatBoxCardHeaderTitle: {
+        fontWeight: 'bold',
+        fontSize: '.95rem'
+    },
+    chatBoxCardContent: {
+        height: '76%',
+        overflowX: 'hidden',
+        overflowY: 'auto',
+        px: 2,
+    },
+    chatBoxCardContentBox: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    chatBoxCardActions: {
+        height: '12%',
+        display: 'flex',
+        justifyContent: 'space-between'
+    },
+    chatBoxCardActionsBox: {
+        display: 'flex',
+        alignItems: 'center'
+    },
+    chatBoxCardActionsBoxInput: {
+        p: 1,
+        overflow: 'hidden',
+        borderRadius: '0px 0px 0px 4px'
+    },
+    chatBoxCardActionsBoxButton: {
+        borderRadius: '0px 4px 4px 0px'
+    }
+}
+
+export const CHAT_LIST = {
+    chatListFabNewChat: {
+        my: 1
+    },
+    chatListFabAvatar: {
+        mt: 1.2,
+        backgroundColor: 'unset'
+    },
+    chatListStyledBadgeAvatarOnline: {
+        position: "relative",
+        "& .MuiBadge-badge": {
+            color: "lightgreen",
+            backgroundColor: "green",
+        },
+    },
+    chatListStyledBadgeAvatarOffline: {
+        position: "relative",
+        "& .MuiBadge-badge": {
+            color: "lightgray",
+            backgroundColor: "gray",
+        },
+    }
+}
+
+export const LEFT_DRAWER = {
+    leftDrawerHeader: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    leftDrawerHeaderPaper: {
+        width: "85%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 4,
+        borderRadius: '10px 50px 20px 50px',
+    },
+    leftDrawerSitename: {
+        marginLeft: 15
+    },
+    leftDrawerList: {
+        fontWeight: 'bold',
+        textTransform: 'uppercase'
+    },
+    leftDrawerListItem: {
+        display: "block",
+    },
+    leftDrawerListItemButton: {
+        minHeight: 48,
+        px: 2.5,
+    },
+    leftDrawerListItemIcon: {
+        minWidth: 0,
+        justifyContent: "center",
+    }
+}

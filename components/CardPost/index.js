@@ -25,6 +25,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import CloseIcon from '@mui/icons-material/Close';
 import ImageIcon from '@mui/icons-material/Image';
 
+import { CARD_POST } from '@/components/styles';
 import { formatDateTime } from '@/lib/helpers';
 
 export default function CardPost(props) {
@@ -37,7 +38,7 @@ export default function CardPost(props) {
     };
 
     return (
-        <Card sx={{ height: 'auto', width: 700, my: 2 }}>
+        <Card sx={CARD_POST.cardPostContainer}>
             <CardHeader
                 avatar={<Avatar alt="Owner Avatar" src={props?.data?.owner?.image ?? '/images/avatars/avatar_default.png'} />}
                 action={
@@ -73,11 +74,11 @@ export default function CardPost(props) {
                     />
 
                 ) : (
-                    <ImageIcon style={{ height: '100%', width: 700 }} />
+                    <ImageIcon style={CARD_POST.cardPostImagePlaceholder} />
                 )}
             </CardActionArea>
 
-            <CardActions disableSpacing sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <CardActions disableSpacing sx={CARD_POST.cardPostActions}>
                 <Box>
                     <IconButton aria-label="like">
                         <ThumbUpIcon />

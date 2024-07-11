@@ -85,14 +85,14 @@ export default function Home() {
     <>
       {isLoading ? <Loader /> : null}
 
-      <Box component="main" sx={HOME.mainContainer}>
+      <Box component="main" sx={HOME.homeMainContainer}>
         <CssBaseline />
 
         <TopAppBar onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
 
         <LeftDrawer onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
 
-        <Box component="section" sx={HOME.sectionContent}>
+        <Box component="section" sx={HOME.homeSectionContent}>
           <DrawerHeader />
           
           {postsList.map((item, idx) => (

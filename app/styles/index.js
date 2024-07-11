@@ -1,8 +1,8 @@
 export const LOGIN = {
-    mainContainer: {
+    loginMainContainer: {
         height: "100vh"
     },
-    sectionLeft: {
+    loginSectionLeft: {
         py: 8,
         px: 4,
         display: "flex",
@@ -10,12 +10,12 @@ export const LOGIN = {
         alignItems: "center",
         justifyContent: "space-between",
     },
-    sectionRight: {
+    loginSectionRight: {
         backgroundImage: 'url("/images/tagbilaran-city-hall.png")',
         backgroundSize: "cover",
         backgroundPosition: "left",
     },
-    headerContainer: { 
+    loginHeaderContainer: { 
         width: '75%',
         display: 'flex', 
         alignItems: 'center', 
@@ -24,12 +24,12 @@ export const LOGIN = {
         backgroundColor: '#FBD11A',
         padding: 15
     },
-    headerText: {
+    loginHeaderText: {
         fontSize: 20,
         fontWeight: 'bold',
         marginLeft: 15, 
     },
-    formContainer: {
+    loginFormContainer: {
         maxWidth: '75%',
         paddingTop: 20,
         paddingRight: 30,
@@ -38,10 +38,10 @@ export const LOGIN = {
         borderRadius: '10px 50px 20px 50px',
         backgroundColor: '#699B7E'
     },
-    formInputProps: {
+    loginFormInputProps: {
         backgroundColor: '#FFFFFF'
     },
-    formInputLabelProps: {
+    loginFormInputLabelProps: {
         top: '-2px', 
         left: '-4px', 
         fontWeight: 'bold', 
@@ -50,28 +50,28 @@ export const LOGIN = {
         border: '3px solid #00703C', 
         backgroundColor: '#FFFFFF' 
     },
-    formControlLabel: {
+    loginFormControlLabel: {
         color: '#FFFFFF'
     },
-    formButtonSignIn: {
+    loginFormButtonSignIn: {
         mt: 4, 
         mb: 2
     },
-    formForgotPassword: { 
+    loginFormForgotPassword: { 
         display: 'flex', 
         justifyContent: 'flex-end' 
     },
-    formCopyright: {
+    loginFormCopyright: {
         mt: 10
     }
 }
 
 export const HOME = {
-    mainContainer: {
+    homeMainContainer: {
         position: 'relative',
         display: 'flex'
     },
-    sectionContent: {
+    homeSectionContent: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

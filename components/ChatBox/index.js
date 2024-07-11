@@ -22,6 +22,8 @@ import AddReactionIcon from '@mui/icons-material/AddReaction';
 import SendIcon from '@mui/icons-material/Send';
 import LinkIcon from '@mui/icons-material/Link';
 
+import { CHAT_BOX } from '@/components/styles';
+
 export default function ChatBox(props) {
     const theme = useTheme();
 
@@ -46,34 +48,13 @@ export default function ChatBox(props) {
 
     return (
         <div className="chat-box" style={{right: props?.instance > 1 ? 285 + (320 * (props?.instance - 1)) : 285 }}>
-            <Paper sx={{ height: '100%' }} elevation={5}>
-                <Card sx={{ height: '100%' }}>
+            <Paper sx={CHAT_BOX.chatBoxPaperContainer} elevation={5}>
+                <Card sx={CHAT_BOX.chatBoxCardContainer}>
                     <Paper elevation={2}>
                         <CardHeader
-                            sx={{
-                                height: '12%',
-                                display: 'flex',
-                                alignItems: 'center',
-                                backgroundColor: theme.palette.light.dark,
-                                padding: 1,
-                                "& .MuiCardHeader-avatar": {
-                                    height: 40,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                },
-                                "& .MuiCardHeader-content": {
-                                    height: 40,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                },
-                                "& .MuiCardHeader-action": {
-                                    height: 48,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                }
-                            }}
+                            sx={{...CHAT_BOX.chatBoxCardHeader, backgroundColor: theme.palette.light.dark}}
                             avatar={<Avatar alt="Chat Avatar" src={props?.data?.owner?.image ?? `/images/avatars/avatar_male_${props?.instance + 1}.png`} />}
-                            title={<span style={{ fontWeight: 'bold', fontSize: '.95rem' }}>{props?.data?.owner?.name ?? ['Jerson Albit', 'Joel Buena', 'Rommel Digal', 'Junjie Bautista'][(props?.instance - 1) ?? 0]}</span>}
+                            title={<span style={CHAT_BOX.chatBoxCardHeaderTitle}>{props?.data?.owner?.name ?? ['Jerson Albit', 'Joel Buena', 'Rommel Digal', 'Junjie Bautista'][(props?.instance - 1) ?? 0]}</span>}
                             action={
                                 <>
                                     <IconButton aria-label="minimize">
@@ -87,8 +68,8 @@ export default function ChatBox(props) {
                         />
                     </Paper>
 
-                    <CardContent sx={{ height: '76%', px: 2, overflowX: 'hidden', overflowY: 'auto' }} className="chatbox-content">
-                        <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                    <CardContent sx={CHAT_BOX.chatBoxCardContent} className="chatbox-content">
+                        <Box sx={CHAT_BOX.chatBoxCardContentBox}>
                             <LinkIcon />
                             <Typography variant="body2" sx={{fontWeight: 'bold'}}>
                                 You are now connected on chat
@@ -96,8 +77,8 @@ export default function ChatBox(props) {
                         </Box>                        
                     </CardContent>
 
-                    <CardActions sx={{ height: '12%', display: 'flex', justifyContent: 'space-between', backgroundColor: theme.palette.secondary.main }} disableSpacing>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <CardActions sx={{ ...CHAT_BOX.chatBoxCardActions, backgroundColor: theme.palette.secondary.main }} disableSpacing>
+                        <Box sx={CHAT_BOX.chatBoxCardActionsBox}>
                             <IconButton aria-label="attachment">
                                 <AttachmentIcon />
                             </IconButton>
@@ -105,7 +86,7 @@ export default function ChatBox(props) {
                                 <AddReactionIcon />
                             </IconButton>
                         </Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box sx={CHAT_BOX.chatBoxCardActionsBox}>
                             <Input
                                 multiline
                                 variant="filled"
@@ -114,9 +95,9 @@ export default function ChatBox(props) {
                                 onChange={onChatInputChange}
                                 onKeyDown={onChatInputKeyDown}
                                 onFocus={onChatInputFocus}
-                                sx={{p: 1, overflow: 'hidden', backgroundColor: theme.palette.light.main, borderRadius: '0px 0px 0px 4px'}}
+                                sx={{...CHAT_BOX.chatBoxCardActionsBoxInput, backgroundColor: theme.palette.light.main}}
                             />
-                            <Button variant="contained" color="primary" sx={{ borderRadius: '0px 4px 4px 0px' }}>
+                            <Button variant="contained" color="primary" sx={CHAT_BOX.chatBoxCardActionsBoxButton}>
                                 <SendIcon sx={{ color: theme.palette.light.main }} />
                             </Button>
                         </Box>

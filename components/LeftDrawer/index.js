@@ -26,10 +26,8 @@ import PeopleIcon from '@mui/icons-material/People';
 import GroupsIcon from '@mui/icons-material/Groups';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 
-import {
-  DrawerHeader,
-  Drawer,
-} from "@/components/function";
+import { DrawerHeader, Drawer } from "@/components/function";
+import { LEFT_DRAWER } from '@/components/styles';
 
 import { SITENAME_ABBR } from "@/lib/variables";
 
@@ -95,20 +93,13 @@ export default function LeftDrawer(props) {
     >
       <DrawerHeader
         sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          ...LEFT_DRAWER.leftDrawerHeader,
           backgroundColor: theme.palette.primary.light,
         }}
       >
         <Paper
           style={{
-            width: "85%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 4,
-            borderRadius: '10px 50px 20px 50px',
+            ...LEFT_DRAWER.leftDrawerHeaderPaper,
             backgroundColor: theme.palette.secondary.main,
           }}
         >
@@ -124,7 +115,7 @@ export default function LeftDrawer(props) {
             noWrap
             component="div"
             color="light"
-            style={{ marginLeft: 15, color: theme.palette.dark.main }}
+            style={{ ...LEFT_DRAWER.leftDrawerSitename, color: theme.palette.dark.main }}
           >
             {SITENAME_ABBR}
           </Typography>
@@ -147,7 +138,7 @@ export default function LeftDrawer(props) {
 
       <List
         subheader={
-          <ListSubheader component="div" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, textTransform: 'uppercase', fontWeight: 'bold' }}>
+          <ListSubheader component="div" sx={{ ...LEFT_DRAWER.leftDrawerList, backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText }}>
             {props.isLeftDrawerOpen ? 'Navigation' : null}
           </ListSubheader>
         }
@@ -156,7 +147,7 @@ export default function LeftDrawer(props) {
           <ListItem key={index}
             disablePadding
             sx={{
-              display: "block",
+              ...LEFT_DRAWER.leftDrawerListItem,
               backgroundColor: activeNav == item.text ? theme.palette.secondary.main : null,
               color: activeNav == item.text ? theme.palette.secondary.contrastText : null
             }}
@@ -164,16 +155,14 @@ export default function LeftDrawer(props) {
           >
             <ListItemButton
               sx={{
-                minHeight: 48,
+                ...LEFT_DRAWER.leftDrawerListItemButton,
                 justifyContent: props.isLeftDrawerOpen ? "initial" : "center",
-                px: 2.5,
               }}
             >
               <ListItemIcon
                 sx={{
-                  minWidth: 0,
+                  ...LEFT_DRAWER.leftDrawerListItemIcon,
                   mr: props.isLeftDrawerOpen ? 3 : "auto",
-                  justifyContent: "center",
                   color: activeNav == item.text ? theme.palette.secondary.contrastText : theme.palette.light.main,
                 }}
               >
@@ -189,25 +178,23 @@ export default function LeftDrawer(props) {
 
       <List
         subheader={
-          <ListSubheader component="div" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, textTransform: 'uppercase', fontWeight: 'bold' }}>
+          <ListSubheader component="div" sx={{ ...LEFT_DRAWER.leftDrawerList, backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText }}>
             {props.isLeftDrawerOpen ? 'Others' : null}
           </ListSubheader>
         }
       >
         {othersList.map((item, index) => (
-          <ListItem key={index} disablePadding sx={{ display: "block" }}>
+          <ListItem key={index} disablePadding sx={LEFT_DRAWER.leftDrawerListItem}>
             <ListItemButton
               sx={{
-                minHeight: 48,
+                ...LEFT_DRAWER.leftDrawerListItemButton,
                 justifyContent: props.isLeftDrawerOpen ? "initial" : "center",
-                px: 2.5,
               }}
             >
               <ListItemIcon
                 sx={{
-                  minWidth: 0,
+                  ...LEFT_DRAWER.leftDrawerListItemIcon,
                   mr: props.isLeftDrawerOpen ? 3 : "auto",
-                  justifyContent: "center",
                   color: theme.palette.light.main,
                 }}
               >
