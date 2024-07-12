@@ -9,7 +9,7 @@ import GlobalLayout from "@/components/layout";
 
 import { HOME } from "@/app/styles";
 import { DrawerHeader } from "@/components/function";
-import { Loader, CardPost } from '@/components';
+import { CardPost } from '@/components';
 import { getUsers, getPosts } from "@/lib/api";
 
 export default function Home() {

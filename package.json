@@ -2,6 +2,7 @@
   "name": "tesn-mui",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3000/",
   "scripts": {
     "sass": "sass --watch ./app/styles/globals.scss ./app/styles/globals.css",
     "dev": "next dev",
