@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 import GlobalLayout from "@/components/layout";
 
 import { HOME } from "@/app/styles";
-import { DrawerHeader, } from "@/components/function";
+import { DrawerHeader } from "@/components/function";
 import { Loader, CardPost } from '@/components';
 import { getUsers, getPosts } from "@/lib/api";
 
@@ -79,9 +79,7 @@ export default function Home() {
 
   return (
     <>
-      <GlobalLayout>
-        {isLoading ? <Loader /> : null}
-
+      <GlobalLayout isLoading={isLoading}>
         <Box component="section" sx={HOME.homeSectionContent}>
           <DrawerHeader />
 

@@ -48,7 +48,7 @@ export default function LeftDrawer(props) {
     },
     {
       icon: <EventIcon />,
-      text: 'Events',
+      text: 'Calendar',
     },
     {
       icon: <DescriptionIcon />,
