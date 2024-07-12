@@ -17,9 +17,7 @@ export default function Reports() {
 
     return (
         <>
-            <GlobalLayout>
-                {isLoading ? <Loader /> : null}
-
+            <GlobalLayout isLoading={isLoading}>
             </GlobalLayout>
         </>
     )
