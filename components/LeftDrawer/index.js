@@ -67,7 +67,7 @@ export default function LeftDrawer(props) {
     },
     {
       icon: <BookmarkIcon />,
-      text: 'Bookmarks',
+      text: 'Saved',
     },
   ];
 
