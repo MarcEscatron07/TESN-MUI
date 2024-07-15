@@ -12,8 +12,8 @@ export default function EventCalendar() {
     const theme = useTheme();
     const hd = new Holidays('PH');
 
-    const [regHDList, setRegHDList] = useState([]);
     const [locHDList, setLocHDList] = useState([]);
+    const [regHDList, setRegHDList] = useState([]);
     const [customEventsList, setCustomEventsList] = useState([]);
 
     useEffect(() => {
@@ -21,14 +21,41 @@ export default function EventCalendar() {
     }, [])
 
     useEffect(() => {
-        console.log('EventCalendar > regHDList', regHDList)
-    }, [regHDList])
-
-    useEffect(() => {
         console.log('EventCalendar > locHDList', locHDList)
     }, [locHDList])
 
+    useEffect(() => {
+        console.log('EventCalendar > regHDList', regHDList)
+    }, [regHDList])
+
     async function fetchHolidays() {
+        await getLocalHolidays().then(
+            (res) => {
+                setLocHDList(
+                    res ? res.map((item, idx) => {
+                        return {
+                            event_id: idx + 1,
+                            title: item.name,
+                            start: moment(`${item.date}, ${moment().year()}`).toDate(),
+                            end: moment(`${item.date}, ${moment().year()}`).toDate(),
+                            disabled: false,
+                            color: theme.palette.accent1.main,
+                            textColor: theme.palette.accent1.contrastText,
+                            editable: true,
+                            deletable: false, // should be 'false' for holidays
+                            draggable: false, // should be 'false' for holidays
+                            allDay: true, // should be 'true' for holidays
+                            // agendaAvatar: <></>,
+                            // sx: {}
+                        }
+                    }) : []
+                )
+            },
+            (err) => {
+                setLocHDList([]);
+            },
+        )
+
         await new Promise((resolve, reject) => {
             try {
                 const holidaysList = hd.getHolidays(moment().year());
@@ -68,33 +95,6 @@ export default function EventCalendar() {
                 setRegHDList([]);
             }
         );
-
-        await getLocalHolidays().then(
-            (res) => {
-                setLocHDList(
-                    res ? res.map((item, idx) => {
-                        return {
-                            event_id: idx + 1,
-                            title: item.name,
-                            start: moment(item.date).toDate(),
-                            end: moment(item.date).toDate(),
-                            disabled: false,
-                            color: theme.palette.accent1.main,
-                            textColor: theme.palette.accent1.contrastText,
-                            editable: true,
-                            deletable: false, // should be 'false' for holidays
-                            draggable: false, // should be 'false' for holidays
-                            allDay: true, // should be 'true' for holidays
-                            // agendaAvatar: <></>,
-                            // sx: {}
-                        }
-                    }) : []
-                )
-            },
-            (err) => {
-                setLocHDList([]);
-            },
-        )
     }
 
     return (
@@ -106,7 +106,11 @@ export default function EventCalendar() {
             selectedDate={moment()}
             navigation={true}
             disableViewNavigator={false}
-            events={[...regHDList, ...locHDList, ...customEventsList]}
+            events={[
+                ...locHDList, 
+                ...regHDList, 
+                ...customEventsList
+            ]}
         />
     )
 }
