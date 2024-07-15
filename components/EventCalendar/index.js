@@ -48,8 +48,8 @@ export default function EventCalendar() {
                                 start: moment(item.date).toDate(),
                                 end: moment(item.date).toDate(),
                                 disabled: false,
-                                color: theme.palette.primary.main,
-                                textColor: theme.palette.primary.contrastText,
+                                color: theme.palette.accent2.main,
+                                textColor: theme.palette.accent2.contrastText,
                                 editable: true,
                                 deletable: false, // should be 'false' for holidays
                                 draggable: false, // should be 'false' for holidays
@@ -79,8 +79,8 @@ export default function EventCalendar() {
                             start: moment(item.date).toDate(),
                             end: moment(item.date).toDate(),
                             disabled: false,
-                            color: theme.palette.primary.main,
-                            textColor: theme.palette.primary.contrastText,
+                            color: theme.palette.accent1.main,
+                            textColor: theme.palette.accent1.contrastText,
                             editable: true,
                             deletable: false, // should be 'false' for holidays
                             draggable: false, // should be 'false' for holidays
