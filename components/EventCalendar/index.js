@@ -18,6 +18,19 @@ export default function EventCalendar() {
     const [regHDList, setRegHDList] = useState([]);
     const [customEventsList, setCustomEventsList] = useState([]);
 
+    const eventFields = [
+        {
+            name: 'link',
+            type: 'input',
+            config: { label: "Link" }
+        },
+        {
+            name: 'description',
+            type: 'input',
+            config: { label: "Description" }
+        },
+    ];
+
     useEffect(() => {
         fetchHolidays();
     }, [])
@@ -41,9 +54,11 @@ export default function EventCalendar() {
                     res ? res.map((item, idx) => {
                         return {
                             event_id: idx + 1,
-                            title: item.name,
-                            start: moment(`${item.date}, ${moment().year()}`).toDate(),
-                            end: moment(`${item.date}, ${moment().year()}`).toDate(),
+                            title: item?.name,
+                            link: item?.link,
+                            description: item?.description,
+                            start: moment(`${item?.date}, ${moment().year()}`).toDate(),
+                            end: moment(`${item?.date}, ${moment().year()}`).toDate(),
                             disabled: false,
                             color: theme.palette.accent1.main,
                             textColor: theme.palette.accent1.contrastText,
@@ -74,12 +89,14 @@ export default function EventCalendar() {
             (res) => {
                 setRegHDList(
                     res ? res.map((item, idx) => {
-                        if(['public', 'optional'].includes(item.type)) {
+                        if(['public', 'optional'].includes(item?.type)) {
                             return {
                                 event_id: idx + 1,
-                                title: item.name,
-                                start: moment(item.date).toDate(),
-                                end: moment(item.date).toDate(),
+                                title: item?.name,
+                                link: item?.link,
+                                description: item?.description,
+                                start: moment(item?.date).toDate(),
+                                end: moment(item?.date).toDate(),
                                 disabled: false,
                                 color: theme.palette.accent2.main,
                                 textColor: theme.palette.accent2.contrastText,
@@ -106,6 +123,7 @@ export default function EventCalendar() {
     const onConfirmEvent = (event, action) => {
         console.log('onConfirmEvent > event', event)
         console.log('onConfirmEvent > action', action)
+
         switch (action) {
             case 'create':
                 setCustomEventsList((prevState) => [
@@ -113,6 +131,8 @@ export default function EventCalendar() {
                     {
                         event_id: event?.event_id,
                         title: event?.title,
+                        link: event?.link,
+                        description: event?.description,
                         start: event?.start,
                         end: event?.end,
                         disabled: false,
@@ -142,6 +162,7 @@ export default function EventCalendar() {
             selectedDate={moment()}
             navigation={true}
             disableViewNavigator={false}
+            fields={eventFields}
             events={[
                 ...locHDList, 
                 ...regHDList, 
