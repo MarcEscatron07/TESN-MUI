@@ -3,7 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
 import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin  from '@fullcalendar/timegrid';
+import interactionPlugin from "@fullcalendar/interaction";
+import bootstrapPlugin from "@fullcalendar/bootstrap";
+import listPlugin from "@fullcalendar/list";
 import moment from 'moment-timezone';
 import Holidays from 'date-holidays';
 
@@ -92,15 +96,39 @@ export default function EventCalendar() {
         );
     }
 
+    const onEventClick = (event) => {
+        console.log('onEventClick > event', event)
+        alert('Event clicked!')
+    }
+
+    const onDateClick = (event) => {
+        console.log('onDateClick > event', event)
+        alert('Date clicked!')
+    }
+
     return (
         <FullCalendar
-            plugins={[ dayGridPlugin ]}
+            plugins={[ dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin, bootstrapPlugin ]}
             initialView="dayGridMonth"
+            themeSystem="bootstrap5"
+            editable={true}
+            selectable={true}
+            dayMaxEvents={true} // allow "more" link when too many events
+            displayEventTime={true}
+            displayEventEnd={true}
+            eventTimeFormat={{ // like '14:30:00'
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false,
+                    meridiem: false
+            }}
             events={[
                 ...locHDList, 
                 ...regHDList, 
                 ...customEventsList
             ]}
+            eventClick={onEventClick}
+            dateClick={onDateClick}
         />
     )
 }

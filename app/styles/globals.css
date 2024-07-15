@@ -112,9 +112,13 @@ body {
   text-decoration: none;
 }
 
-.fc-event {
-  text-align: center;
+.fc-day {
   cursor: pointer;
+}
+
+.fc-event {
+  cursor: pointer;
+  text-align: center;
 }
 
 .fc-event-time {
