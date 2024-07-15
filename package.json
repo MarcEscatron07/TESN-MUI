@@ -2,6 +2,7 @@
   "name": "tesn-mui",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3000/",
   "scripts": {
     "sass": "sass --watch ./app/styles/globals.scss ./app/styles/globals.css",
     "dev": "next dev",
@@ -22,6 +23,8 @@
     "@mui/icons-material": "^5.16.0",
     "@mui/material-nextjs": "^5.15.11",
     "bootstrap": "^5.3.3",
+    "date-fns": "^3.6.0",
+    "date-holidays": "^3.23.12",
     "emoji-picker-react": "^4.9.4",
     "html-react-parser": "^5.1.10",
     "moment-timezone": "^0.5.45",

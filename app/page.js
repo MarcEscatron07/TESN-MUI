@@ -50,11 +50,11 @@ export default function Login() {
       (res) => {
         // console.log('Login > users > res', res);
 
-        res ? setUsersList(res) : null;
+        res ? setUsersList(res) : setUsersList([]);
       },
       (err) => {
         console.log("Login > users > err", err);
-        setUsersList(null);
+        setUsersList([]);
       }
     );
   }

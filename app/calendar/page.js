@@ -3,12 +3,12 @@
 import React, { useState, useEffect } from "react";
 
 import Box from "@mui/material/Box";
-
-import { Scheduler } from "@aldabil/react-scheduler";
+import Chip from '@mui/material/Chip';
 
 import GlobalLayout from "@/components/layout";
 
 import { DrawerHeader } from "@/components/function";
+import { EventCalendar } from '@/components';
 
 export default function Calendar() {
     const [isLoading, setIsLoading] = useState(true);
@@ -22,27 +22,17 @@ export default function Calendar() {
     return (
         <>
             <GlobalLayout isLoading={isLoading}>
-                <Box component="section" sx={{ width: '100%', px: 3}}>
+                <Box component="section" sx={{ width: '100%', px: 3 }}>
                     <DrawerHeader />
 
-                    <Box sx={{mt: 10}}>
-                        <Scheduler
-                            view="month"
-                            events={[
-                                {
-                                    event_id: 1,
-                                    title: "Event 1",
-                                    start: new Date("2021/5/2 09:30"),
-                                    end: new Date("2021/5/2 10:30"),
-                                },
-                                {
-                                    event_id: 2,
-                                    title: "Event 2",
-                                    start: new Date("2021/5/4 10:00"),
-                                    end: new Date("2021/5/4 11:00"),
-                                },
-                            ]}
-                        />
+                    <Box sx={{ mt: 3 }}>
+                        <Chip label="My Events" color="primary" sx={{ mr: 1, fontWeight: 'bold' }} />
+                        <Chip label="Public Holidays" color="accent2" sx={{ mr: 1, fontWeight: 'bold' }} />
+                        <Chip label="Local Events/Holidays" color="accent1" sx={{ mr: 1, fontWeight: 'bold' }} />
+                    </Box>
+
+                    <Box sx={{ mt: 1 }}>
+                        <EventCalendar />
                     </Box>
                 </Box>
             </GlobalLayout>

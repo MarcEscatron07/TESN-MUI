@@ -4,8 +4,6 @@ import React, { useState, useEffect } from "react";
 
 import GlobalLayout from "@/components/layout";
 
-import { Loader } from '@/components';
-
 export default function Announcements() {
     const [isLoading, setIsLoading] = useState(true);
 
