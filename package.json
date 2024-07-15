@@ -23,6 +23,7 @@
     "@mui/icons-material": "^5.16.0",
     "@mui/material-nextjs": "^5.15.11",
     "bootstrap": "^5.3.3",
+    "date-fns": "^3.6.0",
     "date-holidays": "^3.23.12",
     "emoji-picker-react": "^4.9.4",
     "html-react-parser": "^5.1.10",

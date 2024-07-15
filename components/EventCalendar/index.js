@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useTheme } from "@mui/material/styles";
 import { Scheduler } from "@aldabil/react-scheduler";
 import moment from 'moment-timezone';
@@ -11,6 +11,8 @@ import { getLocalHolidays } from "@/lib/api";
 export default function EventCalendar() {
     const theme = useTheme();
     const hd = new Holidays('PH');
+
+    const schedulerRef = useRef(null);
 
     const [locHDList, setLocHDList] = useState([]);
     const [regHDList, setRegHDList] = useState([]);
@@ -27,6 +29,10 @@ export default function EventCalendar() {
     useEffect(() => {
         console.log('EventCalendar > regHDList', regHDList)
     }, [regHDList])
+
+    useEffect(() => {
+        console.log('EventCalendar > customEventsList', customEventsList)
+    }, [customEventsList])
 
     async function fetchHolidays() {
         await getLocalHolidays().then(
@@ -97,8 +103,38 @@ export default function EventCalendar() {
         );
     }
 
+    const onConfirmEvent = (event, action) => {
+        console.log('onConfirmEvent > event', event)
+        console.log('onConfirmEvent > action', action)
+        switch (action) {
+            case 'create':
+                setCustomEventsList((prevState) => [
+                    ...prevState, 
+                    {
+                        event_id: event?.event_id,
+                        title: event?.title,
+                        start: event?.start,
+                        end: event?.end,
+                        disabled: false,
+                        color: theme.palette.primary.main,
+                        textColor: theme.palette.primary.contrastText,
+                        editable: true,
+                        deletable: true, // should be 'false' for holidays
+                        draggable: true, // should be 'false' for holidays
+                        allDay: false, // should be 'true' for holidays
+                        // agendaAvatar: <></>,
+                        // sx: {}
+                    }
+                ]);
+                break;
+            default:
+                break;
+        }
+    }
+
     return (
         <Scheduler
+            ref={schedulerRef}
             height={700}
             view="month"
             agenda={false}
@@ -111,6 +147,7 @@ export default function EventCalendar() {
                 ...regHDList, 
                 ...customEventsList
             ]}
+            onConfirm={onConfirmEvent}
         />
     )
 }
