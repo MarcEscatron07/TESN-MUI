@@ -26,8 +26,8 @@ export default function Calendar() {
                     <DrawerHeader />
 
                     <Box sx={{ mt: 3 }}>
-                        <Chip label="Public Holidays" color="accent2" sx={{ mr: 1 }} />
-                        <Chip label="Local Events/Holidays" color="accent1" sx={{ mr: 1 }} />
+                        <Chip label="Public Holidays" color="accent2" sx={{ mr: 1, fontWeight: 'bold' }} />
+                        <Chip label="Local Events/Holidays" color="accent1" sx={{ mr: 1, fontWeight: 'bold' }} />
                     </Box>
 
                     <Box sx={{ mt: 1 }}>
