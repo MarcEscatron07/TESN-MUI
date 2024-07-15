@@ -24,7 +24,7 @@ export default function Calendar() {
                 <Box component="section" sx={{ width: '100%', px: 3 }}>
                     <DrawerHeader />
 
-                    <Box sx={{ mt: 10 }}>
+                    <Box sx={{ mt: 3 }}>
                         <EventCalendar />
                     </Box>
                 </Box>
