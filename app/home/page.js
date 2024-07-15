@@ -56,10 +56,25 @@ export default function Home() {
           if (userIdx != -1) {
             setUserData(res[userIdx]);
           }
+        } else {
+          setUserData({
+            id: -1,
+            username: '',
+            password: '',
+            name: '',
+            image: ''
+          });
         }
       },
       (err) => {
         console.log('Home > users > err', err);
+        setUserData({
+          id: -1,
+          username: '',
+          password: '',
+          name: '',
+          image: ''
+        });
       }
     );
   }
@@ -69,10 +84,11 @@ export default function Home() {
       (res) => {
         // console.log('Home > posts > res', res);
 
-        res ? setPostsList(res) : null;
+        res ? setPostsList(res) : setPostsList([]);
       },
       (err) => {
         console.log('Home > posts > err', err);
+        setPostsList([]);
       },
     );
   }
