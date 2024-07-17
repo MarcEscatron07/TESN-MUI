@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
 import FullCalendar from '@fullcalendar/react';
-import momentPlugin  from '@fullcalendar/moment';
+import momentPlugin from '@fullcalendar/moment';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from "@fullcalendar/interaction";
@@ -19,14 +19,14 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import InputAdornment from "@mui/material/InputAdornment";
+import Popover from '@mui/material/Popover';
+import Typography from "@mui/material/Typography";
 
-import { DateTimeField } from '@mui/x-date-pickers/DateTimeField';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar } from "@fortawesome/free-solid-svg-icons";
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 import { getLocalHolidays } from "@/lib/api";
 
@@ -36,9 +36,19 @@ export default function EventCalendar() {
 
     const [locHDList, setLocHDList] = useState([]);
     const [regHDList, setRegHDList] = useState([]);
-    const [customEventsList, setCustomEventsList] = useState([]);
+    const [eventsList, setEventsList] = useState([]);
 
-    const [modalOpen, setIsModalOpen] = useState(false);
+    const [popoverAnchor, setPopoverAnchor] = useState(null);
+    const [popoverData, setPopoverData] = useState({
+        id: -1,
+        title: '',
+        link: '',
+        description: '',
+        start: moment().toDate(),
+        end: moment().toDate(),
+    })
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [eventTitle, setEventTitle] = useState('');
     const [eventStart, setEventStart] = useState(moment());
     const [eventEnd, setEventEnd] = useState(moment());
@@ -59,9 +69,15 @@ export default function EventCalendar() {
     }, [regHDList])
 
     useEffect(() => {
-        console.log('EventCalendar > customEventsList', customEventsList)
-    }, [customEventsList])
+        console.log('EventCalendar > eventsList', eventsList)
+    }, [eventsList])
     /** FULLCALENDAR useEffect **/
+
+    /** POPOVER useEffect **/
+    useEffect(() => {
+        console.log('EventCalendar > popoverAnchor', popoverAnchor)
+    }, [popoverAnchor])
+    /** POPOVER useEffect **/
 
     /** MODAL useEffect **/
     useEffect(() => {
@@ -70,12 +86,10 @@ export default function EventCalendar() {
 
     useEffect(() => {
         console.log('EventCalendar > eventStart', eventStart)
-        console.log('EventCalendar > typeof eventStart', typeof eventStart)
     }, [eventStart])
 
     useEffect(() => {
         console.log('EventCalendar > eventEnd', eventEnd)
-        console.log('EventCalendar > typeof eventEnd', typeof eventEnd)
     }, [eventEnd])
 
     useEffect(() => {
@@ -148,8 +162,22 @@ export default function EventCalendar() {
 
     /** FULLCALENDAR FUNCTIONS **/
     const onEventClick = (event) => {
-        console.log('onEventClick > event', event)
-        alert('Event clicked!')
+        const eventTitle = event?.event?.title ?? '';
+
+        // check event in Array lists
+        const locIdx = locHDList.map((i) => i.title).indexOf(eventTitle);
+        locIdx != -1 ? setPopoverData(locHDList[locIdx]) : null;
+        const regIdx = regHDList.map((i) => i.title).indexOf(eventTitle);
+        regIdx != -1 ? setPopoverData(regHDList[regIdx]) : null;
+        const evtIdx = eventsList.map((i) => i.title).indexOf(eventTitle);
+        evtIdx != -1 ? setPopoverData(eventsList[evtIdx]) : null
+        // check event in Array lists
+
+        if (locIdx != -1 || regIdx != -1 || evtIdx != -1) {
+            setPopoverAnchor(event.el);
+        } else {
+            setPopoverAnchor(null);
+        }
     }
 
     const onDateClick = (event) => {
@@ -181,10 +209,10 @@ export default function EventCalendar() {
             extendedProps: []
         }
 
-        if(customEventsList.length == 0) {
-            setCustomEventsList([{...eventObj, id: 1}]);
+        if (eventsList.length == 0) {
+            setEventsList([{ ...eventObj, id: 1 }]);
         } else {
-            setCustomEventsList((prevState) => [...prevState, { ...eventObj, id: customEventsList.length + 1 }]);
+            setEventsList((prevState) => [...prevState, { ...eventObj, id: eventsList.length + 1 }]);
         }
 
         onModalToggleClick(false);
@@ -211,20 +239,65 @@ export default function EventCalendar() {
                 events={[
                     ...locHDList,
                     ...regHDList,
-                    ...customEventsList
+                    ...eventsList
                 ]}
                 eventClick={onEventClick}
                 dateClick={onDateClick}
             />
 
+            <Popover
+                id={popoverAnchor ? 'simple-popover' : undefined}
+                open={popoverAnchor ? true : false}
+                anchorEl={popoverAnchor}
+                onClose={() => setPopoverAnchor(null)}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+            >
+                <Box sx={{ height: '100%' }}>
+                    <Box sx={{
+                        width: '100%',
+                        backgroundColor: theme.palette.primary.main,
+                        color: theme.palette.primary.contrastText,
+                        px: 1,
+                        py: 1.5
+                    }}>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="div"
+                        >
+                            {popoverData.title}
+                        </Typography>
+                    </Box>
+                    <Box sx={{
+                        width: '100%',
+                        backgroundColor: theme.palette.light.main,
+                        color: theme.palette.dark.main,
+                        px: 1,
+                        py: 1.5
+                    }}>
+                        <Typography
+                            variant="body1"
+                            noWrap
+                            component="p"
+                            sx={{ display: 'flex', alignItems: 'center' }}
+                        >
+                            <CalendarTodayIcon />
+                            <span style={{ marginLeft: 5 }}>
+                                {`${moment(popoverData.start).format('MMMM DD, YYYY hh:mm A')}`} - {`${moment(popoverData.end).format('MMMM DD, YYYY hh:mm A')}`}
+                            </span>
+                        </Typography>
+                    </Box>
+                </Box>
+            </Popover>
+
             <Dialog
-                open={modalOpen}
+                open={isModalOpen}
                 onClose={() => onModalToggleClick(false)}
                 PaperProps={{ component: 'form', onSubmit: (event) => onModalFormSubmit(event) }}
             >
                 <DialogTitle>Add Event</DialogTitle>
                 <DialogContent>
-                    <Grid container spacing={2} sx={{p: 1}}>
+                    <Grid container spacing={2} sx={{ p: 1 }}>
                         <Grid item xs={12}>
                             <TextField
                                 required

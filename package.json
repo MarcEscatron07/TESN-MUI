@@ -11,7 +11,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@aldabil/react-scheduler": "^2.9.3",
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
@@ -31,8 +30,6 @@
     "@mui/icons-material": "^5.16.0",
     "@mui/material-nextjs": "^5.15.11",
     "@mui/x-date-pickers": "^7.10.0",
-    "bootstrap": "^5.3.3",
-    "date-fns": "^3.6.0",
     "date-holidays": "^3.23.12",
     "emoji-picker-react": "^4.9.4",
     "html-react-parser": "^5.1.10",

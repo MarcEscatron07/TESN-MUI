@@ -27,7 +27,7 @@ export default function Calendar() {
 
                     <Box sx={{ mt: 3 }}>
                         <Chip label="My Events" color="primary" sx={{ mr: 1, fontWeight: 'bold' }} />
-                        <Chip label="Public Holidays" color="accent2" sx={{ mr: 1, fontWeight: 'bold' }} />
+                        <Chip label="Regular Holidays" color="accent2" sx={{ mr: 1, fontWeight: 'bold' }} />
                         <Chip label="Local Events/Holidays" color="accent1" sx={{ mr: 1, fontWeight: 'bold' }} />
                     </Box>
 
