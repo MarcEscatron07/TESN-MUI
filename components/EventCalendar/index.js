@@ -19,6 +19,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import IconButton from '@mui/material/IconButton';
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Popover from '@mui/material/Popover';
@@ -27,6 +28,8 @@ import Typography from "@mui/material/Typography";
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import { getLocalHolidays } from "@/lib/api";
 
@@ -34,8 +37,8 @@ export default function EventCalendar() {
     const theme = useTheme();
     const hd = new Holidays('PH');
 
-    const [locHDList, setLocHDList] = useState([]);
     const [regHDList, setRegHDList] = useState([]);
+    const [locHDList, setLocHDList] = useState([]);
     const [eventsList, setEventsList] = useState([]);
 
     const [popoverAnchor, setPopoverAnchor] = useState(null);
@@ -46,6 +49,7 @@ export default function EventCalendar() {
         description: '',
         start: moment().toDate(),
         end: moment().toDate(),
+        type: ''
     })
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -61,12 +65,12 @@ export default function EventCalendar() {
 
     /** FULLCALENDAR useEffect **/
     useEffect(() => {
-        console.log('EventCalendar > locHDList', locHDList)
-    }, [locHDList])
-
-    useEffect(() => {
         console.log('EventCalendar > regHDList', regHDList)
     }, [regHDList])
+
+    useEffect(() => {
+        console.log('EventCalendar > locHDList', locHDList)
+    }, [locHDList])
 
     useEffect(() => {
         console.log('EventCalendar > eventsList', eventsList)
@@ -108,11 +112,11 @@ export default function EventCalendar() {
                     res ? res.map((item, idx) => {
                         return {
                             id: idx + 1,
-                            title: item?.name,
-                            link: item?.link,
-                            description: item?.description,
-                            start: moment(`${item?.date}, ${moment().year()}`).toDate(),
-                            end: moment(`${item?.date}, ${moment().year()}`).toDate(),
+                            title: item?.name ?? '',
+                            link: item?.link ?? '',
+                            description: item?.description ?? '',
+                            start: moment(item?.date).isValid() ? moment(`${item?.date}, ${moment().year()}`).toDate() : null,
+                            end: moment(item?.date).isValid() ? moment(`${item?.date}, ${moment().year()}`).toDate() : null,
                             classNames: ['fc-custom-event', 'fc-local-holiday'],
                             extendedProps: []
                         }
@@ -139,11 +143,11 @@ export default function EventCalendar() {
                         if (['public', 'optional'].includes(item?.type)) {
                             return {
                                 id: idx + 1,
-                                title: item?.name,
-                                link: item?.link,
-                                description: item?.description,
-                                start: moment(item?.date).toDate(),
-                                end: moment(item?.date).toDate(),
+                                title: item?.name ?? '',
+                                link: item?.link ?? '',
+                                description: item?.description ?? '',
+                                start: moment(item?.date).isValid() ? moment(item?.date).toDate() : null,
+                                end: moment(item?.date).isValid() ? moment(item?.date).toDate() : null,
                                 classNames: ['fc-custom-event', 'fc-regular-holiday'],
                                 extendedProps: []
                             }
@@ -154,7 +158,6 @@ export default function EventCalendar() {
                 );
             },
             (err) => {
-                console.log('fetchHolidays > err', err)
                 setRegHDList([]);
             }
         );
@@ -165,12 +168,12 @@ export default function EventCalendar() {
         const eventTitle = event?.event?.title ?? '';
 
         // check event in Array lists
-        const locIdx = locHDList.map((i) => i.title).indexOf(eventTitle);
-        locIdx != -1 ? setPopoverData(locHDList[locIdx]) : null;
         const regIdx = regHDList.map((i) => i.title).indexOf(eventTitle);
-        regIdx != -1 ? setPopoverData(regHDList[regIdx]) : null;
+        regIdx != -1 ? setPopoverData({...regHDList[regIdx], type: 'regular_holiday'}) : null;
+        const locIdx = locHDList.map((i) => i.title).indexOf(eventTitle);
+        locIdx != -1 ? setPopoverData({...locHDList[locIdx], type: 'local_holiday'}) : null;
         const evtIdx = eventsList.map((i) => i.title).indexOf(eventTitle);
-        evtIdx != -1 ? setPopoverData(eventsList[evtIdx]) : null
+        evtIdx != -1 ? setPopoverData({...eventsList[evtIdx], type: 'event'}) : null
         // check event in Array lists
 
         if (locIdx != -1 || regIdx != -1 || evtIdx != -1) {
@@ -183,8 +186,8 @@ export default function EventCalendar() {
     const onDateClick = (event) => {
         console.log('onDateClick > event', event)
 
-        setEventStart(moment(event.date));
-        setEventEnd(moment(event.date));
+        event.date ? setEventStart(moment(event.date)) : null;
+        event.date ? setEventEnd(moment(event.date)) : null;
 
         setIsModalOpen(true);
     }
@@ -203,8 +206,8 @@ export default function EventCalendar() {
 
         const eventObj = {
             ...formJson,
-            start: moment(formJson?.start).toDate(),
-            end: moment(formJson?.end).toDate(),
+            start: moment().isValid(formJson?.start) ? moment(formJson?.start).toDate() : null,
+            end: moment().isValid(formJson?.end) ? moment(formJson?.end).toDate() : null,
             classNames: ['fc-custom-event', 'fc-added-event'],
             extendedProps: []
         }
@@ -237,8 +240,8 @@ export default function EventCalendar() {
                     meridiem: false
                 }}
                 events={[
-                    ...locHDList,
                     ...regHDList,
+                    ...locHDList,
                     ...eventsList
                 ]}
                 eventClick={onEventClick}
@@ -255,10 +258,13 @@ export default function EventCalendar() {
                 <Box sx={{ height: '100%' }}>
                     <Box sx={{
                         width: '100%',
-                        backgroundColor: theme.palette.primary.main,
-                        color: theme.palette.primary.contrastText,
+                        backgroundColor: theme.palette.secondary.main,
+                        color: theme.palette.secondary.contrastText,
                         px: 1,
-                        py: 1.5
+                        py: 1.5,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between'
                     }}>
                         <Typography
                             variant="h6"
@@ -267,6 +273,18 @@ export default function EventCalendar() {
                         >
                             {popoverData.title}
                         </Typography>
+                        <Box>
+                            {popoverData.type == 'event' ? (
+                                <>
+                                    <IconButton>
+                                        <EditIcon />
+                                    </IconButton>
+                                    <IconButton>
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </>
+                            ) : null}
+                        </Box>
                     </Box>
                     <Box sx={{
                         width: '100%',
@@ -283,7 +301,7 @@ export default function EventCalendar() {
                         >
                             <CalendarTodayIcon />
                             <span style={{ marginLeft: 5 }}>
-                                {`${moment(popoverData.start).format('MMMM DD, YYYY hh:mm A')}`} - {`${moment(popoverData.end).format('MMMM DD, YYYY hh:mm A')}`}
+                                {`${moment(popoverData.start).isValid() ? moment(popoverData.start).format('MMMM DD, YYYY hh:mm A') : ''}`}{`${moment(popoverData.start).isValid() ? ' - ' + moment(popoverData.end).format('MMMM DD, YYYY hh:mm A') : ''}`}
                             </span>
                         </Typography>
                     </Box>
