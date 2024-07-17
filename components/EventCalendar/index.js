@@ -27,9 +27,11 @@ import Typography from "@mui/material/Typography";
 
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft';
+import LinkIcon from '@mui/icons-material/Link';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 import { getLocalHolidays } from "@/lib/api";
 
@@ -80,6 +82,17 @@ export default function EventCalendar() {
     /** POPOVER useEffect **/
     useEffect(() => {
         console.log('EventCalendar > popoverAnchor', popoverAnchor)
+        if (popoverAnchor == null) {
+            setPopoverData({
+                id: -1,
+                title: '',
+                link: '',
+                description: '',
+                start: moment().toDate(),
+                end: moment(moment().toDate()).add(23, 'hours').add(59, 'minutes'),
+                type: ''
+            });
+        }
     }, [popoverAnchor])
     /** POPOVER useEffect **/
 
@@ -169,11 +182,11 @@ export default function EventCalendar() {
 
         // check event in Array lists
         const regIdx = regHDList.map((i) => i.title).indexOf(eventTitle);
-        regIdx != -1 ? setPopoverData({...regHDList[regIdx], type: 'regular_holiday'}) : null;
+        regIdx != -1 ? setPopoverData({ ...regHDList[regIdx], type: 'regular_holiday' }) : null;
         const locIdx = locHDList.map((i) => i.title).indexOf(eventTitle);
-        locIdx != -1 ? setPopoverData({...locHDList[locIdx], type: 'local_holiday'}) : null;
+        locIdx != -1 ? setPopoverData({ ...locHDList[locIdx], type: 'local_holiday' }) : null;
         const evtIdx = eventsList.map((i) => i.title).indexOf(eventTitle);
-        evtIdx != -1 ? setPopoverData({...eventsList[evtIdx], type: 'event'}) : null
+        evtIdx != -1 ? setPopoverData({ ...eventsList[evtIdx], type: 'event' }) : null
         // check event in Array lists
 
         if (locIdx != -1 || regIdx != -1 || evtIdx != -1) {
@@ -261,7 +274,7 @@ export default function EventCalendar() {
                         backgroundColor: theme.palette.secondary.main,
                         color: theme.palette.secondary.contrastText,
                         px: 1,
-                        py: 1.5,
+                        py: .8,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between'
@@ -276,31 +289,83 @@ export default function EventCalendar() {
                         <Box>
                             {popoverData.type == 'event' ? (
                                 <>
-                                    <IconButton>
+                                    <IconButton onClick={() => { }}>
                                         <EditIcon />
                                     </IconButton>
-                                    <IconButton>
+                                    <IconButton onClick={() => { }}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </>
                             ) : null}
                         </Box>
                     </Box>
+                    {popoverData.type == 'event' ? (
+                        <>
+                            {popoverData.description.length != '' ? (
+                                <Box sx={{
+                                    width: '100%',
+                                    backgroundColor: theme.palette.light.main,
+                                    color: theme.palette.dark.main,
+                                    px: 1,
+                                    py: .8
+                                }}>
+                                    <Typography
+                                        variant="body1"
+                                        noWrap
+                                        component="div"
+                                        sx={{ display: 'flex', alignItems: 'center' }}
+                                    >
+                                        <span style={{ color: 'gray' }}>
+                                            <AlignHorizontalLeftIcon />
+                                        </span>
+                                        <span style={{ marginLeft: 15 }}>
+                                            {`${popoverData.description}`}
+                                        </span>
+                                    </Typography>
+                                </Box>
+                            ) : null}
+                            {popoverData.link.length != '' ? (
+                                <Box sx={{
+                                    width: '100%',
+                                    backgroundColor: theme.palette.light.main,
+                                    color: theme.palette.dark.main,
+                                    px: 1,
+                                    py: .8
+                                }}>
+                                    <Typography
+                                        variant="body1"
+                                        noWrap
+                                        component="div"
+                                        sx={{ display: 'flex', alignItems: 'center' }}
+                                    >
+                                        <span style={{ color: 'gray' }}>
+                                            <LinkIcon />
+                                        </span>
+                                        <span style={{ marginLeft: 15 }}>
+                                            {`${popoverData.link}`}
+                                        </span>
+                                    </Typography>
+                                </Box>
+                            ) : null}
+                        </>
+                    ) : null}
                     <Box sx={{
                         width: '100%',
                         backgroundColor: theme.palette.light.main,
                         color: theme.palette.dark.main,
                         px: 1,
-                        py: 1.5
+                        py: .8
                     }}>
                         <Typography
-                            variant="body1"
+                            variant="body2"
                             noWrap
-                            component="p"
+                            component="div"
                             sx={{ display: 'flex', alignItems: 'center' }}
                         >
-                            <CalendarTodayIcon />
-                            <span style={{ marginLeft: 5 }}>
+                            <span style={{ color: 'gray' }}>
+                                <CalendarTodayIcon />
+                            </span>
+                            <span style={{ marginLeft: 15 }}>
                                 {`${moment(popoverData.start).isValid() ? moment(popoverData.start).format('MMMM DD, YYYY hh:mm A') : ''}`}{`${moment(popoverData.start).isValid() ? ' - ' + moment(popoverData.end).format('MMMM DD, YYYY hh:mm A') : ''}`}
                             </span>
                         </Typography>
