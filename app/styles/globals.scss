@@ -105,6 +105,91 @@ body {
     z-index: 99996,
 }
 
+/* Start of FullCalendar CSS */
+.fc {
+    a {
+        color: $primary-color;
+    }
+}
+
+.fc-button {
+    background-color: $primary-color !important;
+    color: $light-color !important;
+    border: 1px solid $primary-color !important;
+
+    &:hover {
+        background-color: #0b4b27 !important;
+    }
+}
+
+.fc-button-active {
+    background-color: #0b4b27 !important;
+}
+
+.fc-toolbar-title {
+    color: $primary-color;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.fc-col-header-cell-cushion {
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.fc-day {
+    cursor: pointer;
+}
+
+.fc-event {
+    cursor: pointer;
+    text-align: center;
+}
+
+.fc-event-time {
+    font-weight: bold;
+}
+
+.fc-event-title {
+    background-color: $primary-color;
+    color: $light-color;
+    border-radius: 3px;
+    text-transform: capitalize;
+    text-overflow: ellipsis;
+    font-weight: bold;
+}
+
+.fc-custom-event {
+    .fc-daygrid-event-dot, .fc-event-time {
+        display: none;
+    }
+
+    .fc-event-title {
+        padding: 2px;
+    }
+}
+
+.fc-local-holiday {
+    background-color: $accent1-color;
+    
+    .fc-event-title {
+        background-color: $accent1-color;
+    }
+}
+
+.fc-regular-holiday {
+    background-color: $accent2-color;
+    
+    .fc-event-title {
+        background-color: $accent2-color;
+    }
+}
+
+.fc-today-button {
+    text-transform: uppercase !important;
+}
+/* End of FullCalendar CSS */
+
 @-webkit-keyframes spin {
     0% {
         -webkit-transform: rotate(0deg);

@@ -101,7 +101,7 @@ export default function Login() {
       <Box component="main">
         <Grid container sx={LOGIN.loginMainContainer}>
           <CssBaseline />
-          <Grid item sm={12} md={5} square>
+          <Grid item sm={12} md={5}>
             <Box
               height={"100%"}
               sx={LOGIN.loginSectionLeft}
@@ -126,11 +126,11 @@ export default function Login() {
               <Paper elevation={3} style={LOGIN.loginFormContainer}>
                 <Box noValidate component="form" onSubmit={handleFormSubmit}>
                   <TextField
-                    margin="normal"
                     required
                     fullWidth
-                    id="username"
+                    margin="normal"
                     // label="Username"
+                    id="username"
                     name="username"
                     autoComplete="username"
                     autoFocus
@@ -151,11 +151,11 @@ export default function Login() {
                     onChange={(e) => setUsername(e.target.value)}
                   />
                   <TextField
-                    margin="normal"
                     required
                     fullWidth
-                    name="password"
+                    margin="normal"
                     // label="Password"
+                    name="password"
                     type={showPassword ? "text" : "password"}
                     id="password"
                     autoComplete="current-password"
@@ -168,7 +168,7 @@ export default function Login() {
                         </InputAdornment>
                       ),
                       endAdornment: (
-                        <InputAdornment position="start">
+                        <InputAdornment position="end">
                           {password.length > 0 ? (
                             <span
                               className="input-action"
