@@ -48,7 +48,7 @@ export default function EventCalendar() {
         link: '',
         description: '',
         start: moment().toDate(),
-        end: moment().toDate(),
+        end: moment(moment().toDate()).add(23, 'hours').add(59, 'minutes'),
         type: ''
     })
 
@@ -116,7 +116,7 @@ export default function EventCalendar() {
                             link: item?.link ?? '',
                             description: item?.description ?? '',
                             start: moment(item?.date).isValid() ? moment(`${item?.date}, ${moment().year()}`).toDate() : null,
-                            end: moment(item?.date).isValid() ? moment(`${item?.date}, ${moment().year()}`).toDate() : null,
+                            end: moment(item?.date).isValid() ? moment(moment(`${item?.date}, ${moment().year()}`).toDate()).add(23, 'hours').add(59, 'minutes') : null,
                             classNames: ['fc-custom-event', 'fc-local-holiday'],
                             extendedProps: []
                         }
@@ -147,7 +147,7 @@ export default function EventCalendar() {
                                 link: item?.link ?? '',
                                 description: item?.description ?? '',
                                 start: moment(item?.date).isValid() ? moment(item?.date).toDate() : null,
-                                end: moment(item?.date).isValid() ? moment(item?.date).toDate() : null,
+                                end: moment(item?.date).isValid() ? moment(moment(item?.date).toDate()).add(23, 'hours').add(59, 'minutes') : null,
                                 classNames: ['fc-custom-event', 'fc-regular-holiday'],
                                 extendedProps: []
                             }
@@ -187,7 +187,7 @@ export default function EventCalendar() {
         console.log('onDateClick > event', event)
 
         event.date ? setEventStart(moment(event.date)) : null;
-        event.date ? setEventEnd(moment(event.date)) : null;
+        event.date ? setEventEnd(moment(event.date).add(23, 'hours').add(59, 'minutes')) : null;
 
         setIsModalOpen(true);
     }
