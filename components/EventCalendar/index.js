@@ -289,10 +289,10 @@ export default function EventCalendar() {
                         <Box>
                             {popoverData.type == 'event' ? (
                                 <>
-                                    <IconButton sx={{color: theme.palette.light.main}} onClick={() => { }}>
+                                    <IconButton sx={{ color: theme.palette.light.main }} onClick={() => { }}>
                                         <EditIcon />
                                     </IconButton>
-                                    <IconButton sx={{color: theme.palette.light.main}} onClick={() => { }}>
+                                    <IconButton sx={{ color: theme.palette.light.main }} onClick={() => { }}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </>
