@@ -284,10 +284,10 @@ export default function EventCalendar() {
                             noWrap
                             component="div"
                         >
-                            {popoverData.title}
+                            {popoverData?.title}
                         </Typography>
                         <Box>
-                            {popoverData.type == 'event' ? (
+                            {popoverData?.type == 'event' ? (
                                 <>
                                     <IconButton sx={{ color: theme.palette.light.main }} onClick={() => { }}>
                                         <EditIcon />
@@ -299,9 +299,9 @@ export default function EventCalendar() {
                             ) : null}
                         </Box>
                     </Box>
-                    {popoverData.type == 'event' ? (
+                    {popoverData?.type == 'event' ? (
                         <>
-                            {popoverData.description.length != '' ? (
+                            {popoverData?.description.length != '' ? (
                                 <Box sx={{
                                     width: '100%',
                                     backgroundColor: theme.palette.light.main,
@@ -319,12 +319,12 @@ export default function EventCalendar() {
                                             <AlignHorizontalLeftIcon />
                                         </span>
                                         <span style={{ marginLeft: 15 }}>
-                                            {`${popoverData.description}`}
+                                            {`${popoverData?.description}`}
                                         </span>
                                     </Typography>
                                 </Box>
                             ) : null}
-                            {popoverData.link.length != '' ? (
+                            {popoverData?.link.length != '' ? (
                                 <Box sx={{
                                     width: '100%',
                                     backgroundColor: theme.palette.light.main,
@@ -342,7 +342,7 @@ export default function EventCalendar() {
                                             <LinkIcon />
                                         </span>
                                         <span style={{ marginLeft: 15 }}>
-                                            {`${popoverData.link}`}
+                                            {`${popoverData?.link}`}
                                         </span>
                                     </Typography>
                                 </Box>
@@ -366,7 +366,7 @@ export default function EventCalendar() {
                                 <CalendarTodayIcon />
                             </span>
                             <span style={{ marginLeft: 15 }}>
-                                {`${moment(popoverData.start).isValid() ? moment(popoverData.start).format('MMMM DD, YYYY hh:mm A') : ''}`}{`${moment(popoverData.start).isValid() ? ' - ' + moment(popoverData.end).format('MMMM DD, YYYY hh:mm A') : ''}`}
+                                {`${moment(popoverData?.start).isValid() ? moment(popoverData?.start).format('MMMM DD, YYYY hh:mm A') : ''}`}{`${moment(popoverData?.start).isValid() ? ' - ' + moment(popoverData?.end).format('MMMM DD, YYYY hh:mm A') : ''}`}
                             </span>
                         </Typography>
                     </Box>
