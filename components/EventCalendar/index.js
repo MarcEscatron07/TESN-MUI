@@ -183,7 +183,7 @@ export default function EventCalendar() {
         const evtIdx = eventsList.map((i) => i.title).indexOf(eventTitle);
         evtIdx != -1 ? setPopoverData({ ...eventsList[evtIdx], type: 'event' }) : null;
 
-        if (holIdx != -1 || evtIdx != -1) {
+        if (eventTitle && (holIdx != -1 || evtIdx != -1)) {
             setPopoverAnchor(event.el);
         } else {
             setPopoverAnchor(null);
@@ -191,9 +191,12 @@ export default function EventCalendar() {
     }
 
     const onDateClick = (event) => {
-        event.date ? setModalData({ ...modalData, start: moment(event.date), end: moment(event.date).add(23, 'hours').add(59, 'minutes') }) : null;
-
-        setIsModalOpen(true);
+        if(event?.date) {
+            setModalData({ ...modalData, start: moment(event.date), end: moment(event.date).add(23, 'hours').add(59, 'minutes') });
+            setIsModalOpen(true);
+        } else {
+            setIsModalOpen(false);
+        }
     }
     /** FULLCALENDAR FUNCTIONS **/
 
