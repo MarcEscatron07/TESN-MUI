@@ -45,19 +45,21 @@ export default function EventCalendar() {
 
     const [popoverAnchor, setPopoverAnchor] = useState(null);
     const [popoverData, setPopoverData] = useState({
+        id: -1,
         title: '',
         link: '',
         description: '',
-        start: moment().toDate(),
-        end: moment(moment().toDate()).add(23, 'hours').add(59, 'minutes'),
+        start: moment(),
+        end: moment(moment()).add(23, 'hours').add(59, 'minutes'),
         type: ''
     });
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalData, setModalData] = useState({
+        id: -1,
         title: '',
-        start: moment().toDate(),
-        end: moment().toDate(),
+        start: moment(),
+        end: moment(),
         description: '',
         link: ''
     });
@@ -81,11 +83,12 @@ export default function EventCalendar() {
         console.log('EventCalendar > popoverAnchor', popoverAnchor)
         if (popoverAnchor == null) {
             setPopoverData({
+                id: -1,
                 title: '',
                 link: '',
                 description: '',
-                start: moment().toDate(),
-                end: moment(moment().toDate()).add(23, 'hours').add(59, 'minutes'),
+                start: moment(),
+                end: moment(moment()).add(23, 'hours').add(59, 'minutes'),
                 type: ''
             });
         }
@@ -102,8 +105,10 @@ export default function EventCalendar() {
 
         if (!isModalOpen) {
             setModalData({
-                ...modalData,
+                id: -1,
                 title: '',
+                start: moment(),
+                end: moment(),
                 description: '',
                 link: ''
             })
@@ -127,9 +132,10 @@ export default function EventCalendar() {
             }
         }).then(
             (res) => {
-                regularHolidayArr = res ? res.map((item) => {
+                regularHolidayArr = res ? res.map((item, idx) => {
                     if (['public', 'optional'].includes(item?.type)) {
                         return {
+                            id: item?.name ? `reg_${idx}_${item?.name}` : -1,
                             title: item?.name ?? '',
                             link: item?.link ?? '',
                             description: item?.description ?? '',
@@ -151,8 +157,9 @@ export default function EventCalendar() {
         let localHolidayArr = [];
         await getLocalHolidays().then(
             (res) => {
-                localHolidayArr = res ? res.map((item) => {
+                localHolidayArr = res ? res.map((item, idx) => {
                     return {
+                        id: item?.name ? `loc_${idx}_${item?.name}` : -1,
                         title: item?.name ?? '',
                         link: item?.link ?? '',
                         description: item?.description ?? '',
@@ -176,14 +183,14 @@ export default function EventCalendar() {
 
     /** FULLCALENDAR FUNCTIONS **/
     const onEventClick = (event) => {
-        const eventTitle = event?.event?.title ?? '';
+        const eventId = event?.event?.id ?? '';
 
-        const holIdx = holidaysList.map((i) => i.title).indexOf(eventTitle);
+        const holIdx = holidaysList.map((i) => i.id).indexOf(eventId);
         holIdx != -1 ? setPopoverData({ ...holidaysList[holIdx], type: 'holiday' }) : null;
-        const evtIdx = eventsList.map((i) => i.title).indexOf(eventTitle);
+        const evtIdx = eventsList.map((i) => i.id).indexOf(eventId);
         evtIdx != -1 ? setPopoverData({ ...eventsList[evtIdx], type: 'event' }) : null;
 
-        if (eventTitle && (holIdx != -1 || evtIdx != -1)) {
+        if (eventId && (holIdx != -1 || evtIdx != -1)) {
             setPopoverAnchor(event.el);
         } else {
             setPopoverAnchor(null);
@@ -191,7 +198,7 @@ export default function EventCalendar() {
     }
 
     const onDateClick = (event) => {
-        if(event?.date) {
+        if (event?.date) {
             setModalData({ ...modalData, start: moment(event.date), end: moment(event.date).add(23, 'hours').add(59, 'minutes') });
             setIsModalOpen(true);
         } else {
@@ -199,6 +206,25 @@ export default function EventCalendar() {
         }
     }
     /** FULLCALENDAR FUNCTIONS **/
+
+    /** POPOVER FUNCTIONS **/
+    const onPopoverEditClick = () => {
+        const evtIdx = eventsList.map((i) => i.id).indexOf(popoverData?.id);
+
+        if (evtIdx != -1) {
+            setPopoverAnchor(null);
+
+            setModalData({ ...eventsList[evtIdx], start: moment(eventsList[evtIdx]?.start), end: moment(eventsList[evtIdx]?.end) });
+            setIsModalOpen(true);
+        }
+    }
+
+    const onPopoverDeleteClick = () => {
+        setPopoverAnchor(null);
+        const filteredArr = eventsList.filter((i) => i.id != popoverData?.id);
+        setEventsList(filteredArr);
+    }
+    /** POPOVER FUNCTIONS **/
 
     /** MODAL FUNCTIONS **/
     const onModalToggleClick = (value) => {
@@ -218,7 +244,15 @@ export default function EventCalendar() {
             classNames: ['fc-custom-event', 'fc-my-event'],
             extendedProps: []
         }
-        setEventsList((prevState) => [...prevState, { ...eventObj }]);
+
+        const evtIdx = formJson?.id ? eventsList.map((i) => i.id).indexOf(formJson?.id) : -1;
+
+        if(evtIdx != -1) {
+            const filteredArr = eventsList.filter((i) => i.id != eventsList[evtIdx].id);
+            setEventsList([...filteredArr, {...eventObj, id: formJson?.title ? `evt_${eventsList.length}_${formJson?.title}` : -1}]);
+        } else {
+            setEventsList([...eventsList, {...eventObj, id: formJson?.title ? `evt_${eventsList.length}_${formJson?.title}` : -1}]);
+        }
 
         onModalToggleClick(false);
     }
@@ -277,10 +311,10 @@ export default function EventCalendar() {
                         <Box>
                             {popoverData?.type == 'event' ? (
                                 <>
-                                    <IconButton sx={{ color: theme.palette.light.main }} onClick={() => { }}>
+                                    <IconButton sx={{ color: theme.palette.light.main }} onClick={onPopoverEditClick}>
                                         <EditIcon />
                                     </IconButton>
-                                    <IconButton sx={{ color: theme.palette.light.main }} onClick={() => { }}>
+                                    <IconButton sx={{ color: theme.palette.light.main }} onClick={onPopoverDeleteClick}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </>
@@ -368,6 +402,8 @@ export default function EventCalendar() {
             >
                 <DialogTitle>Add Event</DialogTitle>
                 <DialogContent>
+                    <input type="hidden" name="id" value={modalData.id} />
+
                     <Grid container spacing={2} sx={{ p: 1 }}>
                         <Grid item xs={12}>
                             <TextField
