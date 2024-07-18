@@ -12,6 +12,9 @@ import listPlugin from "@fullcalendar/list";
 import moment from 'moment-timezone';
 import Holidays from 'date-holidays';
 
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -20,8 +23,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import IconButton from '@mui/material/IconButton';
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
 import Popover from '@mui/material/Popover';
 import Typography from "@mui/material/Typography";
 
@@ -181,7 +182,7 @@ export default function EventCalendar() {
     }
 
     const onDateClick = (event) => {
-        event.date ? setModalData({...modalData, start: moment(event.date), end: moment(event.date).add(23, 'hours').add(59, 'minutes')}) : null;
+        event.date ? setModalData({ ...modalData, start: moment(event.date), end: moment(event.date).add(23, 'hours').add(59, 'minutes') }) : null;
 
         setIsModalOpen(true);
     }
@@ -205,14 +206,14 @@ export default function EventCalendar() {
             classNames: ['fc-custom-event', 'fc-my-event'],
             extendedProps: []
         }
-        setEventsList((prevState) => [...prevState, { ...eventObj}]);
+        setEventsList((prevState) => [...prevState, { ...eventObj }]);
 
         onModalToggleClick(false);
     }
     /** MODAL FUNCTIONS **/
 
     return (
-        <>
+        <Paper elevation={3} sx={{ p: 3 }}>
             <FullCalendar
                 plugins={[momentPlugin, dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin, bootstrapPlugin]}
                 initialView="dayGridMonth"
@@ -368,7 +369,7 @@ export default function EventCalendar() {
                                 autoFocus
                                 InputLabelProps={{ shrink: true }}
                                 value={modalData.title}
-                                onChange={(event) => setModalData({...modalData, title: event.target.value})}
+                                onChange={(event) => setModalData({ ...modalData, title: event.target.value })}
                             />
                         </Grid>
                         <Grid item xs={6}>
@@ -378,7 +379,7 @@ export default function EventCalendar() {
                                 id="start_date"
                                 name="start"
                                 value={modalData.start}
-                                onChange={(value) => setModalData({...modalData, start: value})}
+                                onChange={(value) => setModalData({ ...modalData, start: value })}
                             />
                         </Grid>
                         <Grid item xs={6}>
@@ -388,7 +389,7 @@ export default function EventCalendar() {
                                 id="end_date"
                                 name="end"
                                 value={modalData.end}
-                                onChange={(value) => setModalData({...modalData, end: value})}
+                                onChange={(value) => setModalData({ ...modalData, end: value })}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -402,7 +403,7 @@ export default function EventCalendar() {
                                 autoFocus
                                 InputLabelProps={{ shrink: true }}
                                 value={modalData.description}
-                                onChange={(event) => setModalData({...modalData, description: event.target.value})}
+                                onChange={(event) => setModalData({ ...modalData, description: event.target.value })}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -416,7 +417,7 @@ export default function EventCalendar() {
                                 autoFocus
                                 InputLabelProps={{ shrink: true }}
                                 value={modalData.link}
-                                onChange={(event) => setModalData({...modalData, link: event.target.value})}
+                                onChange={(event) => setModalData({ ...modalData, link: event.target.value })}
                             />
                         </Grid>
                     </Grid>
@@ -426,6 +427,6 @@ export default function EventCalendar() {
                     <Button type="submit">Confirm</Button>
                 </DialogActions>
             </Dialog>
-        </>
+        </Paper>
     )
 }
