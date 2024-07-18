@@ -25,13 +25,13 @@ export default function Calendar() {
                 <Box component="section" sx={{ width: '100%', px: 3 }}>
                     <DrawerHeader />
 
-                    <Box sx={{ mt: 3 }}>
+                    <Box sx={{ my: 2 }}>
                         <Chip label="My Events" color="secondary" sx={{ mr: 1, fontWeight: 'bold' }} />
                         <Chip label="Regular Holidays" color="accent2" sx={{ mr: 1, fontWeight: 'bold' }} />
                         <Chip label="Local Holidays" color="accent1" sx={{ mr: 1, fontWeight: 'bold' }} />
                     </Box>
 
-                    <Box sx={{ mt: 1 }}>
+                    <Box sx={{ my: 2 }}>
                         <EventCalendar />
                     </Box>
                 </Box>
