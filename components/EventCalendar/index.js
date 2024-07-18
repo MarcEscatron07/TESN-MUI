@@ -39,13 +39,11 @@ export default function EventCalendar() {
     const theme = useTheme();
     const hd = new Holidays('PH');
 
-    const [regHDList, setRegHDList] = useState([]);
-    const [locHDList, setLocHDList] = useState([]);
+    const [holidaysList, setHolidaysList] = useState([]);
     const [eventsList, setEventsList] = useState([]);
 
     const [popoverAnchor, setPopoverAnchor] = useState(null);
     const [popoverData, setPopoverData] = useState({
-        id: -1,
         title: '',
         link: '',
         description: '',
@@ -67,12 +65,8 @@ export default function EventCalendar() {
 
     /** FULLCALENDAR useEffect **/
     useEffect(() => {
-        console.log('EventCalendar > regHDList', regHDList)
-    }, [regHDList])
-
-    useEffect(() => {
-        console.log('EventCalendar > locHDList', locHDList)
-    }, [locHDList])
+        console.log('EventCalendar > holidaysList', holidaysList)
+    }, [holidaysList])
 
     useEffect(() => {
         console.log('EventCalendar > eventsList', eventsList)
@@ -84,7 +78,6 @@ export default function EventCalendar() {
         console.log('EventCalendar > popoverAnchor', popoverAnchor)
         if (popoverAnchor == null) {
             setPopoverData({
-                id: -1,
                 title: '',
                 link: '',
                 description: '',
@@ -119,28 +112,7 @@ export default function EventCalendar() {
     /** MODAL useEffect **/
 
     async function fetchHolidays() {
-        await getLocalHolidays().then(
-            (res) => {
-                setLocHDList(
-                    res ? res.map((item, idx) => {
-                        return {
-                            id: idx + 1,
-                            title: item?.name ?? '',
-                            link: item?.link ?? '',
-                            description: item?.description ?? '',
-                            start: moment(item?.date).isValid() ? moment(`${item?.date}, ${moment().year()}`).toDate() : null,
-                            end: moment(item?.date).isValid() ? moment(moment(`${item?.date}, ${moment().year()}`).toDate()).add(23, 'hours').add(59, 'minutes') : null,
-                            classNames: ['fc-custom-event', 'fc-local-holiday'],
-                            extendedProps: []
-                        }
-                    }) : []
-                )
-            },
-            (err) => {
-                setLocHDList([]);
-            },
-        )
-
+        let regularHolidayArr = [];
         await new Promise((resolve, reject) => {
             try {
                 const holidaysList = hd.getHolidays(moment().year());
@@ -151,45 +123,63 @@ export default function EventCalendar() {
             }
         }).then(
             (res) => {
-                setRegHDList(
-                    res ? res.map((item, idx) => {
-                        if (['public', 'optional'].includes(item?.type)) {
-                            return {
-                                id: idx + 1,
-                                title: item?.name ?? '',
-                                link: item?.link ?? '',
-                                description: item?.description ?? '',
-                                start: moment(item?.date).isValid() ? moment(item?.date).toDate() : null,
-                                end: moment(item?.date).isValid() ? moment(moment(item?.date).toDate()).add(23, 'hours').add(59, 'minutes') : null,
-                                classNames: ['fc-custom-event', 'fc-regular-holiday'],
-                                extendedProps: []
-                            }
-                        } else {
-                            return null;
+                regularHolidayArr = res ? res.map((item) => {
+                    if (['public', 'optional'].includes(item?.type)) {
+                        return {
+                            title: item?.name ?? '',
+                            link: item?.link ?? '',
+                            description: item?.description ?? '',
+                            start: moment(item?.date).isValid() ? moment(item?.date).toDate() : null,
+                            end: moment(item?.date).isValid() ? moment(moment(item?.date).toDate()).add(23, 'hours').add(59, 'minutes') : null,
+                            classNames: ['fc-custom-event', 'fc-regular-holiday'],
+                            extendedProps: []
                         }
-                    }).filter((i) => i != null) : []
-                );
+                    } else {
+                        return null;
+                    }
+                }).filter((i) => i != null) : [];
             },
             (err) => {
-                setRegHDList([]);
+                regularHolidayArr = [];
             }
         );
+
+        let localHolidayArr = [];
+        await getLocalHolidays().then(
+            (res) => {
+                localHolidayArr = res ? res.map((item) => {
+                    return {
+                        title: item?.name ?? '',
+                        link: item?.link ?? '',
+                        description: item?.description ?? '',
+                        start: moment(item?.date).isValid() ? moment(`${item?.date}, ${moment().year()}`).toDate() : null,
+                        end: moment(item?.date).isValid() ? moment(moment(`${item?.date}, ${moment().year()}`).toDate()).add(23, 'hours').add(59, 'minutes') : null,
+                        classNames: ['fc-custom-event', 'fc-local-holiday'],
+                        extendedProps: []
+                    }
+                }) : []
+            },
+            (err) => {
+                localHolidayArr = [];
+            },
+        )
+
+        setHolidaysList([
+            ...regularHolidayArr,
+            ...localHolidayArr
+        ]);
     }
 
     /** FULLCALENDAR FUNCTIONS **/
     const onEventClick = (event) => {
         const eventTitle = event?.event?.title ?? '';
 
-        // check event in Array lists
-        const regIdx = regHDList.map((i) => i.title).indexOf(eventTitle);
-        regIdx != -1 ? setPopoverData({ ...regHDList[regIdx], type: 'regular_holiday' }) : null;
-        const locIdx = locHDList.map((i) => i.title).indexOf(eventTitle);
-        locIdx != -1 ? setPopoverData({ ...locHDList[locIdx], type: 'local_holiday' }) : null;
+        const holIdx = holidaysList.map((i) => i.title).indexOf(eventTitle);
+        holIdx != -1 ? setPopoverData({ ...holidaysList[holIdx], type: 'holiday' }) : null;
         const evtIdx = eventsList.map((i) => i.title).indexOf(eventTitle);
-        evtIdx != -1 ? setPopoverData({ ...eventsList[evtIdx], type: 'event' }) : null
-        // check event in Array lists
+        evtIdx != -1 ? setPopoverData({ ...eventsList[evtIdx], type: 'event' }) : null;
 
-        if (locIdx != -1 || regIdx != -1 || evtIdx != -1) {
+        if (holIdx != -1 || evtIdx != -1) {
             setPopoverAnchor(event.el);
         } else {
             setPopoverAnchor(null);
@@ -221,15 +211,10 @@ export default function EventCalendar() {
             ...formJson,
             start: moment().isValid(formJson?.start) ? moment(formJson?.start).toDate() : null,
             end: moment().isValid(formJson?.end) ? moment(formJson?.end).toDate() : null,
-            classNames: ['fc-custom-event', 'fc-added-event'],
+            classNames: ['fc-custom-event', 'fc-my-event'],
             extendedProps: []
         }
-
-        if (eventsList.length == 0) {
-            setEventsList([{ ...eventObj, id: 1 }]);
-        } else {
-            setEventsList((prevState) => [...prevState, { ...eventObj, id: eventsList.length + 1 }]);
-        }
+        setEventsList((prevState) => [...prevState, { ...eventObj}]);
 
         onModalToggleClick(false);
     }
@@ -253,8 +238,7 @@ export default function EventCalendar() {
                     meridiem: false
                 }}
                 events={[
-                    ...regHDList,
-                    ...locHDList,
+                    ...holidaysList,
                     ...eventsList
                 ]}
                 eventClick={onEventClick}

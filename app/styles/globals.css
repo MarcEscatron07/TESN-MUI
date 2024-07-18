@@ -155,10 +155,10 @@ body {
   color: #FFFFFF;
 }
 
-.fc-added-event {
+.fc-my-event {
   background-color: #FBD11A;
 }
-.fc-added-event .fc-event-title {
+.fc-my-event .fc-event-title {
   background-color: #FBD11A;
   color: #000000;
 }
