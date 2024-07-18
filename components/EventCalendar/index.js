@@ -60,11 +60,6 @@ export default function EventCalendar() {
         description: '',
         link: ''
     });
-    const [eventTitle, setEventTitle] = useState('');
-    const [eventStart, setEventStart] = useState(moment());
-    const [eventEnd, setEventEnd] = useState(moment());
-    const [eventDesc, setEventDesc] = useState('');
-    const [eventLink, setEventLink] = useState('');
 
     useEffect(() => {
         fetchHolidays();
