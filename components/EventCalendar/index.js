@@ -187,8 +187,6 @@ export default function EventCalendar() {
     }
 
     const onDateClick = (event) => {
-        console.log('onDateClick > event', event)
-
         event.date ? setEventStart(moment(event.date)) : null;
         event.date ? setEventEnd(moment(event.date).add(23, 'hours').add(59, 'minutes')) : null;
 
