@@ -99,6 +99,15 @@ export default function EventCalendar() {
     /** MODAL useEffect **/
     useEffect(() => {
         console.log('EventCalendar > isModalOpen', isModalOpen)
+
+        if (!isModalOpen) {
+            setModalData({
+                ...modalData,
+                title: '',
+                description: '',
+                link: ''
+            })
+        }
     }, [isModalOpen])
 
     useEffect(() => {
