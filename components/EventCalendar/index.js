@@ -271,8 +271,8 @@ export default function EventCalendar() {
                 <Box sx={{ height: '100%' }}>
                     <Box sx={{
                         width: '100%',
-                        backgroundColor: theme.palette.secondary.main,
-                        color: theme.palette.secondary.contrastText,
+                        backgroundColor: theme.palette.primary.main,
+                        color: theme.palette.primary.contrastText,
                         px: 1,
                         py: .8,
                         display: 'flex',
@@ -289,10 +289,10 @@ export default function EventCalendar() {
                         <Box>
                             {popoverData.type == 'event' ? (
                                 <>
-                                    <IconButton onClick={() => { }}>
+                                    <IconButton sx={{color: theme.palette.light.main}} onClick={() => { }}>
                                         <EditIcon />
                                     </IconButton>
-                                    <IconButton onClick={() => { }}>
+                                    <IconButton sx={{color: theme.palette.light.main}} onClick={() => { }}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </>

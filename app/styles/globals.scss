@@ -151,8 +151,6 @@ body {
 }
 
 .fc-event-title {
-    background-color: $primary-color;
-    color: $light-color;
     border-radius: 3px;
     text-transform: capitalize;
     text-overflow: ellipsis;
@@ -174,6 +172,7 @@ body {
     
     .fc-event-title {
         background-color: $accent1-color;
+        color: $light-color;
     }
 }
 
@@ -182,6 +181,16 @@ body {
     
     .fc-event-title {
         background-color: $accent2-color;
+        color: $light-color;
+    }
+}
+
+.fc-added-event {
+    background-color: $secondary-color;
+    
+    .fc-event-title {
+        background-color: $secondary-color;
+        color: $dark-color;
     }
 }
 

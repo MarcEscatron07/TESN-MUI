@@ -126,8 +126,6 @@ body {
 }
 
 .fc-event-title {
-  background-color: #00703C;
-  color: #FFFFFF;
   border-radius: 3px;
   text-transform: capitalize;
   text-overflow: ellipsis;
@@ -146,6 +144,7 @@ body {
 }
 .fc-local-holiday .fc-event-title {
   background-color: #28166F;
+  color: #FFFFFF;
 }
 
 .fc-regular-holiday {
@@ -153,6 +152,15 @@ body {
 }
 .fc-regular-holiday .fc-event-title {
   background-color: #DA251D;
+  color: #FFFFFF;
+}
+
+.fc-added-event {
+  background-color: #FBD11A;
+}
+.fc-added-event .fc-event-title {
+  background-color: #FBD11A;
+  color: #000000;
 }
 
 .fc-today-button {
