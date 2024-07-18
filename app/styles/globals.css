@@ -132,6 +132,27 @@ body {
   font-weight: bold;
 }
 
+.fc-custom-event.fc-local-holiday {
+  background-color: #28166F;
+}
+.fc-custom-event.fc-local-holiday .fc-event-title {
+  background-color: #28166F;
+  color: #FFFFFF;
+}
+.fc-custom-event.fc-regular-holiday {
+  background-color: #DA251D;
+}
+.fc-custom-event.fc-regular-holiday .fc-event-title {
+  background-color: #DA251D;
+  color: #FFFFFF;
+}
+.fc-custom-event.fc-my-event {
+  background-color: #FBD11A;
+}
+.fc-custom-event.fc-my-event .fc-event-title {
+  background-color: #FBD11A;
+  color: #000000;
+}
 .fc-custom-event .fc-daygrid-event-dot, .fc-custom-event .fc-event-time {
   display: none;
 }

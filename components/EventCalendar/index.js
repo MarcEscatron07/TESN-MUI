@@ -50,9 +50,16 @@ export default function EventCalendar() {
         start: moment().toDate(),
         end: moment(moment().toDate()).add(23, 'hours').add(59, 'minutes'),
         type: ''
-    })
+    });
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalData, setModalData] = useState({
+        title: '',
+        start: moment(),
+        end: moment(),
+        description: '',
+        link: ''
+    });
     const [eventTitle, setEventTitle] = useState('');
     const [eventStart, setEventStart] = useState(moment());
     const [eventEnd, setEventEnd] = useState(moment());
@@ -87,28 +94,20 @@ export default function EventCalendar() {
             });
         }
     }, [popoverAnchor])
+
+    useEffect(() => {
+        console.log('EventCalendar > popoverData', popoverData)
+    }, [popoverData])
     /** POPOVER useEffect **/
 
     /** MODAL useEffect **/
     useEffect(() => {
-        console.log('EventCalendar > eventTitle', eventTitle)
-    }, [eventTitle])
+        console.log('EventCalendar > isModalOpen', isModalOpen)
+    }, [isModalOpen])
 
     useEffect(() => {
-        console.log('EventCalendar > eventStart', eventStart)
-    }, [eventStart])
-
-    useEffect(() => {
-        console.log('EventCalendar > eventEnd', eventEnd)
-    }, [eventEnd])
-
-    useEffect(() => {
-        console.log('EventCalendar > eventDesc', eventDesc)
-    }, [eventDesc])
-
-    useEffect(() => {
-        console.log('EventCalendar > eventLink', eventLink)
-    }, [eventLink])
+        console.log('EventCalendar > modalData', modalData)
+    }, [modalData])
     /** MODAL useEffect **/
 
     async function fetchHolidays() {
@@ -187,8 +186,7 @@ export default function EventCalendar() {
     }
 
     const onDateClick = (event) => {
-        event.date ? setEventStart(moment(event.date)) : null;
-        event.date ? setEventEnd(moment(event.date).add(23, 'hours').add(59, 'minutes')) : null;
+        event.date ? setModalData({...modalData, start: moment(event.date), end: moment(event.date).add(23, 'hours').add(59, 'minutes')}) : null;
 
         setIsModalOpen(true);
     }
@@ -374,8 +372,8 @@ export default function EventCalendar() {
                                 autoComplete="title"
                                 autoFocus
                                 InputLabelProps={{ shrink: true }}
-                                value={eventTitle}
-                                onChange={(event) => setEventTitle(event.target.value)}
+                                value={modalData.title}
+                                onChange={(event) => setModalData({...modalData, title: event.target.value})}
                             />
                         </Grid>
                         <Grid item xs={6}>
@@ -384,8 +382,8 @@ export default function EventCalendar() {
                                 label="Start Date"
                                 id="start_date"
                                 name="start"
-                                value={eventStart}
-                                onChange={(value) => setEventStart(value)}
+                                value={modalData.start}
+                                onChange={(value) => setModalData({...modalData, start: value})}
                             />
                         </Grid>
                         <Grid item xs={6}>
@@ -394,8 +392,8 @@ export default function EventCalendar() {
                                 label="End Date"
                                 id="end_date"
                                 name="end"
-                                value={eventEnd}
-                                onChange={(value) => setEventEnd(value)}
+                                value={modalData.end}
+                                onChange={(value) => setModalData({...modalData, end: value})}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -408,8 +406,8 @@ export default function EventCalendar() {
                                 autoComplete="description"
                                 autoFocus
                                 InputLabelProps={{ shrink: true }}
-                                value={eventDesc}
-                                onChange={(event) => setEventDesc(event.target.value)}
+                                value={modalData.description}
+                                onChange={(event) => setModalData({...modalData, description: event.target.value})}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -422,8 +420,8 @@ export default function EventCalendar() {
                                 autoComplete="link"
                                 autoFocus
                                 InputLabelProps={{ shrink: true }}
-                                value={eventLink}
-                                onChange={(event) => setEventLink(event.target.value)}
+                                value={modalData.link}
+                                onChange={(event) => setModalData({...modalData, link: event.target.value})}
                             />
                         </Grid>
                     </Grid>

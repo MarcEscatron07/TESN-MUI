@@ -158,6 +158,33 @@ body {
 }
 
 .fc-custom-event {
+    &.fc-local-holiday {
+        background-color: $accent1-color;
+        
+        .fc-event-title {
+            background-color: $accent1-color;
+            color: $light-color;
+        }
+    }
+
+    &.fc-regular-holiday {
+        background-color: $accent2-color;
+        
+        .fc-event-title {
+            background-color: $accent2-color;
+            color: $light-color;
+        }
+    }
+
+    &.fc-my-event {
+        background-color: $secondary-color;
+        
+        .fc-event-title {
+            background-color: $secondary-color;
+            color: $dark-color;
+        }
+    }
+
     .fc-daygrid-event-dot, .fc-event-time {
         display: none;
     }
