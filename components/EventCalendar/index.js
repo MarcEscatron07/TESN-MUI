@@ -56,8 +56,8 @@ export default function EventCalendar() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalData, setModalData] = useState({
         title: '',
-        start: moment(),
-        end: moment(),
+        start: moment().toDate(),
+        end: moment().toDate(),
         description: '',
         link: ''
     });
@@ -147,8 +147,8 @@ export default function EventCalendar() {
                         title: item?.name ?? '',
                         link: item?.link ?? '',
                         description: item?.description ?? '',
-                        start: moment(item?.date).isValid() ? moment(`${item?.date}, ${moment().year()}`).toDate() : null,
-                        end: moment(item?.date).isValid() ? moment(moment(`${item?.date}, ${moment().year()}`).toDate()).add(23, 'hours').add(59, 'minutes') : null,
+                        start: moment(item?.date).isValid() ? moment(`${moment().year()}-${item?.date} 00:00:00`).toDate() : null,
+                        end: moment(item?.date).isValid() ? moment(moment(`${moment().year()}-${item?.date} 00:00:00`).toDate()).add(23, 'hours').add(59, 'minutes') : null,
                         classNames: ['fc-custom-event', 'fc-local-holiday'],
                         extendedProps: []
                     }
