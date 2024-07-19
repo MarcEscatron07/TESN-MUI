@@ -28,6 +28,9 @@ import Typography from "@mui/material/Typography";
 import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
 import Avatar from '@mui/material/Avatar';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
@@ -42,37 +45,50 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { ConfirmDialog } from "@/components";
 import { getLocalHolidays } from "@/lib/api";
 
-const STATIC_USERS = [
+const OPTION_USERS = [
     {
-        "id": 1,
-        "name": "Marc Escatron",
-        "image": "/images/avatars/avatar_male_1.png"
+        id: 1,
+        name: "Marc Escatron",
+        image: "/images/avatars/avatar_male_1.png"
     },
     {
-        "id": 2,
-        "name": "Jerson Albit",
-        "image": "/images/avatars/avatar_male_2.png"
+        id: 2,
+        name: "Jerson Albit",
+        image: "/images/avatars/avatar_male_2.png"
     },
     {
-        "id": 3,
-        "name": "Joel Buena",
-        "image": "/images/avatars/avatar_male_3.png"
+        id: 3,
+        name: "Joel Buena",
+        image: "/images/avatars/avatar_male_3.png"
     },
     {
-        "id": 4,
-        "name": "Rommel Digal",
-        "image": "/images/avatars/avatar_male_4.png"
+        id: 4,
+        name: "Rommel Digal",
+        image: "/images/avatars/avatar_male_4.png"
     },
     {
-        "id": 5,
-        "name": "Junjie Bautista",
-        "image": "/images/avatars/avatar_male_5.png"
+        id: 5,
+        name: "Junjie Bautista",
+        image: "/images/avatars/avatar_male_5.png"
     },
     {
-        "id": 6,
-        "name": "Ian Tambis",
-        "image": "/images/avatars/avatar_male_6.png"
+        id: 6,
+        name: "Ian Tambis",
+        image: "/images/avatars/avatar_male_6.png"
     }
+];
+
+const OPTION_VISIBILITY = [
+    {
+        id: 1,
+        label: 'Public',
+        value: 'public'
+    },
+    {
+        id: 2,
+        label: 'Private',
+        value: 'private'
+    },
 ];
 
 export default function EventCalendar() {
@@ -502,7 +518,7 @@ export default function EventCalendar() {
                                     </span>
                                     <span style={{ marginLeft: 15, maxWidth: 200 }}>
                                         {popoverData?.guests.map((item, idx) => (
-                                            <Chip key={idx} label={item.name} avatar={<Avatar alt={item.name} src={item.image} />} sx={{my: .5}} />
+                                            <Chip key={idx} label={item.name} avatar={<Avatar alt={item.name} src={item.image} />} sx={{ my: .5 }} />
                                         ))}
                                     </span>
                                 </Box>
@@ -563,7 +579,7 @@ export default function EventCalendar() {
                                 fullWidth
                                 defaultValue={[]}
                                 value={modalData.guests}
-                                options={STATIC_USERS} // STATIC_USERS: temporary options
+                                options={OPTION_USERS} // OPTION_USERS: temporary options
                                 getOptionLabel={(option) => option.name}
                                 renderOption={(props, option) => {
                                     const { key, ...optionProps } = props;
@@ -635,6 +651,25 @@ export default function EventCalendar() {
                                 value={modalData.description}
                                 onChange={(event) => setModalData({ ...modalData, description: event.target.value })}
                             />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                select
+                                fullWidth
+                                margin="none"
+                                label="Visibility"
+                                id="visibility"
+                                name="visibility"
+                                autoComplete="visibility"
+                                autoFocus
+                                InputLabelProps={{ shrink: true }}
+                                value={modalData.visibility != '' ? modalData.visibility : OPTION_VISIBILITY[0].value}
+                                onChange={(event) => setModalData({ ...modalData, visibility: event.target.value })}
+                            >
+                                {OPTION_VISIBILITY.map((item, idx) => (
+                                    <MenuItem key={idx} value={item.value}>{item.label}</MenuItem>
+                                ))}
+                            </TextField>
                         </Grid>
                     </Grid>
                 </DialogContent>
