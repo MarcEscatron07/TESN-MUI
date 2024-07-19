@@ -6,6 +6,7 @@ import CardPost from "./CardPost";
 import ChatBox from "./ChatBox";
 import ChatList from "./ChatList";
 import EventCalendar from "./EventCalendar";
+import ConfirmDialog from "./ConfirmDialog";
 
 export {
     TopAppBar,
@@ -15,5 +16,6 @@ export {
     CardPost,
     ChatBox,
     ChatList,
-    EventCalendar
+    EventCalendar,
+    ConfirmDialog
 }

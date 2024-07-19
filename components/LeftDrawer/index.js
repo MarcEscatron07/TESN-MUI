@@ -135,10 +135,7 @@ export default function LeftDrawer(props) {
           </Typography>
         </Paper>
         <Box sx={{ width: "15%" }}>
-          <IconButton
-            onClick={handleCloseDrawerClick}
-            sx={{ color: theme.palette.light.main }}
-          >
+          <IconButton aria-label="left-drawer-toggle" onClick={handleCloseDrawerClick} sx={{ color: theme.palette.light.main }}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
             ) : (

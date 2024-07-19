@@ -34,6 +34,7 @@ import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft';
 import LinkIcon from '@mui/icons-material/Link';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
+import { ConfirmDialog } from "@/components";
 import { getLocalHolidays } from "@/lib/api";
 
 export default function EventCalendar() {
@@ -62,6 +63,12 @@ export default function EventCalendar() {
         end: moment(),
         description: '',
         link: ''
+    });
+
+    const [confirmDialogState, setConfirmDialogState] = useState({
+        isOpen: false,
+        dialogTitle: '',
+        dialogContentText: ''
     });
 
     useEffect(() => {
@@ -220,9 +227,11 @@ export default function EventCalendar() {
     }
 
     const onPopoverDeleteClick = () => {
-        setPopoverAnchor(null);
-        const filteredArr = eventsList.filter((i) => i.id != popoverData?.id);
-        setEventsList(filteredArr);
+        setConfirmDialogState({
+            isOpen: true,
+            dialogTitle: 'Delete Event',
+            dialogContentText: 'Are you sure you want to delete this event?'
+        });        
     }
     /** POPOVER FUNCTIONS **/
 
@@ -257,6 +266,21 @@ export default function EventCalendar() {
         onModalToggleClick(false);
     }
     /** MODAL FUNCTIONS **/
+
+    const onConfirmDialogCancel = () => {
+        setConfirmDialogState({
+            ...confirmDialogState,
+            isOpen: false,
+        });
+    }
+
+    const onConfirmDialogConfirm = () => {
+        onConfirmDialogCancel();
+
+        setPopoverAnchor(null);
+        const filteredArr = eventsList.filter((i) => i.id != popoverData?.id);
+        setEventsList(filteredArr);
+    }
 
     return (
         <Paper elevation={3} sx={{ p: 3 }}>
@@ -311,10 +335,10 @@ export default function EventCalendar() {
                         <Box>
                             {popoverData?.type == 'event' ? (
                                 <>
-                                    <IconButton sx={{ color: theme.palette.light.main }} onClick={onPopoverEditClick}>
+                                    <IconButton aria-label="event-calendar-edit" sx={{ color: theme.palette.light.main }} onClick={onPopoverEditClick}>
                                         <EditIcon />
                                     </IconButton>
-                                    <IconButton sx={{ color: theme.palette.light.main }} onClick={onPopoverDeleteClick}>
+                                    <IconButton aria-label="event-calendar-delete" sx={{ color: theme.palette.light.main }} onClick={onPopoverDeleteClick}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </>
@@ -475,6 +499,14 @@ export default function EventCalendar() {
                     <Button type="submit">Confirm</Button>
                 </DialogActions>
             </Dialog>
+
+            <ConfirmDialog 
+                isOpen={confirmDialogState.isOpen} 
+                dialogTitle={confirmDialogState.dialogTitle}
+                dialogContentText={confirmDialogState.dialogContentText}
+                onConfirmDialogConfirm={onConfirmDialogConfirm}
+                onConfirmDialogCancel={onConfirmDialogCancel}
+            />
         </Paper>
     )
 }

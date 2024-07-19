@@ -106,7 +106,7 @@ export default function TopAppBar(props) {
             onClose={handleMobileMenuClose}
         >
             <MenuItem>
-                <IconButton size="large" aria-label="show 4 new chat messages" color="inherit">
+                <IconButton aria-label="topappbar-messages-mobile" size="large" color="inherit">
                     <Badge badgeContent={4} color="error">
                         <ChatIcon />
                     </Badge>
@@ -114,11 +114,7 @@ export default function TopAppBar(props) {
                 <p>Messages</p>
             </MenuItem>
             <MenuItem>
-                <IconButton
-                    size="large"
-                    aria-label="show 17 new notifications"
-                    color="inherit"
-                >
+                <IconButton aria-label="topappbar-notifications-mobile" size="large" color="inherit">
                     <Badge badgeContent={17} color="error">
                         <NotificationsIcon />
                     </Badge>
@@ -126,13 +122,7 @@ export default function TopAppBar(props) {
                 <p>Notifications</p>
             </MenuItem>
             <MenuItem onClick={handleProfileMenuOpen}>
-                <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="topappbar-menu"
-                    aria-haspopup="true"
-                    color="inherit"
-                >
+                <IconButton aria-label="topappbar-profile-mobile" size="large" aria-controls="topappbar-menu" aria-haspopup="true" color="inherit">
                     <AccountCircle />
                 </IconButton>
                 <p>Profile</p>
@@ -145,8 +135,8 @@ export default function TopAppBar(props) {
             <AppBar position="fixed" open={props.isLeftDrawerOpen} sx={{ backgroundColor: theme.palette.primary.light }}>
                 <Toolbar>
                     <IconButton
+                        aria-label="topappbar-left-drawer-toggle"
                         color="inherit"
-                        aria-label="open drawer"
                         onClick={handleOpenDrawerClick}
                         edge="start"
                         sx={{
@@ -180,8 +170,8 @@ export default function TopAppBar(props) {
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={TOP_APP_BAR.topAppBarNotifications}>
                         <IconButton
+                            aria-label="topappbar-messages"
                             size="large"
-                            aria-label="show 4 new chat messages"
                             color="inherit"
                             sx={TOP_APP_BAR.topAppBarNotificationButtons}
                         >
@@ -190,8 +180,8 @@ export default function TopAppBar(props) {
                             </Badge>
                         </IconButton>
                         <IconButton
+                            aria-label="topappbar-notifications"
                             size="large"
-                            aria-label="show 17 new notifications"
                             color="inherit"
                             sx={TOP_APP_BAR.topAppBarNotificationButtons}
                         >
@@ -200,9 +190,9 @@ export default function TopAppBar(props) {
                             </Badge>
                         </IconButton>
                         <IconButton
+                            aria-label="topappbar-profile"
                             size="large"
                             edge="end"
-                            aria-label="account of current user"
                             aria-controls={menuId}
                             aria-haspopup="true"
                             onClick={handleProfileMenuOpen}
@@ -220,8 +210,8 @@ export default function TopAppBar(props) {
                     </Box>
                     <Box sx={TOP_APP_BAR.topAppBarMobileMenuToggle}>
                         <IconButton
+                            aria-label="topappbar-show-more"
                             size="large"
-                            aria-label="show more"
                             aria-controls={mobileMenuId}
                             aria-haspopup="true"
                             onClick={handleMobileMenuOpen}

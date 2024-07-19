@@ -57,10 +57,10 @@ export default function ChatBox(props) {
                             title={<span style={CHAT_BOX.chatBoxCardHeaderTitle}>{props?.data?.owner?.name ?? ['Jerson Albit', 'Joel Buena', 'Rommel Digal', 'Junjie Bautista'][(props?.instance - 1) ?? 0]}</span>}
                             action={
                                 <>
-                                    <IconButton aria-label="minimize">
+                                    <IconButton aria-label="chat-box-minimize">
                                         <RemoveIcon />
                                     </IconButton>
-                                    <IconButton aria-label="close">
+                                    <IconButton aria-label="chat-box-close">
                                         <CloseIcon />
                                     </IconButton>
                                 </>
@@ -79,10 +79,10 @@ export default function ChatBox(props) {
 
                     <CardActions sx={{ ...CHAT_BOX.chatBoxCardActions, backgroundColor: theme.palette.secondary.main }} disableSpacing>
                         <Box sx={CHAT_BOX.chatBoxCardActionsBox}>
-                            <IconButton aria-label="attachment">
+                            <IconButton aria-label="chat-box-attachment">
                                 <AttachmentIcon />
                             </IconButton>
-                            <IconButton aria-label="emoji">
+                            <IconButton aria-label="chat-box-emoji">
                                 <AddReactionIcon />
                             </IconButton>
                         </Box>
