@@ -126,14 +126,33 @@ body {
 }
 
 .fc-event-title {
-  background-color: #00703C;
-  color: #FFFFFF;
   border-radius: 3px;
   text-transform: capitalize;
   text-overflow: ellipsis;
   font-weight: bold;
 }
 
+.fc-custom-event.fc-local-holiday {
+  background-color: #28166F;
+}
+.fc-custom-event.fc-local-holiday .fc-event-title {
+  background-color: #28166F;
+  color: #FFFFFF;
+}
+.fc-custom-event.fc-regular-holiday {
+  background-color: #DA251D;
+}
+.fc-custom-event.fc-regular-holiday .fc-event-title {
+  background-color: #DA251D;
+  color: #FFFFFF;
+}
+.fc-custom-event.fc-my-event {
+  background-color: #FBD11A;
+}
+.fc-custom-event.fc-my-event .fc-event-title {
+  background-color: #FBD11A;
+  color: #000000;
+}
 .fc-custom-event .fc-daygrid-event-dot, .fc-custom-event .fc-event-time {
   display: none;
 }
@@ -146,6 +165,7 @@ body {
 }
 .fc-local-holiday .fc-event-title {
   background-color: #28166F;
+  color: #FFFFFF;
 }
 
 .fc-regular-holiday {
@@ -153,6 +173,15 @@ body {
 }
 .fc-regular-holiday .fc-event-title {
   background-color: #DA251D;
+  color: #FFFFFF;
+}
+
+.fc-my-event {
+  background-color: #FBD11A;
+}
+.fc-my-event .fc-event-title {
+  background-color: #FBD11A;
+  color: #000000;
 }
 
 .fc-today-button {

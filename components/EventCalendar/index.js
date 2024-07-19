@@ -12,6 +12,9 @@ import listPlugin from "@fullcalendar/list";
 import moment from 'moment-timezone';
 import Holidays from 'date-holidays';
 
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -20,8 +23,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import IconButton from '@mui/material/IconButton';
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
 import Popover from '@mui/material/Popover';
 import Typography from "@mui/material/Typography";
 
@@ -33,14 +34,14 @@ import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft';
 import LinkIcon from '@mui/icons-material/Link';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
+import { ConfirmDialog } from "@/components";
 import { getLocalHolidays } from "@/lib/api";
 
 export default function EventCalendar() {
     const theme = useTheme();
     const hd = new Holidays('PH');
 
-    const [regHDList, setRegHDList] = useState([]);
-    const [locHDList, setLocHDList] = useState([]);
+    const [holidaysList, setHolidaysList] = useState([]);
     const [eventsList, setEventsList] = useState([]);
 
     const [popoverAnchor, setPopoverAnchor] = useState(null);
@@ -49,17 +50,26 @@ export default function EventCalendar() {
         title: '',
         link: '',
         description: '',
-        start: moment().toDate(),
-        end: moment(moment().toDate()).add(23, 'hours').add(59, 'minutes'),
+        start: moment(),
+        end: moment(moment()).add(23, 'hours').add(59, 'minutes'),
         type: ''
-    })
+    });
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [eventTitle, setEventTitle] = useState('');
-    const [eventStart, setEventStart] = useState(moment());
-    const [eventEnd, setEventEnd] = useState(moment());
-    const [eventDesc, setEventDesc] = useState('');
-    const [eventLink, setEventLink] = useState('');
+    const [modalData, setModalData] = useState({
+        id: -1,
+        title: '',
+        start: moment(),
+        end: moment(),
+        description: '',
+        link: ''
+    });
+
+    const [confirmDialogState, setConfirmDialogState] = useState({
+        isOpen: false,
+        dialogTitle: '',
+        dialogContentText: ''
+    });
 
     useEffect(() => {
         fetchHolidays();
@@ -67,12 +77,8 @@ export default function EventCalendar() {
 
     /** FULLCALENDAR useEffect **/
     useEffect(() => {
-        console.log('EventCalendar > regHDList', regHDList)
-    }, [regHDList])
-
-    useEffect(() => {
-        console.log('EventCalendar > locHDList', locHDList)
-    }, [locHDList])
+        console.log('EventCalendar > holidaysList', holidaysList)
+    }, [holidaysList])
 
     useEffect(() => {
         console.log('EventCalendar > eventsList', eventsList)
@@ -88,59 +94,41 @@ export default function EventCalendar() {
                 title: '',
                 link: '',
                 description: '',
-                start: moment().toDate(),
-                end: moment(moment().toDate()).add(23, 'hours').add(59, 'minutes'),
+                start: moment(),
+                end: moment(moment()).add(23, 'hours').add(59, 'minutes'),
                 type: ''
             });
         }
     }, [popoverAnchor])
+
+    useEffect(() => {
+        console.log('EventCalendar > popoverData', popoverData)
+    }, [popoverData])
     /** POPOVER useEffect **/
 
     /** MODAL useEffect **/
     useEffect(() => {
-        console.log('EventCalendar > eventTitle', eventTitle)
-    }, [eventTitle])
+        console.log('EventCalendar > isModalOpen', isModalOpen)
+
+        if (!isModalOpen) {
+            setModalData({
+                id: -1,
+                title: '',
+                start: moment(),
+                end: moment(),
+                description: '',
+                link: ''
+            })
+        }
+    }, [isModalOpen])
 
     useEffect(() => {
-        console.log('EventCalendar > eventStart', eventStart)
-    }, [eventStart])
-
-    useEffect(() => {
-        console.log('EventCalendar > eventEnd', eventEnd)
-    }, [eventEnd])
-
-    useEffect(() => {
-        console.log('EventCalendar > eventDesc', eventDesc)
-    }, [eventDesc])
-
-    useEffect(() => {
-        console.log('EventCalendar > eventLink', eventLink)
-    }, [eventLink])
+        console.log('EventCalendar > modalData', modalData)
+    }, [modalData])
     /** MODAL useEffect **/
 
     async function fetchHolidays() {
-        await getLocalHolidays().then(
-            (res) => {
-                setLocHDList(
-                    res ? res.map((item, idx) => {
-                        return {
-                            id: idx + 1,
-                            title: item?.name ?? '',
-                            link: item?.link ?? '',
-                            description: item?.description ?? '',
-                            start: moment(item?.date).isValid() ? moment(`${item?.date}, ${moment().year()}`).toDate() : null,
-                            end: moment(item?.date).isValid() ? moment(moment(`${item?.date}, ${moment().year()}`).toDate()).add(23, 'hours').add(59, 'minutes') : null,
-                            classNames: ['fc-custom-event', 'fc-local-holiday'],
-                            extendedProps: []
-                        }
-                    }) : []
-                )
-            },
-            (err) => {
-                setLocHDList([]);
-            },
-        )
-
+        let regularHolidayArr = [];
         await new Promise((resolve, reject) => {
             try {
                 const holidaysList = hd.getHolidays(moment().year());
@@ -151,45 +139,65 @@ export default function EventCalendar() {
             }
         }).then(
             (res) => {
-                setRegHDList(
-                    res ? res.map((item, idx) => {
-                        if (['public', 'optional'].includes(item?.type)) {
-                            return {
-                                id: idx + 1,
-                                title: item?.name ?? '',
-                                link: item?.link ?? '',
-                                description: item?.description ?? '',
-                                start: moment(item?.date).isValid() ? moment(item?.date).toDate() : null,
-                                end: moment(item?.date).isValid() ? moment(moment(item?.date).toDate()).add(23, 'hours').add(59, 'minutes') : null,
-                                classNames: ['fc-custom-event', 'fc-regular-holiday'],
-                                extendedProps: []
-                            }
-                        } else {
-                            return null;
+                regularHolidayArr = res ? res.map((item, idx) => {
+                    if (['public', 'optional'].includes(item?.type)) {
+                        return {
+                            id: item?.name ? `reg_${idx}_${item?.name}` : -1,
+                            title: item?.name ?? '',
+                            link: item?.link ?? '',
+                            description: item?.description ?? '',
+                            start: moment(item?.date).isValid() ? moment(item?.date).toDate() : null,
+                            end: moment(item?.date).isValid() ? moment(moment(item?.date).toDate()).add(23, 'hours').add(59, 'minutes') : null,
+                            classNames: ['fc-custom-event', 'fc-regular-holiday'],
+                            extendedProps: []
                         }
-                    }).filter((i) => i != null) : []
-                );
+                    } else {
+                        return null;
+                    }
+                }).filter((i) => i != null) : [];
             },
             (err) => {
-                setRegHDList([]);
+                regularHolidayArr = [];
             }
         );
+
+        let localHolidayArr = [];
+        await getLocalHolidays().then(
+            (res) => {
+                localHolidayArr = res ? res.map((item, idx) => {
+                    return {
+                        id: item?.name ? `loc_${idx}_${item?.name}` : -1,
+                        title: item?.name ?? '',
+                        link: item?.link ?? '',
+                        description: item?.description ?? '',
+                        start: moment(item?.date).isValid() ? moment(`${moment().year()}-${item?.date} 00:00:00`).toDate() : null,
+                        end: moment(item?.date).isValid() ? moment(moment(`${moment().year()}-${item?.date} 00:00:00`).toDate()).add(23, 'hours').add(59, 'minutes') : null,
+                        classNames: ['fc-custom-event', 'fc-local-holiday'],
+                        extendedProps: []
+                    }
+                }) : []
+            },
+            (err) => {
+                localHolidayArr = [];
+            },
+        )
+
+        setHolidaysList([
+            ...regularHolidayArr,
+            ...localHolidayArr
+        ]);
     }
 
     /** FULLCALENDAR FUNCTIONS **/
     const onEventClick = (event) => {
-        const eventTitle = event?.event?.title ?? '';
+        const eventId = event?.event?.id ?? '';
 
-        // check event in Array lists
-        const regIdx = regHDList.map((i) => i.title).indexOf(eventTitle);
-        regIdx != -1 ? setPopoverData({ ...regHDList[regIdx], type: 'regular_holiday' }) : null;
-        const locIdx = locHDList.map((i) => i.title).indexOf(eventTitle);
-        locIdx != -1 ? setPopoverData({ ...locHDList[locIdx], type: 'local_holiday' }) : null;
-        const evtIdx = eventsList.map((i) => i.title).indexOf(eventTitle);
-        evtIdx != -1 ? setPopoverData({ ...eventsList[evtIdx], type: 'event' }) : null
-        // check event in Array lists
+        const holIdx = holidaysList.map((i) => i.id).indexOf(eventId);
+        holIdx != -1 ? setPopoverData({ ...holidaysList[holIdx], type: 'holiday' }) : null;
+        const evtIdx = eventsList.map((i) => i.id).indexOf(eventId);
+        evtIdx != -1 ? setPopoverData({ ...eventsList[evtIdx], type: 'event' }) : null;
 
-        if (locIdx != -1 || regIdx != -1 || evtIdx != -1) {
+        if (eventId && (holIdx != -1 || evtIdx != -1)) {
             setPopoverAnchor(event.el);
         } else {
             setPopoverAnchor(null);
@@ -197,14 +205,35 @@ export default function EventCalendar() {
     }
 
     const onDateClick = (event) => {
-        console.log('onDateClick > event', event)
-
-        event.date ? setEventStart(moment(event.date)) : null;
-        event.date ? setEventEnd(moment(event.date).add(23, 'hours').add(59, 'minutes')) : null;
-
-        setIsModalOpen(true);
+        if (event?.date) {
+            setModalData({ ...modalData, start: moment(event.date), end: moment(event.date).add(23, 'hours').add(59, 'minutes') });
+            setIsModalOpen(true);
+        } else {
+            setIsModalOpen(false);
+        }
     }
     /** FULLCALENDAR FUNCTIONS **/
+
+    /** POPOVER FUNCTIONS **/
+    const onPopoverEditClick = () => {
+        const evtIdx = eventsList.map((i) => i.id).indexOf(popoverData?.id);
+
+        if (evtIdx != -1) {
+            setPopoverAnchor(null);
+
+            setModalData({ ...eventsList[evtIdx], start: moment(eventsList[evtIdx]?.start), end: moment(eventsList[evtIdx]?.end) });
+            setIsModalOpen(true);
+        }
+    }
+
+    const onPopoverDeleteClick = () => {
+        setConfirmDialogState({
+            isOpen: true,
+            dialogTitle: 'Delete Event',
+            dialogContentText: 'Are you sure you want to delete this event?'
+        });        
+    }
+    /** POPOVER FUNCTIONS **/
 
     /** MODAL FUNCTIONS **/
     const onModalToggleClick = (value) => {
@@ -221,22 +250,40 @@ export default function EventCalendar() {
             ...formJson,
             start: moment().isValid(formJson?.start) ? moment(formJson?.start).toDate() : null,
             end: moment().isValid(formJson?.end) ? moment(formJson?.end).toDate() : null,
-            classNames: ['fc-custom-event', 'fc-added-event'],
+            classNames: ['fc-custom-event', 'fc-my-event'],
             extendedProps: []
         }
 
-        if (eventsList.length == 0) {
-            setEventsList([{ ...eventObj, id: 1 }]);
+        const evtIdx = formJson?.id ? eventsList.map((i) => i.id).indexOf(formJson?.id) : -1;
+
+        if(evtIdx != -1) {
+            const filteredArr = eventsList.filter((i) => i.id != eventsList[evtIdx].id);
+            setEventsList([...filteredArr, {...eventObj, id: formJson?.title ? `evt_${eventsList.length}_${formJson?.title}` : -1}]);
         } else {
-            setEventsList((prevState) => [...prevState, { ...eventObj, id: eventsList.length + 1 }]);
+            setEventsList([...eventsList, {...eventObj, id: formJson?.title ? `evt_${eventsList.length}_${formJson?.title}` : -1}]);
         }
 
         onModalToggleClick(false);
     }
     /** MODAL FUNCTIONS **/
 
+    const onConfirmDialogCancel = () => {
+        setConfirmDialogState({
+            ...confirmDialogState,
+            isOpen: false,
+        });
+    }
+
+    const onConfirmDialogConfirm = () => {
+        onConfirmDialogCancel();
+
+        setPopoverAnchor(null);
+        const filteredArr = eventsList.filter((i) => i.id != popoverData?.id);
+        setEventsList(filteredArr);
+    }
+
     return (
-        <>
+        <Paper elevation={3} sx={{ p: 3 }}>
             <FullCalendar
                 plugins={[momentPlugin, dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin, bootstrapPlugin]}
                 initialView="dayGridMonth"
@@ -253,8 +300,7 @@ export default function EventCalendar() {
                     meridiem: false
                 }}
                 events={[
-                    ...regHDList,
-                    ...locHDList,
+                    ...holidaysList,
                     ...eventsList
                 ]}
                 eventClick={onEventClick}
@@ -271,8 +317,8 @@ export default function EventCalendar() {
                 <Box sx={{ height: '100%' }}>
                     <Box sx={{
                         width: '100%',
-                        backgroundColor: theme.palette.secondary.main,
-                        color: theme.palette.secondary.contrastText,
+                        backgroundColor: theme.palette.primary.main,
+                        color: theme.palette.primary.contrastText,
                         px: 1,
                         py: .8,
                         display: 'flex',
@@ -284,24 +330,24 @@ export default function EventCalendar() {
                             noWrap
                             component="div"
                         >
-                            {popoverData.title}
+                            {popoverData?.title}
                         </Typography>
                         <Box>
-                            {popoverData.type == 'event' ? (
+                            {popoverData?.type == 'event' ? (
                                 <>
-                                    <IconButton onClick={() => { }}>
+                                    <IconButton aria-label="event-calendar-edit" sx={{ color: theme.palette.light.main }} onClick={onPopoverEditClick}>
                                         <EditIcon />
                                     </IconButton>
-                                    <IconButton onClick={() => { }}>
+                                    <IconButton aria-label="event-calendar-delete" sx={{ color: theme.palette.light.main }} onClick={onPopoverDeleteClick}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </>
                             ) : null}
                         </Box>
                     </Box>
-                    {popoverData.type == 'event' ? (
+                    {popoverData?.type == 'event' ? (
                         <>
-                            {popoverData.description.length != '' ? (
+                            {popoverData?.description.length != '' ? (
                                 <Box sx={{
                                     width: '100%',
                                     backgroundColor: theme.palette.light.main,
@@ -319,12 +365,12 @@ export default function EventCalendar() {
                                             <AlignHorizontalLeftIcon />
                                         </span>
                                         <span style={{ marginLeft: 15 }}>
-                                            {`${popoverData.description}`}
+                                            {`${popoverData?.description}`}
                                         </span>
                                     </Typography>
                                 </Box>
                             ) : null}
-                            {popoverData.link.length != '' ? (
+                            {popoverData?.link.length != '' ? (
                                 <Box sx={{
                                     width: '100%',
                                     backgroundColor: theme.palette.light.main,
@@ -342,7 +388,7 @@ export default function EventCalendar() {
                                             <LinkIcon />
                                         </span>
                                         <span style={{ marginLeft: 15 }}>
-                                            {`${popoverData.link}`}
+                                            {`${popoverData?.link}`}
                                         </span>
                                     </Typography>
                                 </Box>
@@ -366,7 +412,7 @@ export default function EventCalendar() {
                                 <CalendarTodayIcon />
                             </span>
                             <span style={{ marginLeft: 15 }}>
-                                {`${moment(popoverData.start).isValid() ? moment(popoverData.start).format('MMMM DD, YYYY hh:mm A') : ''}`}{`${moment(popoverData.start).isValid() ? ' - ' + moment(popoverData.end).format('MMMM DD, YYYY hh:mm A') : ''}`}
+                                {`${moment(popoverData?.start).isValid() ? moment(popoverData?.start).format('MMMM DD, YYYY hh:mm A') : ''}`}{`${moment(popoverData?.start).isValid() ? ' - ' + moment(popoverData?.end).format('MMMM DD, YYYY hh:mm A') : ''}`}
                             </span>
                         </Typography>
                     </Box>
@@ -380,6 +426,8 @@ export default function EventCalendar() {
             >
                 <DialogTitle>Add Event</DialogTitle>
                 <DialogContent>
+                    <input type="hidden" name="id" value={modalData.id} />
+
                     <Grid container spacing={2} sx={{ p: 1 }}>
                         <Grid item xs={12}>
                             <TextField
@@ -392,8 +440,8 @@ export default function EventCalendar() {
                                 autoComplete="title"
                                 autoFocus
                                 InputLabelProps={{ shrink: true }}
-                                value={eventTitle}
-                                onChange={(event) => setEventTitle(event.target.value)}
+                                value={modalData.title}
+                                onChange={(event) => setModalData({ ...modalData, title: event.target.value })}
                             />
                         </Grid>
                         <Grid item xs={6}>
@@ -402,8 +450,8 @@ export default function EventCalendar() {
                                 label="Start Date"
                                 id="start_date"
                                 name="start"
-                                value={eventStart}
-                                onChange={(value) => setEventStart(value)}
+                                value={modalData.start}
+                                onChange={(value) => setModalData({ ...modalData, start: value })}
                             />
                         </Grid>
                         <Grid item xs={6}>
@@ -412,8 +460,8 @@ export default function EventCalendar() {
                                 label="End Date"
                                 id="end_date"
                                 name="end"
-                                value={eventEnd}
-                                onChange={(value) => setEventEnd(value)}
+                                value={modalData.end}
+                                onChange={(value) => setModalData({ ...modalData, end: value })}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -426,8 +474,8 @@ export default function EventCalendar() {
                                 autoComplete="description"
                                 autoFocus
                                 InputLabelProps={{ shrink: true }}
-                                value={eventDesc}
-                                onChange={(event) => setEventDesc(event.target.value)}
+                                value={modalData.description}
+                                onChange={(event) => setModalData({ ...modalData, description: event.target.value })}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -440,8 +488,8 @@ export default function EventCalendar() {
                                 autoComplete="link"
                                 autoFocus
                                 InputLabelProps={{ shrink: true }}
-                                value={eventLink}
-                                onChange={(event) => setEventLink(event.target.value)}
+                                value={modalData.link}
+                                onChange={(event) => setModalData({ ...modalData, link: event.target.value })}
                             />
                         </Grid>
                     </Grid>
@@ -451,6 +499,14 @@ export default function EventCalendar() {
                     <Button type="submit">Confirm</Button>
                 </DialogActions>
             </Dialog>
-        </>
+
+            <ConfirmDialog 
+                isOpen={confirmDialogState.isOpen} 
+                dialogTitle={confirmDialogState.dialogTitle}
+                dialogContentText={confirmDialogState.dialogContentText}
+                onConfirmDialogConfirm={onConfirmDialogConfirm}
+                onConfirmDialogCancel={onConfirmDialogCancel}
+            />
+        </Paper>
     )
 }

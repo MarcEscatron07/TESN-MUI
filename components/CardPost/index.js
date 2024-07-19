@@ -43,10 +43,10 @@ export default function CardPost(props) {
                 avatar={<Avatar alt="Owner Avatar" src={props?.data?.owner?.image ?? '/images/avatars/avatar_default.png'} />}
                 action={
                     <>
-                        <IconButton aria-label="options">
+                        <IconButton aria-label="card-post-options">
                             <MoreHorizIcon />
                         </IconButton>
-                        <IconButton aria-label="close">
+                        <IconButton aria-label="card-post-close">
                             <CloseIcon />
                         </IconButton>
                     </>
@@ -80,10 +80,10 @@ export default function CardPost(props) {
 
             <CardActions disableSpacing sx={CARD_POST.cardPostActions}>
                 <Box>
-                    <IconButton aria-label="like">
+                    <IconButton aria-label="card-post-like">
                         <ThumbUpIcon />
                     </IconButton>
-                    <IconButton aria-label="share">
+                    <IconButton aria-label="card-post-share">
                         <ShareIcon />
                     </IconButton>
                 </Box>
