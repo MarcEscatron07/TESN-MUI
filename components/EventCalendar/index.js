@@ -396,6 +396,27 @@ export default function EventCalendar() {
                             ) : null}
                         </Box>
                     </Box>
+                    <Box sx={{
+                        width: '100%',
+                        backgroundColor: theme.palette.light.main,
+                        color: theme.palette.dark.main,
+                        px: 1,
+                        py: .8
+                    }}>
+                        <Typography
+                            variant="body2"
+                            noWrap
+                            component="div"
+                            sx={{ display: 'flex', alignItems: 'center' }}
+                        >
+                            <span style={{ color: 'gray' }}>
+                                <CalendarTodayIcon />
+                            </span>
+                            <span style={{ marginLeft: 15 }}>
+                                {`${moment(popoverData?.start).isValid() ? moment(popoverData?.start).format('MMMM DD, YYYY hh:mm A') : ''}`}{`${moment(popoverData?.start).isValid() ? ' - ' + moment(popoverData?.end).format('MMMM DD, YYYY hh:mm A') : ''}`}
+                            </span>
+                        </Typography>
+                    </Box>
                     {popoverData?.type == 'event' ? (
                         <>
                             {popoverData?.link != '' ? (
@@ -444,25 +465,6 @@ export default function EventCalendar() {
                                     </Typography>
                                 </Box>
                             ) : null}
-                            {popoverData?.guests?.length > 0 ? (
-                                <Box sx={{
-                                    width: '100%',
-                                    backgroundColor: theme.palette.light.main,
-                                    color: theme.palette.dark.main,
-                                    px: 1,
-                                    py: .8,
-                                    display: 'flex'
-                                }}>
-                                    <span style={{ color: 'gray' }}>
-                                        <PeopleIcon />
-                                    </span>
-                                    <span style={{ marginLeft: 15, maxWidth: 200 }}>
-                                        {popoverData?.guests.map((item, idx) => (
-                                            <Chip key={idx} label={item.name} avatar={<Avatar alt={item.name} src={item.image} />} sx={{my: .5}} />
-                                        ))}
-                                    </span>
-                                </Box>
-                            ) : null}
                             {popoverData?.description != '' ? (
                                 <Box sx={{
                                     width: '100%',
@@ -486,29 +488,27 @@ export default function EventCalendar() {
                                     </Typography>
                                 </Box>
                             ) : null}
+                            {popoverData?.guests?.length > 0 ? (
+                                <Box sx={{
+                                    width: '100%',
+                                    backgroundColor: theme.palette.light.main,
+                                    color: theme.palette.dark.main,
+                                    px: 1,
+                                    py: .8,
+                                    display: 'flex'
+                                }}>
+                                    <span style={{ color: 'gray' }}>
+                                        <PeopleIcon />
+                                    </span>
+                                    <span style={{ marginLeft: 15, maxWidth: 200 }}>
+                                        {popoverData?.guests.map((item, idx) => (
+                                            <Chip key={idx} label={item.name} avatar={<Avatar alt={item.name} src={item.image} />} sx={{my: .5}} />
+                                        ))}
+                                    </span>
+                                </Box>
+                            ) : null}
                         </>
                     ) : null}
-                    <Box sx={{
-                        width: '100%',
-                        backgroundColor: theme.palette.light.main,
-                        color: theme.palette.dark.main,
-                        px: 1,
-                        py: .8
-                    }}>
-                        <Typography
-                            variant="body2"
-                            noWrap
-                            component="div"
-                            sx={{ display: 'flex', alignItems: 'center' }}
-                        >
-                            <span style={{ color: 'gray' }}>
-                                <CalendarTodayIcon />
-                            </span>
-                            <span style={{ marginLeft: 15 }}>
-                                {`${moment(popoverData?.start).isValid() ? moment(popoverData?.start).format('MMMM DD, YYYY hh:mm A') : ''}`}{`${moment(popoverData?.start).isValid() ? ' - ' + moment(popoverData?.end).format('MMMM DD, YYYY hh:mm A') : ''}`}
-                            </span>
-                        </Typography>
-                    </Box>
                 </Box>
             </Popover>
 
