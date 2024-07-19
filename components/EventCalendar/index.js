@@ -33,8 +33,10 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft';
 import LinkIcon from '@mui/icons-material/Link';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import PeopleIcon from '@mui/icons-material/People';
+import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 import { ConfirmDialog } from "@/components";
@@ -396,30 +398,7 @@ export default function EventCalendar() {
                     </Box>
                     {popoverData?.type == 'event' ? (
                         <>
-                            {popoverData?.description.length != '' ? (
-                                <Box sx={{
-                                    width: '100%',
-                                    backgroundColor: theme.palette.light.main,
-                                    color: theme.palette.dark.main,
-                                    px: 1,
-                                    py: .8
-                                }}>
-                                    <Typography
-                                        variant="body1"
-                                        noWrap
-                                        component="div"
-                                        sx={{ display: 'flex', alignItems: 'center' }}
-                                    >
-                                        <span style={{ color: 'gray' }}>
-                                            <AlignHorizontalLeftIcon />
-                                        </span>
-                                        <span style={{ marginLeft: 15 }}>
-                                            {`${popoverData?.description}`}
-                                        </span>
-                                    </Typography>
-                                </Box>
-                            ) : null}
-                            {popoverData?.link.length != '' ? (
+                            {popoverData?.link != '' ? (
                                 <Box sx={{
                                     width: '100%',
                                     backgroundColor: theme.palette.light.main,
@@ -438,6 +417,71 @@ export default function EventCalendar() {
                                         </span>
                                         <span style={{ marginLeft: 15 }}>
                                             {`${popoverData?.link}`}
+                                        </span>
+                                    </Typography>
+                                </Box>
+                            ) : null}
+                            {popoverData?.location != '' ? (
+                                <Box sx={{
+                                    width: '100%',
+                                    backgroundColor: theme.palette.light.main,
+                                    color: theme.palette.dark.main,
+                                    px: 1,
+                                    py: .8
+                                }}>
+                                    <Typography
+                                        variant="body1"
+                                        noWrap
+                                        component="div"
+                                        sx={{ display: 'flex', alignItems: 'center' }}
+                                    >
+                                        <span style={{ color: 'gray' }}>
+                                            <LocationOnIcon />
+                                        </span>
+                                        <span style={{ marginLeft: 15 }}>
+                                            {`${popoverData?.location}`}
+                                        </span>
+                                    </Typography>
+                                </Box>
+                            ) : null}
+                            {popoverData?.guests?.length > 0 ? (
+                                <Box sx={{
+                                    width: '100%',
+                                    backgroundColor: theme.palette.light.main,
+                                    color: theme.palette.dark.main,
+                                    px: 1,
+                                    py: .8,
+                                    display: 'flex'
+                                }}>
+                                    <span style={{ color: 'gray' }}>
+                                        <PeopleIcon />
+                                    </span>
+                                    <span style={{ marginLeft: 15, maxWidth: 200 }}>
+                                        {popoverData?.guests.map((item, idx) => (
+                                            <Chip key={idx} label={item.name} avatar={<Avatar alt={item.name} src={item.image} />} sx={{my: .5}} />
+                                        ))}
+                                    </span>
+                                </Box>
+                            ) : null}
+                            {popoverData?.description != '' ? (
+                                <Box sx={{
+                                    width: '100%',
+                                    backgroundColor: theme.palette.light.main,
+                                    color: theme.palette.dark.main,
+                                    px: 1,
+                                    py: .8
+                                }}>
+                                    <Typography
+                                        variant="body1"
+                                        noWrap
+                                        component="div"
+                                        sx={{ display: 'flex', alignItems: 'center' }}
+                                    >
+                                        <span style={{ color: 'gray' }}>
+                                            <AlignHorizontalLeftIcon />
+                                        </span>
+                                        <span style={{ marginLeft: 15 }}>
+                                            {`${popoverData?.description}`}
                                         </span>
                                     </Typography>
                                 </Box>
@@ -525,19 +569,19 @@ export default function EventCalendar() {
                                     const { key, ...optionProps } = props;
                                     return (
                                         <li key={key} {...optionProps}>
-                                            <Avatar sx={{mr: 1}} alt={option.name} src={option.image} />
+                                            <Avatar sx={{ mr: 1 }} alt={option.name} src={option.image} />
                                             {option.name}
                                         </li>
                                     );
                                 }}
                                 renderTags={(value, getTagProps) =>
                                     value.map((option, index) => {
-                                      const { key, ...tagProps } = getTagProps({ index });
-                                      return (
-                                        <Chip key={key} label={option.name} avatar={<Avatar alt={option.name} src={option.image} />} {...tagProps} />
-                                      );
+                                        const { key, ...tagProps } = getTagProps({ index });
+                                        return (
+                                            <Chip key={key} label={option.name} avatar={<Avatar alt={option.name} src={option.image} />} {...tagProps} />
+                                        );
                                     })
-                                  }
+                                }
                                 renderInput={(params) => (
                                     <TextField
                                         {...params}
