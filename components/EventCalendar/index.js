@@ -25,17 +25,55 @@ import Button from "@mui/material/Button";
 import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
 import Typography from "@mui/material/Typography";
+import Chip from '@mui/material/Chip';
+import Autocomplete from '@mui/material/Autocomplete';
+import Avatar from '@mui/material/Avatar';
 
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft';
 import LinkIcon from '@mui/icons-material/Link';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import PeopleIcon from '@mui/icons-material/People';
+import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 import { ConfirmDialog } from "@/components";
 import { getLocalHolidays } from "@/lib/api";
+
+const STATIC_USERS = [
+    {
+        "id": 1,
+        "name": "Marc Escatron",
+        "image": "/images/avatars/avatar_male_1.png"
+    },
+    {
+        "id": 2,
+        "name": "Jerson Albit",
+        "image": "/images/avatars/avatar_male_2.png"
+    },
+    {
+        "id": 3,
+        "name": "Joel Buena",
+        "image": "/images/avatars/avatar_male_3.png"
+    },
+    {
+        "id": 4,
+        "name": "Rommel Digal",
+        "image": "/images/avatars/avatar_male_4.png"
+    },
+    {
+        "id": 5,
+        "name": "Junjie Bautista",
+        "image": "/images/avatars/avatar_male_5.png"
+    },
+    {
+        "id": 6,
+        "name": "Ian Tambis",
+        "image": "/images/avatars/avatar_male_6.png"
+    }
+];
 
 export default function EventCalendar() {
     const theme = useTheme();
@@ -48,10 +86,13 @@ export default function EventCalendar() {
     const [popoverData, setPopoverData] = useState({
         id: -1,
         title: '',
-        link: '',
-        description: '',
         start: moment(),
         end: moment(moment()).add(23, 'hours').add(59, 'minutes'),
+        guests: [],
+        link: '',
+        location: '',
+        description: '',
+        visibility: '',
         type: ''
     });
 
@@ -61,8 +102,11 @@ export default function EventCalendar() {
         title: '',
         start: moment(),
         end: moment(),
+        guests: [],
+        link: '',
+        location: '',
         description: '',
-        link: ''
+        visibility: ''
     });
 
     const [confirmDialogState, setConfirmDialogState] = useState({
@@ -92,10 +136,13 @@ export default function EventCalendar() {
             setPopoverData({
                 id: -1,
                 title: '',
-                link: '',
-                description: '',
                 start: moment(),
                 end: moment(moment()).add(23, 'hours').add(59, 'minutes'),
+                guests: [],
+                link: '',
+                location: '',
+                description: '',
+                visibility: '',
                 type: ''
             });
         }
@@ -116,8 +163,11 @@ export default function EventCalendar() {
                 title: '',
                 start: moment(),
                 end: moment(),
+                guests: [],
+                link: '',
+                location: '',
                 description: '',
-                link: ''
+                visibility: ''
             })
         }
     }, [isModalOpen])
@@ -231,7 +281,7 @@ export default function EventCalendar() {
             isOpen: true,
             dialogTitle: 'Delete Event',
             dialogContentText: 'Are you sure you want to delete this event?'
-        });        
+        });
     }
     /** POPOVER FUNCTIONS **/
 
@@ -250,17 +300,18 @@ export default function EventCalendar() {
             ...formJson,
             start: moment().isValid(formJson?.start) ? moment(formJson?.start).toDate() : null,
             end: moment().isValid(formJson?.end) ? moment(formJson?.end).toDate() : null,
+            guests: modalData.guests,
             classNames: ['fc-custom-event', 'fc-my-event'],
             extendedProps: []
         }
 
         const evtIdx = formJson?.id ? eventsList.map((i) => i.id).indexOf(formJson?.id) : -1;
 
-        if(evtIdx != -1) {
+        if (evtIdx != -1) {
             const filteredArr = eventsList.filter((i) => i.id != eventsList[evtIdx].id);
-            setEventsList([...filteredArr, {...eventObj, id: formJson?.title ? `evt_${eventsList.length}_${formJson?.title}` : -1}]);
+            setEventsList([...filteredArr, { ...eventObj, id: formJson?.title ? `evt_${eventsList.length}_${formJson?.title}` : -1 }]);
         } else {
-            setEventsList([...eventsList, {...eventObj, id: formJson?.title ? `evt_${eventsList.length}_${formJson?.title}` : -1}]);
+            setEventsList([...eventsList, { ...eventObj, id: formJson?.title ? `evt_${eventsList.length}_${formJson?.title}` : -1 }]);
         }
 
         onModalToggleClick(false);
@@ -347,30 +398,7 @@ export default function EventCalendar() {
                     </Box>
                     {popoverData?.type == 'event' ? (
                         <>
-                            {popoverData?.description.length != '' ? (
-                                <Box sx={{
-                                    width: '100%',
-                                    backgroundColor: theme.palette.light.main,
-                                    color: theme.palette.dark.main,
-                                    px: 1,
-                                    py: .8
-                                }}>
-                                    <Typography
-                                        variant="body1"
-                                        noWrap
-                                        component="div"
-                                        sx={{ display: 'flex', alignItems: 'center' }}
-                                    >
-                                        <span style={{ color: 'gray' }}>
-                                            <AlignHorizontalLeftIcon />
-                                        </span>
-                                        <span style={{ marginLeft: 15 }}>
-                                            {`${popoverData?.description}`}
-                                        </span>
-                                    </Typography>
-                                </Box>
-                            ) : null}
-                            {popoverData?.link.length != '' ? (
+                            {popoverData?.link != '' ? (
                                 <Box sx={{
                                     width: '100%',
                                     backgroundColor: theme.palette.light.main,
@@ -389,6 +417,71 @@ export default function EventCalendar() {
                                         </span>
                                         <span style={{ marginLeft: 15 }}>
                                             {`${popoverData?.link}`}
+                                        </span>
+                                    </Typography>
+                                </Box>
+                            ) : null}
+                            {popoverData?.location != '' ? (
+                                <Box sx={{
+                                    width: '100%',
+                                    backgroundColor: theme.palette.light.main,
+                                    color: theme.palette.dark.main,
+                                    px: 1,
+                                    py: .8
+                                }}>
+                                    <Typography
+                                        variant="body1"
+                                        noWrap
+                                        component="div"
+                                        sx={{ display: 'flex', alignItems: 'center' }}
+                                    >
+                                        <span style={{ color: 'gray' }}>
+                                            <LocationOnIcon />
+                                        </span>
+                                        <span style={{ marginLeft: 15 }}>
+                                            {`${popoverData?.location}`}
+                                        </span>
+                                    </Typography>
+                                </Box>
+                            ) : null}
+                            {popoverData?.guests?.length > 0 ? (
+                                <Box sx={{
+                                    width: '100%',
+                                    backgroundColor: theme.palette.light.main,
+                                    color: theme.palette.dark.main,
+                                    px: 1,
+                                    py: .8,
+                                    display: 'flex'
+                                }}>
+                                    <span style={{ color: 'gray' }}>
+                                        <PeopleIcon />
+                                    </span>
+                                    <span style={{ marginLeft: 15, maxWidth: 200 }}>
+                                        {popoverData?.guests.map((item, idx) => (
+                                            <Chip key={idx} label={item.name} avatar={<Avatar alt={item.name} src={item.image} />} sx={{my: .5}} />
+                                        ))}
+                                    </span>
+                                </Box>
+                            ) : null}
+                            {popoverData?.description != '' ? (
+                                <Box sx={{
+                                    width: '100%',
+                                    backgroundColor: theme.palette.light.main,
+                                    color: theme.palette.dark.main,
+                                    px: 1,
+                                    py: .8
+                                }}>
+                                    <Typography
+                                        variant="body1"
+                                        noWrap
+                                        component="div"
+                                        sx={{ display: 'flex', alignItems: 'center' }}
+                                    >
+                                        <span style={{ color: 'gray' }}>
+                                            <AlignHorizontalLeftIcon />
+                                        </span>
+                                        <span style={{ marginLeft: 15 }}>
+                                            {`${popoverData?.description}`}
                                         </span>
                                     </Typography>
                                 </Box>
@@ -465,17 +558,38 @@ export default function EventCalendar() {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField
+                            <Autocomplete
+                                multiple
                                 fullWidth
-                                margin="none"
-                                label="Description"
-                                id="description"
-                                name="description"
-                                autoComplete="description"
-                                autoFocus
-                                InputLabelProps={{ shrink: true }}
-                                value={modalData.description}
-                                onChange={(event) => setModalData({ ...modalData, description: event.target.value })}
+                                defaultValue={[]}
+                                value={modalData.guests}
+                                options={STATIC_USERS} // STATIC_USERS: temporary options
+                                getOptionLabel={(option) => option.name}
+                                renderOption={(props, option) => {
+                                    const { key, ...optionProps } = props;
+                                    return (
+                                        <li key={key} {...optionProps}>
+                                            <Avatar sx={{ mr: 1 }} alt={option.name} src={option.image} />
+                                            {option.name}
+                                        </li>
+                                    );
+                                }}
+                                renderTags={(value, getTagProps) =>
+                                    value.map((option, index) => {
+                                        const { key, ...tagProps } = getTagProps({ index });
+                                        return (
+                                            <Chip key={key} label={option.name} avatar={<Avatar alt={option.name} src={option.image} />} {...tagProps} />
+                                        );
+                                    })
+                                }
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Guests"
+                                        InputLabelProps={{ shrink: true }}
+                                    />
+                                )}
+                                onChange={(event, value) => setModalData({ ...modalData, guests: value })}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -492,6 +606,36 @@ export default function EventCalendar() {
                                 onChange={(event) => setModalData({ ...modalData, link: event.target.value })}
                             />
                         </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                fullWidth
+                                margin="none"
+                                label="Location"
+                                id="location"
+                                name="location"
+                                autoComplete="location"
+                                autoFocus
+                                InputLabelProps={{ shrink: true }}
+                                value={modalData.location}
+                                onChange={(event) => setModalData({ ...modalData, location: event.target.value })}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                multiline
+                                rows={2}
+                                fullWidth
+                                margin="none"
+                                label="Description"
+                                id="description"
+                                name="description"
+                                autoComplete="description"
+                                autoFocus
+                                InputLabelProps={{ shrink: true }}
+                                value={modalData.description}
+                                onChange={(event) => setModalData({ ...modalData, description: event.target.value })}
+                            />
+                        </Grid>
                     </Grid>
                 </DialogContent>
                 <DialogActions>
@@ -500,8 +644,8 @@ export default function EventCalendar() {
                 </DialogActions>
             </Dialog>
 
-            <ConfirmDialog 
-                isOpen={confirmDialogState.isOpen} 
+            <ConfirmDialog
+                isOpen={confirmDialogState.isOpen}
                 dialogTitle={confirmDialogState.dialogTitle}
                 dialogContentText={confirmDialogState.dialogContentText}
                 onConfirmDialogConfirm={onConfirmDialogConfirm}
