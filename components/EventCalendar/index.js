@@ -81,13 +81,18 @@ const OPTION_USERS = [
 const OPTION_VISIBILITY = [
     {
         id: 1,
+        label: 'Private',
+        value: 'private'
+    },
+    {
+        id: 2,
         label: 'Public',
         value: 'public'
     },
     {
-        id: 2,
-        label: 'Private',
-        value: 'private'
+        id: 3,
+        label: 'Group', // if Group, show additional field for choosing a group for event visibility
+        value: 'group'
     },
 ];
 
