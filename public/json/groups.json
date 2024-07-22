@@ -1,0 +1,15 @@
+[
+    {
+        "userId": 1,
+        "groups": [
+            {
+                "id": 7,
+                "name": "TICTO",
+                "image": "/images/avatars/avatar_ticto_seal.png",
+                "type": "multiple",
+                "userIds": [1,2,3,4,5,6],
+                "unread": 0
+            }
+        ]
+    }
+]

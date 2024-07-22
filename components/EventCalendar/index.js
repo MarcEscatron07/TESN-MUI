@@ -232,7 +232,7 @@ export default function EventCalendar() {
         let localHolidayArr = [];
         await getLocalHolidays().then(
             (res) => {
-                localHolidayArr = res ? res.map((item, idx) => {
+                localHolidayArr = res?.data ? res?.data.map((item, idx) => {
                     return {
                         id: item?.name ? `loc_${idx}_${item?.name}` : -1,
                         title: item?.name ?? '',

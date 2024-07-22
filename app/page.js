@@ -27,67 +27,47 @@ import {
 
 import { LOGIN } from "@/app/styles";
 import { Loader } from '@/components';
-import { getUsers } from "@/lib/api";
+import { postLogin } from "@/lib/api";
 import { SITENAME_FULL, SITENAME_ABBR } from "@/lib/variables";
 
 export default function Login() {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [usersList, setUsersList] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const maxValidCount = 2;
-
   useEffect(() => {
-    fetchUsers();
   }, []);
 
-  async function fetchUsers() {
-    await getUsers().then(
+  async function postUserLogin(formData, callback) {
+    await postLogin(formData).then(
       (res) => {
-        // console.log('Login > users > res', res);
+        // console.log('Login > postUserLogin > res', res)
 
-        res ? setUsersList(res) : setUsersList([]);
+        res?.data ? sessionStorage.setItem('authuser_data', JSON.stringify(res?.data)) : null;
+        res?.status == 200 ? router.push(`/home`) : alert(res?.message);
       },
       (err) => {
-        console.log("Login > users > err", err);
-        setUsersList([]);
-      }
-    );
+        console.log('Login > postUserLogin > err', err)
+      },
+    )
+
+    if(callback) {
+      callback();
+    }
   }
 
-  const handleFormSubmit = (event) => {
+  const onLoginFormSubmit = (event) => {
     event.preventDefault();
+
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('password', password);
+
     setIsLoading(true);
-
-    let validCount = 0;
-    let userId = -1;
-
-    if (usersList) {
-      usersList.forEach((data) => {
-        if (data.username == username && data.password == password) {
-          validCount++;
-          userId = data.id;
-        }
-      });
-    }
-
-    if (username.length > 0 && password.length > 0) {
-      validCount++;
-    }
-
-    setTimeout(() => {
-      setIsLoading(false);
-      
-      if (validCount == maxValidCount) {
-        router.push(`/home`);
-      } else {
-        alert("An error occured. Unable to login.");
-      }
-    }, 1000)
+    postUserLogin(formData, () => setIsLoading(false));
   };
 
   const onShowPasswordClick = () => {
@@ -124,7 +104,7 @@ export default function Login() {
                 </Typography>
               </Paper>
               <Paper elevation={3} style={LOGIN.loginFormContainer}>
-                <Box noValidate component="form" onSubmit={handleFormSubmit}>
+                <Box component="form" onSubmit={onLoginFormSubmit}>
                   <TextField
                     required
                     fullWidth

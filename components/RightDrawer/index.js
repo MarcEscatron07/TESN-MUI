@@ -141,7 +141,7 @@ export default function RightDrawer(props) {
       <List
         subheader={
           <ListSubheader component="div" sx={{...RIGHT_DRAWER.rightDrawerList, backgroundColor: theme.palette.dark.light, color: theme.palette.light.main }}>
-            Friend Conversations
+            Friend Chats
           </ListSubheader>
         }
       >
@@ -181,7 +181,7 @@ export default function RightDrawer(props) {
       <List
         subheader={
           <ListSubheader component="div" sx={{...RIGHT_DRAWER.rightDrawerList, backgroundColor: theme.palette.dark.light, color: theme.palette.light.main }}>
-            Group Conversations
+            Group Chats
           </ListSubheader>
         }
       >

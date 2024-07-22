@@ -1,0 +1,158 @@
+[
+    {
+        "userId": 1,
+        "friends": [
+            {
+                "id": 2,
+                "name": "Jerson Albit",
+                "image": "/images/avatars/avatar_male_2.png",
+                "type": "single",
+                "unread": 0
+            },
+            {
+                "id": 3,
+                "name": "Joel Buena",
+                "image": "/images/avatars/avatar_male_3.png",
+                "type": "single",
+                "unread": 0
+            },
+            {
+                "id": 4,
+                "name": "Rommel Digal",
+                "image": "/images/avatars/avatar_male_4.png",
+                "type": "single",
+                "unread": 0
+            },
+            {
+                "id": 5,
+                "name": "Junjie Bautista",
+                "image": "/images/avatars/avatar_male_5.png",
+                "type": "single",
+                "unread": 0
+            },
+            {
+                "id": 6,
+                "name": "Ian Tambis",
+                "image": "/images/avatars/avatar_male_6.png",
+                "type": "single",
+                "unread": 0
+            }
+        ]
+    },
+    {
+        "userId": 2,
+        "friends": [
+            {
+                "id": 1,
+                "name": "Marc Escatron",
+                "image": "/images/avatars/avatar_male_1.png",
+                "type": "single",
+                "unread": 0
+            },
+            {
+                "id": 3,
+                "name": "Joel Buena",
+                "image": "/images/avatars/avatar_male_3.png",
+                "type": "single",
+                "unread": 0
+            },
+            {
+                "id": 4,
+                "name": "Rommel Digal",
+                "image": "/images/avatars/avatar_male_4.png",
+                "type": "single",
+                "unread": 0
+            },
+            {
+                "id": 5,
+                "name": "Junjie Bautista",
+                "image": "/images/avatars/avatar_male_5.png",
+                "type": "single",
+                "unread": 0
+            },
+            {
+                "id": 6,
+                "name": "Ian Tambis",
+                "image": "/images/avatars/avatar_male_6.png",
+                "type": "single",
+                "unread": 0
+            }
+        ]
+    },
+    {
+        "userId": 3,
+        "friends": [
+            {
+                "id": 1,
+                "name": "Marc Escatron",
+                "image": "/images/avatars/avatar_male_1.png",
+                "type": "single",
+                "unread": 0
+            },
+            {
+                "id": 2,
+                "name": "Jerson Albit",
+                "image": "/images/avatars/avatar_male_2.png",
+                "type": "single",
+                "unread": 0
+            }
+        ]
+    },
+    {
+        "userId": 4,
+        "friends": [
+            {
+                "id": 1,
+                "name": "Marc Escatron",
+                "image": "/images/avatars/avatar_male_1.png",
+                "type": "single",
+                "unread": 0
+            },
+            {
+                "id": 2,
+                "name": "Jerson Albit",
+                "image": "/images/avatars/avatar_male_2.png",
+                "type": "single",
+                "unread": 0
+            }
+        ]
+    },
+    {
+        "userId": 5,
+        "friends": [
+            {
+                "id": 1,
+                "name": "Marc Escatron",
+                "image": "/images/avatars/avatar_male_1.png",
+                "type": "single",
+                "unread": 0
+            },
+            {
+                "id": 2,
+                "name": "Jerson Albit",
+                "image": "/images/avatars/avatar_male_2.png",
+                "type": "single",
+                "unread": 0
+            }
+        ]
+    },
+    {
+        "userId": 6,
+        "friends": [
+            {
+                "id": 1,
+                "name": "Marc Escatron",
+                "image": "/images/avatars/avatar_male_1.png",
+                "type": "single",
+                "unread": 0
+            },
+            {
+                "id": 2,
+                "name": "Jerson Albit",
+                "image": "/images/avatars/avatar_male_2.png",
+                "type": "single",
+                "unread": 0
+            }
+        ]
+    }
+]

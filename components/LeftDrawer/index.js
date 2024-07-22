@@ -35,7 +35,7 @@ export default function LeftDrawer(props) {
   const router = useRouter();
   const theme = useTheme();
 
-  const [activeNav, setActiveNav] = useState(localStorage.getItem('nav_data') ?? 'Home');
+  const [activeNav, setActiveNav] = useState('Home');
 
   const navigationList = [
     {
@@ -72,8 +72,8 @@ export default function LeftDrawer(props) {
   ];
 
   useEffect(() => {
-    if(localStorage.getItem('nav_data')) {
-      setActiveNav(localStorage.getItem('nav_data'));
+    if(sessionStorage.getItem('nav_data')) {
+      setActiveNav(sessionStorage.getItem('nav_data'));
     }
   }, []);
 
@@ -88,7 +88,7 @@ export default function LeftDrawer(props) {
   }
 
   const handleNavItemClick = (value) => {
-    localStorage.setItem('nav_data', value);
+    sessionStorage.setItem('nav_data', value);
     setActiveNav(value);
   }
 

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 
 import Box from "@mui/material/Box";
 
@@ -10,23 +9,13 @@ import GlobalLayout from "@/components/layout";
 import { HOME } from "@/app/styles";
 import { DrawerHeader } from "@/components/function";
 import { CardPost } from '@/components';
-import { getUsers, getPosts } from "@/lib/api";
+import { getPosts } from "@/lib/api";
 
 export default function Home() {
-  const searchParams = useSearchParams();
-
   const [isLoading, setIsLoading] = useState(true);
-  const [userData, setUserData] = useState({
-    id: -1,
-    username: '',
-    password: '',
-    name: '',
-    image: ''
-  });
   const [postsList, setPostsList] = useState([]);
 
   useEffect(() => {
-    fetchUsers();
     fetchPosts();
 
     setTimeout(() => {
@@ -35,59 +24,19 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    console.log('Home > userData', userData);
-  }, [userData])
-
-  useEffect(() => {
     console.log('Home > postsList', postsList);
   }, [postsList])
-
-  async function fetchUsers() {
-    await getUsers().then(
-      (res) => {
-        // console.log('Home > users > res', res);
-
-        if (res) {
-          const id = searchParams.get("id")
-            ? parseInt(searchParams.get("id"))
-            : -1;
-          const userIdx = res.map((i) => i.id).indexOf(id);
-
-          if (userIdx != -1) {
-            setUserData(res[userIdx]);
-          }
-        } else {
-          setUserData({
-            id: -1,
-            username: '',
-            password: '',
-            name: '',
-            image: ''
-          });
-        }
-      },
-      (err) => {
-        console.log('Home > users > err', err);
-        setUserData({
-          id: -1,
-          username: '',
-          password: '',
-          name: '',
-          image: ''
-        });
-      }
-    );
-  }
 
   async function fetchPosts() {
     await getPosts().then(
       (res) => {
-        // console.log('Home > posts > res', res);
+        // console.log('Home > fetchPosts > res', res);
 
-        res ? setPostsList(res) : setPostsList([]);
+        res?.data ? setPostsList(res?.data) : setPostsList([]);
       },
       (err) => {
-        console.log('Home > posts > err', err);
+        console.log('Home > fetchPosts > err', err);
+
         setPostsList([]);
       },
     );
