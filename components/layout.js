@@ -10,14 +10,35 @@ import { GLOBAL } from "@/app/styles";
 
 export default function GlobalLayout(props) {
     const [isLoading, setIsLoading] = useState(props.isLoading);
+    const [sessionUser, setSessionUser] = useState({
+        id: -1,
+        name: '',
+        image: ''
+    });
+    const [sessionNav, setSessionNav] = useState('');
+    
     const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(true);
 
     useEffect(() => {
+        fetchSession();
     }, [])
 
     useEffect(() => {
         setIsLoading(props.isLoading);
     }, [props.isLoading])
+
+    useEffect(() => {
+        console.log('GlobalLayout > sessionUser', sessionUser)
+    }, [sessionUser])
+
+    useEffect(() => {
+        console.log('GlobalLayout > sessionNav', sessionNav)
+    }, [sessionNav])
+
+    async function fetchSession() {
+        sessionStorage.getItem('authuser_data') ? setSessionUser(JSON.parse(sessionStorage.getItem('authuser_data'))) : null;
+        sessionStorage.getItem('nav_data') ? setSessionNav(sessionStorage.getItem('nav_data')) : null;
+    }
 
     const onDrawerToggleClick = (value) => {
         setIsLeftDrawerOpen(value);
@@ -29,9 +50,9 @@ export default function GlobalLayout(props) {
 
             <CssBaseline />
 
-            <TopAppBar onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
+            <TopAppBar sessionUser={sessionUser} onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
 
-            <LeftDrawer onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
+            <LeftDrawer sessionNav={sessionNav} onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
 
             {props.children}
 

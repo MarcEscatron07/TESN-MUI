@@ -29,6 +29,11 @@ export default function TopAppBar(props) {
     const router = useRouter();
     const theme = useTheme();
 
+    const [sesUser, setSesUser] = useState({
+        id: -1,
+        name: '',
+        image: ''
+    });
     const [menuAnchorEl, setMenuAnchorEl] = useState(null);
     const [mobileMenuAnchorEl, setMobileMenuAnchorEl] = useState(null);
 
@@ -38,7 +43,16 @@ export default function TopAppBar(props) {
     const isMenuOpen = Boolean(menuAnchorEl);
     const isMobileMenuOpen = Boolean(mobileMenuAnchorEl);
 
-    useEffect(() => { }, []);
+    useEffect(() => {
+    }, []);
+
+    useEffect(() => {
+        setSesUser(props.sessionUser);
+    }, [props.sessionUser]);
+
+    const clearSession = () => {
+        sessionStorage.clear();
+    }
 
     const onOpenDrawerClick = () => {
         if (props.onDrawerToggleClick) {
@@ -65,6 +79,7 @@ export default function TopAppBar(props) {
 
     const onLogoutClick = () => {
         onMenuClose();
+        clearSession();
         router.push("/");
     };
 
@@ -201,8 +216,8 @@ export default function TopAppBar(props) {
                         >
                             <Stack direction="row" spacing={1}>
                                 <Chip
-                                    avatar={<Avatar alt="User" src="/images/avatars/avatar_default.png" />}
-                                    label="Marc Escatron"
+                                    avatar={<Avatar alt={sesUser.name} src={sesUser.image} />}
+                                    label={sesUser.name}
                                     sx={{...TOP_APP_BAR.topAppBarAvatarChip, backgroundColor: theme.palette.secondary.main}}
                                 />
                             </Stack>

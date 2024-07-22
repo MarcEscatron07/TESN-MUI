@@ -35,7 +35,7 @@ export default function LeftDrawer(props) {
   const router = useRouter();
   const theme = useTheme();
 
-  const [activeNav, setActiveNav] = useState('Home');
+  const [sesNav, setSesNav] = useState('');
 
   const navigationList = [
     {
@@ -72,14 +72,15 @@ export default function LeftDrawer(props) {
   ];
 
   useEffect(() => {
-    if(sessionStorage.getItem('nav_data')) {
-      setActiveNav(sessionStorage.getItem('nav_data'));
-    }
   }, []);
 
   useEffect(() => {
-    router.push(`/${activeNav.toLowerCase()}`);
-  }, [activeNav])
+    setSesNav(props.sessionNav);
+  }, [props.sessionNav]);
+
+  useEffect(() => {
+    router.push(`/${sesNav.toLowerCase()}`);
+  }, [sesNav])
 
   const onCloseDrawerClick = () => {
     if (props.onDrawerToggleClick) {
@@ -89,7 +90,7 @@ export default function LeftDrawer(props) {
 
   const onNavItemClick = (value) => {
     sessionStorage.setItem('nav_data', value);
-    setActiveNav(value);
+    setSesNav(value);
   }
 
   return (
@@ -159,8 +160,8 @@ export default function LeftDrawer(props) {
             disablePadding
             sx={{
               ...LEFT_DRAWER.leftDrawerListItem,
-              backgroundColor: activeNav == item.text ? theme.palette.secondary.main : null,
-              color: activeNav == item.text ? theme.palette.secondary.contrastText : null
+              backgroundColor: sesNav == item.text ? theme.palette.secondary.main : null,
+              color: sesNav == item.text ? theme.palette.secondary.contrastText : null
             }}
             onClick={() => onNavItemClick(item.text)}
           >
@@ -174,7 +175,7 @@ export default function LeftDrawer(props) {
                 sx={{
                   ...LEFT_DRAWER.leftDrawerListItemIcon,
                   mr: props.isLeftDrawerOpen ? 3 : "auto",
-                  color: activeNav == item.text ? theme.palette.secondary.contrastText : theme.palette.light.main,
+                  color: sesNav == item.text ? theme.palette.secondary.contrastText : theme.palette.light.main,
                 }}
               >
                 {item.icon}
