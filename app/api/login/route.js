@@ -8,15 +8,15 @@ export async function GET(req, res) {
 
 export async function POST(req, res) {
   try {
-    const formData = await req.formData();
-    const username = formData.get("username");
-    const password = formData.get("password");
-
     /** temporary code **/
     const jsonPath = "/public/json/users.json";
     const jsonFile = await fs.readFile(path.join(process.cwd(), jsonPath), "utf8");
     const jsonData = JSON.parse(jsonFile);
     /** temporary code **/
+    
+    const formData = await req.formData();
+    const username = formData.get("username");
+    const password = formData.get("password");
 
     for (const key in jsonData) {
       if (

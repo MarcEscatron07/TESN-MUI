@@ -21,7 +21,8 @@ export async function POST(req, res) {
         const user = formData.get('user');
         const files = formData.getAll('files');
         // console.log('ATTACHMENTS > POST > files', files)
-        const filesArr = Array.from(files).map((item) => {
+
+        const filesArr = files ? Array.from(files).map((item) => {
             return {
                 file: item,
                 fileName: `${user}_${moment().format('MM-DD-YYYY')}_${item.name}`.replace(' ', ''),
@@ -31,29 +32,36 @@ export async function POST(req, res) {
                 lastModified: item?.lastModified, 
                 // lastModifiedDate: item?.lastModifiedDate
             }
-        });
+        }) : [];
         // console.log('ATTACHMENTS > POST > filesArr', filesArr)
 
-        for await (const item of filesArr) {
-            const filePath = `${dirAttachments}/${item.fileName}`;
-            await pump(item.file.stream(), fs.createWriteStream(filePath));
+        if(filesArr.length > 0) {
+            for await (const item of filesArr) {
+                const filePath = `${dirAttachments}/${item.fileName}`;
+                await pump(item.file.stream(), fs.createWriteStream(filePath));
+            }
+    
+            let newFilesArr = JSON.parse(JSON.stringify(filesArr));
+            newFilesArr.map((item) => {
+                item.name = item.fileName;
+                delete item['file'];
+                delete item['fileName'];
+    
+                return item;
+            })
+            // console.log('ATTACHMENTS > POST > newFilesArr', newFilesArr)
+    
+            return NextResponse.json({
+                status: 200,
+                message: "Upload successful.",
+                data: newFilesArr,
+            }, { status: 200 });
+        } else {
+            return NextResponse.json({
+                status: 400,
+                message: "No file to upload.",
+            }, { status: 400 });
         }
-
-        let newFilesArr = JSON.parse(JSON.stringify(filesArr));
-        newFilesArr.map((item) => {
-            item.name = item.fileName;
-            delete item['file'];
-            delete item['fileName'];
-
-            return item;
-        })
-        // console.log('ATTACHMENTS > POST > newFilesArr', newFilesArr)
-
-        return NextResponse.json({
-            status: 200,
-            message: "Upload successful.",
-            data: newFilesArr,
-          }, { status: 200 });
     } catch (e) {
         return NextResponse.json({
             status: 500,

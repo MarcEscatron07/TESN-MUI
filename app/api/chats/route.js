@@ -8,15 +8,15 @@ export async function GET(req, res) {
 
 export async function POST(req, res) {
     try {
-      const formData = await req.formData();
-      const friendId = formData.get("friendId");
-      const chatType = formData.get("chatType");
-
       /** temporary code **/
       const jsonPath = "/public/json/chats.json";
       const jsonFile = await fs.readFile(path.join(process.cwd(), jsonPath), "utf8");
       const jsonData = JSON.parse(jsonFile);
       /** temporary code **/
+      
+      const formData = await req.formData();
+      const friendId = formData.get("friendId");
+      const chatType = formData.get("chatType");
     
       for (const key in jsonData) {
           const authUserData = sessionStorage.getItem('authuser_data') ? JSON.parse(sessionStorage.getItem('authuser_data')) : null;
