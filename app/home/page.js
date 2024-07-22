@@ -28,17 +28,22 @@ export default function Home() {
   }, [postsList])
 
   async function fetchPosts() {
-    await getPosts().then(
-      (res) => {
-        // console.log('Home > fetchPosts > res', res);
-
-        res?.data ? setPostsList(res?.data) : setPostsList([]);
-      },
-      (err) => {
-        console.log('Home > fetchPosts > err', err);
-        setPostsList([]);
-      },
-    );
+    if(sessionStorage.getItem('posts_data')) {
+      setPostsList(JSON.parse(sessionStorage.getItem('posts_data')));
+    } else {
+      await getPosts().then(
+        (res) => {
+          console.log('fetchPosts > res', res)
+  
+          res?.data ? sessionStorage.setItem('posts_data', JSON.stringify(res?.data)) : null;
+          setPostsList(res?.data ? res?.data : []);
+        },
+        (err) => {
+          console.log('fetchPosts > err', err);
+          setPostsList([]);
+        },
+      );
+    }
   }
 
   return (

@@ -21,6 +21,8 @@ export default function GlobalLayout(props) {
     const [sessionGroups, setSessionGroups] = useState([]);
     
     const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(true);
+    // const [activeChatList, setActiveChatList] = useState([]); //TODO
+    // const [passiveChatList, setPassiveChatList] = useState([]); //TODO
 
     useEffect(() => {
         fetchSession();
@@ -47,50 +49,50 @@ export default function GlobalLayout(props) {
     }, [sessionFriends])
 
     async function fetchSession() {
-        sessionStorage.getItem('authuser_data') ? setSessionUser(JSON.parse(sessionStorage.getItem('authuser_data'))) : null;
+        sessionStorage.getItem('authuser_data') ? setSessionUser(JSON.parse(sessionStorage.getItem('authuser_data'))) : setSessionUser({
+            id: -1,
+            name: '',
+            image: ''
+        });
         sessionStorage.getItem('nav_data') ? setSessionNav(sessionStorage.getItem('nav_data')) : setSessionNav('Home');
     }
 
     async function fetchFriends() {
-        await getFriends(`userId=${sessionUser.id}`).then(
-            (res) => {
-                console.log('fetchFriends > res', res)
-
-                if (!sessionStorage.getItem('friends_data') && res?.data) {
-                    sessionStorage.setItem('friends_data', JSON.stringify(res?.data));
-                }
-
-                let friendsArr = sessionStorage.getItem('friends_data') ? JSON.parse(sessionStorage.getItem('friends_data')) : 
-                    res?.data ? res?.data : [];
-
-                setSessionFriends(friendsArr);
-            },
-            (err) => {
-                console.log('fetchFriends > err', err)
-                setSessionFriends([]);
-            },
-        );
+        if(sessionStorage.getItem('friends_data')) {
+            setSessionFriends(JSON.parse(sessionStorage.getItem('friends_data')));
+        } else {
+            await getFriends(`userId=${sessionUser.id}`).then(
+                (res) => {
+                    console.log('fetchFriends > res', res)
+    
+                    res?.data ? sessionStorage.setItem('friends_data', JSON.stringify(res?.data)) : null;
+                    setSessionFriends(res?.data ? res?.data : []);
+                },
+                (err) => {
+                    console.log('fetchFriends > err', err)
+                    setSessionFriends([]);
+                },
+            );
+        }
     }
 
     async function fetchGroups() {
-        await getGroups(`userId=${sessionUser.id}`).then(
-            (res) => {
-                console.log('fetchGroups > res', res)
-
-                if (!sessionStorage.getItem('groups_data') && res?.data) {
-                    sessionStorage.setItem('groups_data', JSON.stringify(res?.data));
-                }
-
-                let groupsArr = sessionStorage.getItem('groups_data') ? JSON.parse(sessionStorage.getItem('groups_data')) : 
-                    res?.data ? res?.data : [];
-
-                setSessionGroups(groupsArr);
-            },
-            (err) => {
-                console.log('fetchGroups > err', err)
-                setSessionGroups([]);
-            },
-        );
+        if(sessionStorage.getItem('groups_data')) {
+            setSessionGroups(JSON.parse(sessionStorage.getItem('groups_data')));
+        } else {
+            await getGroups(`userId=${sessionUser.id}`).then(
+                (res) => {
+                    console.log('fetchGroups > res', res)
+    
+                    res?.data ? sessionStorage.setItem('groups_data', JSON.stringify(res?.data)) : null;
+                    setSessionGroups(res?.data ? res?.data : []);
+                },
+                (err) => {
+                    console.log('fetchGroups > err', err)
+                    setSessionGroups([]);
+                },
+            );
+        }
     }
 
     const onDrawerToggleClick = (value) => {
@@ -117,8 +119,8 @@ export default function GlobalLayout(props) {
 
             {/* <ChatBox instance={1} />
             <ChatBox instance={2} /> */}
-            {/* <ChatBox instance={3} />
-            <ChatBox instance={4} /> */}
+            {/* <ChatBox instance={3} /> */}
+            {/* <ChatBox instance={4} /> */}
 
             {/* MULTIPLE INSTANCES OF CHATBOX HERE */}
         </Box>
