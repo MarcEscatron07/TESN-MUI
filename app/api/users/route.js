@@ -14,8 +14,8 @@ export async function GET(req, res) {
     
     for (const key in jsonData) {
         const dataObj = JSON.parse(JSON.stringify(jsonData[key]));
-        delete dataObj["username"];
-        delete dataObj["password"];
+        // delete dataObj["username"];
+        // delete dataObj["password"];
 
         dataArr.push(dataObj);
     }
