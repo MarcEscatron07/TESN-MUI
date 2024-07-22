@@ -80,7 +80,7 @@ export default function TopAppBar(props) {
     const onLogoutClick = () => {
         onMenuClose();
         clearSession();
-        router.push("/");
+        router.push(`/`);
     };
 
     const renderMenu = (

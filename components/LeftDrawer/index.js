@@ -79,7 +79,7 @@ export default function LeftDrawer(props) {
   }, [props.sessionNav]);
 
   useEffect(() => {
-    router.push(`/${sesNav.toLowerCase()}`);
+    sesNav != '' ? router.push(`/${sesNav.toLowerCase()}`) : null;
   }, [sesNav])
 
   const onCloseDrawerClick = () => {
