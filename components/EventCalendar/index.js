@@ -135,6 +135,7 @@ export default function EventCalendar() {
 
     useEffect(() => {
         fetchHolidays();
+        fetchEvents();
     }, [])
 
     /** FULLCALENDAR useEffect **/
@@ -265,6 +266,14 @@ export default function EventCalendar() {
         }
     }
 
+    async function fetchEvents() {
+        if(sessionStorage.getItem('events_data')) {
+            setEventsList(JSON.parse(sessionStorage.getItem('events_data')));
+        } else {
+            // API CALL FOR FETCHING EVENTS HERE
+        }
+    }
+
     /** FULLCALENDAR FUNCTIONS **/
     const onEventClick = (event) => {
         const eventId = event?.event?.id ?? '';
@@ -332,14 +341,18 @@ export default function EventCalendar() {
             extendedProps: []
         }
 
+        let eventsArr = [];
         const evtIdx = formJson?.id ? eventsList.map((i) => i.id).indexOf(formJson?.id) : -1;
 
         if (evtIdx != -1) {
             const filteredArr = eventsList.filter((i) => i.id != eventsList[evtIdx].id);
-            setEventsList([...filteredArr, { ...eventObj, id: formJson?.title ? `evt_${eventsList.length}_${formJson?.title}` : -1 }]);
+            eventsArr = [...filteredArr, { ...eventObj, id: formJson?.title ? `evt_${eventsList.length}_${formJson?.title}` : -1 }];
         } else {
-            setEventsList([...eventsList, { ...eventObj, id: formJson?.title ? `evt_${eventsList.length}_${formJson?.title}` : -1 }]);
+            eventsArr = [...eventsList, { ...eventObj, id: formJson?.title ? `evt_${eventsList.length}_${formJson?.title}` : -1 }];
         }
+
+        sessionStorage.setItem('events_data', JSON.stringify(eventsArr));
+        setEventsList(eventsArr);
 
         onModalToggleClick(false);
     }
