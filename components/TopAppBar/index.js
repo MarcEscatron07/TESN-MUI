@@ -40,31 +40,31 @@ export default function TopAppBar(props) {
 
     useEffect(() => { }, []);
 
-    const handleOpenDrawerClick = () => {
+    const onOpenDrawerClick = () => {
         if (props.onDrawerToggleClick) {
             props.onDrawerToggleClick(true);
         }
     };
 
-    const handleProfileMenuOpen = (event) => {
+    const onProfileMenuOpen = (event) => {
         setMenuAnchorEl(event.currentTarget);
     };
 
-    const handleMobileMenuClose = () => {
+    const onMobileMenuClose = () => {
         setMobileMenuAnchorEl(null);
     };
 
-    const handleMenuClose = () => {
+    const onMenuClose = () => {
         setMenuAnchorEl(null);
-        handleMobileMenuClose();
+        onMobileMenuClose();
     };
 
-    const handleMobileMenuOpen = (event) => {
+    const onMobileMenuOpen = (event) => {
         setMobileMenuAnchorEl(event.currentTarget);
     };
 
-    const handleLogoutClick = () => {
-        handleMenuClose();
+    const onLogoutClick = () => {
+        onMenuClose();
         router.push("/");
     };
 
@@ -82,10 +82,10 @@ export default function TopAppBar(props) {
                 horizontal: "right",
             }}
             open={isMenuOpen}
-            onClose={handleMenuClose}
+            onClose={onMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
+            <MenuItem onClick={onMenuClose}>Profile</MenuItem>
+            <MenuItem onClick={onLogoutClick}>Logout</MenuItem>
         </Menu>
     );
 
@@ -103,7 +103,7 @@ export default function TopAppBar(props) {
                 horizontal: "right",
             }}
             open={isMobileMenuOpen}
-            onClose={handleMobileMenuClose}
+            onClose={onMobileMenuClose}
         >
             <MenuItem>
                 <IconButton aria-label="topappbar-messages-mobile" size="large" color="inherit">
@@ -121,7 +121,7 @@ export default function TopAppBar(props) {
                 </IconButton>
                 <p>Notifications</p>
             </MenuItem>
-            <MenuItem onClick={handleProfileMenuOpen}>
+            <MenuItem onClick={onProfileMenuOpen}>
                 <IconButton aria-label="topappbar-profile-mobile" size="large" aria-controls="topappbar-menu" aria-haspopup="true" color="inherit">
                     <AccountCircle />
                 </IconButton>
@@ -137,7 +137,7 @@ export default function TopAppBar(props) {
                     <IconButton
                         aria-label="topappbar-left-drawer-toggle"
                         color="inherit"
-                        onClick={handleOpenDrawerClick}
+                        onClick={onOpenDrawerClick}
                         edge="start"
                         sx={{
                             ...TOP_APP_BAR.topAppBarLeftDrawerToggle,
@@ -195,7 +195,7 @@ export default function TopAppBar(props) {
                             edge="end"
                             aria-controls={menuId}
                             aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
+                            onClick={onProfileMenuOpen}
                             color="inherit"
                             sx={TOP_APP_BAR.topAppBarAvatar}
                         >
@@ -214,7 +214,7 @@ export default function TopAppBar(props) {
                             size="large"
                             aria-controls={mobileMenuId}
                             aria-haspopup="true"
-                            onClick={handleMobileMenuOpen}
+                            onClick={onMobileMenuOpen}
                             color="inherit"
                         >
                             <MoreIcon />

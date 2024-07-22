@@ -81,13 +81,13 @@ export default function LeftDrawer(props) {
     router.push(`/${activeNav.toLowerCase()}`);
   }, [activeNav])
 
-  const handleCloseDrawerClick = () => {
+  const onCloseDrawerClick = () => {
     if (props.onDrawerToggleClick) {
       props.onDrawerToggleClick(false);
     }
   }
 
-  const handleNavItemClick = (value) => {
+  const onNavItemClick = (value) => {
     sessionStorage.setItem('nav_data', value);
     setActiveNav(value);
   }
@@ -135,7 +135,7 @@ export default function LeftDrawer(props) {
           </Typography>
         </Paper>
         <Box sx={{ width: "15%" }}>
-          <IconButton aria-label="left-drawer-toggle" onClick={handleCloseDrawerClick} sx={{ color: theme.palette.light.main }}>
+          <IconButton aria-label="left-drawer-toggle" onClick={onCloseDrawerClick} sx={{ color: theme.palette.light.main }}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
             ) : (
@@ -162,7 +162,7 @@ export default function LeftDrawer(props) {
               backgroundColor: activeNav == item.text ? theme.palette.secondary.main : null,
               color: activeNav == item.text ? theme.palette.secondary.contrastText : null
             }}
-            onClick={() => handleNavItemClick(item.text)}
+            onClick={() => onNavItemClick(item.text)}
           >
             <ListItemButton
               sx={{

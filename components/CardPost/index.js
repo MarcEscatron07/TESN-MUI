@@ -33,7 +33,7 @@ export default function CardPost(props) {
 
     const [expanded, setExpanded] = useState(true);
 
-    const handleExpandClick = () => {
+    const onExpandClick = () => {
         setExpanded(!expanded);
     };
 
@@ -89,7 +89,7 @@ export default function CardPost(props) {
                 </Box>
                 <Box>
                     <Button
-                        onClick={handleExpandClick}
+                        onClick={onExpandClick}
                         startIcon={expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                     >
                         {expanded ? 'Show Less' : 'Show More'}
