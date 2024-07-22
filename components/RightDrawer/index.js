@@ -19,7 +19,10 @@ import { RIGHT_DRAWER } from '@/components/styles';
 export default function RightDrawer(props) {
   const theme = useTheme();
 
-  const birthdaysList = [
+  const [sesFriends, setSesFriends] = useState([]);
+  const [sesGroups, setSesGroups] = useState([]);
+
+  const birthdaysList = [ // temporary data
     {
       name: 'Jerson Albit',
       office: 'TICTO'
@@ -30,62 +33,22 @@ export default function RightDrawer(props) {
     },
   ];
 
-  const friendConvoList = [
-    {
-      id: 2,
-      name: "Jerson Albit",
-      image: "/images/avatars/avatar_male_2.png",
-      type: "single",
-      unread: 0,
-      isOnline: true
-    },
-    {
-      id: 3,
-      name: "Joel Buena",
-      image: "/images/avatars/avatar_male_3.png",
-      type: "single",
-      unread: 0,
-      isOnline: false
-    },
-    {
-      id: 4,
-      name: "Rommel Digal",
-      image: "/images/avatars/avatar_male_4.png",
-      type: "single",
-      unread: 0,
-      isOnline: true
-    },
-    {
-      id: 5,
-      name: "Junjie Bautista",
-      image: "/images/avatars/avatar_male_5.png",
-      type: "single",
-      unread: 0,
-      isOnline: false
-    },
-    {
-      id: 6,
-      name: "Ian Tambis",
-      image: "/images/avatars/avatar_male_6.png",
-      type: "single",
-      unread: 0,
-      isOnline: true
-    },
-  ];
+  useEffect(() => {
+  }, []);
 
-  const groupConvoList = [
-    {
-      id: 7,
-      name: "TICTO",
-      image: "/images/avatars/avatar_ticto_seal.png",
-      type: "multiple",
-      userIds: [1, 2, 3, 4, 5, 6],
-      unread: 0,
-      isOnline: true
-    }
-  ];
+  useEffect(() => {
+    setSesFriends(props.sessionFriends);
+  }, [props.sessionFriends]);
 
-  useEffect(() => { }, []);
+  useEffect(() => {
+    setSesGroups(props.sessionGroups);
+  }, [props.sessionGroups]);
+
+  useEffect(() => {
+  }, [sesFriends]);
+
+  useEffect(() => {
+  }, [sesGroups]);
 
   return (
     <Drawer
@@ -145,7 +108,7 @@ export default function RightDrawer(props) {
           </ListSubheader>
         }
       >
-        {friendConvoList.map((item, index) => (
+        {sesFriends.map((item, index) => (
           <ListItem key={index} disablePadding sx={RIGHT_DRAWER.rightDrawerListItem}>
             <ListItemButton
               sx={RIGHT_DRAWER.rightDrawerListItemButton}
@@ -185,7 +148,7 @@ export default function RightDrawer(props) {
           </ListSubheader>
         }
       >
-        {groupConvoList.map((item, index) => (
+        {sesGroups.map((item, index) => (
           <ListItem key={index} disablePadding sx={RIGHT_DRAWER.rightDrawerListItem}>
             <ListItemButton
               sx={RIGHT_DRAWER.rightDrawerListItemButton}

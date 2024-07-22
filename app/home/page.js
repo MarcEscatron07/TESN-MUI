@@ -24,7 +24,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    console.log('Home > postsList', postsList);
+    // console.log('Home > postsList', postsList);
   }, [postsList])
 
   async function fetchPosts() {
@@ -36,7 +36,6 @@ export default function Home() {
       },
       (err) => {
         console.log('Home > fetchPosts > err', err);
-
         setPostsList([]);
       },
     );

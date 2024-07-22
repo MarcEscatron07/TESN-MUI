@@ -207,6 +207,8 @@ export default function EventCalendar() {
             }
         }).then(
             (res) => {
+                console.log('fetchHolidays > regular > res', res)
+
                 regularHolidayArr = res ? res.map((item, idx) => {
                     if (['public', 'optional'].includes(item?.type)) {
                         return {
@@ -225,6 +227,7 @@ export default function EventCalendar() {
                 }).filter((i) => i != null) : [];
             },
             (err) => {
+                console.log('fetchHolidays > regular > err', err)
                 regularHolidayArr = [];
             }
         );
@@ -232,6 +235,8 @@ export default function EventCalendar() {
         let localHolidayArr = [];
         await getLocalHolidays().then(
             (res) => {
+                console.log('fetchHolidays > local > res', res)
+
                 localHolidayArr = res?.data ? res?.data.map((item, idx) => {
                     return {
                         id: item?.name ? `loc_${idx}_${item?.name}` : -1,
@@ -246,6 +251,7 @@ export default function EventCalendar() {
                 }) : []
             },
             (err) => {
+                console.log('fetchHolidays > local > err', err)
                 localHolidayArr = [];
             },
         )

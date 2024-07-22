@@ -3,45 +3,45 @@ import { promises as fs } from "fs";
 import path from "path";
 
 export async function GET(req, res) {
+  try {
+    /** temporary code **/
+    const jsonPath = "/public/json/chats.json";
+    const jsonFile = await fs.readFile(path.join(process.cwd(), jsonPath), "utf8");
+    const jsonData = JSON.parse(jsonFile);
+    /** temporary code **/
 
+    const url = new URL(req.url);
+    const searchParams = new URLSearchParams(url.searchParams);
+    const userId = searchParams.has('userId') ? searchParams.get('userId') : -1;
+    const friendId = searchParams.has('friendId') ? searchParams.get('friendId') : -1;
+    const chatType = searchParams.has('chatType') ? searchParams.get('chatType') : '';
+  
+    for (const key in jsonData) {
+        if (
+            jsonData[key]?.userIds?.includes(userId) && jsonData[key]?.userIds?.includes(friendId) &&
+            jsonData[key]?.type == chatType && 
+            jsonData[key]?.chats
+        ) {
+            return NextResponse.json({
+                status: 200,
+                message: "Data fetch successful.",
+                data: jsonData[key]?.chats,
+              }, { status: 200 });
+        } else {
+            return NextResponse.json({
+                status: 400,
+                message: "Data fetch failed.",
+              }, { status: 400 });
+        }
+    }
+  } catch (e) {
+    return NextResponse.json({
+        status: 500,
+        message: "An unexpected error occured.",
+    }, { status: 500 });
+  }
 }
 
 export async function POST(req, res) {
-    try {
-      /** temporary code **/
-      const jsonPath = "/public/json/chats.json";
-      const jsonFile = await fs.readFile(path.join(process.cwd(), jsonPath), "utf8");
-      const jsonData = JSON.parse(jsonFile);
-      /** temporary code **/
-      
-      const formData = await req.formData();
-      const friendId = formData.get("friendId");
-      const chatType = formData.get("chatType");
-    
-      for (const key in jsonData) {
-          const authUserData = sessionStorage.getItem('authuser_data') ? JSON.parse(sessionStorage.getItem('authuser_data')) : null;
-    
-          if (
-              jsonData[key]?.userIds?.includes(authUserData?.id) && jsonData[key]?.userIds?.includes(friendId) &&
-              jsonData[key]?.type == chatType && 
-              jsonData[key]?.chats
-          ) {
-              return NextResponse.json({
-                  status: 200,
-                  message: "Data fetch successful.",
-                  data: jsonData[key]?.chats,
-                }, { status: 200 });
-          } else {
-              return NextResponse.json({
-                  status: 400,
-                  message: "Data fetch failed.",
-                }, { status: 400 });
-          }
-      }
-    } catch (e) {
-      return NextResponse.json({
-          status: 500,
-          message: "An unexpected error occured.",
-      }, { status: 500 });
-    }
+
 }

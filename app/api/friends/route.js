@@ -10,11 +10,13 @@ export async function GET(req, res) {
     const jsonData = JSON.parse(jsonFile);
     /** temporary code **/
 
-    for (const key in jsonData) {
-        const authUserData = sessionStorage.getItem('authuser_data') ? JSON.parse(sessionStorage.getItem('authuser_data')) : null;
+    const url = new URL(req.url);
+    const searchParams = new URLSearchParams(url.searchParams);
+    const userId = searchParams.has('userId') ? searchParams.get('userId') : -1;
 
+    for (const key in jsonData) {
         if (
-            jsonData[key]?.userId == authUserData?.id && jsonData[key]?.friends
+            jsonData[key]?.userId == userId && jsonData[key]?.friends
         ) {
             return NextResponse.json({
                 status: 200,

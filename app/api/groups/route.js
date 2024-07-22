@@ -9,12 +9,14 @@ export async function GET(req, res) {
     const jsonFile = await fs.readFile(path.join(process.cwd(), jsonPath), "utf8");
     const jsonData = JSON.parse(jsonFile);
     /** temporary code **/
+    
+    const url = new URL(req.url);
+    const searchParams = new URLSearchParams(url.searchParams);
+    const userId = searchParams.has('userId') ? searchParams.get('userId') : -1;
 
     for (const key in jsonData) {
-        const authUserData = sessionStorage.getItem('authuser_data') ? JSON.parse(sessionStorage.getItem('authuser_data')) : null;
-
         if (
-            jsonData[key]?.userId == authUserData?.id && jsonData[key]?.groups
+            jsonData[key]?.userId == userId && jsonData[key]?.groups
         ) {
             return NextResponse.json({
                 status: 200,
