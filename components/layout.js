@@ -37,7 +37,7 @@ export default function GlobalLayout(props) {
 
     async function fetchSession() {
         sessionStorage.getItem('authuser_data') ? setSessionUser(JSON.parse(sessionStorage.getItem('authuser_data'))) : null;
-        sessionStorage.getItem('nav_data') ? setSessionNav(sessionStorage.getItem('nav_data')) : null;
+        sessionStorage.getItem('nav_data') ? setSessionNav(sessionStorage.getItem('nav_data')) : setSessionNav('Home');
     }
 
     const onDrawerToggleClick = (value) => {
