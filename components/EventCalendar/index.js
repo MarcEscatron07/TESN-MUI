@@ -371,6 +371,7 @@ export default function EventCalendar() {
 
         setPopoverAnchor(null);
         const filteredArr = eventsList.filter((i) => i.id != popoverData?.id);
+        sessionStorage.setItem('events_data', JSON.stringify(filteredArr));
         setEventsList(filteredArr);
     }
 
