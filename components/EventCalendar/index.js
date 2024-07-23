@@ -565,7 +565,7 @@ export default function EventCalendar() {
                                         <span style={{ color: 'gray' }}>
                                             <VisibilityIcon />
                                         </span>
-                                        <span style={{ marginLeft: 15, textTransform: 'capitalize' }}>
+                                        <span style={{ marginLeft: 15 }}>
                                             {`${popoverData?.visibility}`}
                                         </span>
                                     </Typography>
