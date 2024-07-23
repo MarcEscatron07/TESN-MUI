@@ -112,11 +112,6 @@ export default function GlobalLayout(props) {
         setIsLeftDrawerOpen(value);
     }
 
-    const onSelectedChatClick = (value) => {
-        console.log('onSelectedChatClick > value', value)
-        processActiveChatList(value);
-    }
-
     const onRemoveChatClick = (value, origin) => {
         let activeChatArr = activeChatList;
         let passiveChatArr = passiveChatList;
@@ -125,7 +120,7 @@ export default function GlobalLayout(props) {
             case 'chat-list':
                 let pChatIdx = passiveChatList.map((i) => i.id).indexOf(value?.id ?? -1);
                 passiveChatArr = [...passiveChatList].filter((_, idx) => idx != pChatIdx);
-                
+
                 sessionStorage.setItem('passive_chat_data', JSON.stringify(passiveChatArr));
                 setPassiveChatList(passiveChatArr);
                 break;
@@ -142,6 +137,26 @@ export default function GlobalLayout(props) {
                 setPassiveChatList(passiveChatArr);
                 break;
         }
+    }
+
+    const onMinimizeChatClick = (value) => {
+        console.log('onMinimizeChatClick > value', value)
+        
+        let activeChatArr = activeChatList;
+        let passiveChatArr = passiveChatList;
+
+        let aChatIdx = activeChatList.map((i) => i.id).indexOf(value?.id ?? -1);
+
+        passiveChatArr.unshift(activeChatList[aChatIdx]);
+        setPassiveChatList(passiveChatArr);
+
+        activeChatArr = [...activeChatList].filter((_, idx) => idx != aChatIdx);
+        setActiveChatList(activeChatArr);
+    }
+
+    const onSelectedChatClick = (value) => {
+        console.log('onSelectedChatClick > value', value)
+        processActiveChatList(value);
     }
 
     function processActiveChatList(value) {
@@ -189,10 +204,20 @@ export default function GlobalLayout(props) {
 
             <RightDrawer sessionFriends={sessionFriends} sessionGroups={sessionGroups} onDrawerChatClick={onSelectedChatClick} />
 
-            <ChatList passiveChatList={passiveChatList} onListChatClick={onSelectedChatClick} onChatListRemoveClick={(value) => onRemoveChatClick(value, 'chat-list')} />
+            <ChatList 
+                passiveChatList={passiveChatList} 
+                onListChatClick={onSelectedChatClick} 
+                onChatListRemoveClick={(value) => onRemoveChatClick(value, 'chat-list')}
+            />
 
             {activeChatList.map((item, idx) => (
-                <ChatBox key={idx} instance={(idx + 1)} activeChatData={item} onChatBoxCloseClick={(value) => onRemoveChatClick(value, 'chat-box')} />
+                <ChatBox 
+                    key={idx} 
+                    instance={(idx + 1)} 
+                    activeChatData={item} 
+                    onChatBoxCloseClick={(value) => onRemoveChatClick(value, 'chat-box')} 
+                    onChatBoxMinimizeClick={onMinimizeChatClick}
+                />
             ))}
         </Box>
     )

@@ -66,6 +66,12 @@ export default function ChatBox(props) {
         // console.log('onChatInputFocus > event', event)
     }
 
+    const onMinimizeClick = (event, value) => {
+        if(props.onChatBoxMinimizeClick) {
+            props.onChatBoxMinimizeClick(value);
+        }
+    }
+
     const onCloseClick = (event, value) => {
         if(props.onChatBoxCloseClick) {
             props.onChatBoxCloseClick(value);
@@ -83,7 +89,7 @@ export default function ChatBox(props) {
                             title={<span style={CHAT_BOX.chatBoxCardHeaderTitle}>{actChatData.name}</span>}
                             action={
                                 <>
-                                    <IconButton aria-label="chat-box-minimize">
+                                    <IconButton aria-label="chat-box-minimize" onClick={(event) => onMinimizeClick(event, actChatData)}>
                                         <RemoveIcon />
                                     </IconButton>
                                     <IconButton aria-label="chat-box-close" onClick={(event) => onCloseClick(event, actChatData)}>
