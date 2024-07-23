@@ -116,37 +116,41 @@ export default function GlobalLayout(props) {
         console.log('onDrawerChatClick > value', value)
 
         if(value?.id != -1) {
-            /** LOGIC FOR activeChatList **/
-            let aChatIdx = activeChatList.map((i) => i?.id).indexOf(value?.id);
-            let activeChatArr = [...activeChatList];
-
-            if(aChatIdx == -1) {
-                activeChatArr.unshift(value);
-                
-                if(activeChatList.length >= maxActiveChatCount) {
-                    /** LOGIC FOR passiveChatList **/
-                    let pChatIdx = passiveChatList.map((i) => i?.id).indexOf(value?.id);
-                    let passiveChatArr = [...passiveChatList].filter((_, idx) => idx != pChatIdx);
-        
-                    passiveChatArr.unshift(activeChatArr[activeChatArr.length-1]);
-                    if(passiveChatList.length >= maxPassiveChatCount) {
-                        passiveChatArr.pop();
-                    }
-    
-                    sessionStorage.setItem('passive_chat_data', JSON.stringify(passiveChatArr));
-                    setPassiveChatList(passiveChatArr);
-                    /** LOGIC FOR passiveChatList **/
-    
-                    activeChatArr.pop();
-                }
-            } else {
-                aChatIdx == (activeChatArr.length-1) ? activeChatArr.reverse() : null;
-            }
-
-            sessionStorage.setItem('active_chat_data', JSON.stringify(activeChatArr));
-            setActiveChatList(activeChatArr);
-            /** LOGIC FOR activeChatList **/
+            processActiveChatList(value);
         }
+    }
+
+    function processActiveChatList(value) {
+        let aChatIdx = activeChatList.map((i) => i.id).indexOf(value?.id);
+        let activeChatArr = [...activeChatList];
+
+        if(aChatIdx == -1) {
+            activeChatArr.unshift(value);
+            
+            if(activeChatList.length >= maxActiveChatCount) {
+                processPassiveChatList(value, activeChatArr);
+
+                activeChatArr.pop();
+            }
+        } else {
+            aChatIdx == (activeChatArr.length-1) ? activeChatArr.reverse() : null;
+        }
+
+        sessionStorage.setItem('active_chat_data', JSON.stringify(activeChatArr));
+        setActiveChatList(activeChatArr);
+    }
+
+    function processPassiveChatList(value, array) {
+        let pChatIdx = passiveChatList.map((i) => i.id).indexOf(value?.id);
+        let passiveChatArr = [...passiveChatList].filter((_, idx) => idx != pChatIdx);
+
+        passiveChatArr.unshift(array[array.length-1]);
+        if(passiveChatList.length >= maxPassiveChatCount) {
+            passiveChatArr.pop();
+        }
+
+        sessionStorage.setItem('passive_chat_data', JSON.stringify(passiveChatArr));
+        setPassiveChatList(passiveChatArr);
     }
 
     return (
