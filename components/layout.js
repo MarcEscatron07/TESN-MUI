@@ -118,18 +118,28 @@ export default function GlobalLayout(props) {
     }
 
     const onRemoveChatClick = (value, origin) => {
+        let activeChatArr = activeChatList;
+        let passiveChatArr = passiveChatList;
+
         switch(origin) {
             case 'chat-list':
                 let pChatIdx = passiveChatList.map((i) => i.id).indexOf(value?.id ?? -1);
-                let passiveChatArr = [...passiveChatList].filter((_, idx) => idx != pChatIdx);
+                passiveChatArr = [...passiveChatList].filter((_, idx) => idx != pChatIdx);
+                
                 sessionStorage.setItem('passive_chat_data', JSON.stringify(passiveChatArr));
                 setPassiveChatList(passiveChatArr);
                 break;
             case 'chat-box':
                 let aChatIdx = activeChatList.map((i) => i.id).indexOf(value?.id ?? -1);
-                let activeChatArr = [...activeChatList].filter((_, idx) => idx != aChatIdx);
+                activeChatArr = [...activeChatList].filter((_, idx) => idx != aChatIdx);
+                
+                passiveChatArr[0] ? activeChatArr = [...activeChatArr, passiveChatArr[0]] : null;
                 sessionStorage.setItem('active_chat_data', JSON.stringify(activeChatArr));
                 setActiveChatList(activeChatArr);
+
+                passiveChatArr[0] ? passiveChatArr.shift() : null;
+                sessionStorage.setItem('passive_chat_data', JSON.stringify(passiveChatArr));
+                setPassiveChatList(passiveChatArr);
                 break;
         }
     }
