@@ -139,18 +139,40 @@ export default function GlobalLayout(props) {
         }
     }
 
+    const onCloseAllChatsClick = () => {
+        let activeChatArr = [];
+        let passiveChatArr = [];
+
+        sessionStorage.setItem('active_chat_data', JSON.stringify(activeChatArr));
+        setActiveChatList(activeChatArr);
+
+        sessionStorage.setItem('passive_chat_data', JSON.stringify(passiveChatArr));
+        setPassiveChatList(passiveChatArr);
+    }
+
+    const onMinimizeOpenChatsClick = () => {
+        let activeChatArr = [];
+        let passiveChatArr = [...activeChatList, ...passiveChatList];
+
+        sessionStorage.setItem('active_chat_data', JSON.stringify(activeChatArr));
+        setActiveChatList(activeChatArr);
+
+        sessionStorage.setItem('passive_chat_data', JSON.stringify(passiveChatArr));
+        setPassiveChatList(passiveChatArr);
+    }
+
     const onMinimizeChatClick = (value) => {
-        // console.log('onMinimizeChatClick > value', value)
-        
         let activeChatArr = activeChatList;
         let passiveChatArr = passiveChatList;
 
         let aChatIdx = activeChatList.map((i) => i.id).indexOf(value?.id ?? -1);
 
         passiveChatArr.unshift(activeChatList[aChatIdx]);
+        sessionStorage.setItem('passive_chat_data', JSON.stringify(passiveChatArr));
         setPassiveChatList(passiveChatArr);
 
         activeChatArr = [...activeChatList].filter((_, idx) => idx != aChatIdx);
+        sessionStorage.setItem('active_chat_data', JSON.stringify(activeChatArr));
         setActiveChatList(activeChatArr);
     }
 
@@ -210,6 +232,8 @@ export default function GlobalLayout(props) {
                 passiveChatList={passiveChatList} 
                 onListChatClick={onSelectedChatClick} 
                 onChatListRemoveClick={(value) => onRemoveChatClick(value, 'chat-list')}
+                onChatListCloseClick={onCloseAllChatsClick}
+                onChatListMinimizeClick={onMinimizeOpenChatsClick}
             />
 
             {activeChatList.map((item, idx) => (

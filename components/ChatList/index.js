@@ -51,6 +51,22 @@ export default function ChatList(props) {
     setPopoverAnchor(event.target);
   }
 
+  const onOptionCloseClick = () => {
+    setPopoverAnchor(null);
+
+    if (props.onChatListCloseClick) {
+      props.onChatListCloseClick();
+    }
+  }
+
+  const onOptionMinimizeClick = () => {
+    setPopoverAnchor(null);
+
+    if (props.onChatListMinimizeClick) {
+      props.onChatListMinimizeClick();
+    }
+  }
+
   return (
     <div className="chat-list">
       {/* <Fab sx={CHAT_LIST.chatListFabNewChat} color="secondary" size="medium">
@@ -84,7 +100,17 @@ export default function ChatList(props) {
       ))}
 
       {pasChatList.length >= 2 ? (
-        <IconButton color="dark" aria-label="chat-icon-close" onClick={onOptionClick}>
+        <IconButton
+          aria-label="chat-icon-close"
+          sx={{ 
+            "&:hover": {
+              backgroundColor: theme.palette.secondary.dark
+            },
+            backgroundColor: theme.palette.secondary.main,
+            mb: 1.5
+          }}
+          onClick={onOptionClick}
+        >
           <MoreHorizIcon />
         </IconButton>
       ) : null}
@@ -113,6 +139,7 @@ export default function ChatList(props) {
               color: theme.palette.dark.main
             }}
             startIcon={<CancelIcon />}
+            onClick={onOptionCloseClick}
           >
             Close all chats
           </Button>
@@ -124,8 +151,9 @@ export default function ChatList(props) {
               color: theme.palette.dark.main
             }}
             startIcon={<RemoveIcon />}
+            onClick={onOptionMinimizeClick}
           >
-            Minimize all chats
+            Minimize open chats
           </Button>
         </Box>
       </Popover>

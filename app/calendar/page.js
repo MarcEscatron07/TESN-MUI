@@ -22,7 +22,7 @@ export default function Calendar() {
     return (
         <>
             <GlobalLayout isLoading={isLoading}>
-                <Box component="section" sx={{ width: '100%', px: 3 }}>
+                <Box component="section" sx={{ width: '100%', px: 5 }}>
                     <DrawerHeader />
 
                     <Box sx={{ my: 2 }}>
