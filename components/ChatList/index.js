@@ -25,9 +25,9 @@ export default function ChatList(props) {
 
   return (
     <div className="chat-list">
-      <Fab sx={CHAT_LIST.chatListFabNewChat} color="secondary" size="medium">
+      {/* <Fab sx={CHAT_LIST.chatListFabNewChat} color="secondary" size="medium">
         <EditNoteIcon fontSize="large" />
-      </Fab>
+      </Fab> */}
 
       {pasChatList.map((item, idx) => (
         <Fab key={idx} sx={CHAT_LIST.chatListFabAvatar}>

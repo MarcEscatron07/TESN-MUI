@@ -24,8 +24,8 @@ export default function GlobalLayout(props) {
     const [activeChatList, setActiveChatList] = useState([]);
     const [passiveChatList, setPassiveChatList] = useState([]);
 
-    const maxActiveChatCount = 2;
-    const maxPassiveChatCount = 2;
+    const maxActiveChatCount = 3;
+    const maxPassiveChatCount = 6;
 
     useEffect(() => {
         fetchSession();
@@ -112,20 +112,37 @@ export default function GlobalLayout(props) {
 
     const onDrawerChatClick = (value) => {
         console.log('onDrawerChatClick > value', value)
-        
+
         let aChatIdx = activeChatList.map((i) => i?.id).indexOf(value?.id);
-        if(aChatIdx == -1 && value?.id != -1) {
+        let pChatIdx = passiveChatList.map((i) => i?.id).indexOf(value?.id);
+
+        /** LOGIC FOR activeChatList **/
+        if(value?.id != -1 && aChatIdx == -1 && pChatIdx == -1) {
             let activeChatArr = [...activeChatList];
 
             if(activeChatList.length < maxActiveChatCount) {
                 activeChatArr.unshift(value);
             } else {
+                /** LOGIC FOR passiveChatList **/
+                let passiveChatArr = [...passiveChatList];
+
+                if(passiveChatList.length < maxPassiveChatCount) {
+                    passiveChatArr.unshift(activeChatArr[activeChatArr.length-1]);
+                } else {
+                    passiveChatArr.pop();
+                    passiveChatArr.unshift(activeChatArr[activeChatArr.length-1]);
+                }
+
+                setPassiveChatList(passiveChatArr);
+                /** LOGIC FOR passiveChatList **/
+
                 activeChatArr.pop();
                 activeChatArr.unshift(value);
             }
 
             setActiveChatList(activeChatArr);
         }
+        /** LOGIC FOR activeChatList **/
     }
 
     return (
