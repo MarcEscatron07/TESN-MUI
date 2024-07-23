@@ -9,6 +9,14 @@
                 "type": "multiple",
                 "userIds": [1,2,3,4,5,6],
                 "unread": 0
+            },
+            {
+                "id": 8,
+                "name": "Ridezzz",
+                "image": "/images/avatars/avatar_motorbike.png",
+                "type": "multiple",
+                "userIds": [1,2,4,5],
+                "unread": 0
             }
         ]
     }

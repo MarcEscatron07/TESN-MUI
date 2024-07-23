@@ -129,7 +129,7 @@ export default function GlobalLayout(props) {
                     let passiveChatArr = [...passiveChatList].filter((_, idx) => idx != pChatIdx);
         
                     passiveChatArr.unshift(activeChatArr[activeChatArr.length-1]);
-                    if(passiveChatList.length > maxPassiveChatCount) {
+                    if(passiveChatList.length >= maxPassiveChatCount) {
                         passiveChatArr.pop();
                     }
     
