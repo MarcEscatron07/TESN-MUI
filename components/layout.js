@@ -117,8 +117,25 @@ export default function GlobalLayout(props) {
         processActiveChatList(value);
     }
 
+    const onRemoveChatClick = (value, origin) => {
+        switch(origin) {
+            case 'chat-list':
+                let pChatIdx = passiveChatList.map((i) => i.id).indexOf(value?.id ?? -1);
+                let passiveChatArr = [...passiveChatList].filter((_, idx) => idx != pChatIdx);
+                sessionStorage.setItem('passive_chat_data', JSON.stringify(passiveChatArr));
+                setPassiveChatList(passiveChatArr);
+                break;
+            case 'chat-box':
+                let aChatIdx = activeChatList.map((i) => i.id).indexOf(value?.id ?? -1);
+                let activeChatArr = [...activeChatList].filter((_, idx) => idx != aChatIdx);
+                sessionStorage.setItem('active_chat_data', JSON.stringify(activeChatArr));
+                setActiveChatList(activeChatArr);
+                break;
+        }
+    }
+
     function processActiveChatList(value) {
-        let aChatIdx = activeChatList.map((i) => i.id).indexOf(value?.id);
+        let aChatIdx = activeChatList.map((i) => i.id).indexOf(value?.id ?? -1);
         let activeChatArr = [...activeChatList];
 
         if(aChatIdx == -1) {
@@ -136,7 +153,7 @@ export default function GlobalLayout(props) {
     }
 
     function processPassiveChatList(value, array) {
-        let pChatIdx = passiveChatList.map((i) => i.id).indexOf(value?.id);
+        let pChatIdx = passiveChatList.map((i) => i.id).indexOf(value?.id ?? -1);
         let passiveChatArr = [...passiveChatList].filter((_, idx) => idx != pChatIdx);
 
         passiveChatArr.unshift(array[array.length-1]);
@@ -162,10 +179,10 @@ export default function GlobalLayout(props) {
 
             <RightDrawer sessionFriends={sessionFriends} sessionGroups={sessionGroups} onDrawerChatClick={onSelectedChatClick} />
 
-            <ChatList passiveChatList={passiveChatList} onListChatClick={onSelectedChatClick} />
+            <ChatList passiveChatList={passiveChatList} onListChatClick={onSelectedChatClick} onChatListRemoveClick={(value) => onRemoveChatClick(value, 'chat-list')} />
 
             {activeChatList.map((item, idx) => (
-                <ChatBox key={idx} instance={(idx + 1)} activeChatData={item} />
+                <ChatBox key={idx} instance={(idx + 1)} activeChatData={item} onChatBoxCloseClick={(value) => onRemoveChatClick(value, 'chat-box')} />
             ))}
         </Box>
     )

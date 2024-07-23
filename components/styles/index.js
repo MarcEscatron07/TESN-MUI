@@ -84,6 +84,7 @@ export const CHAT_LIST = {
         my: 1
     },
     chatListFabAvatar: {
+        position: 'relative',
         mt: 1.2
     },
     chatListStyledBadgeAvatarOnline: {
@@ -99,7 +100,17 @@ export const CHAT_LIST = {
             color: "lightgray",
             backgroundColor: "gray",
         },
-    }
+    },
+    chatListFabClose: {
+        position: 'absolute', 
+        top: -5, 
+        right: 0, 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        padding: '2px 4px', 
+        borderRadius: 50
+    },
 }
 
 export const LEFT_DRAWER = {

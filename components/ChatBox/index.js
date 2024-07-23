@@ -66,6 +66,12 @@ export default function ChatBox(props) {
         // console.log('onChatInputFocus > event', event)
     }
 
+    const onCloseClick = (event, value) => {
+        if(props.onChatBoxCloseClick) {
+            props.onChatBoxCloseClick(value);
+        }
+    }
+
     return (
         <div className="chat-box" style={{right: props.instance > 1 ? 285 + (320 * (props.instance - 1)) : 285 }}>
             <Paper sx={CHAT_BOX.chatBoxPaperContainer} elevation={5}>
@@ -80,7 +86,7 @@ export default function ChatBox(props) {
                                     <IconButton aria-label="chat-box-minimize">
                                         <RemoveIcon />
                                     </IconButton>
-                                    <IconButton aria-label="chat-box-close">
+                                    <IconButton aria-label="chat-box-close" onClick={(event) => onCloseClick(event, actChatData)}>
                                         <CloseIcon />
                                     </IconButton>
                                 </>
