@@ -115,9 +115,9 @@ export default function GlobalLayout(props) {
     const onDrawerChatClick = (value) => {
         console.log('onDrawerChatClick > value', value)
 
-        let aChatIdx = activeChatList.map((i) => i?.id).indexOf(value?.id);
-        /** LOGIC FOR activeChatList **/
         if(value?.id != -1) {
+            /** LOGIC FOR activeChatList **/
+            let aChatIdx = activeChatList.map((i) => i?.id).indexOf(value?.id);
             let activeChatArr = [...activeChatList];
 
             if(aChatIdx == -1) {
@@ -125,10 +125,11 @@ export default function GlobalLayout(props) {
                 
                 if(activeChatList.length >= maxActiveChatCount) {
                     /** LOGIC FOR passiveChatList **/
-                    let passiveChatArr = [...passiveChatList].filter((i) => i.id != value?.id);
+                    let pChatIdx = passiveChatList.map((i) => i?.id).indexOf(value?.id);
+                    let passiveChatArr = [...passiveChatList].filter((_, idx) => idx != pChatIdx);
         
                     passiveChatArr.unshift(activeChatArr[activeChatArr.length-1]);
-                    if(passiveChatList.length >= maxPassiveChatCount) {
+                    if(passiveChatList.length > maxPassiveChatCount) {
                         passiveChatArr.pop();
                     }
     
@@ -144,8 +145,8 @@ export default function GlobalLayout(props) {
 
             sessionStorage.setItem('active_chat_data', JSON.stringify(activeChatArr));
             setActiveChatList(activeChatArr);
+            /** LOGIC FOR activeChatList **/
         }
-        /** LOGIC FOR activeChatList **/
     }
 
     return (
