@@ -126,10 +126,8 @@ export default function GlobalLayout(props) {
 
         if(aChatIdx == -1) {
             activeChatArr.unshift(value);
-            
             if(activeChatList.length >= maxActiveChatCount) {
                 processPassiveChatList(value, activeChatArr);
-
                 activeChatArr.pop();
             }
         } else {
