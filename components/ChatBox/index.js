@@ -59,11 +59,11 @@ export default function ChatBox(props) {
 
     const onChatInputKeyDown = (event) => {
         const charCode = event.keyCode || event.which;
-        console.log('onChatInputKeyDown > charCode', charCode)
+        // console.log('onChatInputKeyDown > charCode', charCode)
     }
 
     const onChatInputFocus = (event) => {
-        console.log('onChatInputFocus > event', event)
+        // console.log('onChatInputFocus > event', event)
     }
 
     return (
