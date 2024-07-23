@@ -140,7 +140,7 @@ export default function GlobalLayout(props) {
     }
 
     const onMinimizeChatClick = (value) => {
-        console.log('onMinimizeChatClick > value', value)
+        // console.log('onMinimizeChatClick > value', value)
         
         let activeChatArr = activeChatList;
         let passiveChatArr = passiveChatList;
@@ -155,18 +155,32 @@ export default function GlobalLayout(props) {
     }
 
     const onSelectedChatClick = (value) => {
-        console.log('onSelectedChatClick > value', value)
-        processActiveChatList(value);
-    }
-
-    function processActiveChatList(value) {
+        // console.log('onSelectedChatClick > value', value)
+        
+        /** ACTIVE CHAT LIST LOGIC **/
         let aChatIdx = activeChatList.map((i) => i.id).indexOf(value?.id ?? -1);
         let activeChatArr = [...activeChatList];
 
         if(aChatIdx == -1) {
             activeChatArr.unshift(value);
+            
+            /** PASSIVE CHAT LIST LOGIC **/
+            let pChatIdx = passiveChatList.map((i) => i.id).indexOf(value?.id ?? -1);
+            let passiveChatArr = [...passiveChatList].filter((_, idx) => idx != pChatIdx);
+
             if(activeChatList.length >= maxActiveChatCount) {
-                processPassiveChatList(value, activeChatArr);
+                passiveChatArr.unshift(activeChatArr[activeChatArr.length-1]);
+            }
+
+            if(passiveChatList.length >= maxPassiveChatCount) {
+                pChatIdx == -1 ? passiveChatArr.pop() : null;
+            }
+
+            sessionStorage.setItem('passive_chat_data', JSON.stringify(passiveChatArr));
+            setPassiveChatList(passiveChatArr);
+            /** PASSIVE CHAT LIST LOGIC **/
+
+            if(activeChatList.length >= maxActiveChatCount) {
                 activeChatArr.pop();
             }
         } else {
@@ -175,19 +189,7 @@ export default function GlobalLayout(props) {
 
         sessionStorage.setItem('active_chat_data', JSON.stringify(activeChatArr));
         setActiveChatList(activeChatArr);
-    }
-
-    function processPassiveChatList(value, array) {
-        let pChatIdx = passiveChatList.map((i) => i.id).indexOf(value?.id ?? -1);
-        let passiveChatArr = [...passiveChatList].filter((_, idx) => idx != pChatIdx);
-
-        passiveChatArr.unshift(array[array.length-1]);
-        if(passiveChatList.length >= maxPassiveChatCount) {
-            passiveChatArr.pop();
-        }
-
-        sessionStorage.setItem('passive_chat_data', JSON.stringify(passiveChatArr));
-        setPassiveChatList(passiveChatArr);
+        /** ACTIVE CHAT LIST LOGIC **/
     }
 
     return (
