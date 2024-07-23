@@ -66,6 +66,8 @@ export default function GlobalLayout(props) {
             image: ''
         });
         sessionStorage.getItem('nav_data') ? setSessionNav(sessionStorage.getItem('nav_data')) : setSessionNav('Home');
+        sessionStorage.getItem('active_chat_data') ? setActiveChatList(JSON.parse(sessionStorage.getItem('active_chat_data'))) : setActiveChatList([]);
+        sessionStorage.getItem('passive_chat_data') ? setPassiveChatList(JSON.parse(sessionStorage.getItem('passive_chat_data'))) : setPassiveChatList([]);
     }
 
     async function fetchFriends() {
@@ -132,6 +134,7 @@ export default function GlobalLayout(props) {
                         passiveChatArr.unshift(activeChatArr[activeChatArr.length-1]);
                     }
     
+                    sessionStorage.setItem('passive_chat_data', JSON.stringify(passiveChatArr));
                     setPassiveChatList(passiveChatArr);
                     /** LOGIC FOR passiveChatList **/
     
@@ -141,6 +144,7 @@ export default function GlobalLayout(props) {
                 aChatIdx == (activeChatArr.length-1) ? activeChatArr.reverse() : null;
             }
 
+            sessionStorage.setItem('active_chat_data', JSON.stringify(activeChatArr));
             setActiveChatList(activeChatArr);
         }
         /** LOGIC FOR activeChatList **/

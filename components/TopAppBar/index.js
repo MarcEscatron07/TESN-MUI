@@ -53,8 +53,12 @@ export default function TopAppBar(props) {
     useEffect(() => {
     }, [sesUser]);
 
-    const clearSession = () => {
+    const clearSessionStorage = () => {
         sessionStorage.clear();
+    }
+
+    const clearLocalStorage = () => {
+        localStorage.clear();
     }
 
     const onToggleClick = () => {
@@ -82,7 +86,8 @@ export default function TopAppBar(props) {
 
     const onLogoutClick = () => {
         onMenuClose();
-        clearSession();
+        clearSessionStorage();
+        // clearLocalStorage();
         router.push(`/`);
     };
 
