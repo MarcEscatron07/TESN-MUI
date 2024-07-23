@@ -38,6 +38,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PeopleIcon from '@mui/icons-material/People';
 import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import { ConfirmDialog } from "@/components";
 import { getLocalHolidays } from "@/lib/api";
@@ -545,6 +546,29 @@ export default function EventCalendar() {
                                             <Chip key={idx} label={item.name} avatar={<Avatar alt={item.name} src={item.image} />} sx={{ my: .5 }} />
                                         ))}
                                     </span>
+                                </Box>
+                            ) : null}
+                            {popoverData?.visibility != '' ? (
+                                <Box sx={{
+                                    width: '100%',
+                                    backgroundColor: theme.palette.light.main,
+                                    color: theme.palette.dark.main,
+                                    px: 1,
+                                    py: .8
+                                }}>
+                                    <Typography
+                                        variant="body1"
+                                        noWrap
+                                        component="div"
+                                        sx={{ display: 'flex', alignItems: 'center' }}
+                                    >
+                                        <span style={{ color: 'gray' }}>
+                                            <VisibilityIcon />
+                                        </span>
+                                        <span style={{ marginLeft: 15, textTransform: 'capitalize' }}>
+                                            {`${popoverData?.visibility}`}
+                                        </span>
+                                    </Typography>
                                 </Box>
                             ) : null}
                         </>
