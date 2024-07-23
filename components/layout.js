@@ -52,11 +52,11 @@ export default function GlobalLayout(props) {
     }, [sessionFriends])
 
     useEffect(() => {
-        console.log('GlobalLayout > activeChatList', activeChatList)
+        // console.log('GlobalLayout > activeChatList', activeChatList)
     }, [activeChatList])
 
     useEffect(() => {
-        console.log('GlobalLayout > passiveChatList', passiveChatList)
+        // console.log('GlobalLayout > passiveChatList', passiveChatList)
     }, [passiveChatList])
 
     async function fetchSession() {
@@ -164,7 +164,7 @@ export default function GlobalLayout(props) {
 
             {/* MULTIPLE INSTANCES OF CHATBOX HERE */}
             {activeChatList.map((item, idx) => (
-                <ChatBox key={idx} activeChatData={item} instance={(idx + 1)} />
+                <ChatBox key={idx} instance={(idx + 1)} activeChatData={item} />
             ))}
             {/* MULTIPLE INSTANCES OF CHATBOX HERE */}
         </Box>

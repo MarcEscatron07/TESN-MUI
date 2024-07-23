@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useTheme } from "@mui/material/styles";
 
 import Paper from "@mui/material/Paper";
@@ -40,6 +40,10 @@ export default function ChatBox(props) {
     }, [])
 
     useEffect(() => {
+        // console.log('ChatBox > props.instance', props.instance)
+    }, [props.instance])
+
+    useEffect(() => {
         // console.log('ChatBox > props.activeChatData', props.activeChatData)
 
         setActChatData(props.activeChatData)
@@ -63,7 +67,7 @@ export default function ChatBox(props) {
     }
 
     return (
-        <div className="chat-box" style={{right: props?.instance > 1 ? 285 + (320 * (props?.instance - 1)) : 285 }}>
+        <div className="chat-box" style={{right: props.instance > 1 ? 285 + (320 * (props.instance - 1)) : 285 }}>
             <Paper sx={CHAT_BOX.chatBoxPaperContainer} elevation={5}>
                 <Card sx={CHAT_BOX.chatBoxCardContainer}>
                     <Paper elevation={2}>
@@ -104,6 +108,7 @@ export default function ChatBox(props) {
                         </Box>
                         <Box sx={CHAT_BOX.chatBoxCardActionsBox}>
                             <Input
+                                inputRef={input => input && props.instance == 1 && input.focus()}
                                 multiline
                                 variant="filled"
                                 maxRows={1}
