@@ -127,11 +127,9 @@ export default function GlobalLayout(props) {
                     /** LOGIC FOR passiveChatList **/
                     let passiveChatArr = [...passiveChatList].filter((i) => i.id != value?.id);
         
-                    if(passiveChatList.length < maxPassiveChatCount) {
-                        passiveChatArr.unshift(activeChatArr[activeChatArr.length-1]);
-                    } else {
+                    passiveChatArr.unshift(activeChatArr[activeChatArr.length-1]);
+                    if(passiveChatList.length >= maxPassiveChatCount) {
                         passiveChatArr.pop();
-                        passiveChatArr.unshift(activeChatArr[activeChatArr.length-1]);
                     }
     
                     sessionStorage.setItem('passive_chat_data', JSON.stringify(passiveChatArr));
