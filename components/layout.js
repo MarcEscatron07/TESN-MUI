@@ -24,8 +24,8 @@ export default function GlobalLayout(props) {
     const [activeChatList, setActiveChatList] = useState([]);
     const [passiveChatList, setPassiveChatList] = useState([]);
 
-    const maxActiveChatCount = 3;
-    const maxPassiveChatCount = 6;
+    const maxActiveChatCount = 2;
+    const maxPassiveChatCount = 4;
 
     useEffect(() => {
         fetchSession();
@@ -114,30 +114,31 @@ export default function GlobalLayout(props) {
         console.log('onDrawerChatClick > value', value)
 
         let aChatIdx = activeChatList.map((i) => i?.id).indexOf(value?.id);
-        let pChatIdx = passiveChatList.map((i) => i?.id).indexOf(value?.id);
-
         /** LOGIC FOR activeChatList **/
-        if(value?.id != -1 && aChatIdx == -1 && pChatIdx == -1) {
+        if(value?.id != -1) {
             let activeChatArr = [...activeChatList];
 
-            if(activeChatList.length < maxActiveChatCount) {
+            if(aChatIdx == -1) {
                 activeChatArr.unshift(value);
-            } else {
-                /** LOGIC FOR passiveChatList **/
-                let passiveChatArr = [...passiveChatList];
-
-                if(passiveChatList.length < maxPassiveChatCount) {
-                    passiveChatArr.unshift(activeChatArr[activeChatArr.length-1]);
-                } else {
-                    passiveChatArr.pop();
-                    passiveChatArr.unshift(activeChatArr[activeChatArr.length-1]);
+                
+                if(activeChatList.length >= maxActiveChatCount) {
+                    /** LOGIC FOR passiveChatList **/
+                    let passiveChatArr = [...passiveChatList].filter((i) => i.id != value?.id);
+        
+                    if(passiveChatList.length < maxPassiveChatCount) {
+                        passiveChatArr.unshift(activeChatArr[activeChatArr.length-1]);
+                    } else {
+                        passiveChatArr.pop();
+                        passiveChatArr.unshift(activeChatArr[activeChatArr.length-1]);
+                    }
+    
+                    setPassiveChatList(passiveChatArr);
+                    /** LOGIC FOR passiveChatList **/
+    
+                    activeChatArr.pop();
                 }
-
-                setPassiveChatList(passiveChatArr);
-                /** LOGIC FOR passiveChatList **/
-
-                activeChatArr.pop();
-                activeChatArr.unshift(value);
+            } else {
+                aChatIdx == (activeChatArr.length-1) ? activeChatArr.reverse() : null;
             }
 
             setActiveChatList(activeChatArr);
