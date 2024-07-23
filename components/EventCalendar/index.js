@@ -43,7 +43,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { ConfirmDialog } from "@/components";
 import { getLocalHolidays } from "@/lib/api";
 
-const OPTION_USERS = [
+const OPTION_USERS = [ // replace with getUsers() API
     {
         id: 1,
         name: "Marc Escatron",
@@ -141,17 +141,18 @@ export default function EventCalendar() {
 
     /** FULLCALENDAR useEffect **/
     useEffect(() => {
-        console.log('EventCalendar > holidaysList', holidaysList)
+        // console.log('EventCalendar > holidaysList', holidaysList)
     }, [holidaysList])
 
     useEffect(() => {
-        console.log('EventCalendar > eventsList', eventsList)
+        // console.log('EventCalendar > eventsList', eventsList)
     }, [eventsList])
     /** FULLCALENDAR useEffect **/
 
     /** POPOVER useEffect **/
     useEffect(() => {
-        console.log('EventCalendar > popoverAnchor', popoverAnchor)
+        // console.log('EventCalendar > popoverAnchor', popoverAnchor)
+
         if (popoverAnchor == null) {
             setPopoverData({
                 id: -1,
@@ -169,13 +170,13 @@ export default function EventCalendar() {
     }, [popoverAnchor])
 
     useEffect(() => {
-        console.log('EventCalendar > popoverData', popoverData)
+        // console.log('EventCalendar > popoverData', popoverData)
     }, [popoverData])
     /** POPOVER useEffect **/
 
     /** MODAL useEffect **/
     useEffect(() => {
-        console.log('EventCalendar > isModalOpen', isModalOpen)
+        // console.log('EventCalendar > isModalOpen', isModalOpen)
 
         if (!isModalOpen) {
             setModalData({
@@ -193,7 +194,7 @@ export default function EventCalendar() {
     }, [isModalOpen])
 
     useEffect(() => {
-        console.log('EventCalendar > modalData', modalData)
+        // console.log('EventCalendar > modalData', modalData)
     }, [modalData])
     /** MODAL useEffect **/
 

@@ -50,6 +50,12 @@ export default function RightDrawer(props) {
   useEffect(() => {
   }, [sesGroups]);
 
+  const onChatClick = (event, value) => {
+    if(props.onDrawerChatClick) {
+      props.onDrawerChatClick(value);
+    }
+  }
+
   return (
     <Drawer
       anchor="right"
@@ -80,8 +86,8 @@ export default function RightDrawer(props) {
           </ListSubheader>
         }
       >
-        {birthdaysList.map((item, index) => (
-          <ListItem key={index} disablePadding sx={RIGHT_DRAWER.rightDrawerListItem}>
+        {birthdaysList.map((item, idx) => (
+          <ListItem key={idx} disablePadding sx={RIGHT_DRAWER.rightDrawerListItem}>
             <ListItemButton
               sx={RIGHT_DRAWER.rightDrawerListItemButton}
             >
@@ -108,8 +114,8 @@ export default function RightDrawer(props) {
           </ListSubheader>
         }
       >
-        {sesFriends.map((item, index) => (
-          <ListItem key={index} disablePadding sx={RIGHT_DRAWER.rightDrawerListItem}>
+        {sesFriends.map((item, idx) => (
+          <ListItem key={idx} disablePadding sx={RIGHT_DRAWER.rightDrawerListItem} onClick={(event) => onChatClick(event, item)}>
             <ListItemButton
               sx={RIGHT_DRAWER.rightDrawerListItemButton}
             >
@@ -148,8 +154,8 @@ export default function RightDrawer(props) {
           </ListSubheader>
         }
       >
-        {sesGroups.map((item, index) => (
-          <ListItem key={index} disablePadding sx={RIGHT_DRAWER.rightDrawerListItem}>
+        {sesGroups.map((item, idx) => (
+          <ListItem key={idx} disablePadding sx={RIGHT_DRAWER.rightDrawerListItem} onClick={(event) => onChatClick(event, item)}>
             <ListItemButton
               sx={RIGHT_DRAWER.rightDrawerListItemButton}
             >

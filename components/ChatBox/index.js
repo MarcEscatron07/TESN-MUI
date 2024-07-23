@@ -27,11 +27,27 @@ import { CHAT_BOX } from '@/components/styles';
 export default function ChatBox(props) {
     const theme = useTheme();
 
+    const [actChatData, setActChatData] = useState({
+        id: -1,
+        name: '',
+        image: '',
+        type: '',
+        unread: 0
+    });
     const [chatMessage, setChatMessage] = useState('');
 
     useEffect(() => {
-        console.log('ChatBox > props', props)
     }, [])
+
+    useEffect(() => {
+        // console.log('ChatBox > props.activeChatData', props.activeChatData)
+
+        setActChatData(props.activeChatData)
+    }, [props.activeChatData])
+
+    useEffect(() => {
+        // console.log('ChatBox > actChatData', actChatData)
+    }, [actChatData])
 
     const onChatInputChange = (event) => {
         setChatMessage(event.target.value);
@@ -53,8 +69,8 @@ export default function ChatBox(props) {
                     <Paper elevation={2}>
                         <CardHeader
                             sx={{...CHAT_BOX.chatBoxCardHeader, backgroundColor: theme.palette.light.dark}}
-                            avatar={<Avatar alt="Chat Avatar" src={props?.data?.owner?.image ?? `/images/avatars/avatar_male_${props?.instance + 1}.png`} />}
-                            title={<span style={CHAT_BOX.chatBoxCardHeaderTitle}>{props?.data?.owner?.name ?? ['Jerson Albit', 'Joel Buena', 'Rommel Digal', 'Junjie Bautista'][(props?.instance - 1) ?? 0]}</span>}
+                            avatar={<Avatar alt={actChatData.name} src={actChatData.image} />}
+                            title={<span style={CHAT_BOX.chatBoxCardHeaderTitle}>{actChatData.name}</span>}
                             action={
                                 <>
                                     <IconButton aria-label="chat-box-minimize">

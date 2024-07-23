@@ -21,8 +21,11 @@ export default function GlobalLayout(props) {
     const [sessionGroups, setSessionGroups] = useState([]);
     
     const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(true);
-    // const [activeChatList, setActiveChatList] = useState([]); //TODO
-    // const [passiveChatList, setPassiveChatList] = useState([]); //TODO
+    const [activeChatList, setActiveChatList] = useState([]);
+    const [passiveChatList, setPassiveChatList] = useState([]);
+
+    const maxActiveChatCount = 2;
+    const maxPassiveChatCount = 2;
 
     useEffect(() => {
         fetchSession();
@@ -33,7 +36,7 @@ export default function GlobalLayout(props) {
     }, [props.isLoading])
 
     useEffect(() => {
-        console.log('GlobalLayout > sessionUser', sessionUser)
+        // console.log('GlobalLayout > sessionUser', sessionUser)
         if(sessionUser.id != -1) {
             fetchFriends();
             fetchGroups();
@@ -41,12 +44,20 @@ export default function GlobalLayout(props) {
     }, [sessionUser])
 
     useEffect(() => {
-        console.log('GlobalLayout > sessionNav', sessionNav)
+        // console.log('GlobalLayout > sessionNav', sessionNav)
     }, [sessionNav])
 
     useEffect(() => {
-        console.log('GlobalLayout > sessionFriends', sessionFriends)
+        // console.log('GlobalLayout > sessionFriends', sessionFriends)
     }, [sessionFriends])
+
+    useEffect(() => {
+        console.log('GlobalLayout > activeChatList', activeChatList)
+    }, [activeChatList])
+
+    useEffect(() => {
+        console.log('GlobalLayout > passiveChatList', passiveChatList)
+    }, [passiveChatList])
 
     async function fetchSession() {
         sessionStorage.getItem('authuser_data') ? setSessionUser(JSON.parse(sessionStorage.getItem('authuser_data'))) : setSessionUser({
@@ -99,6 +110,24 @@ export default function GlobalLayout(props) {
         setIsLeftDrawerOpen(value);
     }
 
+    const onDrawerChatClick = (value) => {
+        console.log('onDrawerChatClick > value', value)
+        
+        let aChatIdx = activeChatList.map((i) => i?.id).indexOf(value?.id);
+        if(aChatIdx == -1 && value?.id != -1) {
+            let activeChatArr = [...activeChatList];
+
+            if(activeChatList.length < maxActiveChatCount) {
+                activeChatArr.unshift(value);
+            } else {
+                activeChatArr.pop();
+                activeChatArr.unshift(value);
+            }
+
+            setActiveChatList(activeChatArr);
+        }
+    }
+
     return (
         <Box component="main" sx={GLOBAL.globalMainContainer}>
             {isLoading ? <Loader /> : null}
@@ -111,17 +140,14 @@ export default function GlobalLayout(props) {
 
             {props.children}
 
-            <RightDrawer sessionFriends={sessionFriends} sessionGroups={sessionGroups} />
+            <RightDrawer sessionFriends={sessionFriends} sessionGroups={sessionGroups} onDrawerChatClick={onDrawerChatClick} />
 
-            {/* <ChatList /> */}
+            <ChatList passiveChatList={passiveChatList} />
 
             {/* MULTIPLE INSTANCES OF CHATBOX HERE */}
-
-            {/* <ChatBox instance={1} />
-            <ChatBox instance={2} /> */}
-            {/* <ChatBox instance={3} /> */}
-            {/* <ChatBox instance={4} /> */}
-
+            {activeChatList.map((item, idx) => (
+                <ChatBox key={idx} activeChatData={item} instance={(idx + 1)} />
+            ))}
             {/* MULTIPLE INSTANCES OF CHATBOX HERE */}
         </Box>
     )

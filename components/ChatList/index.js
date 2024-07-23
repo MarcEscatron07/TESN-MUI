@@ -11,8 +11,17 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import { StyledBadge } from "@/components/function";
 import { CHAT_LIST } from '@/components/styles';
 
-export default function ChatList() {
+export default function ChatList(props) {
   const theme = useTheme();
+
+  const [pasChatList, setPasChatList] = useState([]);
+
+  useEffect(() => {
+  }, [])
+
+  useEffect(() => {
+    setPasChatList(props.passiveChatList);
+  }, [props.passiveChatList])
 
   return (
     <div className="chat-list">
@@ -20,68 +29,18 @@ export default function ChatList() {
         <EditNoteIcon fontSize="large" />
       </Fab>
 
-      <Fab sx={CHAT_LIST.chatListFabAvatar}>
-        <StyledBadge
-          overlap="circular"
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          variant="dot"
-          sx={CHAT_LIST.chatListStyledBadgeAvatarOnline}
-        >
-          <Avatar alt="Chat Avatar" src={"/images/avatars/avatar_male_2.png"} />
-        </StyledBadge>
-      </Fab>
-
-
-      <Fab sx={CHAT_LIST.chatListFabAvatar}>
-        <StyledBadge
-          overlap="circular"
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          variant="dot"
-          sx={CHAT_LIST.chatListStyledBadgeAvatarOffline}
-        >
-          <Avatar alt="Chat Avatar" src={"/images/avatars/avatar_male_3.png"} />
-        </StyledBadge>
-      </Fab>
-      <Fab sx={CHAT_LIST.chatListFabAvatar}>
-        <StyledBadge
-          overlap="circular"
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          variant="dot"
-          sx={CHAT_LIST.chatListStyledBadgeAvatarOnline}
-        >
-          <Avatar alt="Chat Avatar" src={"/images/avatars/avatar_male_4.png"} />
-        </StyledBadge>
-      </Fab>
-      <Fab sx={CHAT_LIST.chatListFabAvatar}>
-        <StyledBadge
-          overlap="circular"
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          variant="dot"
-          sx={CHAT_LIST.chatListStyledBadgeAvatarOffline}
-        >
-          <Avatar alt="Chat Avatar" src={"/images/avatars/avatar_male_5.png"} />
-        </StyledBadge>
-      </Fab>
-      <Fab sx={CHAT_LIST.chatListFabAvatar}>
-        <StyledBadge
-          overlap="circular"
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          variant="dot"
-          sx={CHAT_LIST.chatListStyledBadgeAvatarOnline}
-        >
-          <Avatar alt="Chat Avatar" src={"/images/avatars/avatar_male_6.png"} />
-        </StyledBadge>
-      </Fab>
-      <Fab sx={CHAT_LIST.chatListFabAvatar}>
-        <StyledBadge
-          overlap="circular"
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          variant="dot"
-          sx={CHAT_LIST.chatListStyledBadgeAvatarOffline}
-        >
-          <Avatar alt="Chat Avatar" src={"/images/avatars/avatar_male_7.png"} />
-        </StyledBadge>
-      </Fab>
+      {pasChatList.map((item, idx) => (
+        <Fab key={idx} sx={CHAT_LIST.chatListFabAvatar}>
+          <StyledBadge
+            overlap="circular"
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            variant="dot"
+            sx={CHAT_LIST.chatListStyledBadgeAvatarOnline}
+          >
+            <Avatar alt={item.name} src={item.image} />
+          </StyledBadge>
+        </Fab>
+      ))}
     </div>
   );
 }

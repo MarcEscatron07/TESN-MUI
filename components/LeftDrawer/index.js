@@ -82,7 +82,7 @@ export default function LeftDrawer(props) {
     sesNav != '' ? router.push(`/${sesNav.toLowerCase()}`) : null;
   }, [sesNav])
 
-  const onCloseDrawerClick = () => {
+  const onToggleClick = () => {
     if (props.onDrawerToggleClick) {
       props.onDrawerToggleClick(false);
     }
@@ -136,7 +136,7 @@ export default function LeftDrawer(props) {
           </Typography>
         </Paper>
         <Box sx={{ width: "15%" }}>
-          <IconButton aria-label="left-drawer-toggle" onClick={onCloseDrawerClick} sx={{ color: theme.palette.light.main }}>
+          <IconButton aria-label="left-drawer-toggle" onClick={onToggleClick} sx={{ color: theme.palette.light.main }}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
             ) : (
@@ -155,8 +155,8 @@ export default function LeftDrawer(props) {
           </ListSubheader>
         }
       >
-        {navigationList.map((item, index) => (
-          <ListItem key={index}
+        {navigationList.map((item, idx) => (
+          <ListItem key={idx}
             disablePadding
             sx={{
               ...LEFT_DRAWER.leftDrawerListItem,
@@ -195,8 +195,8 @@ export default function LeftDrawer(props) {
           </ListSubheader>
         }
       >
-        {othersList.map((item, index) => (
-          <ListItem key={index} disablePadding sx={LEFT_DRAWER.leftDrawerListItem}>
+        {othersList.map((item, idx) => (
+          <ListItem key={idx} disablePadding sx={LEFT_DRAWER.leftDrawerListItem}>
             <ListItemButton
               sx={{
                 ...LEFT_DRAWER.leftDrawerListItemButton,

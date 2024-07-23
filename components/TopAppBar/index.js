@@ -57,7 +57,7 @@ export default function TopAppBar(props) {
         sessionStorage.clear();
     }
 
-    const onOpenDrawerClick = () => {
+    const onToggleClick = () => {
         if (props.onDrawerToggleClick) {
             props.onDrawerToggleClick(true);
         }
@@ -155,7 +155,7 @@ export default function TopAppBar(props) {
                     <IconButton
                         aria-label="topappbar-left-drawer-toggle"
                         color="inherit"
-                        onClick={onOpenDrawerClick}
+                        onClick={onToggleClick}
                         edge="start"
                         sx={{
                             ...TOP_APP_BAR.topAppBarLeftDrawerToggle,
