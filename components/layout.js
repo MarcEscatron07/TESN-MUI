@@ -112,12 +112,9 @@ export default function GlobalLayout(props) {
         setIsLeftDrawerOpen(value);
     }
 
-    const onDrawerChatClick = (value) => {
-        console.log('onDrawerChatClick > value', value)
-
-        if(value?.id != -1) {
-            processActiveChatList(value);
-        }
+    const onSelectedChatClick = (value) => {
+        console.log('onSelectedChatClick > value', value)
+        processActiveChatList(value);
     }
 
     function processActiveChatList(value) {
@@ -163,15 +160,13 @@ export default function GlobalLayout(props) {
 
             {props.children}
 
-            <RightDrawer sessionFriends={sessionFriends} sessionGroups={sessionGroups} onDrawerChatClick={onDrawerChatClick} />
+            <RightDrawer sessionFriends={sessionFriends} sessionGroups={sessionGroups} onDrawerChatClick={onSelectedChatClick} />
 
-            <ChatList passiveChatList={passiveChatList} />
+            <ChatList passiveChatList={passiveChatList} onListChatClick={onSelectedChatClick} />
 
-            {/* MULTIPLE INSTANCES OF CHATBOX HERE */}
             {activeChatList.map((item, idx) => (
                 <ChatBox key={idx} instance={(idx + 1)} activeChatData={item} />
             ))}
-            {/* MULTIPLE INSTANCES OF CHATBOX HERE */}
         </Box>
     )
 }

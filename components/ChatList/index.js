@@ -23,6 +23,12 @@ export default function ChatList(props) {
     setPasChatList(props.passiveChatList);
   }, [props.passiveChatList])
 
+  const onChatClick = (event, value) => {
+    if(props.onListChatClick) {
+      props.onListChatClick(value);
+    }
+  }
+
   return (
     <div className="chat-list">
       {/* <Fab sx={CHAT_LIST.chatListFabNewChat} color="secondary" size="medium">
@@ -30,7 +36,7 @@ export default function ChatList(props) {
       </Fab> */}
 
       {pasChatList.map((item, idx) => (
-        <Fab key={idx} sx={{...CHAT_LIST.chatListFabAvatar, backgroundColor: theme.palette.light.dark}} color="light">
+        <Fab key={idx} color="light" sx={{...CHAT_LIST.chatListFabAvatar, backgroundColor: theme.palette.light.dark}} onClick={(event) => onChatClick(event, item)}>
           <StyledBadge
             overlap="circular"
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
