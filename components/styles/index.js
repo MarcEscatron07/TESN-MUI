@@ -84,8 +84,7 @@ export const CHAT_LIST = {
         my: 1
     },
     chatListFabAvatar: {
-        mt: 1.2,
-        backgroundColor: 'unset'
+        mt: 1.2
     },
     chatListStyledBadgeAvatarOnline: {
         position: "relative",

@@ -30,7 +30,7 @@ export default function ChatList(props) {
       </Fab> */}
 
       {pasChatList.map((item, idx) => (
-        <Fab key={idx} sx={CHAT_LIST.chatListFabAvatar}>
+        <Fab key={idx} sx={{...CHAT_LIST.chatListFabAvatar, backgroundColor: theme.palette.light.dark}} color="light">
           <StyledBadge
             overlap="circular"
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
