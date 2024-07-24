@@ -21,6 +21,7 @@ export default function GlobalLayout(props) {
     const [sessionGroups, setSessionGroups] = useState([]);
     
     const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(true);
+    const [selectedChat, setSelectedChat] = useState(null);
     const [activeChatList, setActiveChatList] = useState([]);
     const [passiveChatList, setPassiveChatList] = useState([]);
 
@@ -178,6 +179,7 @@ export default function GlobalLayout(props) {
 
     const onSelectedChatClick = (value) => {
         // console.log('onSelectedChatClick > value', value)
+        setSelectedChat(value);
         
         /** ACTIVE CHAT LIST LOGIC **/
         let aChatIdx = activeChatList.map((i) => i.id).indexOf(value?.id ?? -1);
@@ -241,6 +243,7 @@ export default function GlobalLayout(props) {
                     key={idx} 
                     instance={(idx + 1)} 
                     sessionUser={sessionUser}
+                    selectedChat={selectedChat}
                     activeChatData={item} 
                     onChatBoxCloseClick={(value) => onRemoveChatClick(value, 'chat-box')} 
                     onChatBoxMinimizeClick={onMinimizeChatClick}

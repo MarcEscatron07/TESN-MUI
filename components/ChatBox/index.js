@@ -33,7 +33,7 @@ import { parseStringToHtml, formatDateTime, clearObjectUrl } from '@/lib/helpers
 export default function ChatBox(props) {
     const theme = useTheme();
 
-    const [isChatBoxLoading, setIsChatBoxLoading] = useState(true);
+    const [isChatBoxLoading, setIsChatBoxLoading] = useState(false);
     const [chatBoxState, setChatBoxState] = useState({
         isEmojiOpen: false,
         isScrolling: false
@@ -75,26 +75,30 @@ export default function ChatBox(props) {
     }, [props.activeChatData])
 
     useEffect(() => {
-        console.log('ChatBox > chatBoxState', chatBoxState)
+        // console.log('ChatBox > chatBoxState', chatBoxState)
     }, [chatBoxState])
 
     useEffect(() => {
-        console.log('ChatBox > chatMessage', chatMessage)
+        // console.log('ChatBox > chatMessage', chatMessage)
     }, [chatMessage])
+
+    useEffect(() => {
+        // console.log('ChatBox > chatAttachments', chatAttachments)
+    }, [chatAttachments])
 
     useEffect(() => {
         // console.log('ChatBox > userData', userData)
         // console.log('ChatBox > actChatData', actChatData)
 
         if(userData.id != -1 && actChatData.id != -1) {
-            setIsChatBoxLoading(true);
+            props.selectedChat?.id == actChatData.id ? setIsChatBoxLoading(true) : null;
             fetchThread(() => {
                 setTimeout(() => {
-                    setIsChatBoxLoading(false)
+                    props.selectedChat?.id == actChatData.id ? setIsChatBoxLoading(false) : null
                 }, 1000)
             });
         }
-    }, [userData, actChatData])
+    }, [userData, actChatData, props.selectedChat])
 
     async function fetchThread(callback) {
         await getThread(`userId=${userData.id}&friendId=${actChatData.id}&chatType=${actChatData.type}`).then(
