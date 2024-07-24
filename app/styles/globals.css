@@ -51,11 +51,6 @@ body {
   animation: spin 0.7s linear infinite;
 }
 
-.emoji-container {
-  position: absolute;
-  bottom: 45px;
-  left: 35px;
-}
 .emoji-container::after {
   content: "";
   position: absolute;

@@ -69,10 +69,6 @@ body {
 }
 
 .emoji-container {
-    position: absolute;
-    bottom: 45px;
-    left: 35px;
-
     &::after {
         content: "";
         position: absolute;

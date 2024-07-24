@@ -17,6 +17,7 @@ import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
 import Typography from "@mui/material/Typography";
 import CircularProgress from '@mui/material/CircularProgress';
+import Popover from '@mui/material/Popover';
 
 import RemoveIcon from '@mui/icons-material/Remove';
 import CloseIcon from '@mui/icons-material/Close';
@@ -34,10 +35,7 @@ export default function ChatBox(props) {
     const theme = useTheme();
 
     const [isChatBoxLoading, setIsChatBoxLoading] = useState(false);
-    const [chatBoxState, setChatBoxState] = useState({
-        isEmojiOpen: false,
-        isScrolling: false
-    });
+    const [popoverAnchor, setPopoverAnchor] = useState(null);
     const [userData, setUserData] = useState({
         id: -1,
         name: '',
@@ -73,10 +71,6 @@ export default function ChatBox(props) {
 
         setActChatData(props.activeChatData)
     }, [props.activeChatData])
-
-    useEffect(() => {
-        // console.log('ChatBox > chatBoxState', chatBoxState)
-    }, [chatBoxState])
 
     useEffect(() => {
         // console.log('ChatBox > chatMessage', chatMessage)
@@ -116,11 +110,8 @@ export default function ChatBox(props) {
         callback ? callback() : null;
     }
 
-    const onEmojiPickerClick = () => {
-        setChatBoxState({
-            ...chatBoxState,
-            isEmojiOpen: !chatBoxState.isEmojiOpen
-        });
+    const onEmojiPickerClick = (event) => {
+        setPopoverAnchor(event.target);
     }
 
     const onEmojiClick = (emojiData, event) => {
@@ -152,10 +143,6 @@ export default function ChatBox(props) {
 
     const onChatInputFocus = (event) => {
         // console.log('onChatInputFocus > event', event)
-        setChatBoxState({
-            ...chatBoxState,
-            isEmojiOpen: false
-        });
     }
 
     const onMinimizeClick = (event, value) => {
@@ -309,18 +296,26 @@ export default function ChatBox(props) {
                     </CardActions>
                 </Card>
 
-                {chatBoxState.isEmojiOpen ? (
+                <Popover
+                    id={popoverAnchor ? 'simple-popover' : undefined}
+                    open={popoverAnchor ? true : false}
+                    anchorEl={popoverAnchor}
+                    onClose={() => setPopoverAnchor(null)}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                    disablePortal
+                >
                     <Box className="emoji-container">
                         <EmojiPicker 
                             className="emoji-picker" 
                             emojiStyle="native" 
                             defaultSkinTone="neutral" 
                             suggestedEmojisMode="recent" 
-                            open={chatBoxState.isEmojiOpen} onEmojiClick={onEmojiClick} 
+                            open={popoverAnchor ? true : false} 
+                            onEmojiClick={onEmojiClick} 
                             skinTonesDisabled 
                         />
                     </Box>
-                ) : null}
+                </Popover>
             </Paper>
         </div>
     )
