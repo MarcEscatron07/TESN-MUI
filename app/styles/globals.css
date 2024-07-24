@@ -51,6 +51,20 @@ body {
   animation: spin 0.7s linear infinite;
 }
 
+.emoji-container {
+  position: absolute;
+  bottom: 45px;
+  left: 35px;
+}
+.emoji-container::after {
+  content: "";
+  position: absolute;
+  bottom: -17px;
+  left: 6%;
+  border: 10px solid;
+  border-color: white transparent transparent transparent;
+}
+
 .chat-box {
   position: fixed;
   bottom: 0px;

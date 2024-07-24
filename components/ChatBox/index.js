@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from 'next/image';
 import { useTheme } from "@mui/material/styles";
+import EmojiPicker from 'emoji-picker-react';
 
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -27,20 +28,20 @@ import LinkIcon from '@mui/icons-material/Link';
 import { StyledBadge } from "@/components/function";
 import { CHAT_BOX } from '@/components/styles';
 import { getThread } from "@/lib/api";
-import { parseStringToHtml, formatDateTime } from '@/lib/helpers';
+import { parseStringToHtml, formatDateTime, clearObjectUrl } from '@/lib/helpers';
 
 export default function ChatBox(props) {
     const theme = useTheme();
 
     const [isChatBoxLoading, setIsChatBoxLoading] = useState(true);
+    const [chatBoxState, setChatBoxState] = useState({
+        isEmojiOpen: false,
+        isScrolling: false
+    });
     const [userData, setUserData] = useState({
         id: -1,
         name: '',
         image: ''
-    });
-    const [chatBoxData, setChatBoxData] = useState({
-        message: '',
-        attachments: []
     });
     const [actChatData, setActChatData] = useState({
         id: -1,
@@ -50,6 +51,9 @@ export default function ChatBox(props) {
         unread: 0
     });
     const [actThreadData, setActThreadData] = useState([]);
+
+    const [chatMessage, setChatMessage] = useState('');
+    const [chatAttachments, setChatAttachments] = useState([]);
 
     useEffect(() => {
     }, [])
@@ -71,8 +75,12 @@ export default function ChatBox(props) {
     }, [props.activeChatData])
 
     useEffect(() => {
-        console.log('ChatBox > chatBoxData', chatBoxData)
-    }, [chatBoxData])
+        console.log('ChatBox > chatBoxState', chatBoxState)
+    }, [chatBoxState])
+
+    useEffect(() => {
+        console.log('ChatBox > chatMessage', chatMessage)
+    }, [chatMessage])
 
     useEffect(() => {
         // console.log('ChatBox > userData', userData)
@@ -101,25 +109,49 @@ export default function ChatBox(props) {
             },
         )
 
-        if(callback) {
-            callback();
+        callback ? callback() : null;
+    }
+
+    const onEmojiPickerClick = () => {
+        setChatBoxState({
+            ...chatBoxState,
+            isEmojiOpen: !chatBoxState.isEmojiOpen
+        });
+    }
+
+    const onEmojiClick = (emojiData, event) => {
+        if (emojiData && emojiData.emoji) {
+            setChatMessage((prevState) => prevState + emojiData.emoji);
         }
     }
 
     const onChatInputChange = (event) => {
-        setChatBoxData({
-            ...chatBoxData,
-            message: event.target.value
-        });
+        setChatMessage(event.target.value);
     }
 
     const onChatInputKeyDown = (event) => {
         const charCode = event.keyCode || event.which;
         // console.log('onChatInputKeyDown > charCode', charCode)
+
+        switch (charCode) {
+            case 13: // ENTER
+                if (!event.shiftKey) {
+                    event.preventDefault();
+                    // CODE FOR SENDING CHAT MESSAGE & ATTACHMENT HERE
+                }
+                break;
+            case 27: // ESC
+                // CODE FOR CLOSING CHAT HERE
+                break;
+        }
     }
 
     const onChatInputFocus = (event) => {
         // console.log('onChatInputFocus > event', event)
+        setChatBoxState({
+            ...chatBoxState,
+            isEmojiOpen: false
+        });
     }
 
     const onMinimizeClick = (event, value) => {
@@ -251,17 +283,16 @@ export default function ChatBox(props) {
                             <IconButton aria-label="chat-box-attachment">
                                 <AttachmentIcon />
                             </IconButton>
-                            <IconButton aria-label="chat-box-emoji">
+                            <IconButton aria-label="chat-box-emoji" onClick={onEmojiPickerClick}>
                                 <AddReactionIcon />
                             </IconButton>
                         </Box>
                         <Box sx={CHAT_BOX.chatBoxCardActionsBox}>
                             <Input
-                                inputRef={input => input && props.instance == 1 && input.focus()}
                                 multiline
                                 variant="filled"
                                 maxRows={1}
-                                value={chatBoxData.message}
+                                value={chatMessage}
                                 onChange={onChatInputChange}
                                 onKeyDown={onChatInputKeyDown}
                                 onFocus={onChatInputFocus}
@@ -273,6 +304,19 @@ export default function ChatBox(props) {
                         </Box>
                     </CardActions>
                 </Card>
+
+                {chatBoxState.isEmojiOpen ? (
+                    <Box className="emoji-container">
+                        <EmojiPicker 
+                            className="emoji-picker" 
+                            emojiStyle="native" 
+                            defaultSkinTone="neutral" 
+                            suggestedEmojisMode="recent" 
+                            open={chatBoxState.isEmojiOpen} onEmojiClick={onEmojiClick} 
+                            skinTonesDisabled 
+                        />
+                    </Box>
+                ) : null}
             </Paper>
         </div>
     )

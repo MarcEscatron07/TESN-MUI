@@ -54,9 +54,7 @@ export default function Login() {
       },
     )
 
-    if(callback) {
-      callback();
-    }
+    callback ? callback() : null;
   }
 
   const onLoginFormSubmit = (event) => {

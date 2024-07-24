@@ -19,6 +19,7 @@ export const CARD_POST = {
 
 export const CHAT_BOX = {
     chatBoxPaperContainer: {
+        position: 'relative',
         height: '100%'
     },
     chatBoxCardContainer: {
