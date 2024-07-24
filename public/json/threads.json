@@ -12,6 +12,24 @@
                 "status": null,
                 "image": null,
                 "attachments": null
+            },
+            {
+                "sender": "Jerson Albit",
+                "receiver": "Marc Escatron",
+                "message": "test convo 1",
+                "timestamp": "2024-07-23T04:15:39.069Z",
+                "status": "unread",
+                "image": "/images/avatars/avatar_male_2.png",
+                "attachments": null
+            },
+            {
+                "sender": "Marc Escatron",
+                "receiver": "Jerson Albit",
+                "message": "test convo 2",
+                "timestamp": "2024-07-23T05:15:39.069Z",
+                "status": "unread",
+                "image": "/images/avatars/avatar_male_1.png",
+                "attachments": null
             }
         ]
     },
@@ -160,8 +178,24 @@
         ]
     },
     {
-        "id": 10,
+        "id": 11,
         "userIds": [1,2,3,4,5,6,7],
+        "type": "multiple",
+        "threads": [
+            {
+                "sender": "system",
+                "receiver": null,
+                "message": "You are now connected on chat",
+                "timestamp": null,
+                "status": null,
+                "image": null,
+                "attachments": null
+            }
+        ]
+    },
+    {
+        "id": 12,
+        "userIds": [1,2,4,5,8],
         "type": "multiple",
         "threads": [
             {

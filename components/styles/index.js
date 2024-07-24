@@ -50,19 +50,38 @@ export const CHAT_BOX = {
         fontSize: '.95rem'
     },
     chatBoxCardContent: {
+        position: 'relative',
         height: '76%',
         overflowX: 'hidden',
         overflowY: 'auto',
         px: 2,
     },
-    chatBoxCardContentBox: {
+    chatBoxCardLoaderBox: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
         display: 'flex',
-        flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        height: '100%',
+        width: '100%',
     },
-    chatBoxCardContentBoxText: {
+    chatBoxCardContentSystemBox: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        mt: 1, 
+        mb: 4
+    },
+    chatBoxCardContentSystemBoxText: {
         fontWeight: 'bold'
+    },
+    chatBoxCardContentDefaultBox: {
+        width: '100%',
+        display: 'flex',
+        my: 2
     },
     chatBoxCardActions: {
         height: '12%',

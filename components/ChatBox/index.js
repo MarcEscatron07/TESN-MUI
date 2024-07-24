@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Image from 'next/image';
 import { useTheme } from "@mui/material/styles";
 
 import Paper from "@mui/material/Paper";
@@ -14,6 +15,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
 import Typography from "@mui/material/Typography";
+import CircularProgress from '@mui/material/CircularProgress';
 
 import RemoveIcon from '@mui/icons-material/Remove';
 import CloseIcon from '@mui/icons-material/Close';
@@ -25,10 +27,12 @@ import LinkIcon from '@mui/icons-material/Link';
 import { StyledBadge } from "@/components/function";
 import { CHAT_BOX } from '@/components/styles';
 import { getThread } from "@/lib/api";
+import { parseStringToHtml, formatDateTime } from '@/lib/helpers';
 
 export default function ChatBox(props) {
     const theme = useTheme();
 
+    const [isChatBoxLoading, setIsChatBoxLoading] = useState(true);
     const [sesUser, setSesUser] = useState({
         id: -1,
         name: '',
@@ -69,11 +73,16 @@ export default function ChatBox(props) {
         // console.log('ChatBox > actChatData', actChatData)
 
         if(sesUser.id != -1 && actChatData.id != -1) {
-            fetchThread();
+            setIsChatBoxLoading(true);
+            fetchThread(() => {
+                setTimeout(() => {
+                    setIsChatBoxLoading(false)
+                }, 1000)
+            });
         }
     }, [sesUser, actChatData])
 
-    async function fetchThread() {
+    async function fetchThread(callback) {
         await getThread(`userId=${sesUser.id}&friendId=${actChatData.id}&chatType=${actChatData.type}`).then(
             (res) => {
                 console.log('fetchThread > res', res)
@@ -82,8 +91,13 @@ export default function ChatBox(props) {
             },
             (err) => {
                 console.log('fetchThread > err', err)
+                setActThreadData([]);
             },
         )
+
+        if(callback) {
+            callback();
+        }
     }
 
     const onChatInputChange = (event) => {
@@ -111,12 +125,53 @@ export default function ChatBox(props) {
         }
     }
 
+    function renderSystemChatView(idx) {
+        return (
+            <Box key={idx} sx={CHAT_BOX.chatBoxCardContentSystemBox}>
+                <LinkIcon />
+                <Typography variant="body2" sx={CHAT_BOX.chatBoxCardContentSystemBoxText}>
+                    You are now connected on chat
+                </Typography>
+            </Box>
+        )
+    }
+
     function renderDefaultChatView(item, idx) {
-        const source = item.sender == actChatData.name ? 'sender' : 'receiver';
+        const source = item.sender == sesUser.name ? 'sender' : 'receiver';
 
         return (
-            <>
-            </>
+            <Box key={idx} sx={CHAT_BOX.chatBoxCardContentDefaultBox} className={`chat-box-${source}`}>
+                <Box className="chat-box-avatar">
+                    {source == 'receiver' ? (
+                        <Image
+                            title={item.sender}
+                            src={item.image}
+                            width={40}
+                            height={40}
+                            alt={item.sender}
+                        />
+                    ) : null}
+                </Box>
+                <Box 
+                    className="chat-box-message" 
+                    sx={{
+                        backgroundColor: source == 'receiver' ? theme.palette.dark.main : theme.palette.primary.main,
+                        color: source == 'receiver' ? theme.palette.light.main : theme.palette.primary.contrastText,
+                    }}
+                >
+                    <Box className="chat-box-message-text">{parseStringToHtml(item.message)}</Box>
+                    <Box 
+                        className="chat-box-message-timestamp" 
+                        title={formatDateTime(item.timestamp, 'MMMM DD, YYYY h:mm A', { origin: 'chat-timestamp' })}
+                        sx={{
+                            backgroundColor: theme.palette.dark.light,
+                            color: theme.palette.light.main
+                        }}
+                    >
+                        {formatDateTime(item.timestamp, 'h:mm A')}
+                    </Box>
+                </Box>
+            </Box>
         )
     }
 
@@ -126,7 +181,7 @@ export default function ChatBox(props) {
                 <Card sx={CHAT_BOX.chatBoxCardContainer}>
                     <Paper elevation={2}>
                         <CardHeader
-                            sx={{ ...CHAT_BOX.chatBoxCardHeader, backgroundColor: theme.palette.light.dark }}
+                            sx={{ ...CHAT_BOX.chatBoxCardHeader, backgroundColor: theme.palette.dark.light, color: theme.palette.light.main }}
                             avatar={
                                 <StyledBadge
                                     overlap="circular"
@@ -145,10 +200,18 @@ export default function ChatBox(props) {
                             title={<span style={CHAT_BOX.chatBoxCardHeaderTitle}>{actChatData.name}</span>}
                             action={
                                 <>
-                                    <IconButton aria-label="chat-box-minimize" onClick={(event) => onMinimizeClick(event, actChatData)}>
+                                    <IconButton 
+                                        aria-label="chat-box-minimize" 
+                                        sx={{color: theme.palette.light.main}}
+                                        onClick={(event) => onMinimizeClick(event, actChatData)}
+                                    >
                                         <RemoveIcon />
                                     </IconButton>
-                                    <IconButton aria-label="chat-box-close" onClick={(event) => onCloseClick(event, actChatData)}>
+                                    <IconButton 
+                                        aria-label="chat-box-close" 
+                                        sx={{color: theme.palette.light.main}}
+                                        onClick={(event) => onCloseClick(event, actChatData)}
+                                    >
                                         <CloseIcon />
                                     </IconButton>
                                 </>
@@ -156,23 +219,22 @@ export default function ChatBox(props) {
                         />
                     </Paper>
 
-                    <CardContent sx={CHAT_BOX.chatBoxCardContent} className="chatbox-content">
-                        {/* TODO DYNAMIC CHATBOX > CONTENT */}
-                        {actThreadData.map((item, idx) => {
+                    <CardContent sx={CHAT_BOX.chatBoxCardContent} className="chat-box-content">
+                        {isChatBoxLoading? (
+                            <Box sx={{
+                                ...CHAT_BOX.chatBoxCardLoaderBox,
+                                backgroundColor: theme.palette.light.main
+                            }}>
+                                <CircularProgress color="primary" />
+                            </Box>
+                        ) : actThreadData ? actThreadData.map((item, idx) => {
                             switch(item.sender) {
                                 case 'system':
-                                    return (
-                                        <Box key={idx} sx={CHAT_BOX.chatBoxCardContentBox}>
-                                            <LinkIcon />
-                                            <Typography variant="body2" sx={CHAT_BOX.chatBoxCardContentBoxText}>
-                                                You are now connected on chat
-                                            </Typography>
-                                        </Box>
-                                    )
+                                    return renderSystemChatView(idx);
                                 default:
                                     return renderDefaultChatView(item, idx);
                             }
-                        })}
+                        }) : null}
                     </CardContent>
 
                     <CardActions sx={{ ...CHAT_BOX.chatBoxCardActions, backgroundColor: theme.palette.secondary.main }} disableSpacing>
