@@ -109,6 +109,16 @@ export default function GlobalLayout(props) {
         }
     }
 
+    async function postChatThread(userId, chatId, chatType, threadObj, callback) {
+        // code for API call of posting chat input here
+        console.log('postChatThread > userId', userId)
+        console.log('postChatThread > chatId', chatId)
+        console.log('postChatThread > chatType', chatType)
+        console.log('postChatThread > threadObj', threadObj)
+
+        callback ? callback() : null;
+    }
+
     const onDrawerToggleClick = (value) => {
         setIsLeftDrawerOpen(value);
     }
@@ -175,6 +185,10 @@ export default function GlobalLayout(props) {
         activeChatArr = [...activeChatList].filter((_, idx) => idx != aChatIdx);
         sessionStorage.setItem('active_chat_data', JSON.stringify(activeChatArr));
         setActiveChatList(activeChatArr);
+    }
+
+    const onSendChatInputClick = (chatObj, threadObj, attachmentsArr) => {
+        postChatThread(sessionUser.id, chatObj?.id, chatObj?.type, threadObj);
     }
 
     const onSelectedChatClick = (value) => {
@@ -247,6 +261,7 @@ export default function GlobalLayout(props) {
                     activeChatData={item} 
                     onChatBoxCloseClick={(value) => onRemoveChatClick(value, 'chat-box')} 
                     onChatBoxMinimizeClick={onMinimizeChatClick}
+                    onChatBoxSendInput={onSendChatInputClick}
                 />
             ))}
         </Box>

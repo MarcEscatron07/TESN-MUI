@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from 'next/image';
+import moment from 'moment-timezone';
 import { useTheme } from "@mui/material/styles";
-import EmojiPicker from 'emoji-picker-react';
 
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -18,6 +18,8 @@ import Input from '@mui/material/Input';
 import Typography from "@mui/material/Typography";
 import CircularProgress from '@mui/material/CircularProgress';
 import Popover from '@mui/material/Popover';
+
+import EmojiPicker from 'emoji-picker-react';
 
 import RemoveIcon from '@mui/icons-material/Remove';
 import CloseIcon from '@mui/icons-material/Close';
@@ -132,7 +134,9 @@ export default function ChatBox(props) {
             case 13: // ENTER
                 if (!event.shiftKey) {
                     event.preventDefault();
-                    // CODE FOR SENDING CHAT MESSAGE & ATTACHMENT HERE
+                    onChatInputSendClick(null);
+                } else {
+                    // setChatMessage((prevState) => prevState + ' <br/> '); // ISSUE: <br> is displaying in <textarea> while typing. Will need to find an alternative solution.
                 }
                 break;
             case 27: // ESC
@@ -143,6 +147,28 @@ export default function ChatBox(props) {
 
     const onChatInputFocus = (event) => {
         // console.log('onChatInputFocus > event', event)
+    }
+
+    const onChatInputSendClick = (event) => {
+        if(chatMessage.trim().length > 0) {
+            if(props.onChatBoxSendInput) {
+                props.onChatBoxSendInput(
+                    actChatData,
+                    {
+                        sender: userData.name,
+                        receiver: actChatData.name,
+                        message: chatMessage,
+                        timestamp: moment().toISOString(),
+                        status: 'unread',
+                        image: userData.image,
+                        attachments: null
+                    },
+                    null
+                );
+
+                setChatMessage('');
+            }
+        }
     }
 
     const onMinimizeClick = (event, value) => {
@@ -289,7 +315,7 @@ export default function ChatBox(props) {
                                 onFocus={onChatInputFocus}
                                 sx={{ ...CHAT_BOX.chatBoxCardActionsBoxInput, backgroundColor: theme.palette.light.main }}
                             />
-                            <Button variant="contained" color="primary" sx={CHAT_BOX.chatBoxCardActionsBoxButton}>
+                            <Button variant="contained" color="primary" sx={CHAT_BOX.chatBoxCardActionsBoxButton} onClick={onChatInputSendClick}>
                                 <SendIcon sx={{ color: theme.palette.light.main }} />
                             </Button>
                         </Box>
