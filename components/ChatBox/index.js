@@ -116,6 +116,7 @@ export default function ChatBox(props) {
                     </Paper>
 
                     <CardContent sx={CHAT_BOX.chatBoxCardContent} className="chatbox-content">
+                        {/* TODO DYNAMIC CHATBOX > CONTENT */}
                         <Box sx={CHAT_BOX.chatBoxCardContentBox}>
                             <LinkIcon />
                             <Typography variant="body2" sx={CHAT_BOX.chatBoxCardContentBoxText}>
