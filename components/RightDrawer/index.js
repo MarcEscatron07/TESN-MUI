@@ -131,12 +131,12 @@ export default function RightDrawer(props) {
                   variant="dot"
                   sx={{
                     "& .MuiBadge-badge": {
-                      color: item?.isOnline ? "lightgreen" : "lightgray",
-                      backgroundColor: item?.isOnline ? "green" : "gray"
+                      color: item.isOnline ? "lightgreen" : "lightgray",
+                      backgroundColor: item.isOnline ? "green" : "gray"
                     }
                   }}
                 >
-                  <Avatar alt="Friend Avatar" src={item.image} />
+                  <Avatar alt={item.name} src={item.image} />
                 </StyledBadge>
               </ListItemIcon>
               <ListItemText primary={item.name} sx={{ opacity: 1 }} />

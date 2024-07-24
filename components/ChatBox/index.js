@@ -22,6 +22,7 @@ import AddReactionIcon from '@mui/icons-material/AddReaction';
 import SendIcon from '@mui/icons-material/Send';
 import LinkIcon from '@mui/icons-material/Link';
 
+import { StyledBadge } from "@/components/function";
 import { CHAT_BOX } from '@/components/styles';
 
 export default function ChatBox(props) {
@@ -67,25 +68,39 @@ export default function ChatBox(props) {
     }
 
     const onMinimizeClick = (event, value) => {
-        if(props.onChatBoxMinimizeClick) {
+        if (props.onChatBoxMinimizeClick) {
             props.onChatBoxMinimizeClick(value);
         }
     }
 
     const onCloseClick = (event, value) => {
-        if(props.onChatBoxCloseClick) {
+        if (props.onChatBoxCloseClick) {
             props.onChatBoxCloseClick(value);
         }
     }
 
     return (
-        <div className="chat-box" style={{right: props.instance > 1 ? 285 + (320 * (props.instance - 1)) : 285 }}>
+        <div className="chat-box" style={{ right: props.instance > 1 ? 285 + (320 * (props.instance - 1)) : 285 }}>
             <Paper sx={CHAT_BOX.chatBoxPaperContainer} elevation={5}>
                 <Card sx={CHAT_BOX.chatBoxCardContainer}>
                     <Paper elevation={2}>
                         <CardHeader
-                            sx={{...CHAT_BOX.chatBoxCardHeader, backgroundColor: theme.palette.light.dark}}
-                            avatar={<Avatar alt={actChatData.name} src={actChatData.image} />}
+                            sx={{ ...CHAT_BOX.chatBoxCardHeader, backgroundColor: theme.palette.light.dark }}
+                            avatar={
+                                <StyledBadge
+                                    overlap="circular"
+                                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                    variant="dot"
+                                    sx={{
+                                        "& .MuiBadge-badge": {
+                                            color: actChatData.isOnline ? "lightgreen" : "lightgray",
+                                            backgroundColor: actChatData.isOnline ? "green" : "gray"
+                                        }
+                                    }}
+                                >
+                                    <Avatar alt={actChatData.name} src={actChatData.image} />
+                                </StyledBadge>
+                            }
                             title={<span style={CHAT_BOX.chatBoxCardHeaderTitle}>{actChatData.name}</span>}
                             action={
                                 <>
@@ -103,10 +118,10 @@ export default function ChatBox(props) {
                     <CardContent sx={CHAT_BOX.chatBoxCardContent} className="chatbox-content">
                         <Box sx={CHAT_BOX.chatBoxCardContentBox}>
                             <LinkIcon />
-                            <Typography variant="body2" sx={{fontWeight: 'bold'}}>
+                            <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
                                 You are now connected on chat
                             </Typography>
-                        </Box>                        
+                        </Box>
                     </CardContent>
 
                     <CardActions sx={{ ...CHAT_BOX.chatBoxCardActions, backgroundColor: theme.palette.secondary.main }} disableSpacing>
@@ -128,7 +143,7 @@ export default function ChatBox(props) {
                                 onChange={onChatInputChange}
                                 onKeyDown={onChatInputKeyDown}
                                 onFocus={onChatInputFocus}
-                                sx={{...CHAT_BOX.chatBoxCardActionsBoxInput, backgroundColor: theme.palette.light.main}}
+                                sx={{ ...CHAT_BOX.chatBoxCardActionsBoxInput, backgroundColor: theme.palette.light.main }}
                             />
                             <Button variant="contained" color="primary" sx={CHAT_BOX.chatBoxCardActionsBoxButton}>
                                 <SendIcon sx={{ color: theme.palette.light.main }} />

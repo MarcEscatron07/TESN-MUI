@@ -87,8 +87,8 @@ export default function ChatList(props) {
             variant="dot"
             sx={{
               "& .MuiBadge-badge": {
-                color: item?.isOnline ? "lightgreen" : "lightgray",
-                backgroundColor: item?.isOnline ? "green" : "gray"
+                color: item.isOnline ? "lightgreen" : "lightgray",
+                backgroundColor: item.isOnline ? "green" : "gray"
               }
             }}
             onClick={(event) => onChatClick(event, item)}
