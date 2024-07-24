@@ -208,7 +208,7 @@ export default function GlobalLayout(props) {
                 activeChatArr.pop();
             }
         } else {
-            aChatIdx == (activeChatArr.length-1) ? activeChatArr.reverse() : null;
+            // aChatIdx == (activeChatArr.length-1) ? activeChatArr.reverse() : null;
         }
 
         sessionStorage.setItem('active_chat_data', JSON.stringify(activeChatArr));
