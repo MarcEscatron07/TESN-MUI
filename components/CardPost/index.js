@@ -31,7 +31,47 @@ import { formatDateTime } from '@/lib/helpers';
 export default function CardPost(props) {
     const theme = useTheme();
 
+    const [postData, setPostData] = useState({
+        id: -1,
+        owner: {
+            name: '',
+            image: '',
+            timestamp: ''
+        },
+        thumbnail: {
+            src: '',
+            alt: ''
+        },
+        title: { text: '' },
+        description: { text: '' },
+        tags: []
+    });
     const [expanded, setExpanded] = useState(true);
+
+    useEffect(() => {
+    }, [])
+
+    useEffect(() => {
+        if (props.data) {
+            setPostData(props.data);
+        } else {
+            setPostData({
+                id: -1,
+                owner: {
+                    name: '',
+                    image: '',
+                    timestamp: ''
+                },
+                thumbnail: {
+                    src: '',
+                    alt: ''
+                },
+                title: { text: '' },
+                description: { text: '' },
+                tags: []
+            });
+        }
+    }, [props.data])
 
     const onExpandClick = () => {
         setExpanded(!expanded);
@@ -40,7 +80,7 @@ export default function CardPost(props) {
     return (
         <Card sx={CARD_POST.cardPostContainer}>
             <CardHeader
-                avatar={<Avatar alt="Owner Avatar" src={props?.data?.owner?.image ?? '/images/avatars/avatar_default.png'} />}
+                avatar={<Avatar alt="Owner Avatar" src={postData.owner.image} />}
                 action={
                     <>
                         <IconButton aria-label="card-post-options">
@@ -51,25 +91,25 @@ export default function CardPost(props) {
                         </IconButton>
                     </>
                 }
-                title={props?.data?.owner?.name ?? 'Post Owner'}
+                title={postData.owner.name}
                 subheader={
-                    <span title={formatDateTime(props?.data?.owner?.timestamp, 'dddd, MMMM DD, YYYY @ hh:mm A')}>
-                        {`${formatDateTime(props?.data?.owner?.timestamp, 'MMMM DD, YYYY', { origin: 'post-timestamp', suffix: ' ago' })}`}
+                    <span title={formatDateTime(postData.owner.timestamp, 'dddd, MMMM DD, YYYY @ hh:mm A')}>
+                        {`${formatDateTime(postData.owner.timestamp, 'MMMM DD, YYYY', { origin: 'post-timestamp', suffix: ' ago' })}`}
                     </span>
                 }
             />
 
             <CardContent>
                 <Typography variant="body2">
-                    {props?.data?.title?.text ?? 'Post Caption'}
+                    {postData.title.text}
                 </Typography>
             </CardContent>
 
             <CardActionArea>
-                {props?.data?.thumbnail?.src ? (
+                {postData.thumbnail.src ? (
                     <CardMedia
                         component="img"
-                        image={props?.data?.thumbnail?.src ?? ''}
+                        image={postData.thumbnail.src}
                         alt="Card Post"
                     />
 
@@ -101,7 +141,7 @@ export default function CardPost(props) {
                 <Divider sx={{ backgroundColor: theme.palette.primary.main }} />
                 <CardContent sx={{ px: 3 }}>
                     <Typography paragraph>
-                        {props?.data?.description?.text ?? 'Post Description'}
+                        {postData.description.text}
                     </Typography>
                 </CardContent>
             </Collapse>
