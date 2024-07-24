@@ -5,35 +5,35 @@ import path from "path";
 export async function GET(req, res) {
   try {
     /** temporary code **/
-    const jsonPath = "/public/json/chats.json";
+    const jsonPath = "/public/json/threads.json";
     const jsonFile = await fs.readFile(path.join(process.cwd(), jsonPath), "utf8");
     const jsonData = JSON.parse(jsonFile);
     /** temporary code **/
 
     const url = new URL(req.url);
     const searchParams = new URLSearchParams(url.searchParams);
-    const userId = searchParams.has('userId') ? searchParams.get('userId') : -1;
-    const friendId = searchParams.has('friendId') ? searchParams.get('friendId') : -1;
+    const userId = searchParams.has('userId') ? parseInt(searchParams.get('userId')) : -1;
+    const friendId = searchParams.has('friendId') ? parseInt(searchParams.get('friendId')) : -1;
     const chatType = searchParams.has('chatType') ? searchParams.get('chatType') : '';
   
     for (const key in jsonData) {
         if (
             jsonData[key]?.userIds?.includes(userId) && jsonData[key]?.userIds?.includes(friendId) &&
             jsonData[key]?.type == chatType && 
-            jsonData[key]?.chats
+            jsonData[key]?.threads
         ) {
             return NextResponse.json({
                 status: 200,
                 message: "Data fetch successful.",
-                data: jsonData[key]?.chats,
+                data: jsonData[key]?.threads,
               }, { status: 200 });
-        } else {
-            return NextResponse.json({
-                status: 400,
-                message: "Data fetch failed.",
-              }, { status: 400 });
         }
-    }
+      }
+
+      return NextResponse.json({
+          status: 400,
+          message: "Data fetch failed.",
+        }, { status: 400 });
   } catch (e) {
     return NextResponse.json({
         status: 500,
