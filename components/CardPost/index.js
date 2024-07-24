@@ -139,7 +139,7 @@ export default function CardPost(props) {
 
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <Divider sx={{ backgroundColor: theme.palette.primary.main }} />
-                <CardContent sx={{ px: 3 }}>
+                <CardContent sx={CARD_POST.cardPostCollapseContent}>
                     <Typography paragraph>
                         {postData.description.text}
                     </Typography>

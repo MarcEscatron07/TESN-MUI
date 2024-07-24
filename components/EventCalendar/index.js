@@ -41,6 +41,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import { ConfirmDialog } from "@/components";
+import { EVENT_CALENDAR } from '@/components/styles';
 import { getLocalHolidays } from "@/lib/api";
 
 const OPTION_USERS = [ // replace with getUsers() API
@@ -377,7 +378,7 @@ export default function EventCalendar() {
     }
 
     return (
-        <Paper elevation={3} sx={{ p: 3 }}>
+        <Paper elevation={3} sx={EVENT_CALENDAR.eventCalendarPaperContainer}>
             <FullCalendar
                 plugins={[momentPlugin, dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin, bootstrapPlugin]}
                 initialView="dayGridMonth"
@@ -408,16 +409,11 @@ export default function EventCalendar() {
                 onClose={() => setPopoverAnchor(null)}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
             >
-                <Box sx={{ height: '100%' }}>
+                <Box sx={EVENT_CALENDAR.eventCalendarPopoverBox}>
                     <Box sx={{
-                        width: '100%',
+                        ...EVENT_CALENDAR.eventCalendarPopoverTitle,
                         backgroundColor: theme.palette.primary.main,
                         color: theme.palette.primary.contrastText,
-                        px: 1,
-                        py: .8,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between'
                     }}>
                         <Typography
                             variant="h6"
@@ -440,22 +436,20 @@ export default function EventCalendar() {
                         </Box>
                     </Box>
                     <Box sx={{
-                        width: '100%',
+                        ...EVENT_CALENDAR.eventCalendarPopoverItem,
                         backgroundColor: theme.palette.light.main,
                         color: theme.palette.dark.main,
-                        px: 1,
-                        py: .8
                     }}>
                         <Typography
                             variant="body2"
                             noWrap
                             component="div"
-                            sx={{ display: 'flex', alignItems: 'center' }}
+                            sx={EVENT_CALENDAR.eventCalendarPopoverItemTextContainer}
                         >
-                            <span style={{ color: 'gray' }}>
+                            <span style={EVENT_CALENDAR.eventCalendarPopoverItemIcon}>
                                 <CalendarTodayIcon />
                             </span>
-                            <span style={{ marginLeft: 15 }}>
+                            <span style={EVENT_CALENDAR.eventCalendarPopoverItemText}>
                                 {`${moment(popoverData?.start).isValid() ? moment(popoverData?.start).format('MMMM DD, YYYY hh:mm A') : ''}`}{`${moment(popoverData?.start).isValid() ? ' - ' + moment(popoverData?.end).format('MMMM DD, YYYY hh:mm A') : ''}`}
                             </span>
                         </Typography>
@@ -464,22 +458,20 @@ export default function EventCalendar() {
                         <>
                             {popoverData?.link != '' ? (
                                 <Box sx={{
-                                    width: '100%',
+                                    ...EVENT_CALENDAR.eventCalendarPopoverItem,
                                     backgroundColor: theme.palette.light.main,
                                     color: theme.palette.dark.main,
-                                    px: 1,
-                                    py: .8
                                 }}>
                                     <Typography
                                         variant="body1"
                                         noWrap
                                         component="div"
-                                        sx={{ display: 'flex', alignItems: 'center' }}
+                                        sx={EVENT_CALENDAR.eventCalendarPopoverItemTextContainer}
                                     >
-                                        <span style={{ color: 'gray' }}>
+                                        <span style={EVENT_CALENDAR.eventCalendarPopoverItemIcon}>
                                             <LinkIcon />
                                         </span>
-                                        <span style={{ marginLeft: 15 }}>
+                                        <span style={EVENT_CALENDAR.eventCalendarPopoverItemText}>
                                             {`${popoverData?.link}`}
                                         </span>
                                     </Typography>
@@ -487,22 +479,20 @@ export default function EventCalendar() {
                             ) : null}
                             {popoverData?.location != '' ? (
                                 <Box sx={{
-                                    width: '100%',
+                                    ...EVENT_CALENDAR.eventCalendarPopoverItem,
                                     backgroundColor: theme.palette.light.main,
                                     color: theme.palette.dark.main,
-                                    px: 1,
-                                    py: .8
                                 }}>
                                     <Typography
                                         variant="body1"
                                         noWrap
                                         component="div"
-                                        sx={{ display: 'flex', alignItems: 'center' }}
+                                        sx={EVENT_CALENDAR.eventCalendarPopoverItemTextContainer}
                                     >
-                                        <span style={{ color: 'gray' }}>
+                                        <span style={EVENT_CALENDAR.eventCalendarPopoverItemIcon}>
                                             <LocationOnIcon />
                                         </span>
-                                        <span style={{ marginLeft: 15 }}>
+                                        <span style={EVENT_CALENDAR.eventCalendarPopoverItemText}>
                                             {`${popoverData?.location}`}
                                         </span>
                                     </Typography>
@@ -510,22 +500,20 @@ export default function EventCalendar() {
                             ) : null}
                             {popoverData?.description != '' ? (
                                 <Box sx={{
-                                    width: '100%',
+                                    ...EVENT_CALENDAR.eventCalendarPopoverItem,
                                     backgroundColor: theme.palette.light.main,
                                     color: theme.palette.dark.main,
-                                    px: 1,
-                                    py: .8
                                 }}>
                                     <Typography
                                         variant="body1"
                                         noWrap
                                         component="div"
-                                        sx={{ display: 'flex', alignItems: 'center' }}
+                                        sx={EVENT_CALENDAR.eventCalendarPopoverItemTextContainer}
                                     >
-                                        <span style={{ color: 'gray' }}>
+                                        <span style={EVENT_CALENDAR.eventCalendarPopoverItemIcon}>
                                             <AlignHorizontalLeftIcon />
                                         </span>
-                                        <span style={{ marginLeft: 15 }}>
+                                        <span style={EVENT_CALENDAR.eventCalendarPopoverItemText}>
                                             {`${popoverData?.description}`}
                                         </span>
                                     </Typography>
@@ -533,17 +521,15 @@ export default function EventCalendar() {
                             ) : null}
                             {popoverData?.guests?.length > 0 ? (
                                 <Box sx={{
-                                    width: '100%',
+                                    ...EVENT_CALENDAR.eventCalendarPopoverItem,
                                     backgroundColor: theme.palette.light.main,
                                     color: theme.palette.dark.main,
-                                    px: 1,
-                                    py: .8,
                                     display: 'flex'
                                 }}>
-                                    <span style={{ color: 'gray' }}>
+                                    <span style={EVENT_CALENDAR.eventCalendarPopoverItemIcon}>
                                         <PeopleIcon />
                                     </span>
-                                    <span style={{ marginLeft: 15, maxWidth: 200 }}>
+                                    <span style={{ ...EVENT_CALENDAR.eventCalendarPopoverItemText, maxWidth: 200 }}>
                                         {popoverData?.guests.map((item, idx) => (
                                             <Chip key={idx} label={item.name} avatar={<Avatar alt={item.name} src={item.image} />} sx={{ my: .5 }} />
                                         ))}
@@ -552,22 +538,20 @@ export default function EventCalendar() {
                             ) : null}
                             {popoverData?.visibility != '' ? (
                                 <Box sx={{
-                                    width: '100%',
+                                    ...EVENT_CALENDAR.eventCalendarPopoverItem,
                                     backgroundColor: theme.palette.light.main,
                                     color: theme.palette.dark.main,
-                                    px: 1,
-                                    py: .8
                                 }}>
                                     <Typography
                                         variant="body1"
                                         noWrap
                                         component="div"
-                                        sx={{ display: 'flex', alignItems: 'center' }}
+                                        sx={EVENT_CALENDAR.eventCalendarPopoverItemTextContainer}
                                     >
-                                        <span style={{ color: 'gray' }}>
+                                        <span style={EVENT_CALENDAR.eventCalendarPopoverItemIcon}>
                                             <VisibilityIcon />
                                         </span>
-                                        <span style={{ marginLeft: 15 }}>
+                                        <span style={EVENT_CALENDAR.eventCalendarPopoverItemText}>
                                             {`${popoverData?.visibility}`}
                                         </span>
                                     </Typography>
@@ -587,7 +571,7 @@ export default function EventCalendar() {
                 <DialogContent>
                     <input type="hidden" name="id" value={modalData.id} />
 
-                    <Grid container spacing={2} sx={{ p: 1 }}>
+                    <Grid container spacing={2} sx={EVENT_CALENDAR.eventCalendarModalGrid}>
                         <Grid item xs={12}>
                             <TextField
                                 required
@@ -605,7 +589,7 @@ export default function EventCalendar() {
                         </Grid>
                         <Grid item xs={6}>
                             <DateTimePicker
-                                sx={{ width: '100%' }}
+                                sx={EVENT_CALENDAR.eventCalendarModalDateTimePicker}
                                 label="Start Date"
                                 id="start_date"
                                 name="start"
@@ -615,7 +599,7 @@ export default function EventCalendar() {
                         </Grid>
                         <Grid item xs={6}>
                             <DateTimePicker
-                                sx={{ width: '100%' }}
+                                sx={EVENT_CALENDAR.eventCalendarModalDateTimePicker}
                                 label="End Date"
                                 id="end_date"
                                 name="end"
@@ -635,7 +619,7 @@ export default function EventCalendar() {
                                     const { key, ...optionProps } = props;
                                     return (
                                         <li key={key} {...optionProps}>
-                                            <Avatar sx={{ mr: 1 }} alt={option.name} src={option.image} />
+                                            <Avatar sx={EVENT_CALENDAR.eventCalendarModalOptionAvatar} alt={option.name} src={option.image} />
                                             {option.name}
                                         </li>
                                     );

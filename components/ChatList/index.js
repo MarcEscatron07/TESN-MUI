@@ -106,13 +106,13 @@ export default function ChatList(props) {
 
       {pasChatList.length >= 2 ? (
         <IconButton
-          aria-label="chat-icon-close"
+          aria-label="chat-icon-option"
           sx={{ 
+            ...CHAT_LIST.chatListOption,
             "&:hover": {
               backgroundColor: theme.palette.secondary.dark
             },
             backgroundColor: theme.palette.secondary.main,
-            mb: 1.5
           }}
           onClick={onOptionClick}
         >
@@ -129,18 +129,11 @@ export default function ChatList(props) {
         disablePortal
       >
         <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
+          sx={CHAT_LIST.chatListPopoverBox}
         >
           <Button
             sx={{
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'flex-start',
+              ...CHAT_LIST.chatListPopoverOptionClose,
               color: theme.palette.dark.main
             }}
             startIcon={<CancelIcon />}
@@ -150,9 +143,7 @@ export default function ChatList(props) {
           </Button>
           <Button
             sx={{
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'flex-start',
+              ...CHAT_LIST.chatListPopoverOptionMinimize,
               color: theme.palette.dark.main
             }}
             startIcon={<RemoveIcon />}

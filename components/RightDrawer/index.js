@@ -99,7 +99,7 @@ export default function RightDrawer(props) {
               >
                 <CakeIcon />
               </ListItemIcon>
-              <ListItemText primary={`${item.name} (${item.office})`} sx={{ opacity: 1 }} />
+              <ListItemText primary={`${item.name} (${item.office})`} sx={RIGHT_DRAWER.rightDrawerListItemIconText} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -139,7 +139,7 @@ export default function RightDrawer(props) {
                   <Avatar alt={item.name} src={item.image} />
                 </StyledBadge>
               </ListItemIcon>
-              <ListItemText primary={item.name} sx={{ opacity: 1 }} />
+              <ListItemText primary={item.name} sx={RIGHT_DRAWER.rightDrawerListItemIconText} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -179,7 +179,7 @@ export default function RightDrawer(props) {
                   <Avatar alt="Group Avatar" src={item.image} />
                 </StyledBadge>
               </ListItemIcon>
-              <ListItemText primary={item.name} sx={{ opacity: 1 }} />
+              <ListItemText primary={item.name} sx={RIGHT_DRAWER.rightDrawerListItemIconText} />
             </ListItemButton>
           </ListItem>
         ))}

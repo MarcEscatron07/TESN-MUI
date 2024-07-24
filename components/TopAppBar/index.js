@@ -190,7 +190,7 @@ export default function TopAppBar(props) {
                         />
                     </Search>
 
-                    <Box sx={{ flexGrow: 1 }} />
+                    <Box sx={TOP_APP_BAR.topAppBarSpacer} />
                     <Box sx={TOP_APP_BAR.topAppBarNotifications}>
                         <IconButton
                             aria-label="topappbar-messages"

@@ -118,7 +118,7 @@ export default function ChatBox(props) {
                     <CardContent sx={CHAT_BOX.chatBoxCardContent} className="chatbox-content">
                         <Box sx={CHAT_BOX.chatBoxCardContentBox}>
                             <LinkIcon />
-                            <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                            <Typography variant="body2" sx={CHAT_BOX.chatBoxCardContentBoxText}>
                                 You are now connected on chat
                             </Typography>
                         </Box>

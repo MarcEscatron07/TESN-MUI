@@ -11,6 +11,9 @@ export const CARD_POST = {
     cardPostActions: {
         display: 'flex',
         justifyContent: 'space-between'
+    },
+    cardPostCollapseContent: {
+        px: 3
     }
 }
 
@@ -58,6 +61,9 @@ export const CHAT_BOX = {
         alignItems: 'center',
         justifyContent: 'center'
     },
+    chatBoxCardContentBoxText: {
+        fontWeight: 'bold'
+    },
     chatBoxCardActions: {
         height: '12%',
         display: 'flex',
@@ -88,15 +94,75 @@ export const CHAT_LIST = {
         my: 1.2
     },
     chatListFabClose: {
-        position: 'absolute', 
-        top: -5, 
-        right: 0, 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        padding: '2px 4px', 
+        position: 'absolute',
+        top: -5,
+        right: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '2px 4px',
         borderRadius: 50
     },
+    chatListOption: {
+        mb: 1.5
+    },
+    chatListPopoverBox: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    chatListPopoverOptionClose: {
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'flex-start',
+    },
+    chatListPopoverOptionMinimize: {
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'flex-start',
+    }
+}
+
+export const EVENT_CALENDAR = {
+    eventCalendarPaperContainer: {
+        p: 3
+    },
+    eventCalendarPopoverBox: {
+        height: '100%'
+    },
+    eventCalendarPopoverTitle: {
+        width: '100%',
+        px: 1,
+        py: .8,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    eventCalendarPopoverItem: {
+        width: '100%',
+        px: 1,
+        py: .8,
+    },
+    eventCalendarPopoverItemTextContainer: {
+        display: 'flex', 
+        alignItems: 'center'
+    },
+    eventCalendarPopoverItemIcon: {
+        color: 'gray'
+    },
+    eventCalendarPopoverItemText: {
+        marginLeft: 15
+    },
+    eventCalendarModalGrid: {
+        p: 1
+    },
+    eventCalendarModalDateTimePicker: {
+        width: '100%'
+    },
+    eventCalendarModalOptionAvatar: {
+        mr: 1
+    }
 }
 
 export const LEFT_DRAWER = {
@@ -115,6 +181,9 @@ export const LEFT_DRAWER = {
     },
     leftDrawerSitename: {
         marginLeft: 15
+    },
+    leftDrawerBoxToggle: {
+        width: "15%"
     },
     leftDrawerList: {
         fontWeight: 'bold',
@@ -155,12 +224,18 @@ export const RIGHT_DRAWER = {
         minWidth: 0,
         mr: 3,
         justifyContent: "center",
+    },
+    rightDrawerListItemIconText: {
+        opacity: 1
     }
 }
 
 export const TOP_APP_BAR = {
     topAppBarLeftDrawerToggle: {
         marginRight: 5
+    },
+    topAppBarSpacer: {
+        flexGrow: 1
     },
     topAppBarSearch: {
         marginLeft: 15
@@ -169,28 +244,28 @@ export const TOP_APP_BAR = {
         width: "400px"
     },
     topAppBarNotifications: {
-        display: { 
-            xs: "none", 
-            md: "flex" 
+        display: {
+            xs: "none",
+            md: "flex"
         }
     },
     topAppBarNotificationButtons: {
         marginLeft: 1
     },
     topAppBarAvatar: {
-        marginLeft: 5, 
+        marginLeft: 5,
         marginRight: 1
     },
     topAppBarAvatarChip: {
-        px: 2, 
-        minWidth: 100, 
+        px: 2,
+        minWidth: 100,
         fontSize: '.95rem',
-        fontWeight: 'bold', 
+        fontWeight: 'bold',
     },
     topAppBarMobileMenuToggle: {
-        display: { 
-            xs: "flex", 
-            md: "none" 
+        display: {
+            xs: "flex",
+            md: "none"
         }
     }
 }

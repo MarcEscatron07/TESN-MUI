@@ -135,7 +135,7 @@ export default function LeftDrawer(props) {
             {SITENAME_ABBR}
           </Typography>
         </Paper>
-        <Box sx={{ width: "15%" }}>
+        <Box sx={LEFT_DRAWER.leftDrawerBoxToggle}>
           <IconButton aria-label="left-drawer-toggle" onClick={onToggleClick} sx={{ color: theme.palette.light.main }}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
