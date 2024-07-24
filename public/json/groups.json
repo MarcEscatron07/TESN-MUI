@@ -8,6 +8,7 @@
                 "image": "/images/avatars/avatar_ticto_seal.png",
                 "type": "multiple",
                 "userIds": [1,2,3,4,5,6],
+                "isOnline": true,
                 "unread": 0
             },
             {
@@ -16,6 +17,7 @@
                 "image": "/images/avatars/avatar_motorbike.png",
                 "type": "multiple",
                 "userIds": [1,2,4,5],
+                "isOnline": true,
                 "unread": 0
             }
         ]

@@ -87,20 +87,6 @@ export const CHAT_LIST = {
         position: 'relative',
         my: 1.2
     },
-    chatListStyledBadgeAvatarOnline: {
-        position: "relative",
-        "& .MuiBadge-badge": {
-            color: "lightgreen",
-            backgroundColor: "green",
-        },
-    },
-    chatListStyledBadgeAvatarOffline: {
-        position: "relative",
-        "& .MuiBadge-badge": {
-            color: "lightgray",
-            backgroundColor: "gray",
-        },
-    },
     chatListFabClose: {
         position: 'absolute', 
         top: -5, 

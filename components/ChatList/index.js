@@ -85,7 +85,12 @@ export default function ChatList(props) {
             overlap="circular"
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             variant="dot"
-            sx={CHAT_LIST.chatListStyledBadgeAvatarOnline}
+            sx={{
+              "& .MuiBadge-badge": {
+                color: item?.isOnline ? "lightgreen" : "lightgray",
+                backgroundColor: item?.isOnline ? "green" : "gray"
+              }
+            }}
             onClick={(event) => onChatClick(event, item)}
           >
             <Avatar alt={item.name} src={item.image} />

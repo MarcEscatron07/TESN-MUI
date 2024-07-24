@@ -7,6 +7,7 @@
                 "name": "Jerson Albit",
                 "image": "/images/avatars/avatar_male_2.png",
                 "type": "single",
+                "isOnline": true,
                 "unread": 0
             },
             {
@@ -14,6 +15,7 @@
                 "name": "Joel Buena",
                 "image": "/images/avatars/avatar_male_3.png",
                 "type": "single",
+                "isOnline": true,
                 "unread": 0
             },
             {
@@ -21,6 +23,7 @@
                 "name": "Rommel Digal",
                 "image": "/images/avatars/avatar_male_4.png",
                 "type": "single",
+                "isOnline": true,
                 "unread": 0
             },
             {
@@ -28,6 +31,7 @@
                 "name": "Junjie Bautista",
                 "image": "/images/avatars/avatar_male_5.png",
                 "type": "single",
+                "isOnline": true,
                 "unread": 0
             },
             {
@@ -35,6 +39,7 @@
                 "name": "Ian Tambis",
                 "image": "/images/avatars/avatar_male_6.png",
                 "type": "single",
+                "isOnline": true,
                 "unread": 0
             }
         ]
@@ -47,6 +52,7 @@
                 "name": "Marc Escatron",
                 "image": "/images/avatars/avatar_male_1.png",
                 "type": "single",
+                "isOnline": true,
                 "unread": 0
             },
             {
@@ -54,6 +60,7 @@
                 "name": "Joel Buena",
                 "image": "/images/avatars/avatar_male_3.png",
                 "type": "single",
+                "isOnline": true,
                 "unread": 0
             },
             {
@@ -61,6 +68,7 @@
                 "name": "Rommel Digal",
                 "image": "/images/avatars/avatar_male_4.png",
                 "type": "single",
+                "isOnline": true,
                 "unread": 0
             },
             {
@@ -68,6 +76,7 @@
                 "name": "Junjie Bautista",
                 "image": "/images/avatars/avatar_male_5.png",
                 "type": "single",
+                "isOnline": true,
                 "unread": 0
             },
             {
@@ -75,6 +84,7 @@
                 "name": "Ian Tambis",
                 "image": "/images/avatars/avatar_male_6.png",
                 "type": "single",
+                "isOnline": true,
                 "unread": 0
             }
         ]
@@ -87,6 +97,7 @@
                 "name": "Marc Escatron",
                 "image": "/images/avatars/avatar_male_1.png",
                 "type": "single",
+                "isOnline": true,
                 "unread": 0
             },
             {
@@ -94,6 +105,7 @@
                 "name": "Jerson Albit",
                 "image": "/images/avatars/avatar_male_2.png",
                 "type": "single",
+                "isOnline": true,
                 "unread": 0
             }
         ]
@@ -106,6 +118,7 @@
                 "name": "Marc Escatron",
                 "image": "/images/avatars/avatar_male_1.png",
                 "type": "single",
+                "isOnline": true,
                 "unread": 0
             },
             {
@@ -113,6 +126,7 @@
                 "name": "Jerson Albit",
                 "image": "/images/avatars/avatar_male_2.png",
                 "type": "single",
+                "isOnline": true,
                 "unread": 0
             }
         ]
@@ -125,6 +139,7 @@
                 "name": "Marc Escatron",
                 "image": "/images/avatars/avatar_male_1.png",
                 "type": "single",
+                "isOnline": true,
                 "unread": 0
             },
             {
@@ -132,6 +147,7 @@
                 "name": "Jerson Albit",
                 "image": "/images/avatars/avatar_male_2.png",
                 "type": "single",
+                "isOnline": true,
                 "unread": 0
             }
         ]
@@ -144,6 +160,7 @@
                 "name": "Marc Escatron",
                 "image": "/images/avatars/avatar_male_1.png",
                 "type": "single",
+                "isOnline": true,
                 "unread": 0
             },
             {
@@ -151,6 +168,7 @@
                 "name": "Jerson Albit",
                 "image": "/images/avatars/avatar_male_2.png",
                 "type": "single",
+                "isOnline": true,
                 "unread": 0
             }
         ]
