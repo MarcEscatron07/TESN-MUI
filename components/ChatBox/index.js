@@ -141,7 +141,7 @@ export default function ChatBox(props) {
                 }
                 break;
             case 27: // ESC
-                // CODE FOR CLOSING CHAT HERE
+                onCloseClick(event, actChatData);
                 break;
         }
     }
