@@ -35,7 +35,7 @@ export default function LeftDrawer(props) {
   const router = useRouter();
   const theme = useTheme();
 
-  const [sesNav, setSesNav] = useState('');
+  const [navData, setNavData] = useState('');
 
   const navigationList = [
     {
@@ -75,12 +75,12 @@ export default function LeftDrawer(props) {
   }, []);
 
   useEffect(() => {
-    setSesNav(props.sessionNav);
+    setNavData(props.sessionNav);
   }, [props.sessionNav]);
 
   useEffect(() => {
-    sesNav != '' ? router.push(`/${sesNav.toLowerCase()}`) : null;
-  }, [sesNav])
+    navData != '' ? router.push(`/${navData.toLowerCase()}`) : null;
+  }, [navData])
 
   const onToggleClick = () => {
     if (props.onDrawerToggleClick) {
@@ -90,7 +90,7 @@ export default function LeftDrawer(props) {
 
   const onNavItemClick = (value) => {
     sessionStorage.setItem('nav_data', value);
-    setSesNav(value);
+    setNavData(value);
   }
 
   return (
@@ -160,8 +160,8 @@ export default function LeftDrawer(props) {
             disablePadding
             sx={{
               ...LEFT_DRAWER.leftDrawerListItem,
-              backgroundColor: sesNav == item.text ? theme.palette.secondary.main : null,
-              color: sesNav == item.text ? theme.palette.secondary.contrastText : null
+              backgroundColor: navData == item.text ? theme.palette.secondary.main : null,
+              color: navData == item.text ? theme.palette.secondary.contrastText : null
             }}
             onClick={() => onNavItemClick(item.text)}
           >
@@ -175,7 +175,7 @@ export default function LeftDrawer(props) {
                 sx={{
                   ...LEFT_DRAWER.leftDrawerListItemIcon,
                   mr: props.isLeftDrawerOpen ? 3 : "auto",
-                  color: sesNav == item.text ? theme.palette.secondary.contrastText : theme.palette.light.main,
+                  color: navData == item.text ? theme.palette.secondary.contrastText : theme.palette.light.main,
                 }}
               >
                 {item.icon}

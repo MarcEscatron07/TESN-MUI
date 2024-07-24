@@ -19,8 +19,8 @@ import { RIGHT_DRAWER } from '@/components/styles';
 export default function RightDrawer(props) {
   const theme = useTheme();
 
-  const [sesFriends, setSesFriends] = useState([]);
-  const [sesGroups, setSesGroups] = useState([]);
+  const [friendsList, setFriendsList] = useState([]);
+  const [groupsList, setGroupsList] = useState([]);
 
   const birthdaysList = [ // temporary data
     {
@@ -37,18 +37,18 @@ export default function RightDrawer(props) {
   }, []);
 
   useEffect(() => {
-    setSesFriends(props.sessionFriends);
+    setFriendsList(props.sessionFriends);
   }, [props.sessionFriends]);
 
   useEffect(() => {
-    setSesGroups(props.sessionGroups);
+    setGroupsList(props.sessionGroups);
   }, [props.sessionGroups]);
 
   useEffect(() => {
-  }, [sesFriends]);
+  }, [friendsList]);
 
   useEffect(() => {
-  }, [sesGroups]);
+  }, [groupsList]);
 
   const onChatClick = (event, value) => {
     if(props.onDrawerChatClick) {
@@ -114,7 +114,7 @@ export default function RightDrawer(props) {
           </ListSubheader>
         }
       >
-        {sesFriends.map((item, idx) => (
+        {friendsList.map((item, idx) => (
           <ListItem key={idx} disablePadding sx={RIGHT_DRAWER.rightDrawerListItem} onClick={(event) => onChatClick(event, item)}>
             <ListItemButton
               sx={RIGHT_DRAWER.rightDrawerListItemButton}
@@ -154,7 +154,7 @@ export default function RightDrawer(props) {
           </ListSubheader>
         }
       >
-        {sesGroups.map((item, idx) => (
+        {groupsList.map((item, idx) => (
           <ListItem key={idx} disablePadding sx={RIGHT_DRAWER.rightDrawerListItem} onClick={(event) => onChatClick(event, item)}>
             <ListItemButton
               sx={RIGHT_DRAWER.rightDrawerListItemButton}

@@ -29,7 +29,7 @@ export default function TopAppBar(props) {
     const router = useRouter();
     const theme = useTheme();
 
-    const [sesUser, setSesUser] = useState({
+    const [userData, setUserData] = useState({
         id: -1,
         name: '',
         image: ''
@@ -47,11 +47,11 @@ export default function TopAppBar(props) {
     }, []);
 
     useEffect(() => {
-        setSesUser(props.sessionUser);
+        setUserData(props.sessionUser);
     }, [props.sessionUser]);
 
     useEffect(() => {
-    }, [sesUser]);
+    }, [userData]);
 
     const clearSessionStorage = () => {
         sessionStorage.clear();
@@ -224,8 +224,8 @@ export default function TopAppBar(props) {
                         >
                             <Stack direction="row" spacing={1}>
                                 <Chip
-                                    avatar={<Avatar alt={sesUser.name} src={sesUser.image} />}
-                                    label={sesUser.name}
+                                    avatar={<Avatar alt={userData.name} src={userData.image} />}
+                                    label={userData.name}
                                     sx={{...TOP_APP_BAR.topAppBarAvatarChip, backgroundColor: theme.palette.secondary.main}}
                                 />
                             </Stack>

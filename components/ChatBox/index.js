@@ -33,10 +33,14 @@ export default function ChatBox(props) {
     const theme = useTheme();
 
     const [isChatBoxLoading, setIsChatBoxLoading] = useState(true);
-    const [sesUser, setSesUser] = useState({
+    const [userData, setUserData] = useState({
         id: -1,
         name: '',
         image: ''
+    });
+    const [chatBoxData, setChatBoxData] = useState({
+        message: '',
+        attachments: []
     });
     const [actChatData, setActChatData] = useState({
         id: -1,
@@ -46,8 +50,6 @@ export default function ChatBox(props) {
         unread: 0
     });
     const [actThreadData, setActThreadData] = useState([]);
-
-    const [chatMessage, setChatMessage] = useState('');
 
     useEffect(() => {
     }, [])
@@ -59,7 +61,7 @@ export default function ChatBox(props) {
     useEffect(() => {
         // console.log('ChatBox > props.sessionUser', props.sessionUser)
 
-        setSesUser(props.sessionUser);
+        setUserData(props.sessionUser);
     }, [props.sessionUser])
 
     useEffect(() => {
@@ -69,10 +71,14 @@ export default function ChatBox(props) {
     }, [props.activeChatData])
 
     useEffect(() => {
-        // console.log('ChatBox > sesUser', sesUser)
+        console.log('ChatBox > chatBoxData', chatBoxData)
+    }, [chatBoxData])
+
+    useEffect(() => {
+        // console.log('ChatBox > userData', userData)
         // console.log('ChatBox > actChatData', actChatData)
 
-        if(sesUser.id != -1 && actChatData.id != -1) {
+        if(userData.id != -1 && actChatData.id != -1) {
             setIsChatBoxLoading(true);
             fetchThread(() => {
                 setTimeout(() => {
@@ -80,12 +86,12 @@ export default function ChatBox(props) {
                 }, 1000)
             });
         }
-    }, [sesUser, actChatData])
+    }, [userData, actChatData])
 
     async function fetchThread(callback) {
-        await getThread(`userId=${sesUser.id}&friendId=${actChatData.id}&chatType=${actChatData.type}`).then(
+        await getThread(`userId=${userData.id}&friendId=${actChatData.id}&chatType=${actChatData.type}`).then(
             (res) => {
-                console.log('fetchThread > res', res)
+                // console.log('fetchThread > res', res)
 
                 setActThreadData(res?.status == 200 && res?.data ? res?.data : []);
             },
@@ -101,7 +107,10 @@ export default function ChatBox(props) {
     }
 
     const onChatInputChange = (event) => {
-        setChatMessage(event.target.value);
+        setChatBoxData({
+            ...chatBoxData,
+            message: event.target.value
+        });
     }
 
     const onChatInputKeyDown = (event) => {
@@ -137,7 +146,7 @@ export default function ChatBox(props) {
     }
 
     function renderDefaultChatView(item, idx) {
-        const source = item.sender == sesUser.name ? 'sender' : 'receiver';
+        const source = item.sender == userData.name ? 'sender' : 'receiver';
 
         return (
             <Box key={idx} sx={CHAT_BOX.chatBoxCardContentDefaultBox} className={`chat-box-${source}`}>
@@ -252,7 +261,7 @@ export default function ChatBox(props) {
                                 multiline
                                 variant="filled"
                                 maxRows={1}
-                                value={chatMessage}
+                                value={chatBoxData.message}
                                 onChange={onChatInputChange}
                                 onKeyDown={onChatInputKeyDown}
                                 onFocus={onChatInputFocus}
