@@ -214,7 +214,7 @@ export default function EventCalendar() {
                 }
             }).then(
                 (res) => {
-                    console.log('fetchHolidays > regular > res', res)
+                    // console.log('fetchHolidays > regular > res', res)
     
                     regularHolidayArr = res ? res.map((item, idx) => {
                         if (['public', 'optional'].includes(item?.type)) {
@@ -242,9 +242,9 @@ export default function EventCalendar() {
             let localHolidayArr = [];
             await getLocalHolidays().then(
                 (res) => {
-                    console.log('fetchHolidays > local > res', res)
+                    // console.log('fetchHolidays > local > res', res)
     
-                    localHolidayArr = res?.data ? res?.data.map((item, idx) => {
+                    localHolidayArr = res?.status == 200 && res?.data ? res?.data.map((item, idx) => {
                         return {
                             id: item?.name ? `loc_${idx}_${item?.name}` : -1,
                             title: item?.name ?? '',
@@ -333,7 +333,7 @@ export default function EventCalendar() {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries(formData.entries());
-        console.log('onModalFormSubmit > formJson', formJson)
+        // console.log('onModalFormSubmit > formJson', formJson)
 
         const eventObj = {
             ...formJson,

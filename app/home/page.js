@@ -35,8 +35,8 @@ export default function Home() {
         (res) => {
           console.log('fetchPosts > res', res)
   
-          res?.data ? sessionStorage.setItem('posts_data', JSON.stringify(res?.data)) : null;
-          setPostsList(res?.data ? res?.data : []);
+          res?.status == 200 && res?.data ? sessionStorage.setItem('posts_data', JSON.stringify(res?.data)) : null;
+          setPostsList(res?.status == 200 && res?.data ? res?.data : []);
         },
         (err) => {
           console.log('fetchPosts > err', err);

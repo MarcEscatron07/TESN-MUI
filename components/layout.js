@@ -78,8 +78,8 @@ export default function GlobalLayout(props) {
                 (res) => {
                     console.log('fetchFriends > res', res)
     
-                    res?.data ? sessionStorage.setItem('friends_data', JSON.stringify(res?.data)) : null;
-                    setSessionFriends(res?.data ? res?.data : []);
+                    res?.status == 200 && res?.data ? sessionStorage.setItem('friends_data', JSON.stringify(res?.data)) : null;
+                    setSessionFriends(res?.status == 200 && res?.data ? res?.data : []);
                 },
                 (err) => {
                     console.log('fetchFriends > err', err)
@@ -97,8 +97,8 @@ export default function GlobalLayout(props) {
                 (res) => {
                     console.log('fetchGroups > res', res)
     
-                    res?.data ? sessionStorage.setItem('groups_data', JSON.stringify(res?.data)) : null;
-                    setSessionGroups(res?.data ? res?.data : []);
+                    res?.status == 200 && res?.data ? sessionStorage.setItem('groups_data', JSON.stringify(res?.data)) : null;
+                    setSessionGroups(res?.status == 200 && res?.data ? res?.data : []);
                 },
                 (err) => {
                     console.log('fetchGroups > err', err)
@@ -240,6 +240,7 @@ export default function GlobalLayout(props) {
                 <ChatBox 
                     key={idx} 
                     instance={(idx + 1)} 
+                    sessionUser={sessionUser}
                     activeChatData={item} 
                     onChatBoxCloseClick={(value) => onRemoveChatClick(value, 'chat-box')} 
                     onChatBoxMinimizeClick={onMinimizeChatClick}

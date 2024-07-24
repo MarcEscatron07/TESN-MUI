@@ -24,10 +24,16 @@ import LinkIcon from '@mui/icons-material/Link';
 
 import { StyledBadge } from "@/components/function";
 import { CHAT_BOX } from '@/components/styles';
+import { getThread } from "@/lib/api";
 
 export default function ChatBox(props) {
     const theme = useTheme();
 
+    const [sesUser, setSesUser] = useState({
+        id: -1,
+        name: '',
+        image: ''
+    });
     const [actChatData, setActChatData] = useState({
         id: -1,
         name: '',
@@ -36,7 +42,7 @@ export default function ChatBox(props) {
         unread: 0
     });
     const [actThreadData, setActThreadData] = useState([]);
-    
+
     const [chatMessage, setChatMessage] = useState('');
 
     useEffect(() => {
@@ -47,14 +53,38 @@ export default function ChatBox(props) {
     }, [props.instance])
 
     useEffect(() => {
+        // console.log('ChatBox > props.sessionUser', props.sessionUser)
+
+        setSesUser(props.sessionUser);
+    }, [props.sessionUser])
+
+    useEffect(() => {
         // console.log('ChatBox > props.activeChatData', props.activeChatData)
 
         setActChatData(props.activeChatData)
     }, [props.activeChatData])
 
     useEffect(() => {
+        // console.log('ChatBox > sesUser', sesUser)
         // console.log('ChatBox > actChatData', actChatData)
-    }, [actChatData])
+
+        if(sesUser.id != -1 && actChatData.id != -1) {
+            fetchThread();
+        }
+    }, [sesUser, actChatData])
+
+    async function fetchThread() {
+        await getThread(`userId=${sesUser.id}&friendId=${actChatData.id}&chatType=${actChatData.type}`).then(
+            (res) => {
+                console.log('fetchThread > res', res)
+
+                setActThreadData(res?.status == 200 && res?.data ? res?.data : []);
+            },
+            (err) => {
+                console.log('fetchThread > err', err)
+            },
+        )
+    }
 
     const onChatInputChange = (event) => {
         setChatMessage(event.target.value);
@@ -79,6 +109,15 @@ export default function ChatBox(props) {
         if (props.onChatBoxCloseClick) {
             props.onChatBoxCloseClick(value);
         }
+    }
+
+    function renderDefaultChatView(item, idx) {
+        const source = item.sender == actChatData.name ? 'sender' : 'receiver';
+
+        return (
+            <>
+            </>
+        )
     }
 
     return (
@@ -119,12 +158,21 @@ export default function ChatBox(props) {
 
                     <CardContent sx={CHAT_BOX.chatBoxCardContent} className="chatbox-content">
                         {/* TODO DYNAMIC CHATBOX > CONTENT */}
-                        <Box sx={CHAT_BOX.chatBoxCardContentBox}>
-                            <LinkIcon />
-                            <Typography variant="body2" sx={CHAT_BOX.chatBoxCardContentBoxText}>
-                                You are now connected on chat
-                            </Typography>
-                        </Box>
+                        {actThreadData.map((item, idx) => {
+                            switch(item.sender) {
+                                case 'system':
+                                    return (
+                                        <Box key={idx} sx={CHAT_BOX.chatBoxCardContentBox}>
+                                            <LinkIcon />
+                                            <Typography variant="body2" sx={CHAT_BOX.chatBoxCardContentBoxText}>
+                                                You are now connected on chat
+                                            </Typography>
+                                        </Box>
+                                    )
+                                default:
+                                    return renderDefaultChatView(item, idx);
+                            }
+                        })}
                     </CardContent>
 
                     <CardActions sx={{ ...CHAT_BOX.chatBoxCardActions, backgroundColor: theme.palette.secondary.main }} disableSpacing>
