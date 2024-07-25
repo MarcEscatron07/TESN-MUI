@@ -50,9 +50,6 @@ export default function TopAppBar(props) {
         setUserData(props.sessionUser);
     }, [props.sessionUser]);
 
-    useEffect(() => {
-    }, [userData]);
-
     const clearSessionStorage = () => {
         sessionStorage.clear();
     }

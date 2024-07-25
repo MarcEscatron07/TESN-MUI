@@ -52,25 +52,7 @@ export default function CardPost(props) {
     }, [])
 
     useEffect(() => {
-        if (props.data) {
-            setPostData(props.data);
-        } else {
-            setPostData({
-                id: -1,
-                owner: {
-                    name: '',
-                    image: '',
-                    timestamp: ''
-                },
-                thumbnail: {
-                    src: '',
-                    alt: ''
-                },
-                title: { text: '' },
-                description: { text: '' },
-                tags: []
-            });
-        }
+        props.data ? setPostData(props.data) : null;
     }, [props.data])
 
     const onExpandClick = () => {

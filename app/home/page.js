@@ -23,10 +23,6 @@ export default function Home() {
     }, 1000)
   }, []);
 
-  useEffect(() => {
-    // console.log('Home > postsList', postsList);
-  }, [postsList])
-
   async function fetchPosts() {
     if(sessionStorage.getItem('posts_data')) {
       setPostsList(JSON.parse(sessionStorage.getItem('posts_data')));

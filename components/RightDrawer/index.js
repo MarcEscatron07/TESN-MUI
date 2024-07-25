@@ -44,12 +44,6 @@ export default function RightDrawer(props) {
     setGroupsList(props.sessionGroups);
   }, [props.sessionGroups]);
 
-  useEffect(() => {
-  }, [friendsList]);
-
-  useEffect(() => {
-  }, [groupsList]);
-
   const onChatClick = (event, value) => {
     if(props.onDrawerChatClick) {
       props.onDrawerChatClick(value);

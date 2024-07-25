@@ -169,10 +169,6 @@ export default function EventCalendar() {
             });
         }
     }, [popoverAnchor])
-
-    useEffect(() => {
-        // console.log('EventCalendar > popoverData', popoverData)
-    }, [popoverData])
     /** POPOVER useEffect **/
 
     /** MODAL useEffect **/
@@ -193,10 +189,6 @@ export default function EventCalendar() {
             })
         }
     }, [isModalOpen])
-
-    useEffect(() => {
-        // console.log('EventCalendar > modalData', modalData)
-    }, [modalData])
     /** MODAL useEffect **/
 
     async function fetchHolidays() {

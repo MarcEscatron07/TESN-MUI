@@ -58,16 +58,8 @@ export default function GlobalLayout(props) {
     }, [selectedChat])
 
     useEffect(() => {
-        // console.log('GlobalLayout > activeChatList', activeChatList)
-    }, [activeChatList])
-
-    useEffect(() => {
         // console.log('GlobalLayout > passiveChatList', passiveChatList)
     }, [passiveChatList])
-
-    useEffect(() => {
-        // console.log('GlobalLayout > activeChatList', activeChatList)
-    }, [activeChatList])
 
     useEffect(() => {
         // console.log('GlobalLayout > activeThreadList', activeThreadList)
@@ -254,7 +246,7 @@ export default function GlobalLayout(props) {
         formData.append('chatType', chatObj?.type);
         formData.append('chatInput', JSON.stringify(chatInput));
         
-        postChatThread(formData, () => getChatThread('single', sessionUser.id, chatObj));
+        postChatThread(formData, () => getChatThread('multiple', sessionUser.id, activeChatList));
     }
 
     const onSelectedChatClick = (value) => {
@@ -287,13 +279,10 @@ export default function GlobalLayout(props) {
             if(activeChatList.length >= maxActiveChatCount) {
                 activeChatArr.pop();
             }
-        } else {
-            // aChatIdx == (activeChatArr.length-1) ? activeChatArr.reverse() : null;
+            sessionStorage.setItem('active_chat_data', JSON.stringify(activeChatArr));
+            setActiveChatList(activeChatArr);
+            /** ACTIVE CHAT LIST LOGIC **/
         }
-
-        sessionStorage.setItem('active_chat_data', JSON.stringify(activeChatArr));
-        setActiveChatList(activeChatArr);
-        /** ACTIVE CHAT LIST LOGIC **/
     }
 
     return (

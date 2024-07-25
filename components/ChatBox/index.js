@@ -60,18 +60,10 @@ export default function ChatBox(props) {
     }, [])
 
     useEffect(() => {
-        // console.log('ChatBox > props.instance', props.instance)
-    }, [props.instance])
-
-    useEffect(() => {
         // console.log('ChatBox > props.sessionUser', props.sessionUser)
 
         setUserData(props.sessionUser);
     }, [props.sessionUser])
-
-    useEffect(() => {
-        // console.log('ChatBox > props.selectedChat', props.selectedChat)
-    }, [props.selectedChat])
 
     useEffect(() => {
         // console.log('ChatBox > props.activeChatData', props.activeChatData)
@@ -80,7 +72,7 @@ export default function ChatBox(props) {
     }, [props.activeChatData])
 
     useEffect(() => {
-        console.log('ChatBox > props.activeThreadData', props.activeThreadData)
+        // console.log('ChatBox > props.activeThreadData', props.activeThreadData)
 
         if(props.activeThreadData) {
             let actThreadIdx = props.activeThreadData.map((i) => i.chatId).indexOf(actChatData.id);
@@ -92,9 +84,13 @@ export default function ChatBox(props) {
                 );
             }
         }
-    }, [props.activeThreadData])
+    }, [props.activeThreadData, actChatData])
 
     useEffect(() => {
+        // console.log('ChatBox > props.selectedChat', props.selectedChat)
+        // console.log('ChatBox > userData', userData)
+        // console.log('ChatBox > actChatData', actChatData)
+
         if(props.selectedChat && props.selectedChat?.id == actChatData.id) {
             setIsChatBoxLoading(true);
             setTimeout(() => {
@@ -112,10 +108,6 @@ export default function ChatBox(props) {
     }, [props.selectedChat, userData, actChatData])
 
     useEffect(() => {
-        // console.log('ChatBox > actChatData', actChatData)
-    }, [actChatData])
-
-    useEffect(() => {
         // console.log('ChatBox > isChatBoxLoading', isChatBoxLoading)
 
         if(!isChatBoxLoading) {
@@ -129,15 +121,9 @@ export default function ChatBox(props) {
         // console.log('ChatBox > actThreadData', actThreadData)
 
         if(actThreadData.length > 0) {
-            console.log('ChatBox > chatBoxContentRef', chatBoxContentRef)
-
             chatBoxContentRef?.current?.lastElementChild?.scrollIntoView();
         }
     }, [actThreadData])
-
-    useEffect(() => {
-        // console.log('ChatBox > chatMessage', chatMessage)
-    }, [chatMessage])
 
     const onEmojiPickerClick = (event) => {
         setPopoverAnchor(event.target);
