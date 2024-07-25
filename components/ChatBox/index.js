@@ -150,6 +150,14 @@ export default function ChatBox(props) {
         chatBoxAttachmentRef?.current.click();
     }
 
+    const onAttachFileCancel = () => {
+        clearObjectUrl(chatAttachments, () => setChatAttachments([]));
+    }
+
+    const onAttachFileRemove = (value) => {
+        setChatAttachments(chatAttachments.filter((_item, idx) => idx != value));
+    }
+
     const onEmojiPickerClick = (event) => {
         setPopoverAnchor(event.target);
     }
@@ -404,7 +412,7 @@ export default function ChatBox(props) {
                                                 <span 
                                                     className="chat-attachment-cancel"
                                                     aria-label="chat-attachment-cancel"
-                                                    onClick={() => {}}
+                                                    onClick={onAttachFileCancel}
                                                 >
                                                     <FontAwesomeIcon icon={faRectangleXmark} size="lg" />
                                                 </span>
@@ -415,7 +423,7 @@ export default function ChatBox(props) {
                                                     <span 
                                                         className="chat-attachment-remove"
                                                         aria-label="chat-attachment-remove"
-                                                        onClick={() => {}}
+                                                        onClick={() => onAttachFileRemove(idx)}
                                                     >
                                                         <FontAwesomeIcon icon={faTimes} size="sm" />
                                                     </span>
