@@ -93,6 +93,10 @@ export const CHAT_BOX = {
         display: 'flex',
         alignItems: 'center'
     },
+    chatBoxCardActionsBoxInputWrapper: {
+        position: 'relative', 
+        width: '100%'
+    },
     chatBoxCardActionsBoxInput: {
         p: 1,
         overflow: 'hidden',

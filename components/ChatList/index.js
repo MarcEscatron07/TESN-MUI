@@ -10,7 +10,7 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Popover from '@mui/material/Popover';
 
-import EditNoteIcon from "@mui/icons-material/EditNote";
+// import EditNoteIcon from "@mui/icons-material/EditNote";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import CancelIcon from '@mui/icons-material/Cancel';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -97,7 +97,11 @@ export default function ChatList(props) {
           </StyledBadge>
 
           {fabAvatarIdx == idx ? (
-            <span style={{ ...CHAT_LIST.chatListFabClose, backgroundColor: theme.palette.secondary.main }} aria-label="fab-avatar-close" onClick={(event) => onRemoveClick(event, item)}>
+            <span 
+              aria-label="fab-avatar-close" 
+              style={{ ...CHAT_LIST.chatListFabClose, backgroundColor: theme.palette.secondary.main }} 
+              onClick={(event) => onRemoveClick(event, item)}
+            >
               <FontAwesomeIcon icon={faTimes} size="md" />
             </span>
           ) : null}

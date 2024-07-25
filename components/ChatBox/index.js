@@ -7,6 +7,7 @@ import { useTheme } from "@mui/material/styles";
 
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -27,6 +28,9 @@ import AttachmentIcon from '@mui/icons-material/Attachment';
 import AddReactionIcon from '@mui/icons-material/AddReaction';
 import SendIcon from '@mui/icons-material/Send';
 import LinkIcon from '@mui/icons-material/Link';
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes, faRectangleXmark, faFile } from "@fortawesome/free-solid-svg-icons";
 
 import { StyledBadge } from "@/components/function";
 import { CHAT_BOX } from '@/components/styles';
@@ -251,6 +255,11 @@ export default function ChatBox(props) {
                         color: source == 'receiver' ? theme.palette.light.main : theme.palette.primary.contrastText,
                     }}
                 >
+                    {item.attachments && item.attachments.length > 0 ? (
+                        <Box className="chat-box-message-attachments">
+                            {item.attachments.map((atchItem, atchIdx) => renderAttachmentItemByType(atchItem, atchIdx, atchItem?.type))}
+                        </Box>
+                    ) : null}
                     <Box className="chat-box-message-text">{parseStringToHtml(item.message)}</Box>
                     <Box 
                         className="chat-box-message-timestamp" 
@@ -265,6 +274,53 @@ export default function ChatBox(props) {
                 </Box>
             </Box>
         )
+    }
+
+    function renderAttachmentThumbByType(item, type) {
+        if (type && type.includes('image')) {
+            return (<img className="chat-thumbnail-item" src={URL.createObjectURL(item)} />)
+        }
+        if (type && type.includes('video')) {
+            return (
+                <video className="chat-thumbnail-item">
+                    <source src={URL.createObjectURL(item)} />
+                </video>
+            );
+        }
+
+        return item?.name ? (
+            <Box className="chat-thumbnail-default">
+                <span><FontAwesomeIcon icon={faFile} size="lg" /></span>
+                <b>{item?.name}</b>
+            </Box>
+        ) : null;
+    }
+
+    function renderAttachmentItemByType(item, key, type) {
+        if (type && type.includes('image')) {
+            return (<img key={key} className="attachment-thumbnail-item" src={`./uploads/${item?.name}`} onClick={(e) => onAttachmentThumbnailClick(e, item)} />);
+        }
+        if (type && type.includes('video')) {
+            return (
+                <video key={key} className="attachment-thumbnail-item" onClick={(e) => onAttachmentThumbnailClick(e, item)} autoPlay controls muted>
+                    <source src={`./uploads/${item?.name}`} />
+                </video>
+            )
+        }
+
+        return item?.name ? (
+            <a href={`./uploads/${item?.name}`} className="attachment-thumbnail-default" target='_blank'>
+                <Grid container spacing={2}>
+                    <Grid item xs={2} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', pr: 0}}>
+                        <span className="icon"><FontAwesomeIcon icon={faFile} size="xl" /></span>
+                    </Grid>
+                    <Grid item xs={10} sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                        <span className="filename">{item?.name}</span>
+                        <span className="size">{formatFilesize(item?.size)}</span>
+                    </Grid>
+                </Grid>
+            </a>
+        ) : null;
     }
 
     return (
@@ -311,7 +367,7 @@ export default function ChatBox(props) {
                         />
                     </Paper>
 
-                    <CardContent ref={chatBoxContentRef} sx={CHAT_BOX.chatBoxCardContent} className="chat-box-content">
+                    <CardContent ref={chatBoxContentRef} sx={{...CHAT_BOX.chatBoxCardContent, backgroundColor: '#BBBBBB'}} className="chat-box-content">
                         {isChatBoxLoading? (
                             <Box sx={{
                                 ...CHAT_BOX.chatBoxCardLoaderBox,
@@ -340,17 +396,49 @@ export default function ChatBox(props) {
                             </IconButton>
                         </Box>
                         <Box sx={CHAT_BOX.chatBoxCardActionsBox}>
-                            <Input
-                                inputRef={chatBoxInputRef}
-                                multiline
-                                variant="filled"
-                                maxRows={1}
-                                value={chatMessage}
-                                onChange={onChatInputChange}
-                                onKeyDown={onChatInputKeyDown}
-                                onFocus={onChatInputFocus}
-                                sx={{ ...CHAT_BOX.chatBoxCardActionsBoxInput, backgroundColor: theme.palette.light.main }}
-                            />
+                            <Box sx={CHAT_BOX.chatBoxCardActionsBoxInputWrapper}>
+                                {chatAttachments.length > 0 ? chatAttachments.map((item, idx) => (
+                                    <Box className="chat-attachment-container">
+                                        <Box className="chat-attachment-content">
+                                            <Box className="chat-attachment-thumbnail" title="Cancel Attachment">
+                                                <span 
+                                                    className="chat-attachment-cancel"
+                                                    aria-label="chat-attachment-cancel"
+                                                    onClick={() => {}}
+                                                >
+                                                    <FontAwesomeIcon icon={faRectangleXmark} size="lg" />
+                                                </span>
+                                            </Box>
+
+                                            {chatAttachments.map((item, idx) => (
+                                                <Box key={idx} className="chat-attachment-thumbnail" title={item?.name}>
+                                                    <span 
+                                                        className="chat-attachment-remove"
+                                                        aria-label="chat-attachment-remove"
+                                                        onClick={() => {}}
+                                                    >
+                                                        <FontAwesomeIcon icon={faTimes} size="sm" />
+                                                    </span>
+
+                                                    {renderAttachmentThumbByType(item, item?.type)}
+                                                </Box>
+                                            ))}
+                                        </Box>
+                                    </Box>
+                                )) : null}
+
+                                <Input
+                                    inputRef={chatBoxInputRef}
+                                    multiline
+                                    variant="filled"
+                                    maxRows={1}
+                                    value={chatMessage}
+                                    onChange={onChatInputChange}
+                                    onKeyDown={onChatInputKeyDown}
+                                    onFocus={onChatInputFocus}
+                                    sx={{ ...CHAT_BOX.chatBoxCardActionsBoxInput, backgroundColor: theme.palette.light.main }}
+                                />
+                            </Box>
                             <Button variant="contained" color="primary" sx={CHAT_BOX.chatBoxCardActionsBoxButton} onClick={onChatInputSendClick}>
                                 <SendIcon sx={{ color: theme.palette.light.main }} />
                             </Button>
