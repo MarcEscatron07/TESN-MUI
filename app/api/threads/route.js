@@ -5,7 +5,7 @@ import path from "path";
 export async function GET(req, res) {
   try {
     /** temporary code **/
-    const jsonPath = "/public/json/threads.json";
+    const jsonPath = "/public/json/test_threads.json";
     const jsonFile = await fs.readFile(path.join(process.cwd(), jsonPath), "utf8");
     const jsonData = JSON.parse(jsonFile);
     /** temporary code **/
@@ -45,7 +45,7 @@ export async function GET(req, res) {
 export async function POST(req, res) {
   try {
     /** temporary code **/
-    const jsonPath = "/public/json/threads.json";
+    const jsonPath = "/public/json/test_threads.json";
     const jsonFile = await fs.readFile(path.join(process.cwd(), jsonPath), "utf8");
     const jsonData = JSON.parse(jsonFile);
     /** temporary code **/

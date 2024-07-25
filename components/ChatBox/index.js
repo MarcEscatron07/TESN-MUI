@@ -30,8 +30,7 @@ import LinkIcon from '@mui/icons-material/Link';
 
 import { StyledBadge } from "@/components/function";
 import { CHAT_BOX } from '@/components/styles';
-import { getThread } from "@/lib/api";
-import { parseStringToHtml, formatDateTime, clearObjectUrl } from '@/lib/helpers';
+import { parseStringToHtml, formatDateTime } from '@/lib/helpers';
 
 export default function ChatBox(props) {
     const theme = useTheme();
@@ -53,7 +52,6 @@ export default function ChatBox(props) {
     const [actThreadData, setActThreadData] = useState([]);
 
     const [chatMessage, setChatMessage] = useState('');
-    const [chatAttachments, setChatAttachments] = useState([]);
 
     useEffect(() => {
     }, [])
@@ -71,46 +69,18 @@ export default function ChatBox(props) {
     useEffect(() => {
         // console.log('ChatBox > props.activeChatData', props.activeChatData)
 
-        setActChatData(props.activeChatData)
+        setActChatData(props.activeChatData);
     }, [props.activeChatData])
+
+    useEffect(() => {
+        // console.log('ChatBox > props.activeChatData', props.activeChatData)
+
+        setActThreadData(props.activeThreadData);
+    }, [props.activeThreadData])
 
     useEffect(() => {
         // console.log('ChatBox > chatMessage', chatMessage)
     }, [chatMessage])
-
-    useEffect(() => {
-        // console.log('ChatBox > chatAttachments', chatAttachments)
-    }, [chatAttachments])
-
-    useEffect(() => {
-        // console.log('ChatBox > userData', userData)
-        // console.log('ChatBox > actChatData', actChatData)
-
-        if(userData.id != -1 && actChatData.id != -1) {
-            props.selectedChat?.id == actChatData.id ? setIsChatBoxLoading(true) : null;
-            fetchThread(() => {
-                setTimeout(() => {
-                    props.selectedChat?.id == actChatData.id ? setIsChatBoxLoading(false) : null
-                }, 1000)
-            });
-        }
-    }, [userData, actChatData, props.selectedChat])
-
-    async function fetchThread(callback) {
-        await getThread(`userId=${userData.id}&chatId=${actChatData.id}&chatType=${actChatData.type}`).then(
-            (res) => {
-                // console.log('fetchThread > res', res)
-
-                setActThreadData(res?.status == 200 && res?.data ? res?.data : []);
-            },
-            (err) => {
-                console.log('fetchThread > err', err)
-                setActThreadData([]);
-            },
-        )
-
-        callback ? callback() : null;
-    }
 
     const onEmojiPickerClick = (event) => {
         setPopoverAnchor(event.target);
