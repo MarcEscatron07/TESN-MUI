@@ -36,7 +36,7 @@ export default function ChatBox(props) {
     const theme = useTheme();
 
     const chatBoxContentRef = useRef();
-    const chatBoxActionsInput = useRef();
+    const chatBoxInputRef = useRef();
 
     const [isChatBoxLoading, setIsChatBoxLoading] = useState(false);
     const [popoverAnchor, setPopoverAnchor] = useState(null);
@@ -99,7 +99,8 @@ export default function ChatBox(props) {
             setIsChatBoxLoading(true);
             setTimeout(() => {
                 setIsChatBoxLoading(false);
-                chatBoxActionsInput?.current?.focus();
+                chatBoxInputRef?.current?.focus();
+                
                 if(props.onResetSelectedChat) {
                     props.onResetSelectedChat();
                 }
@@ -332,7 +333,7 @@ export default function ChatBox(props) {
                         </Box>
                         <Box sx={CHAT_BOX.chatBoxCardActionsBox}>
                             <Input
-                                inputRef={chatBoxActionsInput}
+                                inputRef={chatBoxInputRef}
                                 multiline
                                 variant="filled"
                                 maxRows={1}
