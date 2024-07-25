@@ -315,18 +315,18 @@ export default function ChatBox(props) {
 
     function renderAttachmentItemByType(item, key, type) {
         if (type && type.includes('image')) {
-            return (<img key={key} className="attachment-thumbnail-item" src={`./uploads/${item?.name}`} onClick={(e) => onAttachmentThumbnailClick(e, item)} />);
+            return (<img key={key} className="attachment-thumbnail-item" src={`./attachments/${item?.name}`} onClick={(e) => onAttachmentThumbnailClick(e, item)} />);
         }
         if (type && type.includes('video')) {
             return (
                 <video key={key} className="attachment-thumbnail-item" onClick={(e) => onAttachmentThumbnailClick(e, item)} autoPlay controls muted>
-                    <source src={`./uploads/${item?.name}`} />
+                    <source src={`./attachments/${item?.name}`} />
                 </video>
             )
         }
 
         return item?.name ? (
-            <a href={`./uploads/${item?.name}`} className="attachment-thumbnail-default" target='_blank'>
+            <a href={`./attachments/${item?.name}`} className="attachment-thumbnail-default" target='_blank'>
                 <Grid container spacing={2}>
                     <Grid item xs={2} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', pr: 0}}>
                         <span className="icon"><FontAwesomeIcon icon={faFile} size="xl" /></span>
