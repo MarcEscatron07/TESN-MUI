@@ -21,6 +21,7 @@ export default function GlobalLayout(props) {
     const [sessionGroups, setSessionGroups] = useState([]);
     
     const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(true);
+    const [selectedChat, setSelectedChat] = useState(null);
     const [activeChatList, setActiveChatList] = useState([]);
     const [passiveChatList, setPassiveChatList] = useState([]);
 
@@ -53,6 +54,10 @@ export default function GlobalLayout(props) {
     }, [sessionFriends])
 
     useEffect(() => {
+        // console.log('GlobalLayout > selectedChat', selectedChat)
+    }, [selectedChat])
+
+    useEffect(() => {
         // console.log('GlobalLayout > activeChatList', activeChatList)
     }, [activeChatList])
 
@@ -72,7 +77,7 @@ export default function GlobalLayout(props) {
         // console.log('GlobalLayout > activeChatList', activeChatList)
 
         if(activeChatList.length > 0) {
-            getChatThread('activeChatList', sessionUser.id, activeChatList);
+            getChatThread('multiple', sessionUser.id, activeChatList);
         }
     }, [sessionUser, activeChatList])
 
@@ -129,16 +134,16 @@ export default function GlobalLayout(props) {
         }
     }
 
-    async function getChatThread(origin, userId, data) {
-        switch(origin) {
-            case 'activeChatList':
+    async function getChatThread(type, userId, data) {
+        switch(type) {
+            case 'multiple':
                 const promisesList = data.map((item) => getThread(`userId=${userId}&chatId=${item.id}&chatType=${item.type}`));
                 const promisesResList = await Promise.all(promisesList);
                 // console.log('getChatThread > activeChatList > promisesResList', promisesResList)
         
                 setActiveThreadList(promisesResList.map((item) => item?.data ?? {}));
                 break;
-            case 'postChatThread':
+            case 'single':
                 await getThread(`userId=${userId}&chatId=${data.id}&chatType=${data.type}`).then(
                     (res) => {
                         // console.log('getChatThread > postChatThread > res', res)
@@ -249,11 +254,12 @@ export default function GlobalLayout(props) {
         formData.append('chatType', chatObj?.type);
         formData.append('chatInput', JSON.stringify(chatInput));
         
-        postChatThread(formData, () => getChatThread('postChatThread', sessionUser.id, chatObj));
+        postChatThread(formData, () => getChatThread('single', sessionUser.id, chatObj));
     }
 
     const onSelectedChatClick = (value) => {
         // console.log('onSelectedChatClick > value', value)
+        setSelectedChat(value);
         
         /** ACTIVE CHAT LIST LOGIC **/
         let aChatIdx = activeChatList.map((i) => i.id).indexOf(value?.id ?? -1);
@@ -306,6 +312,7 @@ export default function GlobalLayout(props) {
 
             <ChatList 
                 passiveChatList={passiveChatList} 
+                activeChatList={activeChatList} 
                 onListChatClick={onSelectedChatClick} 
                 onChatListRemoveClick={(value) => onRemoveChatClick(value, 'chat-list')}
                 onChatListCloseClick={onCloseAllChatsClick}
@@ -317,11 +324,14 @@ export default function GlobalLayout(props) {
                     key={idx} 
                     instance={(idx + 1)}
                     sessionUser={sessionUser}
+                    selectedChat={selectedChat}
                     activeChatData={item} 
-                    activeThreadData={activeThreadList[idx] && activeThreadList[idx]?.threads ? activeThreadList[idx]?.threads : []}
+                    activeThreadData={activeThreadList}
                     onChatBoxCloseClick={(value) => onRemoveChatClick(value, 'chat-box')} 
                     onChatBoxMinimizeClick={onMinimizeChatClick}
                     onChatBoxSendInput={onSendChatInputClick}
+                    onResetSelectedChat={() => setSelectedChat(null)}
+                    onResetChatThread={getChatThread}
                 />
             ))}
         </Box>

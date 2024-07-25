@@ -36,6 +36,7 @@ export default function ChatBox(props) {
     const theme = useTheme();
 
     const chatBoxContentRef = useRef();
+    const chatBoxActionsInput = useRef();
 
     const [isChatBoxLoading, setIsChatBoxLoading] = useState(false);
     const [popoverAnchor, setPopoverAnchor] = useState(null);
@@ -56,10 +57,6 @@ export default function ChatBox(props) {
     const [chatMessage, setChatMessage] = useState('');
 
     useEffect(() => {
-        setIsChatBoxLoading(true);
-        setTimeout(() => {
-            setIsChatBoxLoading(false);
-        }, 1000)
     }, [])
 
     useEffect(() => {
@@ -73,23 +70,56 @@ export default function ChatBox(props) {
     }, [props.sessionUser])
 
     useEffect(() => {
+        // console.log('ChatBox > props.selectedChat', props.selectedChat)
+    }, [props.selectedChat])
+
+    useEffect(() => {
         // console.log('ChatBox > props.activeChatData', props.activeChatData)
 
         setActChatData(props.activeChatData);
     }, [props.activeChatData])
 
     useEffect(() => {
-        // console.log('ChatBox > props.activeChatData', props.activeChatData)
+        console.log('ChatBox > props.activeThreadData', props.activeThreadData)
 
-        setActThreadData(props.activeThreadData);
+        if(props.activeThreadData) {
+            let actThreadIdx = props.activeThreadData.map((i) => i.chatId).indexOf(actChatData.id);
+
+            if(actThreadIdx != -1) {
+                setActThreadData(
+                    props.activeThreadData[actThreadIdx] && props.activeThreadData[actThreadIdx].threads ? 
+                    props.activeThreadData[actThreadIdx].threads : []
+                );
+            }
+        }
     }, [props.activeThreadData])
+
+    useEffect(() => {
+        if(props.selectedChat && props.selectedChat?.id == actChatData.id) {
+            setIsChatBoxLoading(true);
+            setTimeout(() => {
+                setIsChatBoxLoading(false);
+                chatBoxActionsInput?.current?.focus();
+                if(props.onResetSelectedChat) {
+                    props.onResetSelectedChat();
+                }
+                if(props.onResetChatThread){
+                    props.onResetChatThread('single', userData.id, actChatData);
+                }
+            }, 1000)
+        }
+    }, [props.selectedChat, userData, actChatData])
+
+    useEffect(() => {
+        // console.log('ChatBox > actChatData', actChatData)
+    }, [actChatData])
 
     useEffect(() => {
         // console.log('ChatBox > isChatBoxLoading', isChatBoxLoading)
 
         if(!isChatBoxLoading) {
             setTimeout(() => {
-                chatBoxContentRef.current?.lastElementChild?.scrollIntoView();
+                chatBoxContentRef?.current?.lastElementChild?.scrollIntoView();
             }, 200);
         }
     }, [isChatBoxLoading])
@@ -100,7 +130,7 @@ export default function ChatBox(props) {
         if(actThreadData.length > 0) {
             console.log('ChatBox > chatBoxContentRef', chatBoxContentRef)
 
-            chatBoxContentRef.current?.lastElementChild?.scrollIntoView();
+            chatBoxContentRef?.current?.lastElementChild?.scrollIntoView();
         }
     }, [actThreadData])
 
@@ -302,6 +332,7 @@ export default function ChatBox(props) {
                         </Box>
                         <Box sx={CHAT_BOX.chatBoxCardActionsBox}>
                             <Input
+                                inputRef={chatBoxActionsInput}
                                 multiline
                                 variant="filled"
                                 maxRows={1}

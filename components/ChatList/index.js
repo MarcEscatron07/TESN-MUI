@@ -141,16 +141,18 @@ export default function ChatList(props) {
           >
             Close all chats
           </Button>
-          <Button
-            sx={{
-              ...CHAT_LIST.chatListPopoverOptionMinimize,
-              color: theme.palette.dark.main
-            }}
-            startIcon={<RemoveIcon />}
-            onClick={onOptionMinimizeClick}
-          >
-            Minimize open chats
-          </Button>
+          {props.activeChatList && props.activeChatList.length > 0 ? (
+            <Button
+              sx={{
+                ...CHAT_LIST.chatListPopoverOptionMinimize,
+                color: theme.palette.dark.main
+              }}
+              startIcon={<RemoveIcon />}
+              onClick={onOptionMinimizeClick}
+            >
+              Minimize open chats
+            </Button>
+          ) : null}
         </Box>
       </Popover>
     </div>
