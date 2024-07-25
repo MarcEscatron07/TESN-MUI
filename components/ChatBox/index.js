@@ -55,6 +55,7 @@ export default function ChatBox(props) {
     const [actThreadData, setActThreadData] = useState([]);
 
     const [chatMessage, setChatMessage] = useState('');
+    const [chatAttachments, setChatAttachments] = useState([]);
 
     useEffect(() => {
     }, [])
