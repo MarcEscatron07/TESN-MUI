@@ -30,12 +30,13 @@ import LinkIcon from '@mui/icons-material/Link';
 
 import { StyledBadge } from "@/components/function";
 import { CHAT_BOX } from '@/components/styles';
-import { parseStringToHtml, formatDateTime } from '@/lib/helpers';
+import { parseStringToHtml, formatDateTime, clearObjectUrl } from '@/lib/helpers';
 
 export default function ChatBox(props) {
     const theme = useTheme();
 
     const chatBoxContentRef = useRef();
+    const chatBoxAttachmentRef = useRef();
     const chatBoxInputRef = useRef();
 
     const [isChatBoxLoading, setIsChatBoxLoading] = useState(false);
@@ -125,6 +126,25 @@ export default function ChatBox(props) {
             chatBoxContentRef?.current?.lastElementChild?.scrollIntoView();
         }
     }, [actThreadData])
+
+    useEffect(() => {
+        // console.log('ChatBox > chatMessage', chatMessage)
+    }, [chatMessage])
+
+    useEffect(() => {
+        // console.log('ChatBox > chatAttachments', chatAttachments)
+    }, [chatAttachments])
+
+    const onAttachFileChange = (event) => {
+        const filesArr = event?.target?.files ? [...event?.target?.files] : [];
+        setChatAttachments(filesArr);
+        chatBoxInputRef.current?.focus();
+    }
+
+    const onAttachFileClick = (event) => {
+        clearObjectUrl(chatAttachments, () => setChatAttachments([]));
+        chatBoxAttachmentRef?.current.click();
+    }
 
     const onEmojiPickerClick = (event) => {
         setPopoverAnchor(event.target);
@@ -311,7 +331,8 @@ export default function ChatBox(props) {
 
                     <CardActions sx={{ ...CHAT_BOX.chatBoxCardActions, backgroundColor: theme.palette.secondary.main }} disableSpacing>
                         <Box sx={CHAT_BOX.chatBoxCardActionsBox}>
-                            <IconButton aria-label="chat-box-attachment">
+                            <input key={chatAttachments} type="file" ref={chatBoxAttachmentRef} accept="*/*" multiple hidden onChange={onAttachFileChange} />
+                            <IconButton aria-label="chat-box-attachment" onClick={onAttachFileClick}>
                                 <AttachmentIcon />
                             </IconButton>
                             <IconButton aria-label="chat-box-emoji" onClick={onEmojiPickerClick}>
