@@ -375,12 +375,9 @@ export default function ChatBox(props) {
                         />
                     </Paper>
 
-                    <CardContent ref={chatBoxContentRef} sx={{...CHAT_BOX.chatBoxCardContent, backgroundColor: '#BBBBBB'}} className="chat-box-content">
+                    <CardContent ref={chatBoxContentRef} sx={CHAT_BOX.chatBoxCardContent} className="chat-box-content">
                         {isChatBoxLoading? (
-                            <Box sx={{
-                                ...CHAT_BOX.chatBoxCardLoaderBox,
-                                backgroundColor: theme.palette.light.main
-                            }}>
+                            <Box sx={CHAT_BOX.chatBoxCardLoaderBox}>
                                 <CircularProgress color="primary" />
                             </Box>
                         ) : actThreadData ? actThreadData.map((item, idx) => {

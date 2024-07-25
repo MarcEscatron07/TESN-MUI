@@ -23,7 +23,8 @@ export const CHAT_BOX = {
         height: '100%'
     },
     chatBoxCardContainer: {
-        height: '100%'
+        backgroundColor: '#BBBBBB',
+        height: '100%',
     },
     chatBoxCardHeader: {
         height: '12%',
@@ -58,6 +59,7 @@ export const CHAT_BOX = {
         px: 2,
     },
     chatBoxCardLoaderBox: {
+        backgroundColor: '#BBBBBB',
         position: 'absolute',
         top: 0,
         left: 0,

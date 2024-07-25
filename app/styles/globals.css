@@ -216,7 +216,7 @@ body {
   font-size: 1rem;
 }
 .chat-attachment-container .chat-attachment-content .chat-attachment-thumbnail .chat-thumbnail-item {
-  height: 50px;
+  height: 100%;
   width: 50px;
   border-radius: 10px;
 }
