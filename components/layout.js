@@ -62,10 +62,6 @@ export default function GlobalLayout(props) {
 
     useEffect(() => {
         // console.log('GlobalLayout > activeChatList', activeChatList)
-
-        if(activeChatList.length > 0) {
-            getChatThread(activeChatList);
-        }
     }, [activeChatList])
 
     useEffect(() => {
@@ -73,8 +69,14 @@ export default function GlobalLayout(props) {
     }, [activeThreadList])
 
     useEffect(() => {
-        // console.log('GlobalLayout > activeThreadList', activeThreadList)
+        // console.log('GlobalLayout > activeChatList', activeChatList)
 
+        if(activeChatList.length > 0) {
+            getChatThread('activeChatList', sessionUser.id, activeChatList);
+        }
+    }, [sessionUser, activeChatList])
+
+    useEffect(() => {
         setIsLoading(props.isLoading);
     }, [props.isLoading, activeThreadList])
 
@@ -127,20 +129,42 @@ export default function GlobalLayout(props) {
         }
     }
 
-    async function getChatThread(array) {
-        const promisesList = array.map((item) => getThread(`userId=${sessionUser.id}&chatId=${item.id}&chatType=${item.type}`));
-        const promisesResList = await Promise.all(promisesList);
-        // console.log('getChatThread > promisesResList', promisesResList)
+    async function getChatThread(origin, userId, data) {
+        switch(origin) {
+            case 'activeChatList':
+                const promisesList = data.map((item) => getThread(`userId=${userId}&chatId=${item.id}&chatType=${item.type}`));
+                const promisesResList = await Promise.all(promisesList);
+                // console.log('getChatThread > activeChatList > promisesResList', promisesResList)
+        
+                setActiveThreadList(promisesResList.map((item) => item?.data ?? {}));
+                break;
+            case 'postChatThread':
+                await getThread(`userId=${userId}&chatId=${data.id}&chatType=${data.type}`).then(
+                    (res) => {
+                        // console.log('getChatThread > postChatThread > res', res)
+                        
+                        setActiveThreadList(activeThreadList.map((item) => {
+                            if(item && item['threads'] && item['chatId'] == res?.data?.chatId) {
+                                item['threads'] = res?.data?.threads ?? [];
+                            }
 
-        setActiveThreadList(promisesResList.map((item) => item?.data ?? []));
+                            return item;
+                        }))
+                    },
+                    (err) => {
+                        console.log('getChatThread > postChatThread > err', err)
+                    },
+                )
+                break;
+        }
     }
 
     async function postChatThread(formData, callback) {
-        console.log('postChatThread > formData', formData)
+        // console.log('postChatThread > formData', formData)
 
         await postThread(formData).then(
             (res) => {
-                console.log('GlobalLayout > postChatThread > res', res)
+                // console.log('GlobalLayout > postChatThread > res', res)
             },
             (err) => {
                 console.log('GlobalLayout > postChatThread > err', err)
@@ -225,7 +249,7 @@ export default function GlobalLayout(props) {
         formData.append('chatType', chatObj?.type);
         formData.append('chatInput', JSON.stringify(chatInput));
         
-        postChatThread(formData, () => getChatThread(activeChatList));
+        postChatThread(formData, () => getChatThread('postChatThread', sessionUser.id, chatObj));
     }
 
     const onSelectedChatClick = (value) => {
@@ -294,7 +318,7 @@ export default function GlobalLayout(props) {
                     instance={(idx + 1)}
                     sessionUser={sessionUser}
                     activeChatData={item} 
-                    activeThreadData={activeThreadList[idx] ?? []}
+                    activeThreadData={activeThreadList[idx] && activeThreadList[idx]?.threads ? activeThreadList[idx]?.threads : []}
                     onChatBoxCloseClick={(value) => onRemoveChatClick(value, 'chat-box')} 
                     onChatBoxMinimizeClick={onMinimizeChatClick}
                     onChatBoxSendInput={onSendChatInputClick}

@@ -25,7 +25,11 @@ export async function GET(req, res) {
             return NextResponse.json({
               status: 200,
               message: "Data fetch successful.",
-              data: jsonData[key]?.threads,
+              data: {
+                threads: jsonData[key]?.threads,
+                userId: userId,
+                chatId: chatId
+              },
             }, { status: 200 });
         }
       }
