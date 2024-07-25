@@ -192,6 +192,7 @@ body {
   padding: 3px;
   margin-left: 5px;
   margin-right: 5px;
+  max-height: 50px;
 }
 .chat-attachment-container .chat-attachment-content .chat-attachment-thumbnail .chat-attachment-cancel {
   cursor: pointer;
