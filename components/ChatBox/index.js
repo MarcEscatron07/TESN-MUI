@@ -35,6 +35,8 @@ import { parseStringToHtml, formatDateTime } from '@/lib/helpers';
 export default function ChatBox(props) {
     const theme = useTheme();
 
+    const chatBoxContentRef = useRef();
+
     const [isChatBoxLoading, setIsChatBoxLoading] = useState(false);
     const [popoverAnchor, setPopoverAnchor] = useState(null);
     const [userData, setUserData] = useState({
@@ -81,6 +83,26 @@ export default function ChatBox(props) {
 
         setActThreadData(props.activeThreadData);
     }, [props.activeThreadData])
+
+    useEffect(() => {
+        // console.log('ChatBox > isChatBoxLoading', isChatBoxLoading)
+
+        if(!isChatBoxLoading) {
+            setTimeout(() => {
+                chatBoxContentRef.current?.lastElementChild?.scrollIntoView();
+            }, 200);
+        }
+    }, [isChatBoxLoading])
+
+    useEffect(() => {
+        // console.log('ChatBox > actThreadData', actThreadData)
+
+        if(actThreadData.length > 0) {
+            console.log('ChatBox > chatBoxContentRef', chatBoxContentRef)
+
+            chatBoxContentRef.current?.lastElementChild?.scrollIntoView();
+        }
+    }, [actThreadData])
 
     useEffect(() => {
         // console.log('ChatBox > chatMessage', chatMessage)
@@ -251,7 +273,7 @@ export default function ChatBox(props) {
                         />
                     </Paper>
 
-                    <CardContent sx={CHAT_BOX.chatBoxCardContent} className="chat-box-content">
+                    <CardContent ref={chatBoxContentRef} sx={CHAT_BOX.chatBoxCardContent} className="chat-box-content">
                         {isChatBoxLoading? (
                             <Box sx={{
                                 ...CHAT_BOX.chatBoxCardLoaderBox,
