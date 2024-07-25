@@ -54,6 +54,10 @@ export default function ChatBox(props) {
     const [chatMessage, setChatMessage] = useState('');
 
     useEffect(() => {
+        setIsChatBoxLoading(true);
+        setTimeout(() => {
+            setIsChatBoxLoading(false);
+        }, 1000)
     }, [])
 
     useEffect(() => {
