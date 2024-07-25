@@ -97,7 +97,7 @@ export default function ChatBox(props) {
     }, [userData, actChatData, props.selectedChat])
 
     async function fetchThread(callback) {
-        await getThread(`userId=${userData.id}&friendId=${actChatData.id}&chatType=${actChatData.type}`).then(
+        await getThread(`userId=${userData.id}&chatId=${actChatData.id}&chatType=${actChatData.type}`).then(
             (res) => {
                 // console.log('fetchThread > res', res)
 

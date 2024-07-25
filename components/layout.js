@@ -7,7 +7,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 
 import { GLOBAL } from "@/app/styles";
 import { Loader, TopAppBar, LeftDrawer, RightDrawer, ChatBox, ChatList } from '@/components';
-import { getFriends, getGroups } from "@/lib/api";
+import { getFriends, getGroups, postThread } from "@/lib/api";
 
 export default function GlobalLayout(props) {
     const [isLoading, setIsLoading] = useState(props.isLoading);
@@ -109,12 +109,17 @@ export default function GlobalLayout(props) {
         }
     }
 
-    async function postChatThread(userId, chatId, chatType, threadObj, callback) {
-        // code for API call of posting chat input here
-        console.log('postChatThread > userId', userId)
-        console.log('postChatThread > chatId', chatId)
-        console.log('postChatThread > chatType', chatType)
-        console.log('postChatThread > threadObj', threadObj)
+    async function postChatThread(formData, callback) {
+        console.log('postChatThread > formData', formData)
+
+        await postThread(formData).then(
+            (res) => {
+                console.log('GlobalLayout > postChatThread > res', res)
+            },
+            (err) => {
+                console.log('GlobalLayout > postChatThread > err', err)
+            },
+        );
 
         callback ? callback() : null;
     }
@@ -187,8 +192,14 @@ export default function GlobalLayout(props) {
         setActiveChatList(activeChatArr);
     }
 
-    const onSendChatInputClick = (chatObj, threadObj, attachmentsArr) => {
-        postChatThread(sessionUser.id, chatObj?.id, chatObj?.type, threadObj);
+    const onSendChatInputClick = (chatObj, chatInput) => {
+        const formData = new FormData();
+        formData.append('userId', sessionUser.id);
+        formData.append('chatId', chatObj?.id);
+        formData.append('chatType', chatObj?.type);
+        formData.append('chatInput', JSON.stringify(chatInput));
+        
+        postChatThread(formData);
     }
 
     const onSelectedChatClick = (value) => {

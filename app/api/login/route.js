@@ -15,8 +15,8 @@ export async function POST(req, res) {
     /** temporary code **/
     
     const formData = await req.formData();
-    const username = formData.get("username");
-    const password = formData.get("password");
+    const username = formData.has('username') ? formData.get('username') : '';
+    const password = formData.get('password') ? formData.get('password') : '';
 
     for (const key in jsonData) {
       if (
@@ -29,16 +29,16 @@ export async function POST(req, res) {
 
         return NextResponse.json({
           status: 200,
-          message: "Login successful.",
+          message: "Post login successful.",
           data: dataObj,
         }, { status: 200 });
-      } else {
-        return NextResponse.json({
-          status: 400,
-          message: "Unable to login.",
-        }, { status: 400 });
       }
     }
+
+    return NextResponse.json({
+      status: 400,
+      message: "Unable to post login.",
+    }, { status: 400 });
   } catch (e) {
     return NextResponse.json({
       status: 500,

@@ -21,14 +21,14 @@ export async function GET(req, res) {
     }
 
     return NextResponse.json({
-        status: 200,
-        message: "Data fetch successful.",
-        data: dataArr,
+      status: 200,
+      message: "Data fetch successful.",
+      data: dataArr,
     }, { status: 200 });
   } catch (e) {
     return NextResponse.json({
-        status: 500,
-        message: "An unexpected error occured.",
+      status: 500,
+      message: "An unexpected error occured.",
     }, { status: 500 });
   }
 }

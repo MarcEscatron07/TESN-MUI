@@ -19,17 +19,17 @@ export async function GET(req, res) {
             jsonData[key]?.userId == userId && jsonData[key]?.groups
         ) {
             return NextResponse.json({
-                status: 200,
-                message: "Data fetch successful.",
-                data: jsonData[key]?.groups,
-              }, { status: 200 });
-        } else {
-            return NextResponse.json({
-                status: 400,
-                message: "Data fetch failed.",
-              }, { status: 400 });
+              status: 200,
+              message: "Data fetch successful.",
+              data: jsonData[key]?.groups,
+            }, { status: 200 });
         }
-    }
+      }
+
+      return NextResponse.json({
+        status: 400,
+        message: "Data fetch failed.",
+      }, { status: 400 });
   } catch (e) {
     return NextResponse.json({
         status: 500,

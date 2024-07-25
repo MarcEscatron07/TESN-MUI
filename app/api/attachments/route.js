@@ -18,8 +18,8 @@ export async function GET(req, res) {
 export async function POST(req, res) {
     try {
         const formData = await req.formData();
-        const user = formData.get('user');
-        const files = formData.getAll('files');
+        const user = formData.has('user') ? formData.get('user') : '';
+        const files = formData.has('files') ? formData.getAll('files') : null;
         // console.log('ATTACHMENTS > POST > files', files)
 
         const filesArr = files ? Array.from(files).map((item) => {
