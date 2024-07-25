@@ -7,7 +7,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 
 import { GLOBAL } from "@/app/styles";
 import { Loader, TopAppBar, LeftDrawer, RightDrawer, ChatBox, ChatList } from '@/components';
-import { getFriends, getGroups, getThread, postThread } from "@/lib/api";
+import { getFriends, getGroups, getThread, postThread, postAttachments } from "@/lib/api";
 
 export default function GlobalLayout(props) {
     const [isLoading, setIsLoading] = useState(props.isLoading);
@@ -171,6 +171,25 @@ export default function GlobalLayout(props) {
         callback ? callback() : null;
     }
 
+    async function postChatAttachments(formData, callback) {
+        // console.log('postChatAttachments > formData', formData)
+
+        let attachmentsArr = null;
+
+        await postAttachments(formData).then(
+            (res) => {
+                console.log('GlobalLayout > postChatAttachments > res', res)
+
+                res?.data ? attachmentsArr = res?.data : null;
+            },
+            (err) => {
+                console.log('GlobalLayout > postChatAttachments > err', err)
+            },
+        )
+
+        callback ? callback(attachmentsArr) : null;
+    }
+
     const onDrawerToggleClick = (value) => {
         setIsLeftDrawerOpen(value);
     }
@@ -239,14 +258,27 @@ export default function GlobalLayout(props) {
         setActiveChatList(activeChatArr);
     }
 
-    const onSendChatInputClick = (chatObj, chatInput) => {
+    const onSendChatInputClick = (chatObj, chatInput, attachmentsList) => {
         const formData = new FormData();
         formData.append('userId', sessionUser.id);
         formData.append('chatId', chatObj?.id);
         formData.append('chatType', chatObj?.type);
-        formData.append('chatInput', JSON.stringify(chatInput));
-        
-        postChatThread(formData, () => getChatThread('multiple', sessionUser.id, activeChatList));
+
+        if(attachmentsList) {
+            formData.append('userName', sessionUser.name);
+            Array.from(attachmentsList).forEach((item) => {
+                formData.append('attachments', item);
+            })
+            
+            postChatAttachments(formData, (attachments) => {
+                chatInput ? chatInput.attachments = attachments : null;
+                formData.append('chatInput', JSON.stringify(chatInput));
+                postChatThread(formData, () => getChatThread('multiple', sessionUser.id, activeChatList));
+            })
+        } else {
+            formData.append('chatInput', JSON.stringify(chatInput));
+            postChatThread(formData, () => getChatThread('multiple', sessionUser.id, activeChatList));
+        }
     }
 
     const onSelectedChatClick = (value) => {

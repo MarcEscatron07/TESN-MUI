@@ -34,7 +34,7 @@ import { faTimes, faRectangleXmark, faFile } from "@fortawesome/free-solid-svg-i
 
 import { StyledBadge } from "@/components/function";
 import { CHAT_BOX } from '@/components/styles';
-import { parseStringToHtml, formatDateTime, clearObjectUrl } from '@/lib/helpers';
+import { parseStringToHtml, formatDateTime, formatFilesize, clearObjectUrl } from '@/lib/helpers';
 
 export default function ChatBox(props) {
     const theme = useTheme();
@@ -44,6 +44,7 @@ export default function ChatBox(props) {
     const chatBoxInputRef = useRef();
 
     const [isChatBoxLoading, setIsChatBoxLoading] = useState(false);
+    const [isChatBoxScrolling, setIsChatBoxScrolling] = useState(false);
     const [popoverAnchor, setPopoverAnchor] = useState(null);
     const [userData, setUserData] = useState({
         id: -1,
@@ -114,19 +115,9 @@ export default function ChatBox(props) {
     }, [props.selectedChat, userData, actChatData])
 
     useEffect(() => {
-        // console.log('ChatBox > isChatBoxLoading', isChatBoxLoading)
-
-        if(!isChatBoxLoading) {
-            setTimeout(() => {
-                chatBoxContentRef?.current?.lastElementChild?.scrollIntoView();
-            }, 200);
-        }
-    }, [isChatBoxLoading])
-
-    useEffect(() => {
         // console.log('ChatBox > actThreadData', actThreadData)
 
-        if(actThreadData.length > 0) {
+        if(actThreadData.length > 0 && !isChatBoxScrolling) {
             chatBoxContentRef?.current?.lastElementChild?.scrollIntoView();
         }
     }, [actThreadData])
@@ -193,10 +184,15 @@ export default function ChatBox(props) {
 
     const onChatInputFocus = (event) => {
         // console.log('onChatInputFocus > event', event)
+
+        setIsChatBoxScrolling(false);
+        // logic for viewing unread chat here
     }
 
     const onChatInputSendClick = (event) => {
-        if(chatMessage.trim().length > 0) {
+        setIsChatBoxScrolling(false);
+
+        if(chatMessage.trim().length > 0 || chatAttachments.length > 0) {
             if(props.onChatBoxSendInput) {
                 props.onChatBoxSendInput(
                     actChatData,
@@ -209,24 +205,37 @@ export default function ChatBox(props) {
                         image: userData.image,
                         attachments: null
                     },
-                    null
+                    chatAttachments
                 );
 
                 setChatMessage('');
             }
         }
+
+        clearObjectUrl(chatAttachments, () => setChatAttachments([]));
     }
 
     const onMinimizeClick = (event, value) => {
+        setIsChatBoxScrolling(false);
+        clearObjectUrl(chatAttachments, () => setChatAttachments([]));
+
         if (props.onChatBoxMinimizeClick) {
             props.onChatBoxMinimizeClick(value);
         }
     }
 
     const onCloseClick = (event, value) => {
+        setIsChatBoxScrolling(false);
+        clearObjectUrl(chatAttachments, () => setChatAttachments([]));
+
         if (props.onChatBoxCloseClick) {
             props.onChatBoxCloseClick(value);
         }
+    }
+
+    const onChatBoxContentScroll = (event) => {
+        // console.log('onChatBoxContentScroll > event', event)
+        setIsChatBoxScrolling(true);
     }
 
     function renderSystemChatView(idx) {
@@ -322,7 +331,7 @@ export default function ChatBox(props) {
                     <Grid item xs={2} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', pr: 0}}>
                         <span className="icon"><FontAwesomeIcon icon={faFile} size="xl" /></span>
                     </Grid>
-                    <Grid item xs={10} sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                    <Grid item xs={10} sx={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center'}}>
                         <span className="filename">{item?.name}</span>
                         <span className="size">{formatFilesize(item?.size)}</span>
                     </Grid>
@@ -375,7 +384,7 @@ export default function ChatBox(props) {
                         />
                     </Paper>
 
-                    <CardContent ref={chatBoxContentRef} sx={CHAT_BOX.chatBoxCardContent} className="chat-box-content">
+                    <CardContent ref={chatBoxContentRef} sx={CHAT_BOX.chatBoxCardContent} className="chat-box-content" onScroll={onChatBoxContentScroll}>
                         {isChatBoxLoading? (
                             <Box sx={CHAT_BOX.chatBoxCardLoaderBox}>
                                 <CircularProgress color="primary" />
@@ -402,7 +411,7 @@ export default function ChatBox(props) {
                         </Box>
                         <Box sx={CHAT_BOX.chatBoxCardActionsBox}>
                             <Box sx={CHAT_BOX.chatBoxCardActionsBoxInputWrapper}>
-                                {chatAttachments.length > 0 ? chatAttachments.map((item, idx) => (
+                                {chatAttachments.length > 0 ? (
                                     <Box className="chat-attachment-container">
                                         <Box className="chat-attachment-content">
                                             <Box className="chat-attachment-thumbnail" title="Cancel Attachment">
@@ -430,7 +439,7 @@ export default function ChatBox(props) {
                                             ))}
                                         </Box>
                                     </Box>
-                                )) : null}
+                                ) : null}
 
                                 <Input
                                     inputRef={chatBoxInputRef}

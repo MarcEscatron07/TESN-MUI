@@ -18,14 +18,14 @@ export async function GET(req, res) {
 export async function POST(req, res) {
     try {
         const formData = await req.formData();
-        const user = formData.has('user') ? formData.get('user') : '';
-        const files = formData.has('files') ? formData.getAll('files') : null;
-        // console.log('ATTACHMENTS > POST > files', files)
+        const userName = formData.has('userName') ? formData.get('userName') : '';
+        const attachments = formData.has('attachments') ? formData.getAll('attachments') : null;
+        // console.log('ATTACHMENTS > POST > attachments', attachments)
 
-        const filesArr = files ? Array.from(files).map((item) => {
+        const attachmentsArr = attachments ? Array.from(attachments).map((item) => {
             return {
                 file: item,
-                fileName: `${user}_${moment().format('MM-DD-YYYY')}_${item.name}`.replace(' ', ''),
+                fileName: `${userName}_${moment().format('MM-DD-YYYY')}_${item.name}`.replace(' ', ''),
                 name: item?.name,
                 type: item?.type, 
                 size: item?.size, 
@@ -33,33 +33,33 @@ export async function POST(req, res) {
                 // lastModifiedDate: item?.lastModifiedDate
             }
         }) : [];
-        // console.log('ATTACHMENTS > POST > filesArr', filesArr)
+        // console.log('ATTACHMENTS > POST > attachmentsArr', attachmentsArr)
 
-        if(filesArr.length > 0) {
-            for await (const item of filesArr) {
+        if(attachmentsArr.length > 0) {
+            for await (const item of attachmentsArr) {
                 const filePath = `${dirAttachments}/${item.fileName}`;
                 await pump(item.file.stream(), fs.createWriteStream(filePath));
             }
     
-            let newFilesArr = JSON.parse(JSON.stringify(filesArr));
-            newFilesArr.map((item) => {
+            let newAttachmentsArr = JSON.parse(JSON.stringify(attachmentsArr));
+            newAttachmentsArr.map((item) => {
                 item.name = item.fileName;
                 delete item['file'];
                 delete item['fileName'];
     
                 return item;
             })
-            // console.log('ATTACHMENTS > POST > newFilesArr', newFilesArr)
+            // console.log('ATTACHMENTS > POST > newAttachmentsArr', newAttachmentsArr)
     
             return NextResponse.json({
                 status: 200,
                 message: "Upload successful.",
-                data: newFilesArr,
+                data: newAttachmentsArr,
             }, { status: 200 });
         } else {
             return NextResponse.json({
                 status: 400,
-                message: "No file to upload.",
+                message: "No attachment to upload.",
             }, { status: 400 });
         }
     } catch (e) {
