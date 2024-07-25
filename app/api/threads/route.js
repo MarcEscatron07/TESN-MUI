@@ -27,7 +27,6 @@ export async function GET(req, res) {
               message: "Data fetch successful.",
               data: {
                 threads: jsonData[key]?.threads,
-                userId: userId,
                 chatId: chatId
               },
             }, { status: 200 });
