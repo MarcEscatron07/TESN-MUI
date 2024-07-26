@@ -160,8 +160,8 @@ export default function LeftDrawer(props) {
             disablePadding
             sx={{
               ...LEFT_DRAWER.leftDrawerListItem,
-              backgroundColor: navData == item.text ? theme.palette.secondary.main : null,
-              color: navData == item.text ? theme.palette.secondary.contrastText : null
+              // backgroundColor: navData == item.text ? theme.palette.secondary.main : null,
+              // color: navData == item.text ? theme.palette.secondary.contrastText : null
             }}
             onClick={() => onNavItemClick(item.text)}
           >
@@ -175,7 +175,8 @@ export default function LeftDrawer(props) {
                 sx={{
                   ...LEFT_DRAWER.leftDrawerListItemIcon,
                   mr: props.isLeftDrawerOpen ? 3 : "auto",
-                  color: navData == item.text ? theme.palette.secondary.contrastText : theme.palette.light.main,
+                  // color: navData == item.text ? theme.palette.secondary.contrastText : theme.palette.light.main,
+                  color: theme.palette.light.main,
                 }}
               >
                 {item.icon}
