@@ -30,6 +30,7 @@
     "@mui/icons-material": "^5.16.0",
     "@mui/material-nextjs": "^5.15.11",
     "@mui/x-date-pickers": "^7.10.0",
+    "crypto-js": "^4.2.0",
     "date-holidays": "^3.23.12",
     "emoji-picker-react": "^4.9.4",
     "html-react-parser": "^5.1.10",

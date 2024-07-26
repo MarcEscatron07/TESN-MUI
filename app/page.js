@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import CryptoJS from "crypto-js";
 
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
@@ -52,7 +53,7 @@ export default function Login() {
       const dataObj = JSON.parse(localStorage.getItem('login_data'));
       
       setUsername(dataObj?.username ?? '');
-      setPassword(dataObj?.password ?? '');
+      setPassword(dataObj?.password ? CryptoJS.AES.decrypt(dataObj?.password, 'secret-key').toString(CryptoJS.enc.Utf8) : '');
     }
   }
 
@@ -78,7 +79,7 @@ export default function Login() {
     if(isRememberMe) {
       const dataObj = {
         username: username,
-        password: password
+        password: CryptoJS.AES.encrypt(password, 'secret-key').toString()
       };
 
       localStorage.setItem('login_data', JSON.stringify(dataObj));
