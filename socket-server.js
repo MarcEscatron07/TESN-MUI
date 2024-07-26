@@ -8,7 +8,7 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 /** refer to .env.local for the correct values **/
-const HOST = 'localhost';
+const HOST = '192.168.100.48';
 const PORT = 3000;
 /** refer to .env.local for the correct values **/
 
@@ -18,19 +18,23 @@ app.prepare().then(() => {
     handle(req, res, parsedUrl);
   });
 
-  const io = socketIo(server);
+  const io = socketIo(server, {
+    cors: {
+      origin: `http://${HOST}:${PORT}`,
+      methods: ["GET", "POST"]
+    }
+  });
 
   io.on('connection', (socket) => {
-    console.log('New client connected');
+    console.log('Client connected! ID:', socket.id);
 
     socket.on('disconnect', () => {
-      console.log('Client disconnected');
+      console.log('Client disconnected! ID:', socket.id);
     });
 
-    // Add your custom events here
-    socket.on('message', (msg) => {
-      console.log('Message received:', msg);
-      socket.broadcast.emit('message', msg);
+    // ADD CUSTOM EVENTS HERE
+    socket.on('send_message', () => {
+      io.emit('receive_message');
     });
   });
 
