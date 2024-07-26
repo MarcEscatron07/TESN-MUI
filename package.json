@@ -6,8 +6,10 @@
   "scripts": {
     "sass": "sass --watch ./app/styles/globals.scss ./app/styles/globals.css",
     "dev": "next dev",
+    "dev-socket": "node server.js",
     "build": "next build",
     "start": "next start",
+    "start-socket": "NODE_ENV=production node server.js",
     "lint": "next lint"
   },
   "dependencies": {
