@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import { GLOBAL } from "@/app/styles";
-import { Loader, TopAppBar, LeftDrawer, RightDrawer, ChatBox, ChatList } from '@/components';
+import { Loader, TopAppBar, LeftDrawer, RightDrawer, ChatBox, ChatList, ViewAttachment } from '@/components';
 import { getFriends, getGroups, getThread, postThread, postAttachments } from "@/lib/api";
 
 export default function GlobalLayout(props) {
@@ -24,8 +24,8 @@ export default function GlobalLayout(props) {
     const [selectedChat, setSelectedChat] = useState(null);
     const [activeChatList, setActiveChatList] = useState([]);
     const [passiveChatList, setPassiveChatList] = useState([]);
-
     const [activeThreadList, setActiveThreadList] = useState([]);
+    const [fileAttachment, setFileAttachment] = useState(null);
 
     const maxActiveChatCount = 3;
     const maxPassiveChatCount = 5;
@@ -281,6 +281,14 @@ export default function GlobalLayout(props) {
         }
     }
 
+    const onViewChatAttachmentClick = (value) => {
+        setFileAttachment(value);
+    }
+
+    const onCloseChatAttachmentClick = () => {
+        setFileAttachment(null);
+      }
+
     const onSelectedChatClick = (value) => {
         // console.log('onSelectedChatClick > value', value)
         setSelectedChat(value);
@@ -320,6 +328,7 @@ export default function GlobalLayout(props) {
     return (
         <Box component="main" sx={GLOBAL.globalMainContainer}>
             {isLoading ? <Loader /> : null}
+            {fileAttachment ? <ViewAttachment fileAttachment={fileAttachment} onCloseViewAttachment={onCloseChatAttachmentClick} /> : null}
 
             <CssBaseline />
 
@@ -351,6 +360,7 @@ export default function GlobalLayout(props) {
                     onChatBoxCloseClick={(value) => onRemoveChatClick(value, 'chat-box')} 
                     onChatBoxMinimizeClick={onMinimizeChatClick}
                     onChatBoxSendInput={onSendChatInputClick}
+                    onChatBoxViewAttachment={onViewChatAttachmentClick}
                     onResetSelectedChat={() => setSelectedChat(null)}
                     onResetChatThread={getChatThread}
                 />

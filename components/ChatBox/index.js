@@ -149,6 +149,16 @@ export default function ChatBox(props) {
         setChatAttachments(chatAttachments.filter((_item, idx) => idx != value));
     }
 
+    const onMessageAttachmentClick = (event, value) => {
+        if (value.type && value.type.includes('video')) {
+            // console.log('onMessageAttachmentClick > pausing video...')
+        }
+
+        if (props.onChatBoxViewAttachment) {
+            props.onChatBoxViewAttachment(value);
+        }
+    }
+
     const onEmojiPickerClick = (event) => {
         setPopoverAnchor(event.target);
     }
@@ -315,11 +325,11 @@ export default function ChatBox(props) {
 
     function renderAttachmentItemByType(item, key, type) {
         if (type && type.includes('image')) {
-            return (<img key={key} className="attachment-thumbnail-item" src={`./attachments/${item?.name}`} onClick={(e) => onAttachmentThumbnailClick(e, item)} />);
+            return (<img key={key} className="attachment-thumbnail-item" src={`./attachments/${item?.name}`} onClick={(event) => onMessageAttachmentClick(event, item)} />);
         }
         if (type && type.includes('video')) {
             return (
-                <video key={key} className="attachment-thumbnail-item" onClick={(e) => onAttachmentThumbnailClick(e, item)} autoPlay controls muted>
+                <video key={key} className="attachment-thumbnail-item" onClick={(event) => onMessageAttachmentClick(event, item)} autoPlay controls muted>
                     <source src={`./attachments/${item?.name}`} />
                 </video>
             )

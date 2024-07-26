@@ -7,6 +7,7 @@ import ChatBox from "./ChatBox";
 import ChatList from "./ChatList";
 import EventCalendar from "./EventCalendar";
 import ConfirmDialog from "./ConfirmDialog";
+import ViewAttachment from "./ViewAttachment";
 
 export {
     TopAppBar,
@@ -17,5 +18,6 @@ export {
     ChatBox,
     ChatList,
     EventCalendar,
-    ConfirmDialog
+    ConfirmDialog,
+    ViewAttachment
 }

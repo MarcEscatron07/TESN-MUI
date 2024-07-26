@@ -247,6 +247,71 @@ body {
   text-overflow: ellipsis;
 }
 
+.view-attachment {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  padding: 0rem 3rem;
+  z-index: 99998;
+}
+.view-attachment .view-attachment-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  padding: 1rem;
+}
+.view-attachment .view-attachment-container .view-attachment-header {
+  height: 8%;
+  width: 100%;
+}
+.view-attachment .view-attachment-container .view-attachment-header .download, .view-attachment .view-attachment-container .view-attachment-header .close {
+  cursor: pointer;
+  position: absolute;
+  padding: 0.5rem 0.8rem;
+  background-color: #DDDDDD;
+  color: #000000;
+  border-radius: 100%;
+}
+.view-attachment .view-attachment-container .view-attachment-header .download {
+  top: 22px;
+  right: 60px;
+}
+.view-attachment .view-attachment-container .view-attachment-header .close {
+  top: 22px;
+  right: 0px;
+}
+.view-attachment .view-attachment-container .view-attachment-body {
+  height: 92%;
+  width: 100%;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.view-attachment .view-attachment-container .view-attachment-body::-webkit-scrollbar {
+  width: 8px;
+}
+.view-attachment .view-attachment-container .view-attachment-body::-webkit-scrollbar-track {
+  background: #F1F1F1;
+  border-radius: 8px;
+}
+.view-attachment .view-attachment-container .view-attachment-body::-webkit-scrollbar-thumb {
+  background: #888888;
+  border-radius: 8px;
+}
+.view-attachment .view-attachment-container .view-attachment-body::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
+.view-attachment .view-attachment-container .view-attachment-body .view-attachment-item {
+  display: block;
+  height: 100%;
+  margin: auto;
+  object-fit: contain;
+}
+
 /* Start of FullCalendar CSS */
 .fc a {
   color: #00703C;
