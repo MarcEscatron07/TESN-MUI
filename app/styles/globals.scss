@@ -79,12 +79,16 @@ body {
     }
 }
 
+.alert-dialog {
+    z-index: 99996 !important
+}
+
 .chat-box {
     position: fixed;
     bottom: 0px;
     height: 450px;
     width: 310px;
-    z-index: 99996;
+    z-index: 99995;
 
     .chat-box-content {
         &::-webkit-scrollbar {
@@ -200,7 +204,7 @@ body {
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
-    z-index: 99996,
+    z-index: 99995,
 }
 
 .chat-attachment-container {
@@ -210,7 +214,7 @@ body {
     width: 100%;
     background-color: $light-color;
     border-radius: 10px 10px 0px 0px;
-    z-index: 99995;
+    z-index: 99994;
 
     .chat-attachment-content {
         display: flex;

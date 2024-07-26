@@ -27,8 +27,8 @@ export default function GlobalLayout(props) {
 
     const [activeThreadList, setActiveThreadList] = useState([]);
 
-    const maxActiveChatCount = 2;
-    const maxPassiveChatCount = 4;
+    const maxActiveChatCount = 3;
+    const maxPassiveChatCount = 5;
 
     useEffect(() => {
         fetchSessionStorage();

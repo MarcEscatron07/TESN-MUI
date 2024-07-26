@@ -60,12 +60,16 @@ body {
   border-color: white transparent transparent transparent;
 }
 
+.alert-dialog {
+  z-index: 99996 !important;
+}
+
 .chat-box {
   position: fixed;
   bottom: 0px;
   height: 450px;
   width: 310px;
-  z-index: 99996;
+  z-index: 99995;
 }
 .chat-box .chat-box-content::-webkit-scrollbar {
   width: 10px;
@@ -162,7 +166,7 @@ body {
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
-  z-index: 99996;
+  z-index: 99995;
 }
 
 .chat-attachment-container {
@@ -172,7 +176,7 @@ body {
   width: 100%;
   background-color: #FFFFFF;
   border-radius: 10px 10px 0px 0px;
-  z-index: 99995;
+  z-index: 99994;
 }
 .chat-attachment-container .chat-attachment-content {
   display: flex;

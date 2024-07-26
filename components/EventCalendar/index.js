@@ -555,6 +555,7 @@ export default function EventCalendar() {
             </Popover>
 
             <Dialog
+                className="alert-dialog"
                 open={isModalOpen}
                 onClose={() => onModalToggleClick(false)}
                 PaperProps={{ component: 'form', onSubmit: (event) => onModalFormSubmit(event) }}

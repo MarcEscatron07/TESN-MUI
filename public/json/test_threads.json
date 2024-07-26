@@ -1,1 +1,238 @@
-[{"id":1,"userIds":[1,2],"type":"single","threads":[{"sender":"system","receiver":null,"message":"You are now connected on chat","timestamp":null,"status":null,"image":null,"attachments":null},{"sender":"Marc Escatron","receiver":"Jerson Albit","message":"","timestamp":"2024-07-25T08:56:03.816Z","status":"unread","image":"/images/avatars/avatar_male_1.png","attachments":[{"name":"MarcEscatron_07-25-2024_Data-Privacy-and-NDA (2).docx","type":"application/vnd.openxmlformats-officedocument.wordprocessingml.document","size":15506,"lastModified":1721897763880}]}]},{"id":2,"userIds":[1,3],"type":"single","threads":[{"sender":"system","receiver":null,"message":"You are now connected on chat","timestamp":null,"status":null,"image":null,"attachments":null}]},{"id":3,"userIds":[1,4],"type":"single","threads":[{"sender":"system","receiver":null,"message":"You are now connected on chat","timestamp":null,"status":null,"image":null,"attachments":null}]},{"id":4,"userIds":[1,5],"type":"single","threads":[{"sender":"system","receiver":null,"message":"You are now connected on chat","timestamp":null,"status":null,"image":null,"attachments":null}]},{"id":5,"userIds":[1,6],"type":"single","threads":[{"sender":"system","receiver":null,"message":"You are now connected on chat","timestamp":null,"status":null,"image":null,"attachments":null}]},{"id":6,"userIds":[2,1],"type":"single","threads":[{"sender":"system","receiver":null,"message":"You are now connected on chat","timestamp":null,"status":null,"image":null,"attachments":null}]},{"id":7,"userIds":[2,3],"type":"single","threads":[{"sender":"system","receiver":null,"message":"You are now connected on chat","timestamp":null,"status":null,"image":null,"attachments":null}]},{"id":8,"userIds":[2,4],"type":"single","threads":[{"sender":"system","receiver":null,"message":"You are now connected on chat","timestamp":null,"status":null,"image":null,"attachments":null}]},{"id":9,"userIds":[2,5],"type":"single","threads":[{"sender":"system","receiver":null,"message":"You are now connected on chat","timestamp":null,"status":null,"image":null,"attachments":null}]},{"id":10,"userIds":[2,6],"type":"single","threads":[{"sender":"system","receiver":null,"message":"You are now connected on chat","timestamp":null,"status":null,"image":null,"attachments":null}]},{"id":11,"userIds":[1,2,3,4,5,6,7],"type":"multiple","threads":[{"sender":"system","receiver":null,"message":"You are now connected on chat","timestamp":null,"status":null,"image":null,"attachments":null}]},{"id":12,"userIds":[1,2,4,5,8],"type":"multiple","threads":[{"sender":"system","receiver":null,"message":"You are now connected on chat","timestamp":null,"status":null,"image":null,"attachments":null}]}]
+[
+    {
+        "id": 1,
+        "userIds": [
+            1,
+            2
+        ],
+        "type": "single",
+        "threads": [
+            {
+                "sender": "system",
+                "receiver": null,
+                "message": "You are now connected on chat",
+                "timestamp": null,
+                "status": null,
+                "image": null,
+                "attachments": null
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "userIds": [
+            1,
+            3
+        ],
+        "type": "single",
+        "threads": [
+            {
+                "sender": "system",
+                "receiver": null,
+                "message": "You are now connected on chat",
+                "timestamp": null,
+                "status": null,
+                "image": null,
+                "attachments": null
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "userIds": [
+            1,
+            4
+        ],
+        "type": "single",
+        "threads": [
+            {
+                "sender": "system",
+                "receiver": null,
+                "message": "You are now connected on chat",
+                "timestamp": null,
+                "status": null,
+                "image": null,
+                "attachments": null
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "userIds": [
+            1,
+            5
+        ],
+        "type": "single",
+        "threads": [
+            {
+                "sender": "system",
+                "receiver": null,
+                "message": "You are now connected on chat",
+                "timestamp": null,
+                "status": null,
+                "image": null,
+                "attachments": null
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "userIds": [
+            1,
+            6
+        ],
+        "type": "single",
+        "threads": [
+            {
+                "sender": "system",
+                "receiver": null,
+                "message": "You are now connected on chat",
+                "timestamp": null,
+                "status": null,
+                "image": null,
+                "attachments": null
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "userIds": [
+            2,
+            1
+        ],
+        "type": "single",
+        "threads": [
+            {
+                "sender": "system",
+                "receiver": null,
+                "message": "You are now connected on chat",
+                "timestamp": null,
+                "status": null,
+                "image": null,
+                "attachments": null
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "userIds": [
+            2,
+            3
+        ],
+        "type": "single",
+        "threads": [
+            {
+                "sender": "system",
+                "receiver": null,
+                "message": "You are now connected on chat",
+                "timestamp": null,
+                "status": null,
+                "image": null,
+                "attachments": null
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "userIds": [
+            2,
+            4
+        ],
+        "type": "single",
+        "threads": [
+            {
+                "sender": "system",
+                "receiver": null,
+                "message": "You are now connected on chat",
+                "timestamp": null,
+                "status": null,
+                "image": null,
+                "attachments": null
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "userIds": [
+            2,
+            5
+        ],
+        "type": "single",
+        "threads": [
+            {
+                "sender": "system",
+                "receiver": null,
+                "message": "You are now connected on chat",
+                "timestamp": null,
+                "status": null,
+                "image": null,
+                "attachments": null
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "userIds": [
+            2,
+            6
+        ],
+        "type": "single",
+        "threads": [
+            {
+                "sender": "system",
+                "receiver": null,
+                "message": "You are now connected on chat",
+                "timestamp": null,
+                "status": null,
+                "image": null,
+                "attachments": null
+            }
+        ]
+    },
+    {
+        "id": 11,
+        "userIds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+        ],
+        "type": "multiple",
+        "threads": [
+            {
+                "sender": "system",
+                "receiver": null,
+                "message": "You are now connected on chat",
+                "timestamp": null,
+                "status": null,
+                "image": null,
+                "attachments": null
+            }
+        ]
+    },
+    {
+        "id": 12,
+        "userIds": [
+            1,
+            2,
+            4,
+            5,
+            8
+        ],
+        "type": "multiple",
+        "threads": [
+            {
+                "sender": "system",
+                "receiver": null,
+                "message": "You are now connected on chat",
+                "timestamp": null,
+                "status": null,
+                "image": null,
+                "attachments": null
+            }
+        ]
+    }
+]
