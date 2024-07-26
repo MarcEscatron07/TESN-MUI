@@ -7,7 +7,10 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-const SOCKET_PORT = process.env.PORT || 3000; // must be the same with .env.local > NEXT_PUBLIC_SOCKET_PORT
+/** refer to .env.local for the correct values **/
+const HOST = 'localhost';
+const PORT = 3000;
+/** refer to .env.local for the correct values **/
 
 app.prepare().then(() => {
   const server = createServer((req, res) => {
@@ -31,8 +34,8 @@ app.prepare().then(() => {
     });
   });
 
-  server.listen(SOCKET_PORT, (err) => {
+  server.listen(PORT, (err) => {
     if (err) throw err;
-    console.log(`> Socket Server ready on port:${SOCKET_PORT}`);
+    console.log(`> Socket Server ready on ${HOST}:${PORT}`);
   });
 });
