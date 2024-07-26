@@ -176,7 +176,6 @@ body {
   width: 100%;
   background-color: #FFFFFF;
   border-radius: 10px 10px 0px 0px;
-  z-index: 99994;
 }
 .chat-attachment-container .chat-attachment-content {
   display: flex;
