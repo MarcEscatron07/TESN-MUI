@@ -27,6 +27,8 @@ export default function GlobalLayout(props) {
     const [activeThreadList, setActiveThreadList] = useState([]);
     const [fileAttachment, setFileAttachment] = useState(null);
 
+    const [fetchInterval, setFetchInterval] = useState(null);
+
     const maxActiveChatCount = 3;
     const maxPassiveChatCount = 5;
 
@@ -69,7 +71,12 @@ export default function GlobalLayout(props) {
         // console.log('GlobalLayout > activeChatList', activeChatList)
 
         if(activeChatList.length > 0) {
-            getChatThread('multiple', sessionUser.id, activeChatList);
+            fetchInterval ? clearInterval(fetchInterval) : null;
+            setFetchInterval(
+                setInterval(() => {
+                    getChatThread('multiple', sessionUser.id, activeChatList);
+                }, 500)
+            )
         }
     }, [sessionUser, activeChatList])
 
