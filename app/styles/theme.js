@@ -37,12 +37,22 @@ const theme = createTheme({
         },
         light: {
             main: '#FFFFFF',
-            dark: '#A5A5A5'
+            light: '#F1F1F1',
+            dark: '#A5A5A5',
+            contrastText: '#000000'
         },
         dark: {
             main: '#000000',
-            light: '#454545'
+            light: '#454545',
+            dark: '#171717',
+            contrastText: '#FFFFFF'
         },
+        muted: {
+            main: '#BBBBBB',
+            light: '#DDDDDD',
+            dark: '#AAAAAA',
+            contrastText: '#000000'
+        }
     },
     typography: {
         fontFamily: roboto.style.fontFamily,

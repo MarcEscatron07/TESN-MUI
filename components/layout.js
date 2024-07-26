@@ -31,7 +31,7 @@ export default function GlobalLayout(props) {
     const maxPassiveChatCount = 4;
 
     useEffect(() => {
-        fetchSession();
+        fetchSessionStorage();
     }, [])
 
     useEffect(() => {
@@ -77,7 +77,7 @@ export default function GlobalLayout(props) {
         setIsLoading(props.isLoading);
     }, [props.isLoading, activeThreadList])
 
-    async function fetchSession() {
+    async function fetchSessionStorage() {
         sessionStorage.getItem('authuser_data') ? setSessionUser(JSON.parse(sessionStorage.getItem('authuser_data'))) : setSessionUser({
             id: -1,
             name: '',

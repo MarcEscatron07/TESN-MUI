@@ -34,26 +34,27 @@ import { SITENAME_FULL, SITENAME_ABBR } from "@/lib/variables";
 export default function Login() {
   const router = useRouter();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isRememberMe, setIsRememberMe] = useState(false);
 
   useEffect(() => {
-    fetchLocal();
+    fetchLocalStorage();
   }, []);
 
   useEffect(() => {
-    console.log('Login > isRememberMe', isRememberMe)
+    // console.log('Login > isRememberMe', isRememberMe)
   }, [isRememberMe]);
 
-  async function fetchLocal() {
+  async function fetchLocalStorage() {
     if(localStorage.getItem('login_data')) {
       const dataObj = JSON.parse(localStorage.getItem('login_data'));
-      
-      setUsername(dataObj?.username ?? '');
-      setPassword(dataObj?.password ? CryptoJS.AES.decrypt(dataObj?.password, 'secret-key').toString(CryptoJS.enc.Utf8) : '');
+      setIsLoading(true);
+      processFormData(dataObj?.username ?? '', dataObj?.password ? CryptoJS.AES.decrypt(dataObj?.password, 'secret-key').toString(CryptoJS.enc.Utf8) : '')
+    } else {
+      setIsLoading(false);
     }
   }
 
@@ -62,8 +63,21 @@ export default function Login() {
       (res) => {
         // console.log('Login > postUserLogin > res', res)
 
-        res?.data ? sessionStorage.setItem('authuser_data', JSON.stringify(res?.data)) : null;
-        res?.status == 200 ? router.push(`/home`) : alert(res?.message);
+        if(res?.status && res?.data) {
+          if(isRememberMe) {
+            const dataObj = {
+              username: username,
+              password: CryptoJS.AES.encrypt(password, 'secret-key').toString()
+            };
+      
+            localStorage.setItem('login_data', JSON.stringify(dataObj));
+          }
+
+          sessionStorage.setItem('authuser_data', JSON.stringify(res?.data))
+          router.push(`/home`);
+        } else {
+          res?.message ? alert(res?.message) : null;
+        }
       },
       (err) => {
         console.log('Login > postUserLogin > err', err)
@@ -73,24 +87,19 @@ export default function Login() {
     callback ? callback() : null;
   }
 
-  const onLoginFormSubmit = (event) => {
-    event.preventDefault();
-
-    if(isRememberMe) {
-      const dataObj = {
-        username: username,
-        password: CryptoJS.AES.encrypt(password, 'secret-key').toString()
-      };
-
-      localStorage.setItem('login_data', JSON.stringify(dataObj));
-    }
-
+  const processFormData = (username, password) => {
     const formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);
 
     setIsLoading(true);
     postUserLogin(formData, () => setIsLoading(false));
+  }
+
+  const onLoginFormSubmit = (event) => {
+    event.preventDefault();
+
+    processFormData(username, password);
   };
 
   const onShowPasswordClick = () => {

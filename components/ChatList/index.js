@@ -76,8 +76,8 @@ export default function ChatList(props) {
       {pasChatList.map((item, idx) => (
         <Fab
           key={idx}
-          color="light"
-          sx={{ ...CHAT_LIST.chatListFabAvatar, backgroundColor: theme.palette.light.dark }}
+          color="muted"
+          sx={{ ...CHAT_LIST.chatListFabAvatar, backgroundColor: theme.palette.dark.light }}
           onMouseEnter={() => setFabAvatarIdx(idx)}
           onMouseLeave={() => setFabAvatarIdx(-1)}
         >
