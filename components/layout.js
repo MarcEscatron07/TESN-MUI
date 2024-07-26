@@ -76,12 +76,20 @@ export default function GlobalLayout(props) {
         // console.log('GlobalLayout > activeChatList', activeChatList)
 
         if(activeChatList.length > 0) {
-            fetchInterval ? clearInterval(fetchInterval) : null;
-            setFetchInterval(
-                setInterval(() => {
-                    getChatThread('multiple', sessionUser.id, activeChatList);
-                }, 500)
-            )
+            getChatThread('multiple', sessionUser.id, activeChatList);
+
+            /** USING INTERVAL **/
+            // fetchInterval ? clearInterval(fetchInterval) : null;
+            // setFetchInterval(
+            //     setInterval(() => {
+            //         getChatThread('multiple', sessionUser.id, activeChatList);
+            //     }, 500)
+            // )
+            /** USING INTERVAL **/
+
+            /** USING SOCKET.IO **/
+            
+            /** USING SOCKET.IO **/
         }
     }, [sessionUser, activeChatList])
 
