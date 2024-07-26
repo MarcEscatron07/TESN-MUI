@@ -29,7 +29,7 @@ export default function Home() {
     } else {
       await getPosts().then(
         (res) => {
-          console.log('fetchPosts > res', res)
+          // console.log('fetchPosts > res', res)
   
           res?.status == 200 && res?.data ? sessionStorage.setItem('posts_data', JSON.stringify(res?.data)) : null;
           setPostsList(res?.status == 200 && res?.data ? res?.data : []);

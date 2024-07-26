@@ -7,6 +7,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 
 import { GLOBAL } from "@/app/styles";
 import { Loader, TopAppBar, LeftDrawer, RightDrawer, ChatBox, ChatList, ViewAttachment } from '@/components';
+import { socket } from '@/components/socket-client';
 import { getFriends, getGroups, getThread, postThread, postAttachments } from "@/lib/api";
 
 export default function GlobalLayout(props) {
@@ -26,8 +27,6 @@ export default function GlobalLayout(props) {
     const [passiveChatList, setPassiveChatList] = useState([]);
     const [activeThreadList, setActiveThreadList] = useState([]);
     const [fileAttachment, setFileAttachment] = useState(null);
-
-    const [fetchInterval, setFetchInterval] = useState(null);
 
     const maxActiveChatCount = 3;
     const maxPassiveChatCount = 5;
@@ -68,17 +67,14 @@ export default function GlobalLayout(props) {
     }, [activeThreadList])
 
     useEffect(() => {
-        // console.log('GlobalLayout > activeChatList', activeChatList)
+        console.log('GlobalLayout > socket', socket)
 
-        if(activeChatList.length > 0) {
-            fetchInterval ? clearInterval(fetchInterval) : null;
-            setFetchInterval(
-                setInterval(() => {
-                    getChatThread('multiple', sessionUser.id, activeChatList);
-                }, 500)
-            )
-        }
-    }, [sessionUser, activeChatList])
+        activeChatList.length > 0 ? getChatThread('multiple', sessionUser.id, activeChatList) : null; // on system init
+
+        socket.on('receive_message', () => {
+            activeChatList.length > 0 ? getChatThread('multiple', sessionUser.id, activeChatList) : null; // on realtime chat
+        });
+    }, [socket, sessionUser, activeChatList])
 
     useEffect(() => {
         setIsLoading(props.isLoading);
@@ -101,7 +97,7 @@ export default function GlobalLayout(props) {
         } else {
             await getFriends(`userId=${sessionUser.id}`).then(
                 (res) => {
-                    console.log('fetchFriends > res', res)
+                    // console.log('fetchFriends > res', res)
     
                     res?.status == 200 && res?.data ? sessionStorage.setItem('friends_data', JSON.stringify(res?.data)) : null;
                     setSessionFriends(res?.status == 200 && res?.data ? res?.data : []);
@@ -120,7 +116,7 @@ export default function GlobalLayout(props) {
         } else {
             await getGroups(`userId=${sessionUser.id}`).then(
                 (res) => {
-                    console.log('fetchGroups > res', res)
+                    // console.log('fetchGroups > res', res)
     
                     res?.status == 200 && res?.data ? sessionStorage.setItem('groups_data', JSON.stringify(res?.data)) : null;
                     setSessionGroups(res?.status == 200 && res?.data ? res?.data : []);
@@ -138,14 +134,14 @@ export default function GlobalLayout(props) {
             case 'multiple':
                 const promisesList = data.map((item) => getThread(`userId=${userId}&chatId=${item.id}&chatType=${item.type}`));
                 const promisesResList = await Promise.all(promisesList);
-                // console.log('getChatThread > activeChatList > promisesResList', promisesResList)
+                // console.log('getChatThread > multiple > res', promisesResList)
         
                 setActiveThreadList(promisesResList.map((item) => item?.data ?? {}));
                 break;
             case 'single':
                 await getThread(`userId=${userId}&chatId=${data.id}&chatType=${data.type}`).then(
                     (res) => {
-                        // console.log('getChatThread > postChatThread > res', res)
+                        // console.log('getChatThread > single > res', res)
                         
                         setActiveThreadList(activeThreadList.map((item) => {
                             if(item && item['threads'] && item['chatId'] == res?.data?.chatId) {
@@ -156,19 +152,19 @@ export default function GlobalLayout(props) {
                         }))
                     },
                     (err) => {
-                        console.log('getChatThread > postChatThread > err', err)
+                        console.log('getChatThread > single > err', err)
                     },
                 )
                 break;
         }
     }
 
-    async function postChatThread(formData, callback) {
-        // console.log('postChatThread > formData', formData)
-
+    async function postChatThread(formData, chatInput, callback) {
         await postThread(formData).then(
             (res) => {
                 // console.log('GlobalLayout > postChatThread > res', res)
+
+                socket.emit('send_message');
             },
             (err) => {
                 console.log('GlobalLayout > postChatThread > err', err)
@@ -269,9 +265,10 @@ export default function GlobalLayout(props) {
         const formData = new FormData();
         formData.append('userId', sessionUser.id);
         formData.append('chatId', chatObj?.id);
+        formData.append('chatName', chatObj?.name);
         formData.append('chatType', chatObj?.type);
 
-        if(attachmentsList) {
+        if(attachmentsList && attachmentsList.length > 0) {
             formData.append('userName', sessionUser.name);
             Array.from(attachmentsList).forEach((item) => {
                 formData.append('attachments', item);
@@ -280,11 +277,11 @@ export default function GlobalLayout(props) {
             postChatAttachments(formData, (attachments) => {
                 chatInput ? chatInput.attachments = attachments : null;
                 formData.append('chatInput', JSON.stringify(chatInput));
-                postChatThread(formData, () => getChatThread('multiple', sessionUser.id, activeChatList));
+                postChatThread(formData, chatInput, () => getChatThread('multiple', sessionUser.id, activeChatList));
             })
         } else {
             formData.append('chatInput', JSON.stringify(chatInput));
-            postChatThread(formData, () => getChatThread('multiple', sessionUser.id, activeChatList));
+            postChatThread(formData, chatInput, () => getChatThread('multiple', sessionUser.id, activeChatList));
         }
     }
 
