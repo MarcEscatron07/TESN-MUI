@@ -83,8 +83,8 @@ export default function TopAppBar(props) {
 
     const onLogoutClick = () => {
         onMenuClose();
+        clearLocalStorage();
         clearSessionStorage();
-        // clearLocalStorage();
         router.push(`/`);
     };
 

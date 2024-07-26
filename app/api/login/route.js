@@ -30,7 +30,7 @@ export async function POST(req, res) {
         return NextResponse.json({
           status: 200,
           message: "Post login successful.",
-          data: dataObj,
+          data: dataObj
         }, { status: 200 });
       }
     }

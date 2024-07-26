@@ -34,12 +34,27 @@ export default function Login() {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isRememberMe, setIsRememberMe] = useState(false);
 
   useEffect(() => {
+    fetchLocal();
   }, []);
+
+  useEffect(() => {
+    console.log('Login > isRememberMe', isRememberMe)
+  }, [isRememberMe]);
+
+  async function fetchLocal() {
+    if(localStorage.getItem('login_data')) {
+      const dataObj = JSON.parse(localStorage.getItem('login_data'));
+      
+      setUsername(dataObj?.username ?? '');
+      setPassword(dataObj?.password ?? '');
+    }
+  }
 
   async function postUserLogin(formData, callback) {
     await postLogin(formData).then(
@@ -60,6 +75,15 @@ export default function Login() {
   const onLoginFormSubmit = (event) => {
     event.preventDefault();
 
+    if(isRememberMe) {
+      const dataObj = {
+        username: username,
+        password: password
+      };
+
+      localStorage.setItem('login_data', JSON.stringify(dataObj));
+    }
+
     const formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);
@@ -71,6 +95,10 @@ export default function Login() {
   const onShowPasswordClick = () => {
     setShowPassword(!showPassword);
   };
+
+  const onRememberMeChange = (event) => {
+    setIsRememberMe(event.target.checked);
+  }
 
   return (
     <>
@@ -171,7 +199,7 @@ export default function Login() {
                   />
                   <FormControlLabel
                     style={LOGIN.loginFormControlLabel}
-                    control={<Checkbox value="remember" color="secondary" />}
+                    control={<Checkbox color="secondary" checked={isRememberMe} onChange={onRememberMeChange} />}
                     label="Remember me"
                   />
                   <Button
