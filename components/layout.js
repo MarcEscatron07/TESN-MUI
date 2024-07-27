@@ -67,14 +67,14 @@ export default function GlobalLayout(props) {
     }, [activeThreadList])
 
     useEffect(() => {
-        console.log('GlobalLayout > socket', socket)
+        // console.log('GlobalLayout > socket', socket)
 
         activeChatList.length > 0 ? getChatThread(sessionUser.id, activeChatList) : null; // on system init
 
         socket.on('receive_message', () => {
             activeChatList.length > 0 ? getChatThread(sessionUser.id, activeChatList) : null; // on realtime chat
         });
-    }, [socket, sessionUser, activeChatList])
+    }, [sessionUser, activeChatList])
 
     useEffect(() => {
         setIsLoading(props.isLoading);
