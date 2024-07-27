@@ -277,11 +277,11 @@ export default function GlobalLayout(props) {
             postChatAttachments(formData, (attachments) => {
                 chatInput ? chatInput.attachments = attachments : null;
                 formData.append('chatInput', JSON.stringify(chatInput));
-                postChatThread(formData, chatInput, () => getChatThread('multiple', sessionUser.id, activeChatList));
+                postChatThread(formData, chatInput);
             })
         } else {
             formData.append('chatInput', JSON.stringify(chatInput));
-            postChatThread(formData, chatInput, () => getChatThread('multiple', sessionUser.id, activeChatList));
+            postChatThread(formData, chatInput);
         }
     }
 
