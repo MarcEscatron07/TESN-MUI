@@ -69,10 +69,10 @@ export default function GlobalLayout(props) {
     useEffect(() => {
         console.log('GlobalLayout > socket', socket)
 
-        activeChatList.length > 0 ? getChatThread('multiple', sessionUser.id, activeChatList) : null; // on system init
+        activeChatList.length > 0 ? getChatThread(sessionUser.id, activeChatList) : null; // on system init
 
         socket.on('receive_message', () => {
-            activeChatList.length > 0 ? getChatThread('multiple', sessionUser.id, activeChatList) : null; // on realtime chat
+            activeChatList.length > 0 ? getChatThread(sessionUser.id, activeChatList) : null; // on realtime chat
         });
     }, [socket, sessionUser, activeChatList])
 
@@ -129,34 +129,12 @@ export default function GlobalLayout(props) {
         }
     }
 
-    async function getChatThread(type, userId, data) {
-        switch(type) {
-            case 'multiple':
-                const promisesList = data.map((item) => getThread(`userId=${userId}&chatId=${item.id}&chatType=${item.type}`));
-                const promisesResList = await Promise.all(promisesList);
-                // console.log('getChatThread > multiple > res', promisesResList)
-        
-                setActiveThreadList(promisesResList.map((item) => item?.data ?? {}));
-                break;
-            case 'single':
-                await getThread(`userId=${userId}&chatId=${data.id}&chatType=${data.type}`).then(
-                    (res) => {
-                        // console.log('getChatThread > single > res', res)
-                        
-                        setActiveThreadList(activeThreadList.map((item) => {
-                            if(item && item['threads'] && item['chatId'] == res?.data?.chatId) {
-                                item['threads'] = res?.data?.threads ?? [];
-                            }
+    async function getChatThread(userId, data) {
+        const promisesList = data.map((item) => getThread(`userId=${userId}&chatId=${item.id}&chatType=${item.type}`));
+        const promisesResList = await Promise.all(promisesList);
+        // console.log('getChatThread > multiple > res', promisesResList)
 
-                            return item;
-                        }))
-                    },
-                    (err) => {
-                        console.log('getChatThread > single > err', err)
-                    },
-                )
-                break;
-        }
+        setActiveThreadList(promisesResList.map((item) => item?.data ?? {}));
     }
 
     async function postChatThread(formData, chatInput, callback) {
@@ -366,7 +344,7 @@ export default function GlobalLayout(props) {
                     onChatBoxSendInput={onSendChatInputClick}
                     onChatBoxViewAttachment={onViewChatAttachmentClick}
                     onResetSelectedChat={() => setSelectedChat(null)}
-                    onResetChatThread={getChatThread}
+                    onResetChatThread={() => getChatThread(sessionUser.id, activeChatList)}
                 />
             ))}
         </Box>

@@ -108,7 +108,7 @@ export default function ChatBox(props) {
                     props.onResetSelectedChat();
                 }
                 if(props.onResetChatThread){
-                    props.onResetChatThread('single', userData.id, actChatData);
+                    props.onResetChatThread();
                 }
             }, 1000)
         }
