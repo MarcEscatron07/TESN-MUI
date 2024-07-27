@@ -137,7 +137,7 @@ export default function GlobalLayout(props) {
         setActiveThreadList(promisesResList.map((item) => item?.data ?? {}));
     }
 
-    async function postChatThread(formData, chatInput, callback) {
+    async function postChatThread(formData, callback) {
         await postThread(formData).then(
             (res) => {
                 // console.log('GlobalLayout > postChatThread > res', res)
@@ -255,11 +255,11 @@ export default function GlobalLayout(props) {
             postChatAttachments(formData, (attachments) => {
                 chatInput ? chatInput.attachments = attachments : null;
                 formData.append('chatInput', JSON.stringify(chatInput));
-                postChatThread(formData, chatInput);
+                postChatThread(formData);
             })
         } else {
             formData.append('chatInput', JSON.stringify(chatInput));
-            postChatThread(formData, chatInput);
+            postChatThread(formData);
         }
     }
 
