@@ -32,6 +32,10 @@ export default function GlobalLayout(props) {
     const maxPassiveChatCount = 6;
 
     useEffect(() => {
+        socket.on('clients_list', (clientsList) => {
+            console.log('GlobalLayout > clientsList', clientsList)
+        });
+
         fetchSessionStorage();
     }, [])
 
@@ -41,6 +45,8 @@ export default function GlobalLayout(props) {
     useEffect(() => {
         // console.log('GlobalLayout > sessionUser', sessionUser)
         if(sessionUser.id != -1) {
+            socket.emit('register_client', sessionUser.name);
+
             fetchChats();
         }
     }, [sessionUser])
@@ -70,7 +76,10 @@ export default function GlobalLayout(props) {
 
         activeChatList.length > 0 ? getChatThread(sessionUser.id, activeChatList) : null; // on system init
 
-        socket.on('receive_message', () => {
+        socket.on('receive_message', ({senderName, receiverName}) => {
+            console.log('GlobalLayout > receive_message > senderName', senderName)
+            console.log('GlobalLayout > receive_message > receiverName', receiverName)
+
             activeChatList.length > 0 ? getChatThread(sessionUser.id, activeChatList) : null; // on realtime chat
         });
     }, [sessionUser, activeChatList])
@@ -122,12 +131,12 @@ export default function GlobalLayout(props) {
         setActiveThreadList(promisesResList.map((item) => item?.data ?? {}));
     }
 
-    async function postChatThread(formData, callback) {
+    async function postChatThread(formData, chatObj, callback) {
         await postThread(formData).then(
             (res) => {
                 // console.log('GlobalLayout > postChatThread > res', res)
 
-                socket.emit('send_message');
+                socket.emit('send_message', { receiverName: chatObj?.name });
             },
             (err) => {
                 console.log('GlobalLayout > postChatThread > err', err)
@@ -240,11 +249,11 @@ export default function GlobalLayout(props) {
             postChatAttachments(formData, (attachments) => {
                 chatInput ? chatInput.attachments = attachments : null;
                 formData.append('chatInput', JSON.stringify(chatInput));
-                postChatThread(formData);
+                postChatThread(formData, chatObj);
             })
         } else {
             formData.append('chatInput', JSON.stringify(chatInput));
-            postChatThread(formData);
+            postChatThread(formData, chatObj);
         }
     }
 

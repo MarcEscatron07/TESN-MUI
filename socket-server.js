@@ -13,6 +13,8 @@ const HOST = 'localhost';
 const PORT = 3000;
 /** refer to .env.local for the correct values **/
 
+const clientsList = {};
+
 app.prepare().then(() => {
   const server = createServer((req, res) => {
     const parsedUrl = parse(req.url, true);
@@ -31,11 +33,22 @@ app.prepare().then(() => {
 
     socket.on('disconnect', () => {
       console.log('Client disconnected! ID:', socket.id);
+
+      delete clientsList[socket.id];
+      io.emit('clients_list', clientsList);
     });
 
     // ADD CUSTOM EVENTS HERE
-    socket.on('send_message', () => {
-      io.emit('receive_message');
+    socket.on('register_client', (clientName) => {
+      clientsList[socket.id] = clientName;
+      io.emit('clients_list', clientsList);
+    });
+
+    socket.on('send_message', ({receiverName}) => {
+      const clientSocketId = Object.keys(clientsList).find((id) => clientsList[id] == receiverName);
+
+      io.to(socket.id).emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName });
+      clientSocketId ? io.to(clientSocketId).emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName }) : null;
     });
   });
 
