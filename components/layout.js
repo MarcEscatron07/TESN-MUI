@@ -8,7 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { GLOBAL } from "@/app/styles";
 import { Loader, TopAppBar, LeftDrawer, RightDrawer, ChatBox, ChatList, ViewAttachment } from '@/components';
 import { socket } from '@/components/socket-client';
-import { getChats, getFriends, getGroups, getThread, postThread, postAttachments } from "@/lib/api";
+import { getChats, getThread, postThread, postAttachments } from "@/lib/api";
 
 export default function GlobalLayout(props) {
     const [isLoading, setIsLoading] = useState(props.isLoading);
