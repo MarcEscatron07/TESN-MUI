@@ -28,8 +28,8 @@ export default function GlobalLayout(props) {
     const [activeThreadList, setActiveThreadList] = useState([]);
     const [fileAttachment, setFileAttachment] = useState(null);
 
-    const maxActiveChatCount = 3;
-    const maxPassiveChatCount = 5;
+    const maxActiveChatCount = 2;
+    const maxPassiveChatCount = 6;
 
     useEffect(() => {
         fetchSessionStorage();
