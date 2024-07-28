@@ -51,7 +51,7 @@ app.prepare().then(() => {
         io.to(socket.id).emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName });
         io.to(clientSocketId).emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName });
       } else {
-        // temporary way to trigger reload of group chat members
+        // temporary way to trigger reload of group chat
         io.emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName });
       }
     });
