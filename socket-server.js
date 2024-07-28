@@ -47,8 +47,13 @@ app.prepare().then(() => {
     socket.on('send_message', ({receiverName}) => {
       const clientSocketId = Object.keys(clientsList).find((id) => clientsList[id] == receiverName);
 
-      io.to(socket.id).emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName });
-      clientSocketId ? io.to(clientSocketId).emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName }) : null;
+      if(clientSocketId) {
+        io.to(socket.id).emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName });
+        io.to(clientSocketId).emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName });
+      } else {
+        // temporary way to trigger reload of group chat members
+        io.emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName });
+      }
     });
   });
 
