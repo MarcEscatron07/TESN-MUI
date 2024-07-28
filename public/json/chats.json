@@ -1,5 +1,6 @@
 [
     {
+        "id": 1,
         "userId": 1,
         "friends": [
             {
@@ -42,9 +43,30 @@
                 "isOnline": true,
                 "unread": 0
             }
+        ],
+        "groups": [
+            {
+                "id": 7,
+                "name": "TICTO",
+                "image": "/images/avatars/avatar_ticto_seal.png",
+                "type": "multiple",
+                "userIds": [1,2,3,4,5,6],
+                "isOnline": true,
+                "unread": 0
+            },
+            {
+                "id": 8,
+                "name": "Ridezzz",
+                "image": "/images/avatars/avatar_motorbike.png",
+                "type": "multiple",
+                "userIds": [1,2,4,5],
+                "isOnline": true,
+                "unread": 0
+            }
         ]
     },
     {
+        "id": 2,
         "userId": 2,
         "friends": [
             {
@@ -87,9 +109,30 @@
                 "isOnline": true,
                 "unread": 0
             }
+        ],
+        "groups": [
+            {
+                "id": 7,
+                "name": "TICTO",
+                "image": "/images/avatars/avatar_ticto_seal.png",
+                "type": "multiple",
+                "userIds": [1,2,3,4,5,6],
+                "isOnline": true,
+                "unread": 0
+            },
+            {
+                "id": 8,
+                "name": "Ridezzz",
+                "image": "/images/avatars/avatar_motorbike.png",
+                "type": "multiple",
+                "userIds": [1,2,4,5],
+                "isOnline": true,
+                "unread": 0
+            }
         ]
     },
     {
+        "id": 3,
         "userId": 3,
         "friends": [
             {
@@ -108,9 +151,21 @@
                 "isOnline": true,
                 "unread": 0
             }
+        ],
+        "groups": [
+            {
+                "id": 7,
+                "name": "TICTO",
+                "image": "/images/avatars/avatar_ticto_seal.png",
+                "type": "multiple",
+                "userIds": [1,2,3,4,5,6],
+                "isOnline": true,
+                "unread": 0
+            }
         ]
     },
     {
+        "id": 4,
         "userId": 4,
         "friends": [
             {
@@ -129,9 +184,30 @@
                 "isOnline": true,
                 "unread": 0
             }
+        ],
+        "groups": [
+            {
+                "id": 7,
+                "name": "TICTO",
+                "image": "/images/avatars/avatar_ticto_seal.png",
+                "type": "multiple",
+                "userIds": [1,2,3,4,5,6],
+                "isOnline": true,
+                "unread": 0
+            },
+            {
+                "id": 8,
+                "name": "Ridezzz",
+                "image": "/images/avatars/avatar_motorbike.png",
+                "type": "multiple",
+                "userIds": [1,2,4,5],
+                "isOnline": true,
+                "unread": 0
+            }
         ]
     },
     {
+        "id": 5,
         "userId": 5,
         "friends": [
             {
@@ -150,9 +226,30 @@
                 "isOnline": true,
                 "unread": 0
             }
+        ],
+        "groups": [
+            {
+                "id": 7,
+                "name": "TICTO",
+                "image": "/images/avatars/avatar_ticto_seal.png",
+                "type": "multiple",
+                "userIds": [1,2,3,4,5,6],
+                "isOnline": true,
+                "unread": 0
+            },
+            {
+                "id": 8,
+                "name": "Ridezzz",
+                "image": "/images/avatars/avatar_motorbike.png",
+                "type": "multiple",
+                "userIds": [1,2,4,5],
+                "isOnline": true,
+                "unread": 0
+            }
         ]
     },
     {
+        "id": 6,
         "userId": 6,
         "friends": [
             {
@@ -168,6 +265,17 @@
                 "name": "Jerson Albit",
                 "image": "/images/avatars/avatar_male_2.png",
                 "type": "single",
+                "isOnline": true,
+                "unread": 0
+            }
+        ],
+        "groups": [
+            {
+                "id": 7,
+                "name": "TICTO",
+                "image": "/images/avatars/avatar_ticto_seal.png",
+                "type": "multiple",
+                "userIds": [1,2,3,4,5,6],
                 "isOnline": true,
                 "unread": 0
             }
