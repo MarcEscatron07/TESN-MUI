@@ -144,7 +144,7 @@ export default function GlobalLayout(props) {
 
         await postAttachments(formData).then(
             (res) => {
-                console.log('GlobalLayout > postChatAttachments > res', res)
+                // console.log('GlobalLayout > postChatAttachments > res', res)
 
                 res?.data ? attachmentsArr = res?.data : null;
             },
