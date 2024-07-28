@@ -18,7 +18,7 @@ export async function GET(req, res) {
   
     for (const key in jsonData) {
         if (
-            jsonData[key]?.userIds?.includes(userId) && jsonData[key]?.userIds?.includes(chatId) &&
+            jsonData[key]?.chatIds?.includes(userId) && jsonData[key]?.chatIds?.includes(chatId) &&
             jsonData[key]?.type == chatType && 
             jsonData[key]?.threads
         ) {
@@ -63,7 +63,7 @@ export async function POST(req, res) {
   
     for (const key in jsonData) {
       if (
-        jsonData[key]?.userIds?.includes(userId) && jsonData[key]?.userIds?.includes(chatId) &&
+        jsonData[key]?.chatIds?.includes(userId) && jsonData[key]?.chatIds?.includes(chatId) &&
         jsonData[key]?.type == chatType && 
         jsonData[key]?.threads && 
         chatInput
