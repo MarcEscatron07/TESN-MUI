@@ -1,9 +1,11 @@
 [
     {
+        "id": 1,
         "date": "07-01",
         "name": "Tagbilaran Charter Day"
     },
     {
+        "id": 2,
         "date": "07-22",
         "name": "Bohol Charter Day"
     }

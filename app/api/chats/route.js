@@ -5,23 +5,26 @@ import path from "path";
 export async function GET(req, res) {
   try {
     /** temporary code **/
-    const jsonPath = "/public/json/groups.json";
+    const jsonPath = "/public/json/chats.json";
     const jsonFile = await fs.readFile(path.join(process.cwd(), jsonPath), "utf8");
     const jsonData = JSON.parse(jsonFile);
     /** temporary code **/
-    
+
     const url = new URL(req.url);
     const searchParams = new URLSearchParams(url.searchParams);
     const userId = searchParams.has('userId') ? searchParams.get('userId') : -1;
 
     for (const key in jsonData) {
         if (
-            jsonData[key]?.userId == userId && jsonData[key]?.groups
+            jsonData[key]?.userId == userId && jsonData[key]?.friends && jsonData[key]?.groups
         ) {
             return NextResponse.json({
               status: 200,
               message: "Data fetch successful.",
-              data: jsonData[key]?.groups,
+              data: {
+                friends: jsonData[key]?.friends,
+                groups: jsonData[key]?.groups
+              },
             }, { status: 200 });
         }
       }

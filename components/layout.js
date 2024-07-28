@@ -8,7 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { GLOBAL } from "@/app/styles";
 import { Loader, TopAppBar, LeftDrawer, RightDrawer, ChatBox, ChatList, ViewAttachment } from '@/components';
 import { socket } from '@/components/socket-client';
-import { getFriends, getGroups, getThread, postThread, postAttachments } from "@/lib/api";
+import { getChats, getFriends, getGroups, getThread, postThread, postAttachments } from "@/lib/api";
 
 export default function GlobalLayout(props) {
     const [isLoading, setIsLoading] = useState(props.isLoading);
@@ -41,8 +41,7 @@ export default function GlobalLayout(props) {
     useEffect(() => {
         // console.log('GlobalLayout > sessionUser', sessionUser)
         if(sessionUser.id != -1) {
-            fetchFriends();
-            fetchGroups();
+            fetchChats();
         }
     }, [sessionUser])
 
@@ -91,38 +90,24 @@ export default function GlobalLayout(props) {
         sessionStorage.getItem('passive_chat_data') ? setPassiveChatList(JSON.parse(sessionStorage.getItem('passive_chat_data'))) : setPassiveChatList([]);
     }
 
-    async function fetchFriends() {
-        if(sessionStorage.getItem('friends_data')) {
-            setSessionFriends(JSON.parse(sessionStorage.getItem('friends_data')));
-        } else {
-            await getFriends(`userId=${sessionUser.id}`).then(
-                (res) => {
-                    // console.log('fetchFriends > res', res)
-    
-                    res?.status == 200 && res?.data ? sessionStorage.setItem('friends_data', JSON.stringify(res?.data)) : null;
-                    setSessionFriends(res?.status == 200 && res?.data ? res?.data : []);
-                },
-                (err) => {
-                    console.log('fetchFriends > err', err)
-                    setSessionFriends([]);
-                },
-            );
-        }
-    }
+    async function fetchChats() {
+        if(sessionStorage.getItem('chats_data')) {
+            const chatsObj = JSON.parse(sessionStorage.getItem('chats_data'));
 
-    async function fetchGroups() {
-        if(sessionStorage.getItem('groups_data')) {
-            setSessionGroups(JSON.parse(sessionStorage.getItem('groups_data')));
+            setSessionFriends(chatsObj?.friends ?? []);
+            setSessionGroups(chatsObj?.groups ?? []);
         } else {
-            await getGroups(`userId=${sessionUser.id}`).then(
+            await getChats(`userId=${sessionUser.id}`).then(
                 (res) => {
-                    // console.log('fetchGroups > res', res)
+                    // console.log('fetchChats > res', res)
     
-                    res?.status == 200 && res?.data ? sessionStorage.setItem('groups_data', JSON.stringify(res?.data)) : null;
-                    setSessionGroups(res?.status == 200 && res?.data ? res?.data : []);
+                    res?.status == 200 && res?.data ? sessionStorage.setItem('chats_data', JSON.stringify(res?.data)) : null;
+                    setSessionFriends(res?.status == 200 && res?.data?.friends ? res?.data?.friends : []);
+                    setSessionGroups(res?.status == 200 && res?.data?.groups ? res?.data?.groups : []);
                 },
                 (err) => {
-                    console.log('fetchGroups > err', err)
+                    console.log('fetchChats > err', err)
+                    setSessionFriends([]);
                     setSessionGroups([]);
                 },
             );
