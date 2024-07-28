@@ -24,7 +24,7 @@ app.prepare().then(() => {
   const io = socketIo(server, {
     cors: {
       origin: `http://${HOST}:${PORT}`,
-      methods: ["GET", "PUT", "POST", "DELETE"]
+      methods: ["GET", "POST", "PUT", "DELETE"]
     }
   });
 
