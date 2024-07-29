@@ -8,8 +8,8 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 /** refer to .env.local for the correct values **/
-// const HOST = '192.168.100.5';
-const HOST = 'localhost';
+const HOST = '192.168.100.25';
+// const HOST = 'localhost';
 const PORT = 3000;
 /** refer to .env.local for the correct values **/
 

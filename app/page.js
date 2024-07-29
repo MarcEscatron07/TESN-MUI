@@ -132,7 +132,6 @@ export default function Login() {
                 />
                 <Typography
                   variant="h5"
-                  noWrap
                   component="div"
                   style={LOGIN.loginHeaderText}
                 >

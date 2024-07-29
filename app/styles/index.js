@@ -10,8 +10,8 @@ export const LOGIN = {
         height: "100vh"
     },
     loginSectionLeft: {
-        py: 8,
-        px: 4,
+        py: 10,
+        px: 0,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
