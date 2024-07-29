@@ -68,8 +68,11 @@ body {
   position: fixed;
   bottom: 0px;
   height: 450px;
-  width: 310px;
   z-index: 99995;
+}
+.chat-box .chat-box-content {
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 .chat-box .chat-box-content::-webkit-scrollbar {
   width: 10px;
@@ -93,7 +96,7 @@ body {
   flex-direction: row;
 }
 .chat-box .chat-box-content .chat-box-receiver .chat-box-avatar {
-  margin-right: 10px;
+  margin-right: 5px;
 }
 .chat-box .chat-box-content .chat-box-avatar {
   display: flex;
@@ -111,7 +114,7 @@ body {
 }
 .chat-box .chat-box-content .chat-box-message .chat-box-message-attachments .attachment-thumbnail-item {
   cursor: pointer;
-  max-width: 200px;
+  max-width: 180px;
   border-radius: 10px;
   background-color: #DDDDDD;
   color: #000000;

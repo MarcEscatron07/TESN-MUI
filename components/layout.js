@@ -11,7 +11,7 @@ import { socket } from '@/components/socket-client';
 import { getChats, getThread, postThread, postAttachments } from "@/lib/api";
 
 export default function GlobalLayout(props) {
-    const viewBreakpoint = 992;
+    const viewBreakpoint = 768;
     const maxActiveChatCnt = 2;
     const maxPassiveChatCnt = 6
 

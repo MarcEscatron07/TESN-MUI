@@ -10,7 +10,6 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Popover from '@mui/material/Popover';
 
-// import EditNoteIcon from "@mui/icons-material/EditNote";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import CancelIcon from '@mui/icons-material/Cancel';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -28,7 +27,7 @@ export default function ChatList(props) {
   const [fabAvatarIdx, setFabAvatarIdx] = useState(-1);
   const [popoverAnchor, setPopoverAnchor] = useState(null);
 
-  const chatListPos = props.isMobileView ? 70 : 285;
+  const chatListPos = props.isMobileView ? 60 : 285;
 
   useEffect(() => {
   }, [])
@@ -71,15 +70,14 @@ export default function ChatList(props) {
 
   return (
     <div className="chat-list" style={{ left: chatListPos }}>
-      {/* <Fab sx={CHAT_LIST.chatListFabNewChat} color="secondary" size="medium">
-        <EditNoteIcon fontSize="large" />
-      </Fab> */}
-
       {pasChatList.map((item, idx) => (
         <Fab
           key={idx}
-          color="muted"
-          sx={{ ...CHAT_LIST.chatListFabAvatar, backgroundColor: theme.palette.dark.light }}
+          sx={{ 
+            ...CHAT_LIST.chatListFabAvatar, 
+            backgroundColor: 'none',
+            height: props.isMobileView ? '35px' : '55px', width: props.isMobileView ? '35px' : '55px'
+          }}
           onMouseEnter={() => setFabAvatarIdx(idx)}
           onMouseLeave={() => setFabAvatarIdx(-1)}
         >
@@ -95,7 +93,7 @@ export default function ChatList(props) {
             }}
             onClick={(event) => onChatClick(event, item)}
           >
-            <Avatar alt={item.name} src={item.image} />
+            <Avatar alt={item.name} src={item.image} sx={{height: props.isMobileView ? '35px' : '55px', width: props.isMobileView ? '35px' : '55px'}} />
           </StyledBadge>
 
           {fabAvatarIdx == idx ? (
@@ -119,6 +117,8 @@ export default function ChatList(props) {
               backgroundColor: theme.palette.secondary.dark
             },
             backgroundColor: theme.palette.secondary.main,
+            height: props.isMobileView ? '25px' : '40px', 
+            width: props.isMobileView ? '25px' : '40px'
           }}
           onClick={onOptionClick}
         >

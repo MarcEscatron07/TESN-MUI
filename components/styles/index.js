@@ -54,7 +54,7 @@ export const CHAT_BOX = {
         height: '76%',
         overflowX: 'hidden',
         overflowY: 'auto',
-        px: 2,
+        px: 1,
     },
     chatBoxCardLoaderBox: {
         position: 'absolute',
@@ -102,6 +102,9 @@ export const CHAT_BOX = {
         borderRadius: '0px 0px 0px 4px'
     },
     chatBoxCardActionsBoxButton: {
+        height: 'auto',
+        maxWidth: '40px',  
+        minWidth: '40px',
         borderRadius: '0px 4px 4px 0px'
     }
 }

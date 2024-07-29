@@ -63,7 +63,8 @@ export default function ChatBox(props) {
     const [chatMessage, setChatMessage] = useState('');
     const [chatAttachments, setChatAttachments] = useState([]);
 
-    const chatBoxPos = props.isMobileView ? 70 : 285;
+    const chatBoxWidth = props.isMobileView ? '255px' : '310px';
+    const chatBoxPos = props.isMobileView ? 60 : 285;
 
     useEffect(() => {
     }, [])
@@ -358,7 +359,7 @@ export default function ChatBox(props) {
     }
 
     return (
-        <div className="chat-box" style={{ right: props.instance > 1 ? chatBoxPos + (320 * (props.instance - 1)) : chatBoxPos }}>
+        <div className="chat-box" style={{width: chatBoxWidth, right: props.instance > 1 ? chatBoxPos + (320 * (props.instance - 1)) : chatBoxPos }}>
             <Paper sx={CHAT_BOX.chatBoxPaperContainer} elevation={5}>
                 <Card sx={{...CHAT_BOX.chatBoxCardContainer, backgroundColor: theme.palette.muted.main}}>
                     <Paper elevation={2}>
