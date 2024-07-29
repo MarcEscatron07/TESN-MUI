@@ -37,6 +37,10 @@ app.prepare().then(() => {
 
       for(const key in groupsList) {
         groupsList[key] = groupsList[key].filter((i) => i != socket.id);
+
+        if(groupsList[key] && groupsList[key].length == 0) {
+          delete groupsList[key];
+        }
       }
       io.emit('groups_list', groupsList);
 
