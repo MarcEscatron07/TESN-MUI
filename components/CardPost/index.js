@@ -60,7 +60,7 @@ export default function CardPost(props) {
     };
 
     return (
-        <Card sx={{...CARD_POST.cardPostContainer, width: props.isMobileView ? '100%' : '85%'}}>
+        <Card sx={{...CARD_POST.cardPostContainer, width: props.isMobileView ? '90%' : '80%'}}>
             <CardHeader
                 avatar={<Avatar alt="Owner Avatar" src={postData.owner.image} />}
                 action={
