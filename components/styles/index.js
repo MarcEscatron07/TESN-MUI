@@ -1,7 +1,7 @@
 export const CARD_POST = {
     cardPostContainer: {
         height: 'auto',
-        width: 700,
+        width: '85%',
         my: 2
     },
     cardPostImagePlaceholder: {
