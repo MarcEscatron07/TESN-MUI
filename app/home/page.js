@@ -14,6 +14,7 @@ import { getPosts } from "@/lib/api";
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [postsList, setPostsList] = useState([]);
+  const [isMobileView, setIsMobileView] = useState(false);
 
   useEffect(() => {
     fetchPosts();
@@ -42,14 +43,18 @@ export default function Home() {
     }
   }
 
+  const onLayoutMobileView = (value) => {
+    setIsMobileView(value);
+  }
+
   return (
     <>
-      <GlobalLayout isLoading={isLoading}>
+      <GlobalLayout isLoading={isLoading} onMobileView={onLayoutMobileView}>
         <Box component="section" sx={HOME.homeSectionContent}>
           <DrawerHeader />
 
           {postsList.map((item, idx) => (
-            <CardPost key={idx} data={item} />
+            <CardPost key={idx} data={item} isMobileView={isMobileView} />
           ))}
         </Box>
       </GlobalLayout>

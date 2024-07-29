@@ -153,19 +153,21 @@ export default function TopAppBar(props) {
     return (
         <>
             <AppBar position="fixed" open={props.isLeftDrawerOpen} sx={{ backgroundColor: theme.palette.primary.light }}>
-                <Toolbar>
-                    <IconButton
-                        aria-label="topappbar-left-drawer-toggle"
-                        color="inherit"
-                        onClick={onToggleClick}
-                        edge="start"
-                        sx={{
-                            ...TOP_APP_BAR.topAppBarLeftDrawerToggle,
-                            ...(props.isLeftDrawerOpen && { display: "none" }),
-                        }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
+                <Toolbar sx={TOP_APP_BAR.topAppBarToolbar}>
+                    {!props.isMobileView ? (
+                        <IconButton
+                            aria-label="topappbar-left-drawer-toggle"
+                            color="inherit"
+                            onClick={onToggleClick}
+                            edge="start"
+                            sx={{
+                                ...TOP_APP_BAR.topAppBarLeftDrawerToggle,
+                                ...(props.isLeftDrawerOpen && { display: "none" }),
+                            }}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                    ) : null}
 
                     {!props.isLeftDrawerOpen ? (
                         <Image

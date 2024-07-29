@@ -101,6 +101,7 @@ export default function LeftDrawer(props) {
       elevation={3}
       PaperProps={{
         style: {
+          ...LEFT_DRAWER.leftDrawerContainer,
           backgroundColor: theme.palette.primary.main,
           color: theme.palette.primary.contrastText,
         },

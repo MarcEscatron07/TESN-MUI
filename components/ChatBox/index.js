@@ -107,7 +107,7 @@ export default function ChatBox(props) {
             setIsChatBoxLoading(true);
             setTimeout(() => {
                 setIsChatBoxLoading(false);
-                chatBoxInputRef?.current?.focus();
+                // chatBoxInputRef?.current?.focus();
                 
                 if(props.onResetSelectedChat) {
                     props.onResetSelectedChat();

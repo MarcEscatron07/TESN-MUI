@@ -1,7 +1,6 @@
 export const CARD_POST = {
     cardPostContainer: {
         height: 'auto',
-        width: '85%',
         my: 2
     },
     cardPostImagePlaceholder: {
@@ -190,6 +189,9 @@ export const EVENT_CALENDAR = {
 }
 
 export const LEFT_DRAWER = {
+    leftDrawerContainer: {
+        height: '100vh',
+    },
     leftDrawerHeader: {
         display: "flex",
         alignItems: "center",
@@ -227,6 +229,9 @@ export const LEFT_DRAWER = {
 }
 
 export const RIGHT_DRAWER = {
+    rightDrawerContainer: {
+        height: '100vh',
+    },
     rightDrawerHeader: {
         display: "flex",
         alignItems: "center",
@@ -255,6 +260,9 @@ export const TOP_APP_BAR = {
     },
     topAppBarSpacer: {
         flexGrow: 1
+    },
+    topAppBarToolbar: {
+        px: '5px'
     },
     topAppBarSearch: {
         marginLeft: '15px !important'

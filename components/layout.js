@@ -25,7 +25,7 @@ export default function GlobalLayout(props) {
     const [sessionFriends, setSessionFriends] = useState([]);
     const [sessionGroups, setSessionGroups] = useState([]);
     
-    const [isMobileView, setIsMobileView] = useState(false);
+    const [isMobileView, setIsMobileView] = useState(window.innerWidth < viewBreakpoint ? true : false);
     const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(true);
     const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(true);
     const [selectedChat, setSelectedChat] = useState(null);
@@ -38,6 +38,8 @@ export default function GlobalLayout(props) {
     const [maxPassiveChatCount, setMaxPassiveChatCount] = useState(maxPassiveChatCnt);
 
     useEffect(() => {
+        checkWindowWidth();
+
         window.addEventListener('resize', checkWindowWidth)
 
         socket.on('clients_list', (clientsList) => {
@@ -128,6 +130,10 @@ export default function GlobalLayout(props) {
 
             setIsLeftDrawerOpen(true);
             setIsRightDrawerOpen(true);
+        }
+
+        if(props.onMobileView){
+            props.onMobileView(isMobileView);
         }
     }, [isMobileView])
 
@@ -395,7 +401,7 @@ export default function GlobalLayout(props) {
 
             <CssBaseline />
 
-            <TopAppBar sessionUser={sessionUser} onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
+            <TopAppBar isMobileView={isMobileView} sessionUser={sessionUser} onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
 
             <LeftDrawer sessionNav={sessionNav} onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
 

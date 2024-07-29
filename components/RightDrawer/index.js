@@ -58,6 +58,7 @@ export default function RightDrawer(props) {
       elevation={3}
       PaperProps={{
         style: {
+          ...RIGHT_DRAWER.rightDrawerContainer,
           backgroundColor: theme.palette.dark.light,
           color: theme.palette.light.main,
         },
