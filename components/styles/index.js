@@ -251,16 +251,16 @@ export const RIGHT_DRAWER = {
 
 export const TOP_APP_BAR = {
     topAppBarLeftDrawerToggle: {
-        marginRight: 5
+        marginRight: '5px !important'
     },
     topAppBarSpacer: {
         flexGrow: 1
     },
     topAppBarSearch: {
-        marginLeft: 15
+        marginLeft: '15px !important'
     },
     topAppBarSearchInput: {
-        width: "400px"
+        width: "auto"
     },
     topAppBarNotifications: {
         display: {

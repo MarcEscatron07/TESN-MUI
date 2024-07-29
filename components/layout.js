@@ -11,6 +11,10 @@ import { socket } from '@/components/socket-client';
 import { getChats, getThread, postThread, postAttachments } from "@/lib/api";
 
 export default function GlobalLayout(props) {
+    const viewBreakpoint = 992;
+    const maxActiveChatCnt = 2;
+    const maxPassiveChatCnt = 6
+
     const [isLoading, setIsLoading] = useState(props.isLoading);
     const [sessionUser, setSessionUser] = useState({
         id: -1,
@@ -30,8 +34,8 @@ export default function GlobalLayout(props) {
     const [activeThreadList, setActiveThreadList] = useState([]);
     const [fileAttachment, setFileAttachment] = useState(null);
 
-    const maxActiveChatCount = 2;
-    const maxPassiveChatCount = 6;
+    const [maxActiveChatCount, setMaxActiveChatCount] = useState(maxActiveChatCnt);
+    const [maxPassiveChatCount, setMaxPassiveChatCount] = useState(maxPassiveChatCnt);
 
     useEffect(() => {
         window.addEventListener('resize', checkWindowWidth)
@@ -89,9 +93,39 @@ export default function GlobalLayout(props) {
         // console.log('GlobalLayout > isMobileView', isMobileView)
 
         if(isMobileView) {
+            setMaxActiveChatCount(maxActiveChatCnt-1);
+            setMaxPassiveChatCount(maxPassiveChatCnt+1);
+
+            let activeChatArr = [...activeChatList];
+            /** PASSIVE CHAT LIST LOGIC **/
+            let pChatIdx = passiveChatList.map((i) => i.id).indexOf(activeChatArr[activeChatArr.length-1] ?? -1);
+            let passiveChatArr = [...passiveChatList].filter((_, idx) => idx != pChatIdx);
+
+            if(activeChatArr.length > (maxActiveChatCnt-1)) {
+                passiveChatArr.unshift(activeChatArr[activeChatArr.length-1]);
+            }
+
+            if(passiveChatArr.length > (maxPassiveChatCnt+1)) {
+                pChatIdx == -1 ? passiveChatArr.pop() : null;
+            }
+
+            sessionStorage.setItem('passive_chat_data', JSON.stringify(passiveChatArr));
+            setPassiveChatList(passiveChatArr);
+            /** PASSIVE CHAT LIST LOGIC **/
+
+            if(activeChatArr.length > (maxActiveChatCnt-1)) {
+                activeChatArr.pop();
+            }
+            sessionStorage.setItem('active_chat_data', JSON.stringify(activeChatArr));
+            setActiveChatList(activeChatArr);
+            /** ACTIVE CHAT LIST LOGIC **/
+
             setIsLeftDrawerOpen(false);
             setIsRightDrawerOpen(false);
         } else {
+            setMaxActiveChatCount(maxActiveChatCnt);
+            setMaxPassiveChatCount(maxPassiveChatCnt);
+
             setIsLeftDrawerOpen(true);
             setIsRightDrawerOpen(true);
         }
@@ -126,8 +160,16 @@ export default function GlobalLayout(props) {
         setIsLoading(props.isLoading);
     }, [props.isLoading, activeThreadList])
 
+    useEffect(() => {
+        // console.log('GlobalLayout > maxActiveChatCount', maxActiveChatCount)
+    }, [maxActiveChatCount])
+
+    useEffect(() => {
+        // console.log('GlobalLayout > maxPassiveChatCount', maxPassiveChatCount)
+    }, [maxPassiveChatCount])
+
     function checkWindowWidth() {
-        setIsMobileView(window.innerWidth < 768 ? true : false);
+        setIsMobileView(window.innerWidth < viewBreakpoint ? true : false);
     }
 
     async function fetchSessionStorage() {
@@ -325,11 +367,11 @@ export default function GlobalLayout(props) {
             let pChatIdx = passiveChatList.map((i) => i.id).indexOf(value?.id ?? -1);
             let passiveChatArr = [...passiveChatList].filter((_, idx) => idx != pChatIdx);
 
-            if(activeChatList.length >= maxActiveChatCount) {
+            if(activeChatArr.length > maxActiveChatCount) {
                 passiveChatArr.unshift(activeChatArr[activeChatArr.length-1]);
             }
 
-            if(passiveChatList.length >= maxPassiveChatCount) {
+            if(passiveChatArr.length > maxPassiveChatCount) {
                 pChatIdx == -1 ? passiveChatArr.pop() : null;
             }
 
@@ -337,7 +379,7 @@ export default function GlobalLayout(props) {
             setPassiveChatList(passiveChatArr);
             /** PASSIVE CHAT LIST LOGIC **/
 
-            if(activeChatList.length >= maxActiveChatCount) {
+            if(activeChatArr.length > maxActiveChatCount) {
                 activeChatArr.pop();
             }
             sessionStorage.setItem('active_chat_data', JSON.stringify(activeChatArr));
