@@ -11,7 +11,7 @@ import { socket } from '@/components/socket-client';
 import { getChats, getThread, postThread, postAttachments } from "@/lib/api";
 
 export default function GlobalLayout(props) {
-    const viewBreakpoint = 768;
+    const viewBreakpoint = 992;
     const maxActiveChatCnt = 2;
     const maxPassiveChatCnt = 6
 
@@ -403,11 +403,13 @@ export default function GlobalLayout(props) {
 
             <TopAppBar isMobileView={isMobileView} sessionUser={sessionUser} onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
 
-            <LeftDrawer sessionNav={sessionNav} onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
+            <LeftDrawer isMobileView={isMobileView} sessionNav={sessionNav} onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
 
-            {props.children}
+            <Box sx={{paddingTop: isMobileView ? '55px' : 'unset'}}>
+                {props.children}
+            </Box>
 
-            <RightDrawer sessionFriends={sessionFriends} sessionGroups={sessionGroups} onDrawerChatClick={onSelectedChatClick} isRightDrawerOpen={isRightDrawerOpen} />
+            <RightDrawer isMobileView={isMobileView} sessionFriends={sessionFriends} sessionGroups={sessionGroups} onDrawerChatClick={onSelectedChatClick} isRightDrawerOpen={isRightDrawerOpen} />
 
             <ChatList 
                 isMobileView={isMobileView}

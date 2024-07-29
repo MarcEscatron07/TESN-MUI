@@ -94,131 +94,206 @@ export default function LeftDrawer(props) {
   }
 
   return (
-    <Drawer
-      anchor="left"
-      variant="permanent"
-      open={props.isLeftDrawerOpen}
-      elevation={3}
-      PaperProps={{
-        style: {
-          ...LEFT_DRAWER.leftDrawerContainer,
-          backgroundColor: theme.palette.primary.main,
-          color: theme.palette.primary.contrastText,
-        },
-      }}
-    >
-      <DrawerHeader
-        sx={{
-          ...LEFT_DRAWER.leftDrawerHeader,
-          backgroundColor: theme.palette.primary.light,
-        }}
-      >
-        <Paper
-          style={{
-            ...LEFT_DRAWER.leftDrawerHeaderPaper,
-            backgroundColor: theme.palette.secondary.main,
+    <>
+      {props.isMobileView ? (
+        <>
+          <Paper 
+            open={props.isLeftDrawerOpen} 
+            elevation={4} 
+            sx={{ 
+              position: 'fixed', 
+              top: 65, 
+              height: '55px', 
+              width: '100%', 
+              zIndex: 1200, 
+              borderRadius: 0, 
+              backgroundColor: theme.palette.primary.light, 
+              color: theme.palette.primary.contrastText 
+            }}
+          >
+            <Box 
+              sx={{
+                display: 'flex', 
+                flexDirection: 'row', 
+                alignItems: 'center', 
+                justifyContent: 'center'
+              }}
+            >
+              <List
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  mr: 3
+                }}
+              >
+                {navigationList.map((item, idx) => (
+                  <ListItem key={idx}
+                    disablePadding
+                    onClick={() => onNavItemClick(item.text)}
+                    sx={{ width: 48 }}
+                  >
+                    <IconButton
+                      color="light"
+                      sx={{ width: 48 }}
+                    >
+                      {item.icon}
+                    </IconButton>
+                  </ListItem>
+                ))}
+              </List>
+
+              <List
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                }}
+              >
+                {othersList.map((item, idx) => (
+                  <ListItem key={idx}
+                    disablePadding
+                    onClick={() => onNavItemClick(item.text)}
+                    sx={{ width: 48 }}
+                  >
+                    <IconButton
+                      color="light"
+                      sx={{ width: 48 }}
+                    >
+                      {item.icon}
+                    </IconButton>
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
+          </Paper>
+        </>
+      ) : (
+        <Drawer
+          anchor="left"
+          variant="permanent"
+          open={props.isLeftDrawerOpen}
+          elevation={3}
+          PaperProps={{
+            style: {
+              ...LEFT_DRAWER.leftDrawerContainer,
+              backgroundColor: theme.palette.primary.main,
+              color: theme.palette.primary.contrastText,
+            },
           }}
         >
-          <Image
-            className="page-logo"
-            src="/images/tagbilaran-seal.png"
-            width={40}
-            height={40}
-            alt="Tagbilaran Seal"
-          />
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            color="light"
-            style={{ ...LEFT_DRAWER.leftDrawerSitename, color: theme.palette.dark.main }}
-          >
-            {SITENAME_ABBR}
-          </Typography>
-        </Paper>
-        <Box sx={LEFT_DRAWER.leftDrawerBoxToggle}>
-          <IconButton aria-label="left-drawer-toggle" onClick={onToggleClick} sx={{ color: theme.palette.light.main }}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
-          </IconButton>
-        </Box>
-      </DrawerHeader>
-
-      <Divider sx={{ backgroundColor: theme.palette.dark.main }} />
-
-      <List
-        subheader={
-          <ListSubheader component="div" sx={{ ...LEFT_DRAWER.leftDrawerList, backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText }}>
-            {props.isLeftDrawerOpen ? 'Navigation' : null}
-          </ListSubheader>
-        }
-      >
-        {navigationList.map((item, idx) => (
-          <ListItem key={idx}
-            disablePadding
+          <DrawerHeader
             sx={{
-              ...LEFT_DRAWER.leftDrawerListItem,
-              // backgroundColor: navData == item.text ? theme.palette.secondary.main : null,
-              // color: navData == item.text ? theme.palette.secondary.contrastText : null
+              ...LEFT_DRAWER.leftDrawerHeader,
+              backgroundColor: theme.palette.primary.light,
             }}
-            onClick={() => onNavItemClick(item.text)}
           >
-            <ListItemButton
-              sx={{
-                ...LEFT_DRAWER.leftDrawerListItemButton,
-                justifyContent: props.isLeftDrawerOpen ? "initial" : "center",
+            <Paper
+              style={{
+                ...LEFT_DRAWER.leftDrawerHeaderPaper,
+                backgroundColor: theme.palette.secondary.main,
               }}
             >
-              <ListItemIcon
-                sx={{
-                  ...LEFT_DRAWER.leftDrawerListItemIcon,
-                  mr: props.isLeftDrawerOpen ? 3 : "auto",
-                  // color: navData == item.text ? theme.palette.secondary.contrastText : theme.palette.light.main,
-                  color: theme.palette.light.main,
-                }}
+              <Image
+                className="page-logo"
+                src="/images/tagbilaran-seal.png"
+                width={40}
+                height={40}
+                alt="Tagbilaran Seal"
+              />
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                color="light"
+                style={{ ...LEFT_DRAWER.leftDrawerSitename, color: theme.palette.dark.main }}
               >
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText primary={item.text} primaryTypographyProps={{ style: { fontWeight: 'bold ' } }} sx={{ opacity: props.isLeftDrawerOpen ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+                {SITENAME_ABBR}
+              </Typography>
+            </Paper>
+            <Box sx={LEFT_DRAWER.leftDrawerBoxToggle}>
+              <IconButton aria-label="left-drawer-toggle" onClick={onToggleClick} sx={{ color: theme.palette.light.main }}>
+                {theme.direction === "rtl" ? (
+                  <ChevronRightIcon />
+                ) : (
+                  <ChevronLeftIcon />
+                )}
+              </IconButton>
+            </Box>
+          </DrawerHeader>
 
-      <Divider sx={{ backgroundColor: theme.palette.light.dark }} />
+          <Divider sx={{ backgroundColor: theme.palette.dark.main }} />
 
-      <List
-        subheader={
-          <ListSubheader component="div" sx={{ ...LEFT_DRAWER.leftDrawerList, backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText }}>
-            {props.isLeftDrawerOpen ? 'Others' : null}
-          </ListSubheader>
-        }
-      >
-        {othersList.map((item, idx) => (
-          <ListItem key={idx} disablePadding sx={LEFT_DRAWER.leftDrawerListItem}>
-            <ListItemButton
-              sx={{
-                ...LEFT_DRAWER.leftDrawerListItemButton,
-                justifyContent: props.isLeftDrawerOpen ? "initial" : "center",
-              }}
-            >
-              <ListItemIcon
+          <List
+            subheader={
+              <ListSubheader component="div" sx={{ ...LEFT_DRAWER.leftDrawerList, backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText }}>
+                {props.isLeftDrawerOpen ? 'Navigation' : null}
+              </ListSubheader>
+            }
+          >
+            {navigationList.map((item, idx) => (
+              <ListItem key={idx}
+                disablePadding
                 sx={{
-                  ...LEFT_DRAWER.leftDrawerListItemIcon,
-                  mr: props.isLeftDrawerOpen ? 3 : "auto",
-                  color: theme.palette.light.main,
+                  ...LEFT_DRAWER.leftDrawerListItem,
+                  // backgroundColor: navData == item.text ? theme.palette.secondary.main : null,
+                  // color: navData == item.text ? theme.palette.secondary.contrastText : null
                 }}
+                onClick={() => onNavItemClick(item.text)}
               >
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText primary={item.text} primaryTypographyProps={{ style: { fontWeight: 'bold ' } }} sx={{ opacity: props.isLeftDrawerOpen ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Drawer>
+                <ListItemButton
+                  sx={{
+                    ...LEFT_DRAWER.leftDrawerListItemButton,
+                    justifyContent: props.isLeftDrawerOpen ? "initial" : "center",
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      ...LEFT_DRAWER.leftDrawerListItemIcon,
+                      mr: props.isLeftDrawerOpen ? 3 : "auto",
+                      // color: navData == item.text ? theme.palette.secondary.contrastText : theme.palette.light.main,
+                      color: theme.palette.light.main,
+                    }}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={item.text} primaryTypographyProps={{ style: { fontWeight: 'bold ' } }} sx={{ opacity: props.isLeftDrawerOpen ? 1 : 0 }} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+
+          <Divider sx={{ backgroundColor: theme.palette.light.dark }} />
+
+          <List
+            subheader={
+              <ListSubheader component="div" sx={{ ...LEFT_DRAWER.leftDrawerList, backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText }}>
+                {props.isLeftDrawerOpen ? 'Others' : null}
+              </ListSubheader>
+            }
+          >
+            {othersList.map((item, idx) => (
+              <ListItem key={idx} disablePadding sx={LEFT_DRAWER.leftDrawerListItem}>
+                <ListItemButton
+                  sx={{
+                    ...LEFT_DRAWER.leftDrawerListItemButton,
+                    justifyContent: props.isLeftDrawerOpen ? "initial" : "center",
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      ...LEFT_DRAWER.leftDrawerListItemIcon,
+                      mr: props.isLeftDrawerOpen ? 3 : "auto",
+                      color: theme.palette.light.main,
+                    }}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={item.text} primaryTypographyProps={{ style: { fontWeight: 'bold ' } }} sx={{ opacity: props.isLeftDrawerOpen ? 1 : 0 }} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </Drawer>
+      )}
+    </>
   )
 }

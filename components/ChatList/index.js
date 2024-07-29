@@ -27,7 +27,8 @@ export default function ChatList(props) {
   const [fabAvatarIdx, setFabAvatarIdx] = useState(-1);
   const [popoverAnchor, setPopoverAnchor] = useState(null);
 
-  const chatListPos = props.isMobileView ? 60 : 285;
+  const chatListBotPos = props.isMobileView ? 55 : 0;
+  const chatListLeftPos = props.isMobileView ? 5 : 285;
 
   useEffect(() => {
   }, [])
@@ -69,7 +70,13 @@ export default function ChatList(props) {
   }
 
   return (
-    <div className="chat-list" style={{ left: chatListPos }}>
+    <div 
+      className="chat-list" 
+      style={{ 
+        bottom: chatListBotPos, 
+        left: chatListLeftPos 
+      }}
+    >
       {pasChatList.map((item, idx) => (
         <Fab
           key={idx}

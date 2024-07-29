@@ -152,7 +152,7 @@ export default function TopAppBar(props) {
 
     return (
         <>
-            <AppBar position="fixed" open={props.isLeftDrawerOpen} sx={{ backgroundColor: theme.palette.primary.light }}>
+            <AppBar position="fixed" elevation={props.isMobileView ? 2 : 4} open={props.isLeftDrawerOpen} sx={{ height: 65, backgroundColor: theme.palette.primary.light }}>
                 <Toolbar sx={TOP_APP_BAR.topAppBarToolbar}>
                     {!props.isMobileView ? (
                         <IconButton
