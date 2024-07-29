@@ -242,15 +242,10 @@ export const RIGHT_DRAWER = {
     rightDrawerListItemButton: {
         minHeight: 48,
         px: 2.5,
-        justifyContent: "initial"
     },
     rightDrawerListItemIcon: {
         minWidth: 0,
-        mr: 3,
         justifyContent: "center",
-    },
-    rightDrawerListItemIconText: {
-        opacity: 1
     }
 }
 

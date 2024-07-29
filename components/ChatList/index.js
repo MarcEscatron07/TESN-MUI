@@ -28,6 +28,8 @@ export default function ChatList(props) {
   const [fabAvatarIdx, setFabAvatarIdx] = useState(-1);
   const [popoverAnchor, setPopoverAnchor] = useState(null);
 
+  const chatListPos = props.isMobileView ? 70 : 285;
+
   useEffect(() => {
   }, [])
 
@@ -68,7 +70,7 @@ export default function ChatList(props) {
   }
 
   return (
-    <div className="chat-list">
+    <div className="chat-list" style={{ left: chatListPos }}>
       {/* <Fab sx={CHAT_LIST.chatListFabNewChat} color="secondary" size="medium">
         <EditNoteIcon fontSize="large" />
       </Fab> */}

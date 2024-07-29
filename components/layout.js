@@ -21,7 +21,9 @@ export default function GlobalLayout(props) {
     const [sessionFriends, setSessionFriends] = useState([]);
     const [sessionGroups, setSessionGroups] = useState([]);
     
+    const [isMobileView, setIsMobileView] = useState(false);
     const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(true);
+    const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(true);
     const [selectedChat, setSelectedChat] = useState(null);
     const [activeChatList, setActiveChatList] = useState([]);
     const [passiveChatList, setPassiveChatList] = useState([]);
@@ -32,6 +34,8 @@ export default function GlobalLayout(props) {
     const maxPassiveChatCount = 6;
 
     useEffect(() => {
+        window.addEventListener('resize', checkWindowWidth)
+
         socket.on('clients_list', (clientsList) => {
             console.log('GlobalLayout > clientsList', clientsList)
         });
@@ -41,6 +45,10 @@ export default function GlobalLayout(props) {
         });
 
         fetchSessionStorage();
+
+        return () => {
+            window.removeEventListener('resize', checkWindowWidth)
+        }
     }, [])
 
     useEffect(() => {
@@ -78,6 +86,18 @@ export default function GlobalLayout(props) {
     }, [sessionGroups, sessionUser])
 
     useEffect(() => {
+        // console.log('GlobalLayout > isMobileView', isMobileView)
+
+        if(isMobileView) {
+            setIsLeftDrawerOpen(false);
+            setIsRightDrawerOpen(false);
+        } else {
+            setIsLeftDrawerOpen(true);
+            setIsRightDrawerOpen(true);
+        }
+    }, [isMobileView])
+
+    useEffect(() => {
         // console.log('GlobalLayout > selectedChat', selectedChat)
     }, [selectedChat])
 
@@ -105,6 +125,10 @@ export default function GlobalLayout(props) {
     useEffect(() => {
         setIsLoading(props.isLoading);
     }, [props.isLoading, activeThreadList])
+
+    function checkWindowWidth() {
+        setIsMobileView(window.innerWidth < 768 ? true : false);
+    }
 
     async function fetchSessionStorage() {
         sessionStorage.getItem('authuser_data') ? setSessionUser(JSON.parse(sessionStorage.getItem('authuser_data'))) : setSessionUser({
@@ -335,9 +359,10 @@ export default function GlobalLayout(props) {
 
             {props.children}
 
-            <RightDrawer sessionFriends={sessionFriends} sessionGroups={sessionGroups} onDrawerChatClick={onSelectedChatClick} />
+            <RightDrawer sessionFriends={sessionFriends} sessionGroups={sessionGroups} onDrawerChatClick={onSelectedChatClick} isRightDrawerOpen={isRightDrawerOpen} />
 
             <ChatList 
+                isMobileView={isMobileView}
                 passiveChatList={passiveChatList} 
                 activeChatList={activeChatList} 
                 onListChatClick={onSelectedChatClick} 
@@ -349,6 +374,7 @@ export default function GlobalLayout(props) {
             {activeChatList.map((item, idx) => (
                 <ChatBox 
                     key={idx} 
+                    isMobileView={isMobileView}
                     instance={(idx + 1)}
                     sessionUser={sessionUser}
                     selectedChat={selectedChat}

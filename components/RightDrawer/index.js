@@ -54,7 +54,7 @@ export default function RightDrawer(props) {
     <Drawer
       anchor="right"
       variant="permanent"
-      open={true}
+      open={props.isRightDrawerOpen}
       elevation={3}
       PaperProps={{
         style: {
@@ -76,24 +76,28 @@ export default function RightDrawer(props) {
       <List
         subheader={
           <ListSubheader component="div" sx={{...RIGHT_DRAWER.rightDrawerList, backgroundColor: theme.palette.dark.light, color: theme.palette.light.main }}>
-            Birthdays Today
+            {props.isRightDrawerOpen ? 'Birthdays Today' : null}
           </ListSubheader>
         }
       >
         {birthdaysList.map((item, idx) => (
           <ListItem key={idx} disablePadding sx={RIGHT_DRAWER.rightDrawerListItem}>
             <ListItemButton
-              sx={RIGHT_DRAWER.rightDrawerListItemButton}
+              sx={{
+                ...RIGHT_DRAWER.rightDrawerListItemButton,
+                justifyContent: props.isRightDrawerOpen ? "initial" : "center",
+              }}
             >
               <ListItemIcon
                 sx={{
                   ...RIGHT_DRAWER.rightDrawerListItemIcon,
+                  mr: props.isRightDrawerOpen ? 3 : "auto",
                   color: theme.palette.light.main,
                 }}
               >
                 <CakeIcon />
               </ListItemIcon>
-              <ListItemText primary={`${item.name} (${item.office})`} sx={RIGHT_DRAWER.rightDrawerListItemIconText} />
+              <ListItemText primary={`${item.name} (${item.office})`} sx={{ opacity: props.isRightDrawerOpen ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -104,18 +108,22 @@ export default function RightDrawer(props) {
       <List
         subheader={
           <ListSubheader component="div" sx={{...RIGHT_DRAWER.rightDrawerList, backgroundColor: theme.palette.dark.light, color: theme.palette.light.main }}>
-            Friend Chats
+            {props.isRightDrawerOpen ? 'Friend Chats' : null}
           </ListSubheader>
         }
       >
         {friendsList.map((item, idx) => (
           <ListItem key={idx} disablePadding sx={RIGHT_DRAWER.rightDrawerListItem} onClick={(event) => onChatClick(event, item)}>
             <ListItemButton
-              sx={RIGHT_DRAWER.rightDrawerListItemButton}
+              sx={{
+                ...RIGHT_DRAWER.rightDrawerListItemButton,
+                justifyContent: props.isRightDrawerOpen ? "initial" : "center",
+              }}
             >
               <ListItemIcon
                 sx={{
                   ...RIGHT_DRAWER.rightDrawerListItemIcon,
+                  mr: props.isRightDrawerOpen ? 3 : "auto",
                   color: theme.palette.light.main,
                 }}
               >
@@ -133,7 +141,7 @@ export default function RightDrawer(props) {
                   <Avatar alt={item.name} src={item.image} />
                 </StyledBadge>
               </ListItemIcon>
-              <ListItemText primary={item.name} sx={RIGHT_DRAWER.rightDrawerListItemIconText} />
+              <ListItemText primary={item.name} sx={{ opacity: props.isRightDrawerOpen ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -144,18 +152,22 @@ export default function RightDrawer(props) {
       <List
         subheader={
           <ListSubheader component="div" sx={{...RIGHT_DRAWER.rightDrawerList, backgroundColor: theme.palette.dark.light, color: theme.palette.light.main }}>
-            Group Chats
+            {props.isRightDrawerOpen ? 'Group Chats' : null}
           </ListSubheader>
         }
       >
         {groupsList.map((item, idx) => (
           <ListItem key={idx} disablePadding sx={RIGHT_DRAWER.rightDrawerListItem} onClick={(event) => onChatClick(event, item)}>
             <ListItemButton
-              sx={RIGHT_DRAWER.rightDrawerListItemButton}
+              sx={{
+                ...RIGHT_DRAWER.rightDrawerListItemButton,
+                justifyContent: props.isRightDrawerOpen ? "initial" : "center",
+              }}
             >
               <ListItemIcon
                 sx={{
                   ...RIGHT_DRAWER.rightDrawerListItemIcon,
+                  mr: props.isRightDrawerOpen ? 3 : "auto",
                   color: theme.palette.light.main,
                 }}
               >
@@ -173,7 +185,7 @@ export default function RightDrawer(props) {
                   <Avatar alt="Group Avatar" src={item.image} />
                 </StyledBadge>
               </ListItemIcon>
-              <ListItemText primary={item.name} sx={RIGHT_DRAWER.rightDrawerListItemIconText} />
+              <ListItemText primary={item.name} sx={{ opacity: props.isRightDrawerOpen ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
         ))}
