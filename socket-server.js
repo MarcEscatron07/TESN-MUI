@@ -14,6 +14,7 @@ const PORT = 3000;
 /** refer to .env.local for the correct values **/
 
 const clientsList = {};
+const groupsList = {}
 
 app.prepare().then(() => {
   const server = createServer((req, res) => {
@@ -34,6 +35,11 @@ app.prepare().then(() => {
     socket.on('disconnect', () => {
       console.log('Client disconnected! ID:', socket.id);
 
+      for(const key in groupsList) {
+        groupsList[key] = groupsList[key].filter((i) => i != socket.id);
+      }
+      io.emit('groups_list', groupsList);
+
       delete clientsList[socket.id];
       io.emit('clients_list', clientsList);
     });
@@ -44,6 +50,26 @@ app.prepare().then(() => {
       io.emit('clients_list', clientsList);
     });
 
+    socket.on('register_group', ({ groups, clientName }) => {
+      const clientSocketId = Object.keys(clientsList).find((id) => clientsList[id] == clientName);
+
+      if(groups.length > 0) {
+        groups.forEach((item) => {
+          if(!groupsList.hasOwnProperty(item.name)) {
+            groupsList[item.name] = [clientSocketId];
+          } else {
+            const clientIdx = groupsList[item.name] ? groupsList[item.name].indexOf(clientSocketId) : -1;
+
+            if(clientIdx == -1) {
+              groupsList[item.name] ? groupsList[item.name] = [...groupsList[item.name], clientSocketId] : null;
+            }
+          }
+        })
+      }
+      
+      io.emit('groups_list', groupsList);
+    });
+
     socket.on('send_message', ({receiverName}) => {
       const clientSocketId = Object.keys(clientsList).find((id) => clientsList[id] == receiverName);
 
@@ -51,8 +77,11 @@ app.prepare().then(() => {
         io.to(socket.id).emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName });
         io.to(clientSocketId).emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName });
       } else {
-        // temporary way to trigger reload of group chat
-        io.emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName });
+        if(groupsList.hasOwnProperty(receiverName)) {
+          groupsList[receiverName].forEach((item) => {
+            io.to(item).emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName });
+          })
+        }
       }
     });
   });

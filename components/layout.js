@@ -36,6 +36,10 @@ export default function GlobalLayout(props) {
             console.log('GlobalLayout > clientsList', clientsList)
         });
 
+        socket.on('groups_list', (groupsList) => {
+            console.log('GlobalLayout > groupsList', groupsList)
+        });
+
         fetchSessionStorage();
     }, [])
 
@@ -44,6 +48,7 @@ export default function GlobalLayout(props) {
 
     useEffect(() => {
         // console.log('GlobalLayout > sessionUser', sessionUser)
+
         if(sessionUser.id != -1) {
             socket.emit('register_client', sessionUser.name);
 
@@ -58,6 +63,19 @@ export default function GlobalLayout(props) {
     useEffect(() => {
         // console.log('GlobalLayout > sessionFriends', sessionFriends)
     }, [sessionFriends])
+
+    useEffect(() => {
+        // console.log('GlobalLayout > sessionGroups', sessionGroups)
+    }, [sessionGroups])
+    
+    useEffect(() => {
+        console.log('GlobalLayout > sessionGroups', sessionGroups)
+        console.log('GlobalLayout > sessionUser', sessionUser)
+
+        if(sessionGroups.length > 0) {
+            socket.emit('register_group', { groups: sessionGroups, clientName: sessionUser.name })
+        }
+    }, [sessionGroups, sessionUser])
 
     useEffect(() => {
         // console.log('GlobalLayout > selectedChat', selectedChat)
@@ -124,6 +142,9 @@ export default function GlobalLayout(props) {
     }
 
     async function getChatThread(userId, data) {
+        console.log('getChatThread > userId', userId)
+        console.log('getChatThread > data', data)
+
         const promisesList = data.map((item) => getThread(`userId=${userId}&chatId=${item.id}&chatType=${item.type}`));
         const promisesResList = await Promise.all(promisesList);
         // console.log('getChatThread > multiple > res', promisesResList)
