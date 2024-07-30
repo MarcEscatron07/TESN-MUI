@@ -15,6 +15,8 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 
 import CakeIcon from '@mui/icons-material/Cake';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 import { DrawerHeader, Drawer, StyledBadge } from "@/components/function";
 import { RIGHT_DRAWER } from '@/components/styles';
@@ -22,6 +24,7 @@ import { RIGHT_DRAWER } from '@/components/styles';
 export default function RightDrawer(props) {
   const theme = useTheme();
 
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [friendsList, setFriendsList] = useState([]);
   const [groupsList, setGroupsList] = useState([]);
 
@@ -52,6 +55,10 @@ export default function RightDrawer(props) {
       props.onDrawerChatClick(value);
     }
   }
+  
+  const onToggleMobileDrawerClick = (event) => {
+    setIsMobileDrawerOpen(!isMobileDrawerOpen);
+  }
 
   return (
     <>
@@ -62,22 +69,43 @@ export default function RightDrawer(props) {
             sx={{ 
               position: 'fixed', 
               bottom: 0, 
-              height: `${props.menuBarHeight}px`, 
+              height: `${props.menuBarHeight + 10}px`, 
               width: '100%', 
               zIndex: 1200, 
               borderRadius: 0, 
+              py: 1,
               backgroundColor: theme.palette.dark.light, 
-              color: theme.palette.light.main 
+              color: theme.palette.light.main,
             }}
           >
             <Box 
               sx={{ 
+                position: 'relative',
                 display: 'flex', 
                 flexDirection: 'row', 
                 alignItems: 'center', 
-                justifyContent: 'center' 
+                justifyContent: 'center',
               }}
             >
+              <span 
+                style={{
+                  cursor: 'pointer',
+                  position: 'absolute', 
+                  top: -20, 
+                  left: 8,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 50,
+                  width: '30px',
+                  backgroundColor: theme.palette.secondary.main,
+                  color: theme.palette.secondary.contrastText
+                }}
+                onClick={onToggleMobileDrawerClick}
+              >
+                {isMobileDrawerOpen ? (<ExpandLessIcon />) : (<ExpandMoreIcon />)}
+              </span>
+
               <List
                 sx={{
                   display: 'flex',

@@ -64,7 +64,7 @@ export default function ChatBox(props) {
     const [chatAttachments, setChatAttachments] = useState([]);
 
     const chatBoxWidth = props.isMobileView ? '255px' : '310px';
-    const chatBoxBotPos = props.isMobileView ? 55 : 0;
+    const chatBoxBotPos = props.isMobileView ? 65 : 0;
     const chatBoxRightPos = props.isMobileView ? 5 : 285;
 
     useEffect(() => {
