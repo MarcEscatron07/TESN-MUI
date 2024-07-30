@@ -14,6 +14,8 @@ export default function GlobalLayout(props) {
     const viewBreakpoint = 992;
     const maxActiveChatCnt = 2;
     const maxPassiveChatCnt = 6
+    const appBarHeight = 65;
+    const menuBarHeight = 55;
 
     const [isLoading, setIsLoading] = useState(props.isLoading);
     const [sessionUser, setSessionUser] = useState({
@@ -401,15 +403,15 @@ export default function GlobalLayout(props) {
 
             <CssBaseline />
 
-            <TopAppBar isMobileView={isMobileView} sessionUser={sessionUser} onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
+            <TopAppBar appBarHeight={appBarHeight} isMobileView={isMobileView} sessionUser={sessionUser} onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
 
-            <LeftDrawer isMobileView={isMobileView} sessionNav={sessionNav} onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
+            <LeftDrawer appBarHeight={appBarHeight} menuBarHeight={menuBarHeight} isMobileView={isMobileView} sessionNav={sessionNav} onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
 
             <Box sx={{paddingTop: isMobileView ? '55px' : 'unset'}}>
                 {props.children}
             </Box>
 
-            <RightDrawer isMobileView={isMobileView} sessionFriends={sessionFriends} sessionGroups={sessionGroups} onDrawerChatClick={onSelectedChatClick} isRightDrawerOpen={isRightDrawerOpen} />
+            <RightDrawer menuBarHeight={menuBarHeight} isMobileView={isMobileView} sessionFriends={sessionFriends} sessionGroups={sessionGroups} onDrawerChatClick={onSelectedChatClick} isRightDrawerOpen={isRightDrawerOpen} />
 
             <ChatList 
                 isMobileView={isMobileView}

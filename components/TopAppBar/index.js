@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useTheme } from "@mui/material/styles";
 
 import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Badge from "@mui/material/Badge";
@@ -152,7 +153,18 @@ export default function TopAppBar(props) {
 
     return (
         <>
-            <AppBar position="fixed" elevation={props.isMobileView ? 2 : 4} open={props.isLeftDrawerOpen} sx={{ height: 65, backgroundColor: theme.palette.primary.light }}>
+            <Paper 
+                elevation={4} 
+                sx={{ 
+                    position: 'fixed', 
+                    height: props.appBarHeight, 
+                    width: '100%', 
+                    zIndex: 1200, 
+                    borderRadius: 0, 
+                    backgroundColor: theme.palette.primary.light, 
+                }}
+            />
+            <AppBar position="fixed" elevation={props.isMobileView ? 2 : 4} open={props.isLeftDrawerOpen} sx={{ height: props.appBarHeight, backgroundColor: theme.palette.primary.light }}>
                 <Toolbar sx={TOP_APP_BAR.topAppBarToolbar}>
                     {!props.isMobileView ? (
                         <IconButton

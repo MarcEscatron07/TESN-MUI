@@ -98,12 +98,11 @@ export default function LeftDrawer(props) {
       {props.isMobileView ? (
         <>
           <Paper 
-            open={props.isLeftDrawerOpen} 
             elevation={4} 
             sx={{ 
               position: 'fixed', 
-              top: 65, 
-              height: '55px', 
+              top: props.appBarHeight, 
+              height: `${props.menuBarHeight}px`, 
               width: '100%', 
               zIndex: 1200, 
               borderRadius: 0, 

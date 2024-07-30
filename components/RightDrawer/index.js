@@ -58,12 +58,11 @@ export default function RightDrawer(props) {
       {props.isMobileView ? (
         <>
           <Paper 
-            open={props.isRightDrawerOpen} 
             elevation={4} 
             sx={{ 
               position: 'fixed', 
               bottom: 0, 
-              height: '55px', 
+              height: `${props.menuBarHeight}px`, 
               width: '100%', 
               zIndex: 1200, 
               borderRadius: 0, 
