@@ -34,6 +34,9 @@ export default function ChatList(props) {
   }, [])
 
   useEffect(() => {
+  }, [props.isRightDrawerMobileOpen])
+
+  useEffect(() => {
     setPasChatList(props.passiveChatList);
   }, [props.passiveChatList])
 
@@ -73,7 +76,7 @@ export default function ChatList(props) {
     <div 
       className="chat-list" 
       style={{ 
-        bottom: chatListBotPos, 
+        bottom: props.isRightDrawerMobileOpen ? chatListBotPos : (chatListBotPos-50), 
         left: chatListLeftPos 
       }}
     >

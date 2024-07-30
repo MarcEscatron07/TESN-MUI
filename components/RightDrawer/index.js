@@ -24,7 +24,6 @@ import { RIGHT_DRAWER } from '@/components/styles';
 export default function RightDrawer(props) {
   const theme = useTheme();
 
-  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [friendsList, setFriendsList] = useState([]);
   const [groupsList, setGroupsList] = useState([]);
 
@@ -50,6 +49,9 @@ export default function RightDrawer(props) {
     setGroupsList(props.sessionGroups);
   }, [props.sessionGroups]);
 
+  useEffect(() => {
+  }, [props.isRightDrawerMobileOpen]);
+
   const onChatClick = (event, value) => {
     if (props.onDrawerChatClick) {
       props.onDrawerChatClick(value);
@@ -57,7 +59,9 @@ export default function RightDrawer(props) {
   }
   
   const onToggleMobileDrawerClick = (event) => {
-    setIsMobileDrawerOpen(!isMobileDrawerOpen);
+    if(props.onMobileDrawerToggleClick) {
+      props.onMobileDrawerToggleClick(!props.isRightDrawerMobileOpen);
+    }
   }
 
   return (
@@ -68,7 +72,7 @@ export default function RightDrawer(props) {
             elevation={4} 
             sx={{ 
               position: 'fixed', 
-              bottom: 0, 
+              bottom: props.isRightDrawerMobileOpen ? 0 : -52, 
               height: `${props.menuBarHeight + 10}px`, 
               width: '100%', 
               zIndex: 1200, 
@@ -103,7 +107,7 @@ export default function RightDrawer(props) {
                 }}
                 onClick={onToggleMobileDrawerClick}
               >
-                {isMobileDrawerOpen ? (<ExpandLessIcon />) : (<ExpandMoreIcon />)}
+                {props.isRightDrawerMobileOpen ? (<ExpandMoreIcon />) : (<ExpandLessIcon />)}
               </span>
 
               <List

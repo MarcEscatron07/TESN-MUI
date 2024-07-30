@@ -74,6 +74,9 @@ export default function ChatBox(props) {
     }, [props.isMobileView])
 
     useEffect(() => {
+    }, [props.isRightDrawerMobileOpen])
+
+    useEffect(() => {
         // console.log('ChatBox > props.sessionUser', props.sessionUser)
 
         setUserData(props.sessionUser);
@@ -364,7 +367,7 @@ export default function ChatBox(props) {
             className="chat-box" 
             style={{
                 width: chatBoxWidth, 
-                bottom: chatBoxBotPos, 
+                bottom: props.isRightDrawerMobileOpen ? chatBoxBotPos : (chatBoxBotPos-52), 
                 right: props.instance > 1 ? chatBoxRightPos + (320 * (props.instance - 1)) : chatBoxRightPos 
             }}
         >

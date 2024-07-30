@@ -30,6 +30,7 @@ export default function GlobalLayout(props) {
     const [isMobileView, setIsMobileView] = useState(window.innerWidth < viewBreakpoint ? true : false);
     const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(true);
     const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(true);
+    const [isRightDrawerMobileOpen, setIsRightDrawerMobileOpen] = useState(true);
     const [selectedChat, setSelectedChat] = useState(null);
     const [activeChatList, setActiveChatList] = useState([]);
     const [passiveChatList, setPassiveChatList] = useState([]);
@@ -396,6 +397,10 @@ export default function GlobalLayout(props) {
         }
     }
 
+    const onMobileRightDrawerClick = (value) => {
+        setIsRightDrawerMobileOpen(value);
+    }
+
     return (
         <Box component="main" sx={GLOBAL.globalMainContainer}>
             {isLoading ? <Loader /> : null}
@@ -403,18 +408,41 @@ export default function GlobalLayout(props) {
 
             <CssBaseline />
 
-            <TopAppBar appBarHeight={appBarHeight} isMobileView={isMobileView} sessionUser={sessionUser} onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
+            <TopAppBar 
+                appBarHeight={appBarHeight} 
+                isMobileView={isMobileView} 
+                sessionUser={sessionUser} 
+                isLeftDrawerOpen={isLeftDrawerOpen} 
+                onDrawerToggleClick={onDrawerToggleClick} 
+            />
 
-            <LeftDrawer appBarHeight={appBarHeight} menuBarHeight={menuBarHeight} isMobileView={isMobileView} sessionNav={sessionNav} onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
+            <LeftDrawer 
+                appBarHeight={appBarHeight} 
+                menuBarHeight={menuBarHeight} 
+                isMobileView={isMobileView} 
+                sessionNav={sessionNav} 
+                isLeftDrawerOpen={isLeftDrawerOpen} 
+                onDrawerToggleClick={onDrawerToggleClick} 
+            />
 
             <Box sx={{paddingTop: isMobileView ? '55px' : 'unset'}}>
                 {props.children}
             </Box>
 
-            <RightDrawer menuBarHeight={menuBarHeight} isMobileView={isMobileView} sessionFriends={sessionFriends} sessionGroups={sessionGroups} onDrawerChatClick={onSelectedChatClick} isRightDrawerOpen={isRightDrawerOpen} />
+            <RightDrawer 
+                menuBarHeight={menuBarHeight} 
+                isMobileView={isMobileView} 
+                sessionFriends={sessionFriends} 
+                sessionGroups={sessionGroups} 
+                isRightDrawerOpen={isRightDrawerOpen} 
+                isRightDrawerMobileOpen={isRightDrawerMobileOpen}
+                onMobileDrawerToggleClick={onMobileRightDrawerClick} 
+                onDrawerChatClick={onSelectedChatClick} 
+            />
 
             <ChatList 
                 isMobileView={isMobileView}
+                isRightDrawerMobileOpen={isRightDrawerMobileOpen}
                 passiveChatList={passiveChatList} 
                 activeChatList={activeChatList} 
                 onListChatClick={onSelectedChatClick} 
@@ -427,6 +455,7 @@ export default function GlobalLayout(props) {
                 <ChatBox 
                     key={idx} 
                     isMobileView={isMobileView}
+                    isRightDrawerMobileOpen={isRightDrawerMobileOpen}
                     instance={(idx + 1)}
                     sessionUser={sessionUser}
                     selectedChat={selectedChat}
