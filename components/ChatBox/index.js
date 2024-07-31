@@ -64,7 +64,7 @@ export default function ChatBox(props) {
     const [chatAttachments, setChatAttachments] = useState([]);
 
     const chatBoxWidth = props.isMobileView ? '255px' : '310px';
-    const chatBoxBotPos = props.isMobileView ? 63 : 0;
+    const chatBoxBotPos = props.isMobileView ? props.isRightDrawerMobileOpen ? 63 : (63-52) : 0;
     const chatBoxRightPos = props.isMobileView ? 5 : 285;
 
     useEffect(() => {
@@ -367,7 +367,7 @@ export default function ChatBox(props) {
             className="chat-box" 
             style={{
                 width: chatBoxWidth, 
-                bottom: props.isRightDrawerMobileOpen ? chatBoxBotPos : (chatBoxBotPos-52), 
+                bottom: chatBoxBotPos, 
                 right: props.instance > 1 ? chatBoxRightPos + (320 * (props.instance - 1)) : chatBoxRightPos 
             }}
         >
