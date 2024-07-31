@@ -28,6 +28,7 @@ export default function GlobalLayout(props) {
     const [sessionGroups, setSessionGroups] = useState([]);
     
     const [isMobileView, setIsMobileView] = useState(window.innerWidth < viewBreakpoint ? true : false);
+    const [isMobilePortrait, setIsMobilePortrait] = useState(window.matchMedia("(orientation: portrait)").matches ? true : false);
     const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(true);
     const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(true);
     const [isRightDrawerMobileOpen, setIsRightDrawerMobileOpen] = useState(true);
@@ -41,9 +42,11 @@ export default function GlobalLayout(props) {
     const [maxPassiveChatCount, setMaxPassiveChatCount] = useState(maxPassiveChatCnt);
 
     useEffect(() => {
-        checkWindowWidth();
+        checkMobileView();
+        checkMobileOrientation(window.matchMedia("(orientation: portrait)").matches);
 
-        window.addEventListener('resize', checkWindowWidth)
+        window.addEventListener('resize', checkMobileView);
+        window.matchMedia("(orientation: portrait)").addEventListener("change", (e) => checkMobileOrientation(e.matches));
 
         socket.on('clients_list', (clientsList) => {
             console.log('GlobalLayout > clientsList', clientsList)
@@ -56,7 +59,7 @@ export default function GlobalLayout(props) {
         fetchSessionStorage();
 
         return () => {
-            window.removeEventListener('resize', checkWindowWidth)
+            window.removeEventListener('resize', checkMobileView)
         }
     }, [])
 
@@ -141,6 +144,10 @@ export default function GlobalLayout(props) {
     }, [isMobileView])
 
     useEffect(() => {
+        // console.log('GlobalLayout > isMobilePortrait', isMobilePortrait)
+    }, [isMobilePortrait])
+
+    useEffect(() => {
         // console.log('GlobalLayout > selectedChat', selectedChat)
     }, [selectedChat])
 
@@ -177,8 +184,12 @@ export default function GlobalLayout(props) {
         // console.log('GlobalLayout > maxPassiveChatCount', maxPassiveChatCount)
     }, [maxPassiveChatCount])
 
-    function checkWindowWidth() {
+    function checkMobileView() {
         setIsMobileView(window.innerWidth < viewBreakpoint ? true : false);
+    }
+
+    function checkMobileOrientation(value) {
+        setIsMobilePortrait(value ? true : false);
     }
 
     async function fetchSessionStorage() {
@@ -455,6 +466,7 @@ export default function GlobalLayout(props) {
                 <ChatBox 
                     key={idx} 
                     isMobileView={isMobileView}
+                    isMobilePortrait={isMobilePortrait}
                     isRightDrawerMobileOpen={isRightDrawerMobileOpen}
                     instance={(idx + 1)}
                     sessionUser={sessionUser}

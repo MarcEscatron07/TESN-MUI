@@ -63,6 +63,7 @@ export default function ChatBox(props) {
     const [chatMessage, setChatMessage] = useState('');
     const [chatAttachments, setChatAttachments] = useState([]);
 
+    const chatBoxHeight = props.isMobileView ? props.isMobilePortrait ? '395px' : '365px' : '450px';
     const chatBoxWidth = props.isMobileView ? '255px' : '310px';
     const chatBoxBotPos = props.isMobileView ? props.isRightDrawerMobileOpen ? 63 : (63-52) : 0;
     const chatBoxRightPos = props.isMobileView ? 5 : 285;
@@ -72,6 +73,9 @@ export default function ChatBox(props) {
 
     useEffect(() => {
     }, [props.isMobileView])
+
+    useEffect(() => {
+    }, [props.isMobilePortrait])
 
     useEffect(() => {
     }, [props.isRightDrawerMobileOpen])
@@ -366,6 +370,7 @@ export default function ChatBox(props) {
         <div 
             className="chat-box" 
             style={{
+                height: chatBoxHeight,
                 width: chatBoxWidth, 
                 bottom: chatBoxBotPos, 
                 right: props.instance > 1 ? chatBoxRightPos + (320 * (props.instance - 1)) : chatBoxRightPos 
