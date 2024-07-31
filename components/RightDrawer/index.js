@@ -73,11 +73,11 @@ export default function RightDrawer(props) {
             sx={{ 
               position: 'fixed', 
               bottom: props.isRightDrawerMobileOpen ? 0 : -52, 
-              height: `${props.menuBarHeight + 10}px`, 
+              height: `${props.menuBarHeight + 8}px`, 
               width: '100%', 
               zIndex: 1200, 
               borderRadius: 0, 
-              py: 1,
+              py: 1.5,
               backgroundColor: theme.palette.dark.light, 
               color: theme.palette.light.main,
             }}
@@ -95,7 +95,7 @@ export default function RightDrawer(props) {
                 style={{
                   cursor: 'pointer',
                   position: 'absolute', 
-                  top: -20, 
+                  top: -24, 
                   left: 8,
                   display: 'flex',
                   justifyContent: 'center',
@@ -207,7 +207,7 @@ export default function RightDrawer(props) {
 
           <Divider sx={{ backgroundColor: theme.palette.dark.main }} />
 
-          <List
+          {/* <List
             subheader={
               <ListSubheader component="div" sx={{ ...RIGHT_DRAWER.rightDrawerList, backgroundColor: theme.palette.dark.light, color: theme.palette.light.main }}>
                 {props.isRightDrawerOpen ? 'Birthdays Today' : null}
@@ -235,9 +235,9 @@ export default function RightDrawer(props) {
                 </ListItemButton>
               </ListItem>
             ))}
-          </List>
+          </List> */}
 
-          <Divider sx={{ backgroundColor: theme.palette.light.dark }} />
+          {/* <Divider sx={{ backgroundColor: theme.palette.light.dark }} /> */}
 
           <List
             subheader={
