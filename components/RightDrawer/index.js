@@ -15,6 +15,8 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 
 import CakeIcon from '@mui/icons-material/Cake';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 import { DrawerHeader, Drawer, StyledBadge } from "@/components/function";
 import { RIGHT_DRAWER } from '@/components/styles';
@@ -47,9 +49,18 @@ export default function RightDrawer(props) {
     setGroupsList(props.sessionGroups);
   }, [props.sessionGroups]);
 
+  useEffect(() => {
+  }, [props.isRightDrawerMobileOpen]);
+
   const onChatClick = (event, value) => {
     if (props.onDrawerChatClick) {
       props.onDrawerChatClick(value);
+    }
+  }
+  
+  const onToggleMobileDrawerClick = (event) => {
+    if(props.onMobileDrawerToggleClick) {
+      props.onMobileDrawerToggleClick(!props.isRightDrawerMobileOpen);
     }
   }
 
@@ -58,27 +69,47 @@ export default function RightDrawer(props) {
       {props.isMobileView ? (
         <>
           <Paper 
-            open={props.isRightDrawerOpen} 
             elevation={4} 
             sx={{ 
               position: 'fixed', 
-              bottom: 0, 
-              height: '55px', 
+              bottom: props.isRightDrawerMobileOpen ? 0 : -52, 
+              height: `${props.menuBarHeight + 8}px`, 
               width: '100%', 
               zIndex: 1200, 
               borderRadius: 0, 
+              py: 1.5,
               backgroundColor: theme.palette.dark.light, 
-              color: theme.palette.light.main 
+              color: theme.palette.light.main,
             }}
           >
             <Box 
               sx={{ 
+                position: 'relative',
                 display: 'flex', 
                 flexDirection: 'row', 
                 alignItems: 'center', 
-                justifyContent: 'center' 
+                justifyContent: 'center',
               }}
             >
+              <span 
+                style={{
+                  cursor: 'pointer',
+                  position: 'absolute', 
+                  top: -24, 
+                  left: 8,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 50,
+                  width: '30px',
+                  backgroundColor: theme.palette.secondary.main,
+                  color: theme.palette.secondary.contrastText
+                }}
+                onClick={onToggleMobileDrawerClick}
+              >
+                {props.isRightDrawerMobileOpen ? (<ExpandMoreIcon />) : (<ExpandLessIcon />)}
+              </span>
+
               <List
                 sx={{
                   display: 'flex',
@@ -176,7 +207,7 @@ export default function RightDrawer(props) {
 
           <Divider sx={{ backgroundColor: theme.palette.dark.main }} />
 
-          <List
+          {/* <List
             subheader={
               <ListSubheader component="div" sx={{ ...RIGHT_DRAWER.rightDrawerList, backgroundColor: theme.palette.dark.light, color: theme.palette.light.main }}>
                 {props.isRightDrawerOpen ? 'Birthdays Today' : null}
@@ -204,9 +235,9 @@ export default function RightDrawer(props) {
                 </ListItemButton>
               </ListItem>
             ))}
-          </List>
+          </List> */}
 
-          <Divider sx={{ backgroundColor: theme.palette.light.dark }} />
+          {/* <Divider sx={{ backgroundColor: theme.palette.light.dark }} /> */}
 
           <List
             subheader={

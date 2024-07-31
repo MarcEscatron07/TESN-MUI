@@ -28,9 +28,10 @@ import AttachmentIcon from '@mui/icons-material/Attachment';
 import AddReactionIcon from '@mui/icons-material/AddReaction';
 import SendIcon from '@mui/icons-material/Send';
 import LinkIcon from '@mui/icons-material/Link';
+import PreviewIcon from '@mui/icons-material/Preview';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faRectangleXmark, faFile } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faRectangleXmark, faFile, faMagnifyingGlassPlus } from "@fortawesome/free-solid-svg-icons";
 
 import { StyledBadge } from "@/components/function";
 import { CHAT_BOX } from '@/components/styles';
@@ -63,8 +64,9 @@ export default function ChatBox(props) {
     const [chatMessage, setChatMessage] = useState('');
     const [chatAttachments, setChatAttachments] = useState([]);
 
-    const chatBoxWidth = props.isMobileView ? '255px' : '310px';
-    const chatBoxBotPos = props.isMobileView ? 55 : 0;
+    const chatBoxHeight = props.isMobileView ? props.isMobilePortrait ? '395px' : '365px' : '450px';
+    const chatBoxWidth = props.isMobileView ? '265px' : '310px';
+    const chatBoxBotPos = props.isMobileView ? props.isRightDrawerMobileOpen ? 63 : (63-52) : 0;
     const chatBoxRightPos = props.isMobileView ? 5 : 285;
 
     useEffect(() => {
@@ -72,6 +74,12 @@ export default function ChatBox(props) {
 
     useEffect(() => {
     }, [props.isMobileView])
+
+    useEffect(() => {
+    }, [props.isMobilePortrait])
+
+    useEffect(() => {
+    }, [props.isRightDrawerMobileOpen])
 
     useEffect(() => {
         // console.log('ChatBox > props.sessionUser', props.sessionUser)
@@ -293,7 +301,12 @@ export default function ChatBox(props) {
                 >
                     {item.attachments && item.attachments.length > 0 ? (
                         <Box className="chat-box-message-attachments">
-                            {item.attachments.map((atchItem, atchIdx) => renderAttachmentItemByType(atchItem, atchIdx, atchItem?.type))}
+                            {item.attachments.map((atchItem, atchIdx) => (
+                                <>
+                                    {renderAttachmentActionByType(atchItem, atchIdx, atchItem?.type)}
+                                    {renderAttachmentItemByType(atchItem, atchIdx, atchItem?.type)}
+                                </>
+                            ))}
                         </Box>
                     ) : null}
                     <Box className="chat-box-message-text">{parseStringToHtml(item.message)}</Box>
@@ -332,15 +345,35 @@ export default function ChatBox(props) {
         ) : null;
     }
 
+    function renderAttachmentActionByType(item, key, type) {
+        if (type && (type.includes('image') || type.includes('video'))) {
+            return (
+                <>
+                    {props.isMobileView ? (
+                        <span key={key} className="attachment-thumbnail-action" onClick={(event) => onMessageAttachmentClick(event, item)}>
+                            <PreviewIcon />
+                        </span>
+                    ) : null}
+                </>
+            )
+        }
+    }
+
     function renderAttachmentItemByType(item, key, type) {
         if (type && type.includes('image')) {
-            return (<img key={key} className="attachment-thumbnail-item" src={`./attachments/${item?.name}`} onClick={(event) => onMessageAttachmentClick(event, item)} />);
+            return (
+                <>
+                    <img key={key} className="attachment-thumbnail-item" src={`./attachments/${item?.name}`} onClick={(event) => !props.isMobileView ? onMessageAttachmentClick(event, item) : null} />
+                </>
+            );
         }
         if (type && type.includes('video')) {
             return (
-                <video key={key} className="attachment-thumbnail-item" onClick={(event) => onMessageAttachmentClick(event, item)} autoPlay controls muted>
-                    <source src={`./attachments/${item?.name}`} />
-                </video>
+                <>
+                    <video key={key} className="attachment-thumbnail-item" onClick={(event) => !props.isMobileView ?onMessageAttachmentClick(event, item) : null} autoPlay controls muted>
+                        <source src={`./attachments/${item?.name}`} />
+                    </video>
+                </>
             )
         }
 
@@ -363,6 +396,7 @@ export default function ChatBox(props) {
         <div 
             className="chat-box" 
             style={{
+                height: chatBoxHeight,
                 width: chatBoxWidth, 
                 bottom: chatBoxBotPos, 
                 right: props.instance > 1 ? chatBoxRightPos + (320 * (props.instance - 1)) : chatBoxRightPos 

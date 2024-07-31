@@ -121,7 +121,6 @@ export const CHAT_LIST = {
     },
     chatListFabClose: {
         position: 'absolute',
-        top: -5,
         right: 0,
         display: 'flex',
         alignItems: 'center',
@@ -130,7 +129,7 @@ export const CHAT_LIST = {
         borderRadius: 50
     },
     chatListOption: {
-        mb: 1.5
+        mb: .5
     },
     chatListPopoverBox: {
         display: 'flex',

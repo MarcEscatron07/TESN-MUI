@@ -66,7 +66,6 @@ body {
 
 .chat-box {
   position: fixed;
-  height: 450px;
   z-index: 99995;
 }
 .chat-box .chat-box-content {
@@ -106,10 +105,25 @@ body {
   border-radius: 10px;
 }
 .chat-box .chat-box-content .chat-box-message .chat-box-message-attachments {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+.chat-box .chat-box-content .chat-box-message .chat-box-message-attachments .attachment-thumbnail-action {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FBD11A;
+  color: #000000;
+  border-radius: 50px;
+  padding: 2px 4px;
+  font-size: 1rem;
+  z-index: 10;
 }
 .chat-box .chat-box-content .chat-box-message .chat-box-message-attachments .attachment-thumbnail-item {
   cursor: pointer;
@@ -129,7 +143,7 @@ body {
   border-radius: 10px;
   background-color: #DDDDDD;
   color: #000000;
-  word-wrap: break-word;
+  word-break: break-all;
   font-size: 0.85rem;
   margin: 5px;
   border: 2px solid #DDDDDD;
@@ -254,7 +268,7 @@ body {
   background-color: rgba(0, 0, 0, 0.8);
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
-  padding: 0rem 3rem;
+  padding: 0rem 0.5rem;
   z-index: 99998;
 }
 .view-attachment .view-attachment-container {
@@ -288,7 +302,7 @@ body {
   width: 100%;
   padding-top: 2rem;
   padding-bottom: 2rem;
-  overflow-x: hidden;
+  overflow-x: auto;
   overflow-y: auto;
 }
 .view-attachment .view-attachment-container .view-attachment-body::-webkit-scrollbar {

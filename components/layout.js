@@ -14,6 +14,8 @@ export default function GlobalLayout(props) {
     const viewBreakpoint = 992;
     const maxActiveChatCnt = 2;
     const maxPassiveChatCnt = 6
+    const appBarHeight = 65;
+    const menuBarHeight = 55;
 
     const [isLoading, setIsLoading] = useState(props.isLoading);
     const [sessionUser, setSessionUser] = useState({
@@ -26,8 +28,10 @@ export default function GlobalLayout(props) {
     const [sessionGroups, setSessionGroups] = useState([]);
     
     const [isMobileView, setIsMobileView] = useState(window.innerWidth < viewBreakpoint ? true : false);
+    const [isMobilePortrait, setIsMobilePortrait] = useState(window.matchMedia("(orientation: portrait)").matches ? true : false);
     const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(true);
     const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(true);
+    const [isRightDrawerMobileOpen, setIsRightDrawerMobileOpen] = useState(true);
     const [selectedChat, setSelectedChat] = useState(null);
     const [activeChatList, setActiveChatList] = useState([]);
     const [passiveChatList, setPassiveChatList] = useState([]);
@@ -38,9 +42,11 @@ export default function GlobalLayout(props) {
     const [maxPassiveChatCount, setMaxPassiveChatCount] = useState(maxPassiveChatCnt);
 
     useEffect(() => {
-        checkWindowWidth();
+        checkMobileView();
+        checkMobileOrientation(window.matchMedia("(orientation: portrait)").matches);
 
-        window.addEventListener('resize', checkWindowWidth)
+        window.addEventListener('resize', checkMobileView);
+        window.matchMedia("(orientation: portrait)").addEventListener("change", (e) => checkMobileOrientation(e.matches));
 
         socket.on('clients_list', (clientsList) => {
             console.log('GlobalLayout > clientsList', clientsList)
@@ -53,7 +59,7 @@ export default function GlobalLayout(props) {
         fetchSessionStorage();
 
         return () => {
-            window.removeEventListener('resize', checkWindowWidth)
+            window.removeEventListener('resize', checkMobileView)
         }
     }, [])
 
@@ -96,7 +102,7 @@ export default function GlobalLayout(props) {
 
         if(isMobileView) {
             setMaxActiveChatCount(maxActiveChatCnt-1);
-            setMaxPassiveChatCount(maxPassiveChatCnt+1);
+            setMaxPassiveChatCount(maxPassiveChatCnt-maxActiveChatCnt);
 
             let activeChatArr = [...activeChatList];
             /** PASSIVE CHAT LIST LOGIC **/
@@ -107,7 +113,7 @@ export default function GlobalLayout(props) {
                 passiveChatArr.unshift(activeChatArr[activeChatArr.length-1]);
             }
 
-            if(passiveChatArr.length > (maxPassiveChatCnt+1)) {
+            if(passiveChatArr.length > (maxPassiveChatCnt-maxActiveChatCnt)) {
                 pChatIdx == -1 ? passiveChatArr.pop() : null;
             }
 
@@ -136,6 +142,10 @@ export default function GlobalLayout(props) {
             props.onMobileView(isMobileView);
         }
     }, [isMobileView])
+
+    useEffect(() => {
+        // console.log('GlobalLayout > isMobilePortrait', isMobilePortrait)
+    }, [isMobilePortrait])
 
     useEffect(() => {
         // console.log('GlobalLayout > selectedChat', selectedChat)
@@ -174,8 +184,12 @@ export default function GlobalLayout(props) {
         // console.log('GlobalLayout > maxPassiveChatCount', maxPassiveChatCount)
     }, [maxPassiveChatCount])
 
-    function checkWindowWidth() {
+    function checkMobileView() {
         setIsMobileView(window.innerWidth < viewBreakpoint ? true : false);
+    }
+
+    function checkMobileOrientation(value) {
+        setIsMobilePortrait(value ? true : false);
     }
 
     async function fetchSessionStorage() {
@@ -394,6 +408,10 @@ export default function GlobalLayout(props) {
         }
     }
 
+    const onMobileRightDrawerClick = (value) => {
+        setIsRightDrawerMobileOpen(value);
+    }
+
     return (
         <Box component="main" sx={GLOBAL.globalMainContainer}>
             {isLoading ? <Loader /> : null}
@@ -401,18 +419,41 @@ export default function GlobalLayout(props) {
 
             <CssBaseline />
 
-            <TopAppBar isMobileView={isMobileView} sessionUser={sessionUser} onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
+            <TopAppBar 
+                appBarHeight={appBarHeight} 
+                isMobileView={isMobileView} 
+                sessionUser={sessionUser} 
+                isLeftDrawerOpen={isLeftDrawerOpen} 
+                onDrawerToggleClick={onDrawerToggleClick} 
+            />
 
-            <LeftDrawer isMobileView={isMobileView} sessionNav={sessionNav} onDrawerToggleClick={onDrawerToggleClick} isLeftDrawerOpen={isLeftDrawerOpen} />
+            <LeftDrawer 
+                appBarHeight={appBarHeight} 
+                menuBarHeight={menuBarHeight} 
+                isMobileView={isMobileView} 
+                sessionNav={sessionNav} 
+                isLeftDrawerOpen={isLeftDrawerOpen} 
+                onDrawerToggleClick={onDrawerToggleClick} 
+            />
 
             <Box sx={{paddingTop: isMobileView ? '55px' : 'unset'}}>
                 {props.children}
             </Box>
 
-            <RightDrawer isMobileView={isMobileView} sessionFriends={sessionFriends} sessionGroups={sessionGroups} onDrawerChatClick={onSelectedChatClick} isRightDrawerOpen={isRightDrawerOpen} />
+            <RightDrawer 
+                menuBarHeight={menuBarHeight} 
+                isMobileView={isMobileView} 
+                sessionFriends={sessionFriends} 
+                sessionGroups={sessionGroups} 
+                isRightDrawerOpen={isRightDrawerOpen} 
+                isRightDrawerMobileOpen={isRightDrawerMobileOpen}
+                onMobileDrawerToggleClick={onMobileRightDrawerClick} 
+                onDrawerChatClick={onSelectedChatClick} 
+            />
 
             <ChatList 
                 isMobileView={isMobileView}
+                isRightDrawerMobileOpen={isRightDrawerMobileOpen}
                 passiveChatList={passiveChatList} 
                 activeChatList={activeChatList} 
                 onListChatClick={onSelectedChatClick} 
@@ -425,6 +466,8 @@ export default function GlobalLayout(props) {
                 <ChatBox 
                     key={idx} 
                     isMobileView={isMobileView}
+                    isMobilePortrait={isMobilePortrait}
+                    isRightDrawerMobileOpen={isRightDrawerMobileOpen}
                     instance={(idx + 1)}
                     sessionUser={sessionUser}
                     selectedChat={selectedChat}

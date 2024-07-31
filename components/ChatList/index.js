@@ -27,11 +27,14 @@ export default function ChatList(props) {
   const [fabAvatarIdx, setFabAvatarIdx] = useState(-1);
   const [popoverAnchor, setPopoverAnchor] = useState(null);
 
-  const chatListBotPos = props.isMobileView ? 55 : 0;
+  const chatListBotPos = props.isMobileView ? props.isRightDrawerMobileOpen ? 83 : (83-50) : 0;
   const chatListLeftPos = props.isMobileView ? 5 : 285;
 
   useEffect(() => {
   }, [])
+
+  useEffect(() => {
+  }, [props.isRightDrawerMobileOpen])
 
   useEffect(() => {
     setPasChatList(props.passiveChatList);
@@ -106,7 +109,7 @@ export default function ChatList(props) {
           {fabAvatarIdx == idx ? (
             <span 
               aria-label="fab-avatar-close" 
-              style={{ ...CHAT_LIST.chatListFabClose, backgroundColor: theme.palette.secondary.main }} 
+              style={{ ...CHAT_LIST.chatListFabClose, top: props.isMobileView ? -8 : -2, backgroundColor: theme.palette.secondary.main }} 
               onClick={(event) => onRemoveClick(event, item)}
             >
               <FontAwesomeIcon icon={faTimes} size="md" />
