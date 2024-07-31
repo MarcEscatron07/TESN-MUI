@@ -30,22 +30,6 @@ export default function TopAppBar(props) {
     const router = useRouter();
     const theme = useTheme();
 
-    const [userData, setUserData] = useState({
-        id: -1,
-        name: '',
-        image: ''
-    });
-    const [notifsState, setNotifsState] = useState({
-        messages: {
-            count: 0,
-            data: []
-        },
-        notifications: {
-            count: 0,
-            data: []
-        }
-    });
-
     const [menuAnchorEl, setMenuAnchorEl] = useState(null);
     const [mobileMenuAnchorEl, setMobileMenuAnchorEl] = useState(null);
 
@@ -59,8 +43,7 @@ export default function TopAppBar(props) {
     }, []);
 
     useEffect(() => {
-        setUserData(props.sessionUser);
-    }, [props.sessionUser]);
+    }, [props.userData]);
 
     const clearSessionStorage = () => {
         sessionStorage.clear();
@@ -145,7 +128,7 @@ export default function TopAppBar(props) {
         >
             <MenuItem>
                 <IconButton aria-label="topappbar-messages-mobile" size="large" color="inherit">
-                    <Badge badgeContent={notifsState.messages.count} color="error">
+                    <Badge badgeContent={props.userData?.notifs.messages.count} color="error">
                         <ChatIcon />
                     </Badge>
                 </IconButton>
@@ -153,7 +136,7 @@ export default function TopAppBar(props) {
             </MenuItem>
             <MenuItem>
                 <IconButton aria-label="topappbar-notifications-mobile" size="large" color="inherit">
-                    <Badge badgeContent={notifsState.notifications.count} color="error">
+                    <Badge badgeContent={props.userData?.notifs.notifications.count} color="error">
                         <NotificationsIcon />
                     </Badge>
                 </IconButton>
@@ -226,7 +209,7 @@ export default function TopAppBar(props) {
                             color="inherit"
                             sx={TOP_APP_BAR.topAppBarNotificationButtons}
                         >
-                            <Badge badgeContent={notifsState.messages.count} color="error">
+                            <Badge badgeContent={props.userData?.notifs.messages.count} color="error">
                                 <ChatIcon />
                             </Badge>
                         </IconButton>
@@ -236,7 +219,7 @@ export default function TopAppBar(props) {
                             color="inherit"
                             sx={TOP_APP_BAR.topAppBarNotificationButtons}
                         >
-                            <Badge badgeContent={notifsState.notifications.count} color="error">
+                            <Badge badgeContent={props.userData?.notifs.notifications.count} color="error">
                                 <NotificationsIcon />
                             </Badge>
                         </IconButton>
@@ -252,8 +235,8 @@ export default function TopAppBar(props) {
                         >
                             <Stack direction="row" spacing={1}>
                                 <Chip
-                                    avatar={<Avatar alt={userData.name} src={userData.image} />}
-                                    label={userData.name}
+                                    avatar={<Avatar alt={props.userData?.name} src={props.userData?.image} />}
+                                    label={props.userData?.name}
                                     sx={{...TOP_APP_BAR.topAppBarAvatarChip, backgroundColor: theme.palette.secondary.main}}
                                 />
                             </Stack>

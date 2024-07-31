@@ -80,10 +80,14 @@ app.prepare().then(() => {
       if(clientSocketId) {
         io.to(socket.id).emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName });
         io.to(clientSocketId).emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName });
+
+        io.to(clientSocketId).emit('receive_notification');
       } else {
         if(groupsList.hasOwnProperty(receiverName)) {
           groupsList[receiverName].forEach((item) => {
             io.to(item).emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName });
+
+            io.to(item).emit('receive_notification');
           })
         }
       }

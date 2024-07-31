@@ -8,7 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { GLOBAL } from "@/app/styles";
 import { Loader, TopAppBar, LeftDrawer, RightDrawer, ChatBox, ChatList, ViewAttachment } from '@/components';
 import { socket } from '@/components/socket-client';
-import { getChats, getThreads, postThreads, postAttachments, patchChats } from "@/lib/api";
+import { getUsers, getChats, getThreads, postThreads, postAttachments, patchChats, patchUsers } from "@/lib/api";
 
 export default function GlobalLayout(props) {
     const viewBreakpoint = 992;
@@ -18,15 +18,27 @@ export default function GlobalLayout(props) {
     const menuBarHeight = 55;
 
     const [isLayoutLoading, setIsLayoutLoading] = useState(props.isLoading);
-    const [sessionUser, setSessionUser] = useState({
+    const [userData, setUserData] = useState({
         id: -1,
         name: '',
-        image: ''
+        image: '',
+        notifs: {
+            messages: {
+                count: 0,
+                data: []
+            },
+            notifications: {
+                count: 0,
+                data: []
+            }
+        }
     });
+
+    const [sessionUserId, setSessionUserId] = useState(-1);
     const [sessionNav, setSessionNav] = useState('');
     const [sessionFriends, setSessionFriends] = useState([]);
     const [sessionGroups, setSessionGroups] = useState([]);
-    
+
     const [isMobileView, setIsMobileView] = useState(window.innerWidth < viewBreakpoint ? true : false);
     const [isMobilePortrait, setIsMobilePortrait] = useState(window.matchMedia("(orientation: portrait)").matches ? true : false);
     const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(true);
@@ -67,14 +79,30 @@ export default function GlobalLayout(props) {
     }, [props.isLoading])
 
     useEffect(() => {
-        // console.log('GlobalLayout > sessionUser', sessionUser)
+        console.log('GlobalLayout > userData', userData)
 
-        if(sessionUser.id != -1) {
-            socket.emit('register_client', sessionUser.name);
+        if(userData.id != -1) {
+            socket.emit('register_client', userData.name);
 
-            getChatData();
+            getChatData(userData.id);
+
+            socket.on('receive_notification', () => {
+                getChatData(userData.id);
+            });
         }
-    }, [sessionUser])
+    }, [userData])
+
+    useEffect(() => {
+        // console.log('GlobalLayout > sessionUserId', sessionUserId)
+
+        if (sessionUserId != -1) {
+            getUserData(sessionUserId);
+
+            socket.on('receive_notification', () => {
+                getUserData(sessionUserId);
+            });
+        }
+    }, [sessionUserId])
 
     useEffect(() => {
         // console.log('GlobalLayout > sessionNav', sessionNav)
@@ -87,33 +115,33 @@ export default function GlobalLayout(props) {
     useEffect(() => {
         // console.log('GlobalLayout > sessionGroups', sessionGroups)
     }, [sessionGroups])
-    
-    useEffect(() => {
-        console.log('GlobalLayout > sessionGroups', sessionGroups)
-        console.log('GlobalLayout > sessionUser', sessionUser)
 
-        if(sessionGroups.length > 0) {
-            socket.emit('register_group', { groups: sessionGroups, clientName: sessionUser.name })
+    useEffect(() => {
+        // console.log('GlobalLayout > userData', userData)
+        // console.log('GlobalLayout > sessionGroups', sessionGroups)
+
+        if (sessionGroups.length > 0) {
+            socket.emit('register_group', { groups: sessionGroups, clientName: userData.name })
         }
-    }, [sessionGroups, sessionUser])
+    }, [userData, sessionGroups])
 
     useEffect(() => {
         // console.log('GlobalLayout > isMobileView', isMobileView)
 
-        if(isMobileView) {
-            setMaxActiveChatCount(maxActiveChatCnt-1);
-            setMaxPassiveChatCount(maxPassiveChatCnt-maxActiveChatCnt);
+        if (isMobileView) {
+            setMaxActiveChatCount(maxActiveChatCnt - 1);
+            setMaxPassiveChatCount(maxPassiveChatCnt - maxActiveChatCnt);
 
             let activeChatArr = [...activeChatList];
             /** PASSIVE CHAT LIST LOGIC **/
-            let pChatIdx = passiveChatList.map((i) => i.id).indexOf(activeChatArr[activeChatArr.length-1] ?? -1);
+            let pChatIdx = passiveChatList.map((i) => i.id).indexOf(activeChatArr[activeChatArr.length - 1] ?? -1);
             let passiveChatArr = [...passiveChatList].filter((_, idx) => idx != pChatIdx);
 
-            if(activeChatArr.length > (maxActiveChatCnt-1)) {
-                passiveChatArr.unshift(activeChatArr[activeChatArr.length-1]);
+            if (activeChatArr.length > (maxActiveChatCnt - 1)) {
+                passiveChatArr.unshift(activeChatArr[activeChatArr.length - 1]);
             }
 
-            if(passiveChatArr.length > (maxPassiveChatCnt-maxActiveChatCnt)) {
+            if (passiveChatArr.length > (maxPassiveChatCnt - maxActiveChatCnt)) {
                 pChatIdx == -1 ? passiveChatArr.pop() : null;
             }
 
@@ -121,7 +149,7 @@ export default function GlobalLayout(props) {
             setPassiveChatList(passiveChatArr);
             /** PASSIVE CHAT LIST LOGIC **/
 
-            if(activeChatArr.length > (maxActiveChatCnt-1)) {
+            if (activeChatArr.length > (maxActiveChatCnt - 1)) {
                 activeChatArr.pop();
             }
             sessionStorage.setItem('active_chat_data', JSON.stringify(activeChatArr));
@@ -138,7 +166,7 @@ export default function GlobalLayout(props) {
             setIsRightDrawerOpen(true);
         }
 
-        if(props.onMobileView){
+        if (props.onMobileView) {
             props.onMobileView(isMobileView);
         }
     }, [isMobileView])
@@ -162,15 +190,15 @@ export default function GlobalLayout(props) {
     useEffect(() => {
         // console.log('GlobalLayout > socket', socket)
 
-        activeChatList.length > 0 ? getChatThread(sessionUser.id, activeChatList) : null; // on system init
+        activeChatList.length > 0 ? getChatThread(userData.id, activeChatList) : null; // on system init
 
-        socket.on('receive_message', ({senderName, receiverName}) => {
+        socket.on('receive_message', ({ senderName, receiverName }) => {
             console.log('GlobalLayout > receive_message > senderName', senderName)
             console.log('GlobalLayout > receive_message > receiverName', receiverName)
 
-            activeChatList.length > 0 ? getChatThread(sessionUser.id, activeChatList) : null; // on realtime chat
+            activeChatList.length > 0 ? getChatThread(userData.id, activeChatList) : null; // on realtime chat
         });
-    }, [sessionUser, activeChatList])
+    }, [userData, activeChatList])
 
     useEffect(() => {
         setIsLayoutLoading(props.isLoading);
@@ -193,37 +221,75 @@ export default function GlobalLayout(props) {
     }
 
     async function fetchSessionStorage() {
-        sessionStorage.getItem('authuser_data') ? setSessionUser(JSON.parse(sessionStorage.getItem('authuser_data'))) : setSessionUser({
-            id: -1,
-            name: '',
-            image: ''
-        });
-        sessionStorage.getItem('nav_data') ? setSessionNav(sessionStorage.getItem('nav_data')) : setSessionNav('Home');
-        sessionStorage.getItem('active_chat_data') ? setActiveChatList(JSON.parse(sessionStorage.getItem('active_chat_data'))) : setActiveChatList([]);
-        sessionStorage.getItem('passive_chat_data') ? setPassiveChatList(JSON.parse(sessionStorage.getItem('passive_chat_data'))) : setPassiveChatList([]);
+        sessionStorage.getItem('userid_data') ? setSessionUserId(parseInt(sessionStorage.getItem('userid_data'))) : null;
+        sessionStorage.getItem('nav_data') ? setSessionNav(sessionStorage.getItem('nav_data')) : null;
+        sessionStorage.getItem('active_chat_data') ? setActiveChatList(JSON.parse(sessionStorage.getItem('active_chat_data'))) : null;
+        sessionStorage.getItem('passive_chat_data') ? setPassiveChatList(JSON.parse(sessionStorage.getItem('passive_chat_data'))) : null;
     }
 
-    async function getChatData() {
+    async function getUserData(userId) {
+        await getUsers(`userId=${userId}`).then(
+            (res) => {
+                // console.log('getUserData > res', res)
+
+                setUserData(res?.status == 200 && res?.data ? res?.data : {
+                    id: -1,
+                    name: '',
+                    image: '',
+                    notifs: {
+                        messages: {
+                            count: 0,
+                            data: []
+                        },
+                        notifications: {
+                            count: 0,
+                            data: []
+                        }
+                    }
+                });
+            },
+            (err) => {
+                console.log('getUserData > err', err)
+                setUserData({
+                    id: -1,
+                    name: '',
+                    image: '',
+                    notifs: {
+                        messages: {
+                            count: 0,
+                            data: []
+                        },
+                        notifications: {
+                            count: 0,
+                            data: []
+                        }
+                    }
+                });
+            },
+        )
+    }
+
+    async function getChatData(userId) {
         // if(sessionStorage.getItem('chats_data')) {
         //     const chatsObj = JSON.parse(sessionStorage.getItem('chats_data'));
 
         //     setSessionFriends(chatsObj?.friends ?? []);
         //     setSessionGroups(chatsObj?.groups ?? []);
         // } else {
-            await getChats(`userId=${sessionUser.id}`).then(
-                (res) => {
-                    // console.log('getChatData > res', res)
-    
-                    res?.status == 200 && res?.data ? sessionStorage.setItem('chats_data', JSON.stringify(res?.data)) : null;
-                    setSessionFriends(res?.status == 200 && res?.data?.friends ? res?.data?.friends : []);
-                    setSessionGroups(res?.status == 200 && res?.data?.groups ? res?.data?.groups : []);
-                },
-                (err) => {
-                    console.log('getChatData > err', err)
-                    setSessionFriends([]);
-                    setSessionGroups([]);
-                },
-            );
+        await getChats(`userId=${userId}`).then(
+            (res) => {
+                // console.log('getChatData > res', res)
+
+                res?.status == 200 && res?.data ? sessionStorage.setItem('chats_data', JSON.stringify(res?.data)) : null;
+                setSessionFriends(res?.status == 200 && res?.data?.friends ? res?.data?.friends : []);
+                setSessionGroups(res?.status == 200 && res?.data?.groups ? res?.data?.groups : []);
+            },
+            (err) => {
+                console.log('getChatData > err', err)
+                setSessionFriends([]);
+                setSessionGroups([]);
+            },
+        );
         // }
     }
 
@@ -285,6 +351,19 @@ export default function GlobalLayout(props) {
         callback ? callback() : null;
     }
 
+    async function patchUserData(formData, chatObj, callback) {
+        await patchUsers(formData).then(
+            (res) => {
+                console.log('GlobalLayout > patchUserData > res', res)
+            },
+            (err) => {
+                console.log('GlobalLayout > patchUserData > err', err)
+            },
+        );
+
+        callback ? callback() : null;
+    }
+
     const onDrawerToggleClick = (value) => {
         setIsLeftDrawerOpen(value);
     }
@@ -293,7 +372,7 @@ export default function GlobalLayout(props) {
         let activeChatArr = activeChatList;
         let passiveChatArr = passiveChatList;
 
-        switch(origin) {
+        switch (origin) {
             case 'chat-list':
                 let pChatIdx = passiveChatList.map((i) => i.id).indexOf(value?.id ?? -1);
                 passiveChatArr = [...passiveChatList].filter((_, idx) => idx != pChatIdx);
@@ -304,7 +383,7 @@ export default function GlobalLayout(props) {
             case 'chat-box':
                 let aChatIdx = activeChatList.map((i) => i.id).indexOf(value?.id ?? -1);
                 activeChatArr = [...activeChatList].filter((_, idx) => idx != aChatIdx);
-                
+
                 passiveChatArr[0] ? activeChatArr = [...activeChatArr, passiveChatArr[0]] : null;
                 sessionStorage.setItem('active_chat_data', JSON.stringify(activeChatArr));
                 setActiveChatList(activeChatArr);
@@ -355,27 +434,29 @@ export default function GlobalLayout(props) {
 
     const onSendChatInputClick = (chatObj, chatInput, attachmentsList) => {
         const formData = new FormData();
-        formData.append('userId', sessionUser.id);
+        formData.append('userId', userData.id);
         formData.append('chatId', chatObj?.id);
         formData.append('chatName', chatObj?.name);
         formData.append('chatType', chatObj?.type);
 
-        if(attachmentsList && attachmentsList.length > 0) {
-            formData.append('userName', sessionUser.name);
+        if (attachmentsList && attachmentsList.length > 0) {
+            formData.append('userName', userData.name);
             Array.from(attachmentsList).forEach((item) => {
                 formData.append('attachments', item);
             })
-            
+
             postChatAttachments(formData, (attachments) => {
                 chatInput ? chatInput.attachments = attachments : null;
                 formData.append('chatInput', JSON.stringify(chatInput));
                 postChatThread(formData, chatObj);
                 patchChatData(formData, chatObj);
+                patchUserData(formData, chatObj);
             })
         } else {
             formData.append('chatInput', JSON.stringify(chatInput));
             postChatThread(formData, chatObj);
             patchChatData(formData, chatObj);
+            patchUserData(formData, chatObj);
         }
     }
 
@@ -385,28 +466,28 @@ export default function GlobalLayout(props) {
 
     const onCloseChatAttachmentClick = () => {
         setFileAttachment(null);
-      }
+    }
 
     const onSelectedChatClick = (value) => {
         // console.log('onSelectedChatClick > value', value)
         setSelectedChat(value);
-        
+
         /** ACTIVE CHAT LIST LOGIC **/
         let aChatIdx = activeChatList.map((i) => i.id).indexOf(value?.id ?? -1);
         let activeChatArr = [...activeChatList];
 
-        if(aChatIdx == -1) {
+        if (aChatIdx == -1) {
             activeChatArr.unshift(value);
-            
+
             /** PASSIVE CHAT LIST LOGIC **/
             let pChatIdx = passiveChatList.map((i) => i.id).indexOf(value?.id ?? -1);
             let passiveChatArr = [...passiveChatList].filter((_, idx) => idx != pChatIdx);
 
-            if(activeChatArr.length > maxActiveChatCount) {
-                passiveChatArr.unshift(activeChatArr[activeChatArr.length-1]);
+            if (activeChatArr.length > maxActiveChatCount) {
+                passiveChatArr.unshift(activeChatArr[activeChatArr.length - 1]);
             }
 
-            if(passiveChatArr.length > maxPassiveChatCount) {
+            if (passiveChatArr.length > maxPassiveChatCount) {
                 pChatIdx == -1 ? passiveChatArr.pop() : null;
             }
 
@@ -414,7 +495,7 @@ export default function GlobalLayout(props) {
             setPassiveChatList(passiveChatArr);
             /** PASSIVE CHAT LIST LOGIC **/
 
-            if(activeChatArr.length > maxActiveChatCount) {
+            if (activeChatArr.length > maxActiveChatCount) {
                 activeChatArr.pop();
             }
             sessionStorage.setItem('active_chat_data', JSON.stringify(activeChatArr));
@@ -434,67 +515,67 @@ export default function GlobalLayout(props) {
 
             <CssBaseline />
 
-            <TopAppBar 
-                appBarHeight={appBarHeight} 
-                isMobileView={isMobileView} 
-                sessionUser={sessionUser} 
-                isLeftDrawerOpen={isLeftDrawerOpen} 
-                onDrawerToggleClick={onDrawerToggleClick} 
+            <TopAppBar
+                appBarHeight={appBarHeight}
+                isMobileView={isMobileView}
+                userData={userData}
+                isLeftDrawerOpen={isLeftDrawerOpen}
+                onDrawerToggleClick={onDrawerToggleClick}
                 onLoading={(value) => setIsLayoutLoading(value)}
             />
 
-            <LeftDrawer 
-                appBarHeight={appBarHeight} 
-                menuBarHeight={menuBarHeight} 
-                isMobileView={isMobileView} 
-                sessionNav={sessionNav} 
-                isLeftDrawerOpen={isLeftDrawerOpen} 
-                onDrawerToggleClick={onDrawerToggleClick} 
+            <LeftDrawer
+                appBarHeight={appBarHeight}
+                menuBarHeight={menuBarHeight}
+                isMobileView={isMobileView}
+                sessionNav={sessionNav}
+                isLeftDrawerOpen={isLeftDrawerOpen}
+                onDrawerToggleClick={onDrawerToggleClick}
             />
 
-            <Box sx={{paddingTop: isMobileView ? '55px' : 'unset'}}>
+            <Box sx={{ paddingTop: isMobileView ? '55px' : 'unset' }}>
                 {props.children}
             </Box>
 
-            <RightDrawer 
-                menuBarHeight={menuBarHeight} 
-                isMobileView={isMobileView} 
-                sessionFriends={sessionFriends} 
-                sessionGroups={sessionGroups} 
-                isRightDrawerOpen={isRightDrawerOpen} 
+            <RightDrawer
+                menuBarHeight={menuBarHeight}
+                isMobileView={isMobileView}
+                sessionFriends={sessionFriends}
+                sessionGroups={sessionGroups}
+                isRightDrawerOpen={isRightDrawerOpen}
                 isRightDrawerMobileOpen={isRightDrawerMobileOpen}
-                onMobileDrawerToggleClick={onMobileRightDrawerClick} 
-                onDrawerChatClick={onSelectedChatClick} 
+                onMobileDrawerToggleClick={onMobileRightDrawerClick}
+                onDrawerChatClick={onSelectedChatClick}
             />
 
-            <ChatList 
+            <ChatList
                 isMobileView={isMobileView}
                 isRightDrawerMobileOpen={isRightDrawerMobileOpen}
-                passiveChatList={passiveChatList} 
-                activeChatList={activeChatList} 
-                onListChatClick={onSelectedChatClick} 
+                passiveChatList={passiveChatList}
+                activeChatList={activeChatList}
+                onListChatClick={onSelectedChatClick}
                 onChatListRemoveClick={(value) => onRemoveChatClick(value, 'chat-list')}
                 onChatListCloseClick={onCloseAllChatsClick}
                 onChatListMinimizeClick={onMinimizeOpenChatsClick}
             />
 
             {activeChatList.map((item, idx) => (
-                <ChatBox 
-                    key={idx} 
+                <ChatBox
+                    key={idx}
                     isMobileView={isMobileView}
                     isMobilePortrait={isMobilePortrait}
                     isRightDrawerMobileOpen={isRightDrawerMobileOpen}
                     instance={(idx + 1)}
-                    sessionUser={sessionUser}
+                    userData={userData}
                     selectedChat={selectedChat}
-                    activeChatData={item} 
+                    activeChatData={item}
                     activeThreadData={activeThreadList}
-                    onChatBoxCloseClick={(value) => onRemoveChatClick(value, 'chat-box')} 
+                    onChatBoxCloseClick={(value) => onRemoveChatClick(value, 'chat-box')}
                     onChatBoxMinimizeClick={onMinimizeChatClick}
                     onChatBoxSendInput={onSendChatInputClick}
                     onChatBoxViewAttachment={onViewChatAttachmentClick}
                     onResetSelectedChat={() => setSelectedChat(null)}
-                    onResetChatThread={() => getChatThread(sessionUser.id, activeChatList)}
+                    onResetChatThread={() => getChatThread(userData.id, activeChatList)}
                 />
             ))}
         </Box>

@@ -47,11 +47,6 @@ export default function ChatBox(props) {
     const [isChatBoxLoading, setIsChatBoxLoading] = useState(false);
     const [isChatBoxScrolling, setIsChatBoxScrolling] = useState(false);
     const [popoverAnchor, setPopoverAnchor] = useState(null);
-    const [userData, setUserData] = useState({
-        id: -1,
-        name: '',
-        image: ''
-    });
     const [actChatData, setActChatData] = useState({
         id: -1,
         name: '',
@@ -82,10 +77,8 @@ export default function ChatBox(props) {
     }, [props.isRightDrawerMobileOpen])
 
     useEffect(() => {
-        // console.log('ChatBox > props.sessionUser', props.sessionUser)
-
-        setUserData(props.sessionUser);
-    }, [props.sessionUser])
+        // console.log('ChatBox > props.userData', props.userData)
+    }, [props.userData])
 
     useEffect(() => {
         // console.log('ChatBox > props.activeChatData', props.activeChatData)
@@ -110,7 +103,7 @@ export default function ChatBox(props) {
 
     useEffect(() => {
         // console.log('ChatBox > props.selectedChat', props.selectedChat)
-        // console.log('ChatBox > userData', userData)
+        // console.log('ChatBox > props.userData', props.userData)
         // console.log('ChatBox > actChatData', actChatData)
 
         if(props.selectedChat && props.selectedChat?.id == actChatData.id) {
@@ -127,7 +120,7 @@ export default function ChatBox(props) {
                 }
             }, 1000)
         }
-    }, [props.selectedChat, userData, actChatData])
+    }, [props.selectedChat, props.userData, actChatData])
 
     useEffect(() => {
         // console.log('ChatBox > actThreadData', actThreadData)
@@ -223,12 +216,12 @@ export default function ChatBox(props) {
                 props.onChatBoxSendInput(
                     actChatData,
                     {
-                        sender: userData.name,
+                        sender: props.userData?.name,
                         receiver: actChatData.name,
                         message: chatMessage,
                         timestamp: moment().toISOString(),
                         status: null,
-                        image: userData.image,
+                        image: props.userData?.image,
                         attachments: null
                     },
                     chatAttachments
@@ -277,7 +270,7 @@ export default function ChatBox(props) {
     }
 
     function renderDefaultChatView(item, idx) {
-        const source = item.sender == userData.name ? 'sender' : 'receiver';
+        const source = item.sender == props.userData?.name ? 'sender' : 'receiver';
 
         return (
             <Box key={idx} sx={CHAT_BOX.chatBoxCardContentDefaultBox} className={`chat-box-${source}`}>

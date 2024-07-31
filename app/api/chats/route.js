@@ -37,6 +37,7 @@ export async function GET(req, res) {
     return NextResponse.json({
         status: 500,
         message: "An unexpected error occured.",
+        data: e
     }, { status: 500 });
   }
 }
@@ -114,6 +115,7 @@ export async function PATCH(req, res) {
     return NextResponse.json({
       status: 500,
       message: "An unexpected error occured.",
+      data: e
     }, { status: 500 });
   }
 }
