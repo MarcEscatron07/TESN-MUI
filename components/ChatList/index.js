@@ -109,7 +109,7 @@ export default function ChatList(props) {
           {fabAvatarIdx == idx ? (
             <span 
               aria-label="fab-avatar-close" 
-              style={{ ...CHAT_LIST.chatListFabClose, backgroundColor: theme.palette.secondary.main }} 
+              style={{ ...CHAT_LIST.chatListFabClose, top: props.isMobileView ? -8 : -2, backgroundColor: theme.palette.secondary.main }} 
               onClick={(event) => onRemoveClick(event, item)}
             >
               <FontAwesomeIcon icon={faTimes} size="md" />

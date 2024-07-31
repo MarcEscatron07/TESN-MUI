@@ -121,7 +121,6 @@ export const CHAT_LIST = {
     },
     chatListFabClose: {
         position: 'absolute',
-        top: -5,
         right: 0,
         display: 'flex',
         alignItems: 'center',
