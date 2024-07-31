@@ -227,7 +227,7 @@ export default function ChatBox(props) {
                         receiver: actChatData.name,
                         message: chatMessage,
                         timestamp: moment().toISOString(),
-                        status: 'unread',
+                        status: null,
                         image: userData.image,
                         attachments: null
                     },
@@ -378,7 +378,7 @@ export default function ChatBox(props) {
         }
 
         return item?.name ? (
-            <a href={`./attachments/${item?.name}`} className="attachment-thumbnail-default" target='_blank'>
+            <a key={key} href={`./attachments/${item?.name}`} className="attachment-thumbnail-default" target='_blank'>
                 <Grid container spacing={2}>
                     <Grid item xs={2} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', pr: 0}}>
                         <span className="icon"><FontAwesomeIcon icon={faFile} size="xl" /></span>

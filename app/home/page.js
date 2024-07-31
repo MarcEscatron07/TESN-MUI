@@ -17,26 +17,26 @@ export default function Home() {
   const [isMobileView, setIsMobileView] = useState(false);
 
   useEffect(() => {
-    fetchPosts();
+    getHomePosts();
 
     setTimeout(() => {
       setIsLoading(false);
     }, 1000)
   }, []);
 
-  async function fetchPosts() {
+  async function getHomePosts() {
     if(sessionStorage.getItem('posts_data')) {
       setPostsList(JSON.parse(sessionStorage.getItem('posts_data')));
     } else {
       await getPosts().then(
         (res) => {
-          // console.log('fetchPosts > res', res)
+          // console.log('getHomePosts > res', res)
   
           res?.status == 200 && res?.data ? sessionStorage.setItem('posts_data', JSON.stringify(res?.data)) : null;
           setPostsList(res?.status == 200 && res?.data ? res?.data : []);
         },
         (err) => {
-          console.log('fetchPosts > err', err);
+          console.log('getHomePosts > err', err);
           setPostsList([]);
         },
       );

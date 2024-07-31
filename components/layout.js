@@ -8,7 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { GLOBAL } from "@/app/styles";
 import { Loader, TopAppBar, LeftDrawer, RightDrawer, ChatBox, ChatList, ViewAttachment } from '@/components';
 import { socket } from '@/components/socket-client';
-import { getChats, getThread, postThread, postAttachments } from "@/lib/api";
+import { getChats, getThreads, postThreads, postAttachments, patchChats } from "@/lib/api";
 
 export default function GlobalLayout(props) {
     const viewBreakpoint = 992;
@@ -72,7 +72,7 @@ export default function GlobalLayout(props) {
         if(sessionUser.id != -1) {
             socket.emit('register_client', sessionUser.name);
 
-            fetchChats();
+            getChatData();
         }
     }, [sessionUser])
 
@@ -203,7 +203,7 @@ export default function GlobalLayout(props) {
         sessionStorage.getItem('passive_chat_data') ? setPassiveChatList(JSON.parse(sessionStorage.getItem('passive_chat_data'))) : setPassiveChatList([]);
     }
 
-    async function fetchChats() {
+    async function getChatData() {
         if(sessionStorage.getItem('chats_data')) {
             const chatsObj = JSON.parse(sessionStorage.getItem('chats_data'));
 
@@ -212,14 +212,14 @@ export default function GlobalLayout(props) {
         } else {
             await getChats(`userId=${sessionUser.id}`).then(
                 (res) => {
-                    // console.log('fetchChats > res', res)
+                    // console.log('getChatData > res', res)
     
                     res?.status == 200 && res?.data ? sessionStorage.setItem('chats_data', JSON.stringify(res?.data)) : null;
                     setSessionFriends(res?.status == 200 && res?.data?.friends ? res?.data?.friends : []);
                     setSessionGroups(res?.status == 200 && res?.data?.groups ? res?.data?.groups : []);
                 },
                 (err) => {
-                    console.log('fetchChats > err', err)
+                    console.log('getChatData > err', err)
                     setSessionFriends([]);
                     setSessionGroups([]);
                 },
@@ -231,7 +231,7 @@ export default function GlobalLayout(props) {
         console.log('getChatThread > userId', userId)
         console.log('getChatThread > data', data)
 
-        const promisesList = data.map((item) => getThread(`userId=${userId}&chatId=${item.id}&chatType=${item.type}`));
+        const promisesList = data.map((item) => getThreads(`userId=${userId}&chatId=${item.id}&chatType=${item.type}`));
         const promisesResList = await Promise.all(promisesList);
         // console.log('getChatThread > multiple > res', promisesResList)
 
@@ -239,7 +239,7 @@ export default function GlobalLayout(props) {
     }
 
     async function postChatThread(formData, chatObj, callback) {
-        await postThread(formData).then(
+        await postThreads(formData).then(
             (res) => {
                 // console.log('GlobalLayout > postChatThread > res', res)
 
@@ -270,6 +270,19 @@ export default function GlobalLayout(props) {
         )
 
         callback ? callback(attachmentsArr) : null;
+    }
+
+    async function patchChatData(formData, chatObj, callback) {
+        await patchChats(formData).then(
+            (res) => {
+                console.log('GlobalLayout > patchChatData > res', res)
+            },
+            (err) => {
+                console.log('GlobalLayout > patchChatData > err', err)
+            },
+        );
+
+        callback ? callback() : null;
     }
 
     const onDrawerToggleClick = (value) => {
@@ -357,10 +370,12 @@ export default function GlobalLayout(props) {
                 chatInput ? chatInput.attachments = attachments : null;
                 formData.append('chatInput', JSON.stringify(chatInput));
                 postChatThread(formData, chatObj);
+                patchChatData(formData, chatObj);
             })
         } else {
             formData.append('chatInput', JSON.stringify(chatInput));
             postChatThread(formData, chatObj);
+            patchChatData(formData, chatObj);
         }
     }
 
