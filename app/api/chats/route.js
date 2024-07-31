@@ -65,47 +65,39 @@ export async function PATCH(req, res) {
     console.log('CHATS > PATCH > chatType', chatType)
     console.log('CHATS > PATCH > chatInput', chatInput)
 
-    for (const key in jsonData) {
-      if(jsonData[key]?.userId == chatId) {
-        let dataArr = [];
+    switch(chatType) {
+      case 'single':
+        for (const key in jsonData) {
+          if(jsonData[key]?.userId == chatId) {
+            let dataArr = jsonData[key]['friends'] ?? [];
+    
+            dataArr.forEach((item) => {
+              if(item?.id == userId && item['notifs'] && item['notifs']['messages']) {
+                item['notifs']['messages']['count'] = parseInt(item['notifs']['messages']['count']) + 1
+                item['notifs']['messages']['data'] = [...item['notifs']['messages']['data'], chatInput];
+    
+                console.log('CHATS > PATCH > count', parseInt(item['notifs']['messages']['count']))
+                console.log('CHATS > PATCH > data', item['notifs']['messages']['data'])
+              }
+            });
 
-        switch(chatType) {
-          case 'single':
-            dataArr = jsonData[key]['friends'];
-            break;
-          case 'multiple':
-            dataArr = jsonData[key]['groups'];
-            break;
-        }
-
-        dataArr.forEach((item) => {
-          if(item?.id == userId && item['notifs'] && item['notifs']['messages']) {
-            item['notifs']['messages']['count'] = parseInt(item['notifs']['messages']['count']) + 1
-            item['notifs']['messages']['data'] = [...item['notifs']['messages']['data'], chatInput];
-
-            console.log('CHATS > PATCH > count', parseInt(item['notifs']['messages']['count']))
-            console.log('CHATS > PATCH > data', item['notifs']['messages']['data'])
-          }
-        });
-
-        switch(chatType) {
-          case 'single':
             jsonData[key]['friends'] = dataArr;
-            break;
-          case 'multiple':
-            jsonData[key]['groups'] = dataArr;
-            break;
+    
+            await fs.writeFile(path.join(process.cwd(), jsonPath), JSON.stringify(jsonData));
+    
+            return NextResponse.json({
+              status: 200,
+              message: "Patch chat successful.",
+              data: dataArr
+            }, { status: 200 });
+          }
         }
-
-        await fs.writeFile(path.join(process.cwd(), jsonPath), JSON.stringify(jsonData));
-
-        return NextResponse.json({
-          status: 200,
-          message: "Patch chat successful.",
-          data: dataArr
-        }, { status: 200 });
-      }
+        break;
+      case 'multiple':
+        // create logic for Group chat here
+        break;
     }
+
 
     return NextResponse.json({
       status: 400,
