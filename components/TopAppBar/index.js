@@ -35,6 +35,17 @@ export default function TopAppBar(props) {
         name: '',
         image: ''
     });
+    const [notifsState, setNotifsState] = useState({
+        messages: {
+            count: 0,
+            data: []
+        },
+        notifications: {
+            count: 0,
+            data: []
+        }
+    });
+
     const [menuAnchorEl, setMenuAnchorEl] = useState(null);
     const [mobileMenuAnchorEl, setMobileMenuAnchorEl] = useState(null);
 
@@ -128,7 +139,7 @@ export default function TopAppBar(props) {
         >
             <MenuItem>
                 <IconButton aria-label="topappbar-messages-mobile" size="large" color="inherit">
-                    <Badge badgeContent={4} color="error">
+                    <Badge badgeContent={notifsState.messages.count} color="error">
                         <ChatIcon />
                     </Badge>
                 </IconButton>
@@ -136,7 +147,7 @@ export default function TopAppBar(props) {
             </MenuItem>
             <MenuItem>
                 <IconButton aria-label="topappbar-notifications-mobile" size="large" color="inherit">
-                    <Badge badgeContent={17} color="error">
+                    <Badge badgeContent={notifsState.notifications.count} color="error">
                         <NotificationsIcon />
                     </Badge>
                 </IconButton>
@@ -209,7 +220,7 @@ export default function TopAppBar(props) {
                             color="inherit"
                             sx={TOP_APP_BAR.topAppBarNotificationButtons}
                         >
-                            <Badge badgeContent={4} color="error">
+                            <Badge badgeContent={notifsState.messages.count} color="error">
                                 <ChatIcon />
                             </Badge>
                         </IconButton>
@@ -219,7 +230,7 @@ export default function TopAppBar(props) {
                             color="inherit"
                             sx={TOP_APP_BAR.topAppBarNotificationButtons}
                         >
-                            <Badge badgeContent={17} color="error">
+                            <Badge badgeContent={notifsState.notifications.count} color="error">
                                 <NotificationsIcon />
                             </Badge>
                         </IconButton>
