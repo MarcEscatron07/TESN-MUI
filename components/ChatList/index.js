@@ -27,7 +27,7 @@ export default function ChatList(props) {
   const [fabAvatarIdx, setFabAvatarIdx] = useState(-1);
   const [popoverAnchor, setPopoverAnchor] = useState(null);
 
-  const chatListBotPos = props.isMobileView ? 85 : 0;
+  const chatListBotPos = props.isMobileView ? 83 : 0;
   const chatListLeftPos = props.isMobileView ? 5 : 285;
 
   useEffect(() => {
