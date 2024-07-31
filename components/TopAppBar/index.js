@@ -94,10 +94,16 @@ export default function TopAppBar(props) {
     };
 
     const onLogoutClick = () => {
+        props.onLoading ? props.onLoading(true) : null;
+
         onMenuClose();
         clearLocalStorage();
         clearSessionStorage();
+
         router.push(`/`);
+        setTimeout(() => {
+            props.onLoading ? props.onLoading(false) : null;
+        }, 1000)
     };
 
     const renderMenu = (

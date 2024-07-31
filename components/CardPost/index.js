@@ -87,7 +87,7 @@ export default function CardPost(props) {
                 </Typography>
             </CardContent>
 
-            <CardActionArea>
+            <CardActionArea sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                 {postData.thumbnail.src ? (
                     <CardMedia
                         component="img"

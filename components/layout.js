@@ -17,7 +17,7 @@ export default function GlobalLayout(props) {
     const appBarHeight = 65;
     const menuBarHeight = 55;
 
-    const [isLoading, setIsLoading] = useState(props.isLoading);
+    const [isLayoutLoading, setIsLayoutLoading] = useState(props.isLoading);
     const [sessionUser, setSessionUser] = useState({
         id: -1,
         name: '',
@@ -173,7 +173,7 @@ export default function GlobalLayout(props) {
     }, [sessionUser, activeChatList])
 
     useEffect(() => {
-        setIsLoading(props.isLoading);
+        setIsLayoutLoading(props.isLoading);
     }, [props.isLoading, activeThreadList])
 
     useEffect(() => {
@@ -414,7 +414,7 @@ export default function GlobalLayout(props) {
 
     return (
         <Box component="main" sx={GLOBAL.globalMainContainer}>
-            {isLoading ? <Loader /> : null}
+            {isLayoutLoading ? <Loader /> : null}
             {fileAttachment ? <ViewAttachment fileAttachment={fileAttachment} onCloseViewAttachment={onCloseChatAttachmentClick} /> : null}
 
             <CssBaseline />
@@ -425,6 +425,7 @@ export default function GlobalLayout(props) {
                 sessionUser={sessionUser} 
                 isLeftDrawerOpen={isLeftDrawerOpen} 
                 onDrawerToggleClick={onDrawerToggleClick} 
+                onLoading={(value) => setIsLayoutLoading(value)}
             />
 
             <LeftDrawer 
