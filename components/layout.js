@@ -102,7 +102,7 @@ export default function GlobalLayout(props) {
 
         if(isMobileView) {
             setMaxActiveChatCount(maxActiveChatCnt-1);
-            setMaxPassiveChatCount(maxPassiveChatCnt+1);
+            setMaxPassiveChatCount(maxPassiveChatCnt-1);
 
             let activeChatArr = [...activeChatList];
             /** PASSIVE CHAT LIST LOGIC **/
@@ -113,7 +113,7 @@ export default function GlobalLayout(props) {
                 passiveChatArr.unshift(activeChatArr[activeChatArr.length-1]);
             }
 
-            if(passiveChatArr.length > (maxPassiveChatCnt+1)) {
+            if(passiveChatArr.length > (maxPassiveChatCnt-1)) {
                 pChatIdx == -1 ? passiveChatArr.pop() : null;
             }
 

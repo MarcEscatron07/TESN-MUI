@@ -105,10 +105,25 @@ body {
   border-radius: 10px;
 }
 .chat-box .chat-box-content .chat-box-message .chat-box-message-attachments {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+.chat-box .chat-box-content .chat-box-message .chat-box-message-attachments .attachment-thumbnail-action {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FBD11A;
+  color: #000000;
+  border-radius: 50px;
+  padding: 2px 4px;
+  font-size: 1rem;
+  z-index: 10;
 }
 .chat-box .chat-box-content .chat-box-message .chat-box-message-attachments .attachment-thumbnail-item {
   cursor: pointer;
@@ -128,7 +143,7 @@ body {
   border-radius: 10px;
   background-color: #DDDDDD;
   color: #000000;
-  word-wrap: break-word;
+  word-break: break-all;
   font-size: 0.85rem;
   margin: 5px;
   border: 2px solid #DDDDDD;
