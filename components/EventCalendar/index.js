@@ -192,73 +192,68 @@ export default function EventCalendar() {
     /** MODAL useEffect **/
 
     async function fetchHolidays() {
-        // if(sessionStorage.getItem('holidays_data')) {
-        //     setHolidaysList(JSON.parse(sessionStorage.getItem('holidays_data')));
-        // } else {
-            let regularHolidayArr = [];
-            await new Promise((resolve, reject) => {
-                try {
-                    const holidaysList = hd.getHolidays(moment().year());
-                    // console.log('fetchHolidays > holidaysList', holidaysList)
-                    resolve(holidaysList);
-                } catch (error) {
-                    reject(error);
-                }
-            }).then(
-                (res) => {
-                    // console.log('fetchHolidays > regular > res', res)
-    
-                    regularHolidayArr = res ? res.map((item, idx) => {
-                        if (['public', 'optional'].includes(item?.type)) {
-                            return {
-                                id: item?.name ? `reg_${idx}_${item?.name}` : -1,
-                                title: item?.name ?? '',
-                                link: item?.link ?? '',
-                                description: item?.description ?? '',
-                                start: moment(item?.date).isValid() ? moment(item?.date).toDate() : null,
-                                end: moment(item?.date).isValid() ? moment(moment(item?.date).toDate()).add(23, 'hours').add(59, 'minutes') : null,
-                                classNames: ['fc-custom-event', 'fc-regular-holiday'],
-                                extendedProps: []
-                            }
-                        } else {
-                            return null;
-                        }
-                    }).filter((i) => i != null) : [];
-                },
-                (err) => {
-                    console.log('fetchHolidays > regular > err', err)
-                    regularHolidayArr = [];
-                }
-            );
-    
-            let localHolidayArr = [];
-            await getLocalHolidays().then(
-                (res) => {
-                    // console.log('fetchHolidays > local > res', res)
-    
-                    localHolidayArr = res?.status == 200 && res?.data ? res?.data.map((item, idx) => {
+        let regularHolidayArr = [];
+        await new Promise((resolve, reject) => {
+            try {
+                const holidaysList = hd.getHolidays(moment().year());
+                // console.log('fetchHolidays > holidaysList', holidaysList)
+                resolve(holidaysList);
+            } catch (error) {
+                reject(error);
+            }
+        }).then(
+            (res) => {
+                // console.log('fetchHolidays > regular > res', res)
+
+                regularHolidayArr = res ? res.map((item, idx) => {
+                    if (['public', 'optional'].includes(item?.type)) {
                         return {
-                            id: item?.name ? `loc_${idx}_${item?.name}` : -1,
+                            id: item?.name ? `reg_${idx}_${item?.name}` : -1,
                             title: item?.name ?? '',
                             link: item?.link ?? '',
                             description: item?.description ?? '',
-                            start: moment(item?.date).isValid() ? moment(`${moment().year()}-${item?.date} 00:00:00`).toDate() : null,
-                            end: moment(item?.date).isValid() ? moment(moment(`${moment().year()}-${item?.date} 00:00:00`).toDate()).add(23, 'hours').add(59, 'minutes') : null,
-                            classNames: ['fc-custom-event', 'fc-local-holiday'],
+                            start: moment(item?.date).isValid() ? moment(item?.date).toDate() : null,
+                            end: moment(item?.date).isValid() ? moment(moment(item?.date).toDate()).add(23, 'hours').add(59, 'minutes') : null,
+                            classNames: ['fc-custom-event', 'fc-regular-holiday'],
                             extendedProps: []
                         }
-                    }) : []
-                },
-                (err) => {
-                    console.log('fetchHolidays > local > err', err)
-                    localHolidayArr = [];
-                },
-            )
+                    } else {
+                        return null;
+                    }
+                }).filter((i) => i != null) : [];
+            },
+            (err) => {
+                console.log('fetchHolidays > regular > err', err)
+                regularHolidayArr = [];
+            }
+        );
 
-            const holidaysArr = [...regularHolidayArr, ...localHolidayArr];
-            sessionStorage.setItem('holidays_data', JSON.stringify(holidaysArr));
-            setHolidaysList(holidaysArr);
-        // }
+        let localHolidayArr = [];
+        await getLocalHolidays().then(
+            (res) => {
+                // console.log('fetchHolidays > local > res', res)
+
+                localHolidayArr = res?.status == 200 && res?.data ? res?.data.map((item, idx) => {
+                    return {
+                        id: item?.name ? `loc_${idx}_${item?.name}` : -1,
+                        title: item?.name ?? '',
+                        link: item?.link ?? '',
+                        description: item?.description ?? '',
+                        start: moment(item?.date).isValid() ? moment(`${moment().year()}-${item?.date} 00:00:00`).toDate() : null,
+                        end: moment(item?.date).isValid() ? moment(moment(`${moment().year()}-${item?.date} 00:00:00`).toDate()).add(23, 'hours').add(59, 'minutes') : null,
+                        classNames: ['fc-custom-event', 'fc-local-holiday'],
+                        extendedProps: []
+                    }
+                }) : []
+            },
+            (err) => {
+                console.log('fetchHolidays > local > err', err)
+                localHolidayArr = [];
+            },
+        )
+
+        const holidaysArr = [...regularHolidayArr, ...localHolidayArr];
+        setHolidaysList(holidaysArr);
     }
 
     async function fetchEvents() {
