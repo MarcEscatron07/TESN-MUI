@@ -129,7 +129,7 @@ export const CHAT_LIST = {
         borderRadius: 50
     },
     chatListOption: {
-        mb: 1.5
+        mb: .5
     },
     chatListPopoverBox: {
         display: 'flex',
