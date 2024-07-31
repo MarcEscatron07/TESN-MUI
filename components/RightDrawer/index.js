@@ -64,6 +64,28 @@ export default function RightDrawer(props) {
     }
   }
 
+  function renderChatNotification(value) {
+    return (
+      <span 
+        style={{
+          position: 'absolute',
+          top: props.isMobileView ? -2 : -5,
+          right: props.isMobileView ? -2 : -5,
+          display: 'flex',
+          borderRadius: 50,
+          padding: '1px 5px',
+          fontSize: '.65rem',
+          fontWeight: 'bold',
+          zIndex: 10,
+          backgroundColor: theme.palette.accent2.main, 
+          color: theme.palette.accent2.contrastText
+        }}
+      >
+        {value}
+      </span>
+    )
+  }
+
   return (
     <>
       {props.isMobileView ? (
@@ -136,9 +158,11 @@ export default function RightDrawer(props) {
                           "& .MuiBadge-badge": {
                             color: item.isOnline ? "lightgreen" : "lightgray",
                             backgroundColor: item.isOnline ? "green" : "gray"
-                          }
+                          },
+                          position: 'relative'
                         }}
                       >
+                        {item.notifs?.messages?.count > 0 ? renderChatNotification(item.notifs?.messages?.count) : null}
                         <Avatar alt={item.name} src={item.image} />
                       </StyledBadge>
                     </IconButton>
@@ -171,9 +195,11 @@ export default function RightDrawer(props) {
                           "& .MuiBadge-badge": {
                             color: item?.isOnline ? "lightgreen" : "lightgray",
                             backgroundColor: item?.isOnline ? "green" : "gray"
-                          }
+                          },
+                          position: 'relative'
                         }}
                       >
+                        {item.notifs?.messages?.count > 0 ? renderChatNotification(item.notifs?.messages?.count) : null}
                         <Avatar alt="Group Avatar" src={item.image} />
                       </StyledBadge>
                     </IconButton>
@@ -273,9 +299,11 @@ export default function RightDrawer(props) {
                         "& .MuiBadge-badge": {
                           color: item.isOnline ? "lightgreen" : "lightgray",
                           backgroundColor: item.isOnline ? "green" : "gray"
-                        }
+                        },
+                        position: 'relative'
                       }}
                     >
+                      {item.notifs?.messages?.count > 0 ? renderChatNotification(item.notifs?.messages?.count) : null}
                       <Avatar alt={item.name} src={item.image} />
                     </StyledBadge>
                   </ListItemIcon>
@@ -321,9 +349,11 @@ export default function RightDrawer(props) {
                         "& .MuiBadge-badge": {
                           color: item?.isOnline ? "lightgreen" : "lightgray",
                           backgroundColor: item?.isOnline ? "green" : "gray"
-                        }
+                        },
+                        position: 'relative'
                       }}
                     >
+                      {item.notifs?.messages?.count > 0 ? renderChatNotification(item.notifs?.messages?.count) : null}
                       <Avatar alt="Group Avatar" src={item.image} />
                     </StyledBadge>
                   </ListItemIcon>

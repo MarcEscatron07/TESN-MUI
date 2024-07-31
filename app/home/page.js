@@ -25,9 +25,9 @@ export default function Home() {
   }, []);
 
   async function getHomePosts() {
-    if(sessionStorage.getItem('posts_data')) {
-      setPostsList(JSON.parse(sessionStorage.getItem('posts_data')));
-    } else {
+    // if(sessionStorage.getItem('posts_data')) {
+    //   setPostsList(JSON.parse(sessionStorage.getItem('posts_data')));
+    // } else {
       await getPosts().then(
         (res) => {
           // console.log('getHomePosts > res', res)
@@ -40,7 +40,7 @@ export default function Home() {
           setPostsList([]);
         },
       );
-    }
+    // }
   }
 
   const onLayoutMobileView = (value) => {

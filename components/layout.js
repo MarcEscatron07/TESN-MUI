@@ -204,12 +204,12 @@ export default function GlobalLayout(props) {
     }
 
     async function getChatData() {
-        if(sessionStorage.getItem('chats_data')) {
-            const chatsObj = JSON.parse(sessionStorage.getItem('chats_data'));
+        // if(sessionStorage.getItem('chats_data')) {
+        //     const chatsObj = JSON.parse(sessionStorage.getItem('chats_data'));
 
-            setSessionFriends(chatsObj?.friends ?? []);
-            setSessionGroups(chatsObj?.groups ?? []);
-        } else {
+        //     setSessionFriends(chatsObj?.friends ?? []);
+        //     setSessionGroups(chatsObj?.groups ?? []);
+        // } else {
             await getChats(`userId=${sessionUser.id}`).then(
                 (res) => {
                     // console.log('getChatData > res', res)
@@ -224,7 +224,7 @@ export default function GlobalLayout(props) {
                     setSessionGroups([]);
                 },
             );
-        }
+        // }
     }
 
     async function getChatThread(userId, data) {

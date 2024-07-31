@@ -192,9 +192,9 @@ export default function EventCalendar() {
     /** MODAL useEffect **/
 
     async function fetchHolidays() {
-        if(sessionStorage.getItem('holidays_data')) {
-            setHolidaysList(JSON.parse(sessionStorage.getItem('holidays_data')));
-        } else {
+        // if(sessionStorage.getItem('holidays_data')) {
+        //     setHolidaysList(JSON.parse(sessionStorage.getItem('holidays_data')));
+        // } else {
             let regularHolidayArr = [];
             await new Promise((resolve, reject) => {
                 try {
@@ -258,7 +258,7 @@ export default function EventCalendar() {
             const holidaysArr = [...regularHolidayArr, ...localHolidayArr];
             sessionStorage.setItem('holidays_data', JSON.stringify(holidaysArr));
             setHolidaysList(holidaysArr);
-        }
+        // }
     }
 
     async function fetchEvents() {
