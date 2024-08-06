@@ -8,7 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { GLOBAL } from "@/app/styles";
 import { Loader, TopAppBar, LeftDrawer, RightDrawer, ChatBox, ChatList, ViewAttachment } from '@/components';
 import { socket } from '@/components/socket-client';
-import { getUsers, getChats, getThreads, postThreads, postAttachments, postNotifications } from "@/lib/api";
+import { getUsers, getChats, getThreads, postThreads, postAttachments, getNotifications, postNotifications } from "@/lib/api";
 
 export default function GlobalLayout(props) {
     const viewBreakpoint = 992;
@@ -85,9 +85,10 @@ export default function GlobalLayout(props) {
             socket.emit('register_client', userData.name);
 
             getChatData(userData.id);
+            getChatNotification(userData.id);
 
             socket.on('receive_notification', () => {
-                getChatData(userData.id);
+                getChatNotification(userData.id);
             });
         }
     }, [userData])
@@ -97,10 +98,6 @@ export default function GlobalLayout(props) {
 
         if (sessionUserId != -1) {
             getUserData(sessionUserId);
-
-            socket.on('receive_notification', () => {
-                getUserData(sessionUserId);
-            });
         }
     }, [sessionUserId])
 
@@ -192,10 +189,7 @@ export default function GlobalLayout(props) {
 
         activeChatList.length > 0 ? getChatThread(userData.id, activeChatList) : null; // on system init
 
-        socket.on('receive_message', ({ senderName, receiverName }) => {
-            console.log('GlobalLayout > receive_message > senderName', senderName)
-            console.log('GlobalLayout > receive_message > receiverName', receiverName)
-
+        socket.on('receive_message', () => {
             activeChatList.length > 0 ? getChatThread(userData.id, activeChatList) : null; // on realtime chat
         });
     }, [userData, activeChatList])
@@ -308,6 +302,38 @@ export default function GlobalLayout(props) {
         )
 
         callback ? callback(attachmentsArr) : null;
+    }
+
+    async function getChatNotification(userId) {
+        await getNotifications(`userId=${userId}`).then(
+            (res) => {
+                // console.log('getChatNotification > res', res)
+
+                setNotificationData(res?.status == 200 && res?.data ? res?.data : {
+                    messages: {
+                        count: 0,
+                        data: []
+                    },
+                    notifs: {
+                        count: 0,
+                        data: []
+                    }
+                });
+            },
+            (err) => {
+                console.log('getChatNotification > err', err)
+                setNotificationData({
+                    messages: {
+                        count: 0,
+                        data: []
+                    },
+                    notifs: {
+                        count: 0,
+                        data: []
+                    }
+                });
+            },
+        );
     }
 
     async function postChatNotification(formData, chatObj, callback) {

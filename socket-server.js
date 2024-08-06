@@ -78,15 +78,25 @@ app.prepare().then(() => {
       const clientSocketId = Object.keys(clientsList).find((id) => clientsList[id] == receiverName);
 
       if(clientSocketId) {
-        io.to(socket.id).emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName });
-        io.to(clientSocketId).emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName });
+        io.to(socket.id).emit('receive_message');
+        io.to(clientSocketId).emit('receive_message');
+      } else {
+        if(groupsList.hasOwnProperty(receiverName)) {
+          groupsList[receiverName].forEach((item) => {
+            io.to(item).emit('receive_message');
+          })
+        }
+      }
+    });
 
+    socket.on('send_notification', ({receiverName}) => {
+      const clientSocketId = Object.keys(clientsList).find((id) => clientsList[id] == receiverName);
+
+      if(clientSocketId) {
         io.to(clientSocketId).emit('receive_notification');
       } else {
         if(groupsList.hasOwnProperty(receiverName)) {
           groupsList[receiverName].forEach((item) => {
-            io.to(item).emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName });
-
             io.to(item).emit('receive_notification');
           })
         }
