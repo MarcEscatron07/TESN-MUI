@@ -8,7 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { GLOBAL } from "@/app/styles";
 import { Loader, TopAppBar, LeftDrawer, RightDrawer, ChatBox, ChatList, ViewAttachment } from '@/components';
 import { socket } from '@/components/socket-client';
-import { getUsers, getChats, getThreads, postThreads, postAttachments, patchChats, patchUsers } from "@/lib/api";
+import { getUsers, getChats, getThreads, postThreads, postAttachments, patchUsers } from "@/lib/api";
 
 export default function GlobalLayout(props) {
     const viewBreakpoint = 992;
@@ -330,19 +330,6 @@ export default function GlobalLayout(props) {
         callback ? callback(attachmentsArr) : null;
     }
 
-    async function patchChatData(formData, chatObj, callback) {
-        await patchChats(formData).then(
-            (res) => {
-                console.log('GlobalLayout > patchChatData > res', res)
-            },
-            (err) => {
-                console.log('GlobalLayout > patchChatData > err', err)
-            },
-        );
-
-        callback ? callback() : null;
-    }
-
     async function patchUserData(formData, chatObj, callback) {
         await patchUsers(formData).then(
             (res) => {
@@ -441,13 +428,11 @@ export default function GlobalLayout(props) {
                 chatInput ? chatInput.attachments = attachments : null;
                 formData.append('chatInput', JSON.stringify(chatInput));
                 postChatThread(formData, chatObj);
-                patchChatData(formData, chatObj);
                 patchUserData(formData, chatObj);
             })
         } else {
             formData.append('chatInput', JSON.stringify(chatInput));
             postChatThread(formData, chatObj);
-            patchChatData(formData, chatObj);
             patchUserData(formData, chatObj);
         }
     }
