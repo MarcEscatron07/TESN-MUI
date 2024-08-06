@@ -205,7 +205,9 @@ export default function ChatBox(props) {
         setIsChatBoxScrolling(false);
         chatBoxContentRef?.current?.lastElementChild?.scrollIntoView();
         
-        // logic for viewing unread chat here
+        if(props.onChatBoxInputFocus) {
+            props.onChatBoxInputFocus(actChatData);
+        }
     }
 
     const onChatInputSendClick = (event) => {

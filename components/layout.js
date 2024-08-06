@@ -8,7 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { GLOBAL } from "@/app/styles";
 import { Loader, TopAppBar, LeftDrawer, RightDrawer, ChatBox, ChatList, ViewAttachment } from '@/components';
 import { socket } from '@/components/socket-client';
-import { getUsers, getChats, getThreads, postThreads, postAttachments, getNotifications, postNotifications } from "@/lib/api";
+import { getUsers, getChats, getThreads, postThreads, postAttachments, getNotifications, postNotifications, patchNotifications } from "@/lib/api";
 
 export default function GlobalLayout(props) {
     const viewBreakpoint = 992;
@@ -351,6 +351,19 @@ export default function GlobalLayout(props) {
         callback ? callback() : null;
     }
 
+    async function patchChatNotification(formData, callback) {
+        await patchNotifications(formData).then(
+            (res) => {
+                console.log('GlobalLayout > patchChatNotification > res', res)
+            },
+            (err) => {
+                console.log('GlobalLayout > patchChatNotification > err', err)
+            },
+        );
+
+        callback ? callback() : null;
+    }
+
     const onDrawerToggleClick = (value) => {
         setIsLeftDrawerOpen(value);
     }
@@ -493,6 +506,16 @@ export default function GlobalLayout(props) {
         setIsRightDrawerMobileOpen(value);
     }
 
+    const onChatInputFocus = (chatObj) => {
+        const formData = new FormData();
+        formData.append('userId', userData.id);
+        formData.append('chatId', chatObj?.id);
+        formData.append('chatName', chatObj?.name);
+        formData.append('chatType', chatObj?.type);
+
+        patchChatNotification(formData);
+    }
+
     return (
         <Box component="main" sx={GLOBAL.globalMainContainer}>
             {isLayoutLoading ? <Loader /> : null}
@@ -560,6 +583,7 @@ export default function GlobalLayout(props) {
                     onChatBoxMinimizeClick={onMinimizeChatClick}
                     onChatBoxSendInput={onSendChatInputClick}
                     onChatBoxViewAttachment={onViewChatAttachmentClick}
+                    onChatBoxInputFocus={onChatInputFocus}
                     onResetSelectedChat={() => setSelectedChat(null)}
                     onResetChatThread={() => getChatThread(userData.id, activeChatList)}
                 />

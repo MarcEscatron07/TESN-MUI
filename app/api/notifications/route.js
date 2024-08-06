@@ -121,3 +121,15 @@ export async function POST(req, res) {
         }, { status: 500 });
       }
 }
+
+export async function PATCH(req, res) {
+  try {
+    // TO-DO: code logic for patching notification on ChatBox > Focus
+  } catch (e) {
+    return NextResponse.json({
+      status: 500,
+      message: "An unexpected error occured.",
+      data: e
+    }, { status: 500 });
+  }
+}
