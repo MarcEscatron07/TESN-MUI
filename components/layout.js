@@ -8,7 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { GLOBAL } from "@/app/styles";
 import { Loader, TopAppBar, LeftDrawer, RightDrawer, ChatBox, ChatList, ViewAttachment } from '@/components';
 import { socket } from '@/components/socket-client';
-import { getUsers, getChats, getThreads, postThreads, postAttachments, patchUsers } from "@/lib/api";
+import { getUsers, getChats, getThreads, postThreads, postAttachments, postNotifications } from "@/lib/api";
 
 export default function GlobalLayout(props) {
     const viewBreakpoint = 992;
@@ -21,16 +21,16 @@ export default function GlobalLayout(props) {
     const [userData, setUserData] = useState({
         id: -1,
         name: '',
-        image: '',
+        image: ''
+    });
+    const [notificationData, setNotificationData] = useState({
+        messages: {
+            count: 0,
+            data: []
+        },
         notifs: {
-            messages: {
-                count: 0,
-                data: []
-            },
-            notifications: {
-                count: 0,
-                data: []
-            }
+            count: 0,
+            data: []
         }
     });
 
@@ -235,17 +235,7 @@ export default function GlobalLayout(props) {
                 setUserData(res?.status == 200 && res?.data ? res?.data : {
                     id: -1,
                     name: '',
-                    image: '',
-                    notifs: {
-                        messages: {
-                            count: 0,
-                            data: []
-                        },
-                        notifications: {
-                            count: 0,
-                            data: []
-                        }
-                    }
+                    image: ''
                 });
             },
             (err) => {
@@ -253,17 +243,7 @@ export default function GlobalLayout(props) {
                 setUserData({
                     id: -1,
                     name: '',
-                    image: '',
-                    notifs: {
-                        messages: {
-                            count: 0,
-                            data: []
-                        },
-                        notifications: {
-                            count: 0,
-                            data: []
-                        }
-                    }
+                    image: ''
                 });
             },
         )
@@ -330,13 +310,15 @@ export default function GlobalLayout(props) {
         callback ? callback(attachmentsArr) : null;
     }
 
-    async function patchUserData(formData, chatObj, callback) {
-        await patchUsers(formData).then(
+    async function postChatNotification(formData, chatObj, callback) {
+        await postNotifications(formData).then(
             (res) => {
-                console.log('GlobalLayout > patchUserData > res', res)
+                console.log('GlobalLayout > postChatNotification > res', res)
+
+                socket.emit('send_notification', { receiverName: chatObj?.name });
             },
             (err) => {
-                console.log('GlobalLayout > patchUserData > err', err)
+                console.log('GlobalLayout > postChatNotification > err', err)
             },
         );
 
@@ -428,12 +410,12 @@ export default function GlobalLayout(props) {
                 chatInput ? chatInput.attachments = attachments : null;
                 formData.append('chatInput', JSON.stringify(chatInput));
                 postChatThread(formData, chatObj);
-                patchUserData(formData, chatObj);
+                postChatNotification(formData, chatObj);
             })
         } else {
             formData.append('chatInput', JSON.stringify(chatInput));
             postChatThread(formData, chatObj);
-            patchUserData(formData, chatObj);
+            postChatNotification(formData, chatObj);
         }
     }
 
@@ -496,6 +478,7 @@ export default function GlobalLayout(props) {
                 appBarHeight={appBarHeight}
                 isMobileView={isMobileView}
                 userData={userData}
+                notificationData={notificationData}
                 isLeftDrawerOpen={isLeftDrawerOpen}
                 onDrawerToggleClick={onDrawerToggleClick}
                 onLoading={(value) => setIsLayoutLoading(value)}
