@@ -60,22 +60,55 @@ export async function PATCH(req, res) {
     console.log('USERS > PATCH > chatType', chatType)
     console.log('USERS > PATCH > chatInput', chatInput)
 
-    for (const key in jsonData) {
-      if(jsonData[key]?.id == chatId && jsonData[key]['notifs'] && jsonData[key]['notifs']['messages']) {
-        jsonData[key]['notifs']['messages']['count'] = parseInt(jsonData[key]['notifs']['messages']['count']) + 1;
-        jsonData[key]['notifs']['messages']['data'] = [...jsonData[key]['notifs']['messages']['data'], chatInput];
+    let dataObj = {};
 
-        console.log('USERS > PATCH > count', parseInt(jsonData[key]['notifs']['messages']['count']))
-        console.log('USERS > PATCH > data', jsonData[key]['notifs']['messages']['data'])
+    switch (chatType) {
+      case 'single':
+        for (const key in jsonData) {
+          if(jsonData[key]?.id == chatId && jsonData[key]['notifs'] && jsonData[key]['notifs']['messages']) {
+            jsonData[key]['notifs']['messages']['count'] = parseInt(jsonData[key]['notifs']['messages']['count']) + 1;
+            jsonData[key]['notifs']['messages']['data'] = [...jsonData[key]['notifs']['messages']['data'], chatInput];
+
+            dataObj = jsonData[key]['notifs'];
+    
+            console.log('USERS > PATCH > single > count', parseInt(jsonData[key]['notifs']['messages']['count']))
+            console.log('USERS > PATCH > single > data', jsonData[key]['notifs']['messages']['data'])
+          }
+        }
 
         await fs.writeFile(path.join(process.cwd(), jsonPath), JSON.stringify(jsonData));
 
         return NextResponse.json({
           status: 200,
           message: "Patch user successful.",
-          data: jsonData[key]
+          data: {
+            ...dataObj,
+            chatType: chatType
+          }
         }, { status: 200 });
-      }
+      case 'multiple':
+        for (const key in jsonData) {
+          if(jsonData[key]?.id != userId && jsonData[key]?.groupIds && jsonData[key]?.groupIds.includes(chatId) && jsonData[key]['notifs'] && jsonData[key]['notifs']['messages']) {
+            jsonData[key]['notifs']['messages']['count'] = parseInt(jsonData[key]['notifs']['messages']['count']) + 1;
+            jsonData[key]['notifs']['messages']['data'] = [...jsonData[key]['notifs']['messages']['data'], chatInput];
+
+            dataObj = jsonData[key]['notifs'];
+    
+            console.log('USERS > PATCH > multiple > count', parseInt(jsonData[key]['notifs']['messages']['count']))
+            console.log('USERS > PATCH > multiple > data', jsonData[key]['notifs']['messages']['data'])
+          }
+        }
+
+        await fs.writeFile(path.join(process.cwd(), jsonPath), JSON.stringify(jsonData));
+    
+        return NextResponse.json({
+          status: 200,
+          message: "Patch user successful.",
+          data: {
+            ...dataObj,
+            chatType: chatType
+          }
+        }, { status: 200 });
     }
 
     return NextResponse.json({

@@ -1,6 +1,7 @@
 [
     {
         "id": 1,
+        "groupIds": [7,8],
         "username": "ticto_marc",
         "password": "password1",
         "name": "Marc Escatron",
@@ -18,6 +19,7 @@
     },
     {
         "id": 2,
+        "groupIds": [7,8],
         "username": "ticto_jerson",
         "password": "password2",
         "name": "Jerson Albit",
@@ -35,6 +37,7 @@
     },
     {
         "id": 3,
+        "groupIds": [7],
         "username": "ticto_joel",
         "password": "password3",
         "name": "Joel Buena",
@@ -52,6 +55,7 @@
     },
     {
         "id": 4,
+        "groupIds": [7,8],
         "username": "ticto_rommel",
         "password": "password4",
         "name": "Rommel Digal",
@@ -69,6 +73,7 @@
     },
     {
         "id": 5,
+        "groupIds": [7,8],
         "username": "ticto_junjie",
         "password": "password5",
         "name": "Junjie Bautista",
@@ -86,6 +91,7 @@
     },
     {
         "id": 6,
+        "groupIds": [7],
         "username": "ticto_head",
         "password": "password6",
         "name": "Ian Tambis",
