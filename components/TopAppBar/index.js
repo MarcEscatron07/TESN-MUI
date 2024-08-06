@@ -15,6 +15,13 @@ import Menu from "@mui/material/Menu";
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
+import Popover from '@mui/material/Popover';
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import ListSubheader from '@mui/material/ListSubheader';
 
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
@@ -23,7 +30,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
-import { AppBar, Search, SearchIconWrapper, StyledInputBase } from "@/components/function";
+import { AppBar, Search, SearchIconWrapper, StyledInputBase, StyledBadge } from "@/components/function";
 import { TOP_APP_BAR } from '@/components/styles';
 
 export default function TopAppBar(props) {
@@ -32,6 +39,8 @@ export default function TopAppBar(props) {
 
     const [menuAnchorEl, setMenuAnchorEl] = useState(null);
     const [mobileMenuAnchorEl, setMobileMenuAnchorEl] = useState(null);
+    const [messagePopoverEl, setMessagePopoverEl] = useState(null);
+    const [notifsPopoverEl, setNotifsPopoverEl] = useState(null);
 
     const menuId = "topappbar-menu";
     const mobileMenuId = "topappbar-menu-mobile";
@@ -89,6 +98,17 @@ export default function TopAppBar(props) {
         }, 1000)
     };
 
+    const onNotificationButtonClick = (event, origin) => {
+        switch (origin) {
+            case 'messages':
+                setMessagePopoverEl(event.target);
+                break;
+            case 'notifs':
+                setNotifsPopoverEl(event.target);
+                break;
+        }
+    }
+
     const renderMenu = (
         <Menu
             anchorEl={menuAnchorEl}
@@ -127,7 +147,12 @@ export default function TopAppBar(props) {
             onClose={onMobileMenuClose}
         >
             <MenuItem>
-                <IconButton aria-label="topappbar-messages-mobile" size="large" color="inherit">
+                <IconButton
+                    aria-label="topappbar-messages-mobile"
+                    size="large"
+                    color="inherit"
+                    onClick={(event) => onNotificationButtonClick(event, 'messages')}
+                >
                     <Badge badgeContent={props.notificationData?.messages.count} color="error">
                         <ChatIcon />
                     </Badge>
@@ -135,7 +160,12 @@ export default function TopAppBar(props) {
                 <p>Messages</p>
             </MenuItem>
             <MenuItem>
-                <IconButton aria-label="topappbar-notifications-mobile" size="large" color="inherit">
+                <IconButton
+                    aria-label="topappbar-notifications-mobile"
+                    size="large"
+                    color="inherit"
+                    onClick={(event) => onNotificationButtonClick(event, 'notifs')}
+                >
                     <Badge badgeContent={props.notificationData?.notifs.count} color="error">
                         <NotificationsIcon />
                     </Badge>
@@ -153,15 +183,15 @@ export default function TopAppBar(props) {
 
     return (
         <>
-            <Paper 
-                elevation={4} 
-                sx={{ 
-                    position: 'fixed', 
-                    height: props.appBarHeight, 
-                    width: '100%', 
-                    zIndex: 1200, 
-                    borderRadius: 0, 
-                    backgroundColor: theme.palette.primary.light, 
+            <Paper
+                elevation={4}
+                sx={{
+                    position: 'fixed',
+                    height: props.appBarHeight,
+                    width: '100%',
+                    zIndex: 1200,
+                    borderRadius: 0,
+                    backgroundColor: theme.palette.primary.light,
                 }}
             />
             <AppBar position="fixed" elevation={props.isMobileView ? 2 : 4} open={props.isLeftDrawerOpen} sx={{ height: props.appBarHeight, backgroundColor: theme.palette.primary.light }}>
@@ -208,6 +238,7 @@ export default function TopAppBar(props) {
                             size="large"
                             color="inherit"
                             sx={TOP_APP_BAR.topAppBarNotificationButtons}
+                            onClick={(event) => onNotificationButtonClick(event, 'messages')}
                         >
                             <Badge badgeContent={props.notificationData?.messages.count} color="error">
                                 <ChatIcon />
@@ -218,6 +249,7 @@ export default function TopAppBar(props) {
                             size="large"
                             color="inherit"
                             sx={TOP_APP_BAR.topAppBarNotificationButtons}
+                            onClick={(event) => onNotificationButtonClick(event, 'notifs')}
                         >
                             <Badge badgeContent={props.notificationData?.notifs.count} color="error">
                                 <NotificationsIcon />
@@ -237,7 +269,7 @@ export default function TopAppBar(props) {
                                 <Chip
                                     avatar={<Avatar alt={props.userData?.name} src={props.userData?.image} />}
                                     label={props.userData?.name}
-                                    sx={{...TOP_APP_BAR.topAppBarAvatarChip, backgroundColor: theme.palette.secondary.main}}
+                                    sx={{ ...TOP_APP_BAR.topAppBarAvatarChip, backgroundColor: theme.palette.secondary.main }}
                                 />
                             </Stack>
                         </IconButton>
@@ -258,6 +290,98 @@ export default function TopAppBar(props) {
             </AppBar>
             {renderMobileMenu}
             {renderMenu}
+
+            <Popover
+                id={messagePopoverEl ? 'message-popover' : undefined}
+                open={messagePopoverEl ? true : false}
+                anchorEl={messagePopoverEl}
+                onClose={() => setMessagePopoverEl(null)}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                disablePortal
+            >
+                <Box>
+                    <List
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            minWidth: 300,
+                            py: 1,
+                            pl: 1,
+                            pr: 2
+                        }}
+                    >
+                        {props.notificationData?.messages?.data && props.notificationData?.messages?.data.map((item, idx) => (
+                            <ListItem key={idx}
+                                disablePadding
+                                onClick={(event) => {}}
+                                sx={{ 
+                                    cursor: 'pointer', 
+                                    width: '100%',
+                                    borderRadius: 1,
+                                    "&:hover": {
+                                        backgroundColor: theme.palette.light.light
+                                    }, 
+                                }}
+                            >
+                                <IconButton
+                                    color="light"
+                                    sx={{ width: 48, mr: 1 }}
+                                >
+                                    <StyledBadge
+                                        overlap="circular"
+                                        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                        variant="dot"
+                                        sx={{
+                                            "& .MuiBadge-badge": {
+                                                color: item.isOnline ? "lightgreen" : "lightgray",
+                                                backgroundColor: item.isOnline ? "green" : "gray"
+                                            }
+                                        }}
+                                    >
+                                        <Avatar alt={item.name} src={item.image} />
+                                    </StyledBadge>
+                                </IconButton>
+
+                                <Box 
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column'
+                                    }}
+                                >
+                                    <Box
+                                        sx={{
+                                            fontSize: '1rem',
+                                            fontWeight: 'bold'
+                                        }}
+                                    >
+                                        {item.sender}
+                                    </Box>
+                                    <Box
+                                        sx={{
+                                            fontSize: '.95rem',
+                                        }}
+                                    >
+                                        {item.message}
+                                    </Box>
+                                </Box>
+                            </ListItem>
+                        ))}
+                    </List>
+                </Box>
+            </Popover>
+
+            <Popover
+                id={notifsPopoverEl ? 'notifs-popover' : undefined}
+                open={notifsPopoverEl ? true : false}
+                anchorEl={notifsPopoverEl}
+                onClose={() => setNotifsPopoverEl(null)}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                disablePortal
+            >
+                <Box>
+
+                </Box>
+            </Popover>
         </>
     )
 }

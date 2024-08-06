@@ -390,7 +390,7 @@ export default function EventCalendar() {
             />
 
             <Popover
-                id={popoverAnchor ? 'simple-popover' : undefined}
+                id={popoverAnchor ? 'event-calendar-popover' : undefined}
                 open={popoverAnchor ? true : false}
                 anchorEl={popoverAnchor}
                 onClose={() => setPopoverAnchor(null)}

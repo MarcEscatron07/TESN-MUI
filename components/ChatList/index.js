@@ -137,7 +137,7 @@ export default function ChatList(props) {
       ) : null}
 
       <Popover
-        id={popoverAnchor ? 'simple-popover' : undefined}
+        id={popoverAnchor ? 'chatlist-popover' : undefined}
         open={popoverAnchor ? true : false}
         anchorEl={popoverAnchor}
         onClose={() => setPopoverAnchor(null)}
