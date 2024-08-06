@@ -379,7 +379,7 @@ export default function TopAppBar(props) {
                 disablePortal
             >
                 <Box>
-
+                    {/* TO-DO: Finish partial UI applied in Notifications > Messages then proceed to Notifications > Notifs */}
                 </Box>
             </Popover>
         </>
