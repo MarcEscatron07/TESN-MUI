@@ -125,6 +125,12 @@ export async function POST(req, res) {
 export async function PATCH(req, res) {
   try {
     // TO-DO: code logic for patching notification on ChatBox > Focus
+
+    return NextResponse.json({
+      status: 200,
+      message: "Patch notification successful.",
+      data: null
+    }, { status: 200 });
   } catch (e) {
     return NextResponse.json({
       status: 500,
