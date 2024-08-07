@@ -222,6 +222,8 @@ export default function ChatBox(props) {
                         senderImage: props.userData?.image,
                         receiver: actChatData.name,
                         receiverImage: actChatData.image,
+                        receiverType: actChatData.type,
+                        receiverIsOnline: actChatData.isOnline,
                         message: chatMessage,
                         timestamp: moment().toISOString(),
                         status: 'unread',

@@ -58,14 +58,25 @@ export async function POST(req, res) {
         console.log('NOTIFICATIONS > POST > chatType', chatType)
         console.log('NOTIFICATIONS > POST > chatInput', chatInput)
     
+        let dataArr = [];
+        let dataIdx = -1;
         let dataObj = {};
     
         switch (chatType) {
           case 'single':
             for (const key in jsonData) {
               if(jsonData[key]?.userId == chatId && jsonData[key]['notifications'] && jsonData[key]['notifications']['messages']) {
-                jsonData[key]['notifications']['messages']['count'] = parseInt(jsonData[key]['notifications']['messages']['count']) + 1;
-                jsonData[key]['notifications']['messages']['data'] = [...jsonData[key]['notifications']['messages']['data'], chatInput];
+                dataArr = jsonData[key]['notifications']['messages']['data'];
+                dataIdx = dataArr.map((i) => i?.sender).indexOf(chatInput?.sender);
+
+                if(dataIdx != -1) {
+                  dataArr[dataIdx] = chatInput;
+                } else {
+                  dataArr = [...jsonData[key]['notifications']['messages']['data'], chatInput];
+                }
+
+                jsonData[key]['notifications']['messages']['data'] = dataArr;
+                jsonData[key]['notifications']['messages']['count'] = dataArr.map((i) => i.status == 'unread').length;
     
                 dataObj = jsonData[key]['notifications'];
         
@@ -87,8 +98,17 @@ export async function POST(req, res) {
           case 'multiple':
             for (const key in jsonData) {
               if(jsonData[key]?.userId != userId && jsonData[key]?.groupIds && jsonData[key]?.groupIds.includes(chatId) && jsonData[key]['notifications'] && jsonData[key]['notifications']['messages']) {
-                jsonData[key]['notifications']['messages']['count'] = parseInt(jsonData[key]['notifications']['messages']['count']) + 1;
-                jsonData[key]['notifications']['messages']['data'] = [...jsonData[key]['notifications']['messages']['data'], chatInput];
+                dataArr = jsonData[key]['notifications']['messages']['data'];
+                dataIdx = dataArr.map((i) => i?.receiver).indexOf(chatInput?.receiver);
+
+                if(dataIdx != -1) {
+                  dataArr[dataIdx] = chatInput;
+                } else {
+                  dataArr = [...jsonData[key]['notifications']['messages']['data'], chatInput];
+                }
+
+                jsonData[key]['notifications']['messages']['data'] = dataArr;
+                jsonData[key]['notifications']['messages']['count'] = dataArr.map((i) => i.status == 'unread').length;
     
                 dataObj = jsonData[key]['notifications'];
         

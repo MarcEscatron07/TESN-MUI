@@ -327,19 +327,7 @@ export default function TopAppBar(props) {
                                     color="light"
                                     sx={{ width: 48, mr: 1 }}
                                 >
-                                    <StyledBadge
-                                        overlap="circular"
-                                        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                                        variant="dot"
-                                        sx={{
-                                            "& .MuiBadge-badge": {
-                                                color: item.isOnline ? "lightgreen" : "lightgray",
-                                                backgroundColor: item.isOnline ? "green" : "gray"
-                                            }
-                                        }}
-                                    >
-                                        <Avatar alt={item.name} src={item.image} />
-                                    </StyledBadge>
+                                    <Avatar alt={item.name} src={item.receiverType == 'single' ? item.senderImage : item.receiverImage} />
                                 </IconButton>
 
                                 <Box 
@@ -354,14 +342,15 @@ export default function TopAppBar(props) {
                                             fontWeight: 'bold'
                                         }}
                                     >
-                                        {item.sender}
+                                        {item.receiverType == 'single' ? item.sender : item.receiver}
                                     </Box>
                                     <Box
                                         sx={{
-                                            fontSize: '.95rem',
+                                            fontSize: '.75rem',
                                         }}
                                     >
-                                        {item.message}
+                                        {item.receiverType == 'multiple' ? (<span style={{marginRight: 5}}>{item.sender}:</span>) : null}
+                                        <span>{item.message}</span>
                                     </Box>
                                 </Box>
                             </ListItem>
