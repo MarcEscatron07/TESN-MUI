@@ -17,30 +17,25 @@ export default function Home() {
   const [isMobileView, setIsMobileView] = useState(false);
 
   useEffect(() => {
-    fetchPosts();
+    getHomePosts();
 
     setTimeout(() => {
       setIsLoading(false);
     }, 1000)
   }, []);
 
-  async function fetchPosts() {
-    if(sessionStorage.getItem('posts_data')) {
-      setPostsList(JSON.parse(sessionStorage.getItem('posts_data')));
-    } else {
-      await getPosts().then(
-        (res) => {
-          // console.log('fetchPosts > res', res)
-  
-          res?.status == 200 && res?.data ? sessionStorage.setItem('posts_data', JSON.stringify(res?.data)) : null;
-          setPostsList(res?.status == 200 && res?.data ? res?.data : []);
-        },
-        (err) => {
-          console.log('fetchPosts > err', err);
-          setPostsList([]);
-        },
-      );
-    }
+  async function getHomePosts() {
+    await getPosts().then(
+      (res) => {
+        // console.log('getHomePosts > res', res)
+
+        setPostsList(res?.status == 200 && res?.data ? res?.data : []);
+      },
+      (err) => {
+        console.log('getHomePosts > err', err);
+        setPostsList([]);
+      },
+    );
   }
 
   const onLayoutMobileView = (value) => {

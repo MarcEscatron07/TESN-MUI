@@ -15,6 +15,9 @@ import Menu from "@mui/material/Menu";
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
@@ -25,18 +28,16 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 
 import { AppBar, Search, SearchIconWrapper, StyledInputBase } from "@/components/function";
 import { TOP_APP_BAR } from '@/components/styles';
+import { formatDateTime } from '@/lib/helpers';
 
 export default function TopAppBar(props) {
     const router = useRouter();
     const theme = useTheme();
 
-    const [userData, setUserData] = useState({
-        id: -1,
-        name: '',
-        image: ''
-    });
     const [menuAnchorEl, setMenuAnchorEl] = useState(null);
     const [mobileMenuAnchorEl, setMobileMenuAnchorEl] = useState(null);
+    const [messageMenuEl, setMessageMenuEl] = useState(null);
+    const [notifsMenuEl, setNotifsMenuEl] = useState(null);
 
     const menuId = "topappbar-menu";
     const mobileMenuId = "topappbar-menu-mobile";
@@ -48,8 +49,7 @@ export default function TopAppBar(props) {
     }, []);
 
     useEffect(() => {
-        setUserData(props.sessionUser);
-    }, [props.sessionUser]);
+    }, [props.userData]);
 
     const clearSessionStorage = () => {
         sessionStorage.clear();
@@ -83,11 +83,43 @@ export default function TopAppBar(props) {
     };
 
     const onLogoutClick = () => {
+        props.onLoading ? props.onLoading(true) : null;
+
         onMenuClose();
         clearLocalStorage();
         clearSessionStorage();
+
         router.push(`/`);
+        setTimeout(() => {
+            props.onLoading ? props.onLoading(false) : null;
+        }, 1000)
     };
+
+    const onNotificationButtonClick = (event, origin) => {
+        switch (origin) {
+            case 'messages':
+                setMessageMenuEl(event.target);
+                break;
+            case 'notifs':
+                setNotifsMenuEl(event.target);
+                break;
+        }
+    }
+
+    const onNotificationItemClick = (event, origin, value) => {
+        switch(origin) {
+            case 'messages':
+                if(props.onAppBarNotificationItemClick) {
+                    setMenuAnchorEl(null);
+                    setMobileMenuAnchorEl(null);
+                    setMessageMenuEl(null);
+                    setNotifsMenuEl(null);
+                    
+                    props.onAppBarNotificationItemClick(value);
+                }
+                break;
+        }
+    }
 
     const renderMenu = (
         <Menu
@@ -97,13 +129,13 @@ export default function TopAppBar(props) {
                 horizontal: "right",
             }}
             id={menuId}
-            keepMounted
             transformOrigin={{
                 vertical: "top",
                 horizontal: "right",
             }}
             open={isMenuOpen}
             onClose={onMenuClose}
+            keepMounted
         >
             <MenuItem onClick={onMenuClose}>Profile</MenuItem>
             <MenuItem onClick={onLogoutClick}>Logout</MenuItem>
@@ -118,25 +150,33 @@ export default function TopAppBar(props) {
                 horizontal: "right",
             }}
             id={mobileMenuId}
-            keepMounted
             transformOrigin={{
                 vertical: "top",
                 horizontal: "right",
             }}
             open={isMobileMenuOpen}
             onClose={onMobileMenuClose}
+            keepMounted
         >
-            <MenuItem>
-                <IconButton aria-label="topappbar-messages-mobile" size="large" color="inherit">
-                    <Badge badgeContent={4} color="error">
+            <MenuItem onClick={(event) => onNotificationButtonClick(event, 'messages')}>
+                <IconButton
+                    aria-label="topappbar-messages-mobile"
+                    size="large"
+                    color="inherit"
+                >
+                    <Badge badgeContent={props.notificationData?.messages.count} color="error">
                         <ChatIcon />
                     </Badge>
                 </IconButton>
                 <p>Messages</p>
             </MenuItem>
-            <MenuItem>
-                <IconButton aria-label="topappbar-notifications-mobile" size="large" color="inherit">
-                    <Badge badgeContent={17} color="error">
+            <MenuItem onClick={(event) => onNotificationButtonClick(event, 'notifs')}>
+                <IconButton
+                    aria-label="topappbar-notifications-mobile"
+                    size="large"
+                    color="inherit"
+                >
+                    <Badge badgeContent={props.notificationData?.notifs.count} color="error">
                         <NotificationsIcon />
                     </Badge>
                 </IconButton>
@@ -153,15 +193,15 @@ export default function TopAppBar(props) {
 
     return (
         <>
-            <Paper 
-                elevation={4} 
-                sx={{ 
-                    position: 'fixed', 
-                    height: props.appBarHeight, 
-                    width: '100%', 
-                    zIndex: 1200, 
-                    borderRadius: 0, 
-                    backgroundColor: theme.palette.primary.light, 
+            <Paper
+                elevation={4}
+                sx={{
+                    position: 'fixed',
+                    height: props.appBarHeight,
+                    width: '100%',
+                    zIndex: 1200,
+                    borderRadius: 0,
+                    backgroundColor: theme.palette.primary.light,
                 }}
             />
             <AppBar position="fixed" elevation={props.isMobileView ? 2 : 4} open={props.isLeftDrawerOpen} sx={{ height: props.appBarHeight, backgroundColor: theme.palette.primary.light }}>
@@ -208,8 +248,9 @@ export default function TopAppBar(props) {
                             size="large"
                             color="inherit"
                             sx={TOP_APP_BAR.topAppBarNotificationButtons}
+                            onClick={(event) => onNotificationButtonClick(event, 'messages')}
                         >
-                            <Badge badgeContent={4} color="error">
+                            <Badge badgeContent={props.notificationData?.messages.count} color="error">
                                 <ChatIcon />
                             </Badge>
                         </IconButton>
@@ -218,8 +259,9 @@ export default function TopAppBar(props) {
                             size="large"
                             color="inherit"
                             sx={TOP_APP_BAR.topAppBarNotificationButtons}
+                            onClick={(event) => onNotificationButtonClick(event, 'notifs')}
                         >
-                            <Badge badgeContent={17} color="error">
+                            <Badge badgeContent={props.notificationData?.notifs.count} color="error">
                                 <NotificationsIcon />
                             </Badge>
                         </IconButton>
@@ -235,9 +277,9 @@ export default function TopAppBar(props) {
                         >
                             <Stack direction="row" spacing={1}>
                                 <Chip
-                                    avatar={<Avatar alt={userData.name} src={userData.image} />}
-                                    label={userData.name}
-                                    sx={{...TOP_APP_BAR.topAppBarAvatarChip, backgroundColor: theme.palette.secondary.main}}
+                                    avatar={<Avatar alt={props.userData?.name} src={props.userData?.image} />}
+                                    label={props.userData?.name}
+                                    sx={{ ...TOP_APP_BAR.topAppBarAvatarChip, backgroundColor: theme.palette.secondary.main }}
                                 />
                             </Stack>
                         </IconButton>
@@ -256,8 +298,152 @@ export default function TopAppBar(props) {
                     </Box>
                 </Toolbar>
             </AppBar>
+
             {renderMobileMenu}
             {renderMenu}
+
+            <Menu
+                open={messageMenuEl ? true : false}
+                anchorEl={messageMenuEl}
+                onClose={() => setMessageMenuEl(null)}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
+                <Typography
+                    variant="h6"
+                    noWrap
+                    component="div"
+                    color="dark"
+                    sx={{px: 1.5}}
+                >
+                    Unread Messages
+                </Typography>
+                <Box>
+                    <List
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            width: 340,
+                            py: 1,
+                            pl: 1,
+                            pr: 2
+                        }}
+                    >
+                        {props.notificationData?.messages?.data && props.notificationData?.messages?.data.length > 0 ? 
+                        props.notificationData?.messages?.data.map((item, idx) => (
+                            <ListItem 
+                                key={idx}
+                                disablePadding
+                                onClick={(event) => onNotificationItemClick(event, 'messages', item?.chatObj)}
+                                sx={{ 
+                                    cursor: 'pointer', 
+                                    display: 'flex',
+                                    width: '100%',
+                                    borderRadius: 1,
+                                    "&:hover": {
+                                        backgroundColor: theme.palette.light.light
+                                    }, 
+                                }}
+                            >
+                                <IconButton
+                                    color="light"
+                                    sx={{ width: 48, mr: 1 }}
+                                >
+                                    <Avatar alt={item?.chatInput?.name} src={item?.chatInput?.receiverType == 'single' ? item?.chatInput?.senderImage : item?.chatInput?.receiverImage} />
+                                </IconButton>
+
+                                <Box 
+                                    className="notification-message"
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        width: '100%',
+                                    }}
+                                >
+                                    <Box
+                                        className="notification-message-name"
+                                        sx={{
+                                            fontSize: '1rem',
+                                            fontWeight: 'bold'
+                                        }}
+                                    >
+                                        {item?.chatInput?.receiverType == 'single' ? item?.chatInput?.sender : item?.chatInput?.receiver}
+                                    </Box>
+                                    <Box
+                                        className="notification-message-container"
+                                        sx={{
+                                            fontSize: '.75rem',
+                                            display: 'flex',
+                                            justifyContent: 'space-between'
+                                        }}
+                                    >
+                                        <Box className="notification-message-text">
+                                            {item?.chatInput?.receiverType == 'multiple' ? (<span style={{marginRight: 5}}>{item?.chatInput?.sender}:</span>) : null}
+                                            <span>{item?.chatInput?.message}</span>
+                                        </Box>
+                                        <Box className="notification-message-timestamp">
+                                            <span>{`${formatDateTime(item?.chatInput?.timestamp, 'MMMM DD, YYYY', { origin: 'notification-timestamp', suffix: ' ago' })}`}</span>
+                                        </Box>
+                                    </Box>
+                                </Box>
+                            </ListItem>
+                        )) : (
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                            >
+                                <span style={{fontSize: '.85rem', fontWeight: 'bold'}}>You have no unread messages.</span>
+                            </Box>
+                        )}
+                    </List>
+                </Box>
+            </Menu>
+
+            <Menu
+                open={notifsMenuEl ? true : false}
+                anchorEl={notifsMenuEl}
+                onClose={() => setNotifsMenuEl(null)}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
+                <Typography
+                    variant="h6"
+                    noWrap
+                    component="div"
+                    color="dark"
+                    sx={{px: 1.5}}
+                >
+                    New Notifications
+                </Typography>
+                <Box>
+                    <List
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            minWidth: 300,
+                            py: 1,
+                            pl: 1,
+                            pr: 2
+                        }}
+                    >
+                        {props.notificationData?.notifs?.data && props.notificationData?.notifs?.data.length > 0 ? (
+                            <>
+                            </>
+                        ) : (
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                            >
+                                <span style={{fontSize: '.85rem', fontWeight: 'bold'}}>You have no new notifications.</span>
+                            </Box>
+                        )}
+                    </List>
+                </Box>
+            </Menu>
         </>
     )
 }

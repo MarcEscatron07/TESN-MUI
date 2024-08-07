@@ -8,40 +8,35 @@
                 "name": "Jerson Albit",
                 "image": "/images/avatars/avatar_male_2.png",
                 "type": "single",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             },
             {
                 "id": 3,
                 "name": "Joel Buena",
                 "image": "/images/avatars/avatar_male_3.png",
                 "type": "single",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             },
             {
                 "id": 4,
                 "name": "Rommel Digal",
                 "image": "/images/avatars/avatar_male_4.png",
                 "type": "single",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             },
             {
                 "id": 5,
                 "name": "Junjie Bautista",
                 "image": "/images/avatars/avatar_male_5.png",
                 "type": "single",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             },
             {
                 "id": 6,
                 "name": "Ian Tambis",
                 "image": "/images/avatars/avatar_male_6.png",
                 "type": "single",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             }
         ],
         "groups": [
@@ -50,16 +45,14 @@
                 "name": "TICTO",
                 "image": "/images/avatars/avatar_ticto_seal.png",
                 "type": "multiple",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             },
             {
                 "id": 8,
                 "name": "Ridezzz",
                 "image": "/images/avatars/avatar_motorbike.png",
                 "type": "multiple",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             }
         ]
     },
@@ -72,40 +65,35 @@
                 "name": "Marc Escatron",
                 "image": "/images/avatars/avatar_male_1.png",
                 "type": "single",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             },
             {
                 "id": 3,
                 "name": "Joel Buena",
                 "image": "/images/avatars/avatar_male_3.png",
                 "type": "single",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             },
             {
                 "id": 4,
                 "name": "Rommel Digal",
                 "image": "/images/avatars/avatar_male_4.png",
                 "type": "single",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             },
             {
                 "id": 5,
                 "name": "Junjie Bautista",
                 "image": "/images/avatars/avatar_male_5.png",
                 "type": "single",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             },
             {
                 "id": 6,
                 "name": "Ian Tambis",
                 "image": "/images/avatars/avatar_male_6.png",
                 "type": "single",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             }
         ],
         "groups": [
@@ -114,16 +102,14 @@
                 "name": "TICTO",
                 "image": "/images/avatars/avatar_ticto_seal.png",
                 "type": "multiple",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             },
             {
                 "id": 8,
                 "name": "Ridezzz",
                 "image": "/images/avatars/avatar_motorbike.png",
                 "type": "multiple",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             }
         ]
     },
@@ -136,16 +122,14 @@
                 "name": "Marc Escatron",
                 "image": "/images/avatars/avatar_male_1.png",
                 "type": "single",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             },
             {
                 "id": 2,
                 "name": "Jerson Albit",
                 "image": "/images/avatars/avatar_male_2.png",
                 "type": "single",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             }
         ],
         "groups": [
@@ -154,8 +138,7 @@
                 "name": "TICTO",
                 "image": "/images/avatars/avatar_ticto_seal.png",
                 "type": "multiple",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             }
         ]
     },
@@ -168,16 +151,14 @@
                 "name": "Marc Escatron",
                 "image": "/images/avatars/avatar_male_1.png",
                 "type": "single",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             },
             {
                 "id": 2,
                 "name": "Jerson Albit",
                 "image": "/images/avatars/avatar_male_2.png",
                 "type": "single",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             }
         ],
         "groups": [
@@ -186,16 +167,14 @@
                 "name": "TICTO",
                 "image": "/images/avatars/avatar_ticto_seal.png",
                 "type": "multiple",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             },
             {
                 "id": 8,
                 "name": "Ridezzz",
                 "image": "/images/avatars/avatar_motorbike.png",
                 "type": "multiple",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             }
         ]
     },
@@ -208,16 +187,14 @@
                 "name": "Marc Escatron",
                 "image": "/images/avatars/avatar_male_1.png",
                 "type": "single",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             },
             {
                 "id": 2,
                 "name": "Jerson Albit",
                 "image": "/images/avatars/avatar_male_2.png",
                 "type": "single",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             }
         ],
         "groups": [
@@ -226,16 +203,14 @@
                 "name": "TICTO",
                 "image": "/images/avatars/avatar_ticto_seal.png",
                 "type": "multiple",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             },
             {
                 "id": 8,
                 "name": "Ridezzz",
                 "image": "/images/avatars/avatar_motorbike.png",
                 "type": "multiple",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             }
         ]
     },
@@ -248,16 +223,14 @@
                 "name": "Marc Escatron",
                 "image": "/images/avatars/avatar_male_1.png",
                 "type": "single",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             },
             {
                 "id": 2,
                 "name": "Jerson Albit",
                 "image": "/images/avatars/avatar_male_2.png",
                 "type": "single",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             }
         ],
         "groups": [
@@ -266,8 +239,7 @@
                 "name": "TICTO",
                 "image": "/images/avatars/avatar_ticto_seal.png",
                 "type": "multiple",
-                "isOnline": true,
-                "unread": 0
+                "isOnline": true
             }
         ]
     }

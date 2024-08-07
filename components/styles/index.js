@@ -5,7 +5,7 @@ export const CARD_POST = {
     },
     cardPostImagePlaceholder: {
         height: '100%',
-        width: 700
+        width: '100%'
     },
     cardPostActions: {
         display: 'flex',

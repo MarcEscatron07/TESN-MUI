@@ -66,6 +66,7 @@ export async function POST(req, res) {
         return NextResponse.json({
             status: 500,
             message: "An unexpected error occured.",
+            data: e
         }, { status: 500 });
     }
 }

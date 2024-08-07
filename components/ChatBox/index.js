@@ -47,17 +47,12 @@ export default function ChatBox(props) {
     const [isChatBoxLoading, setIsChatBoxLoading] = useState(false);
     const [isChatBoxScrolling, setIsChatBoxScrolling] = useState(false);
     const [popoverAnchor, setPopoverAnchor] = useState(null);
-    const [userData, setUserData] = useState({
-        id: -1,
-        name: '',
-        image: ''
-    });
     const [actChatData, setActChatData] = useState({
         id: -1,
         name: '',
         image: '',
         type: '',
-        unread: 0
+        isOnline: false,
     });
     const [actThreadData, setActThreadData] = useState([]);
 
@@ -82,10 +77,8 @@ export default function ChatBox(props) {
     }, [props.isRightDrawerMobileOpen])
 
     useEffect(() => {
-        // console.log('ChatBox > props.sessionUser', props.sessionUser)
-
-        setUserData(props.sessionUser);
-    }, [props.sessionUser])
+        // console.log('ChatBox > props.userData', props.userData)
+    }, [props.userData])
 
     useEffect(() => {
         // console.log('ChatBox > props.activeChatData', props.activeChatData)
@@ -110,7 +103,7 @@ export default function ChatBox(props) {
 
     useEffect(() => {
         // console.log('ChatBox > props.selectedChat', props.selectedChat)
-        // console.log('ChatBox > userData', userData)
+        // console.log('ChatBox > props.userData', props.userData)
         // console.log('ChatBox > actChatData', actChatData)
 
         if(props.selectedChat && props.selectedChat?.id == actChatData.id) {
@@ -127,7 +120,14 @@ export default function ChatBox(props) {
                 }
             }, 1000)
         }
-    }, [props.selectedChat, userData, actChatData])
+    }, [props.selectedChat, props.userData, actChatData])
+
+    useEffect(() => {
+        if(!isChatBoxLoading) {
+            chatBoxContentRef?.current?.lastElementChild?.scrollIntoView();
+            chatBoxInputRef?.current?.focus();
+        }
+    }, [isChatBoxLoading])
 
     useEffect(() => {
         // console.log('ChatBox > actThreadData', actThreadData)
@@ -148,7 +148,7 @@ export default function ChatBox(props) {
     const onAttachFileChange = (event) => {
         const filesArr = event?.target?.files ? [...event?.target?.files] : [];
         setChatAttachments(filesArr);
-        chatBoxInputRef.current?.focus();
+        chatBoxInputRef?.current?.focus();
     }
 
     const onAttachFileClick = (event) => {
@@ -212,7 +212,9 @@ export default function ChatBox(props) {
         setIsChatBoxScrolling(false);
         chatBoxContentRef?.current?.lastElementChild?.scrollIntoView();
         
-        // logic for viewing unread chat here
+        if(props.onChatBoxInputFocus) {
+            props.onChatBoxInputFocus(actChatData);
+        }
     }
 
     const onChatInputSendClick = (event) => {
@@ -223,12 +225,15 @@ export default function ChatBox(props) {
                 props.onChatBoxSendInput(
                     actChatData,
                     {
-                        sender: userData.name,
+                        sender: props.userData?.name,
+                        senderImage: props.userData?.image,
                         receiver: actChatData.name,
+                        receiverImage: actChatData.image,
+                        receiverType: actChatData.type,
+                        receiverIsOnline: actChatData.isOnline,
                         message: chatMessage,
                         timestamp: moment().toISOString(),
                         status: 'unread',
-                        image: userData.image,
                         attachments: null
                     },
                     chatAttachments
@@ -261,8 +266,9 @@ export default function ChatBox(props) {
 
     const onChatBoxContentScroll = (event) => {
         // console.log('onChatBoxContentScroll > event', event)
+        
         setIsChatBoxScrolling(true);
-        chatBoxInputRef.current?.blur();
+        // chatBoxInputRef?.current?.blur();
     }
 
     function renderSystemChatView(idx) {
@@ -277,7 +283,7 @@ export default function ChatBox(props) {
     }
 
     function renderDefaultChatView(item, idx) {
-        const source = item.sender == userData.name ? 'sender' : 'receiver';
+        const source = item.sender == props.userData?.name ? 'sender' : 'receiver';
 
         return (
             <Box key={idx} sx={CHAT_BOX.chatBoxCardContentDefaultBox} className={`chat-box-${source}`}>
@@ -285,7 +291,7 @@ export default function ChatBox(props) {
                     {source == 'receiver' ? (
                         <Image
                             title={item.sender}
-                            src={item.image}
+                            src={item.senderImage}
                             width={40}
                             height={40}
                             alt={item.sender}
@@ -378,7 +384,7 @@ export default function ChatBox(props) {
         }
 
         return item?.name ? (
-            <a href={`./attachments/${item?.name}`} className="attachment-thumbnail-default" target='_blank'>
+            <a key={key} href={`./attachments/${item?.name}`} className="attachment-thumbnail-default" target='_blank'>
                 <Grid container spacing={2}>
                     <Grid item xs={2} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', pr: 0}}>
                         <span className="icon"><FontAwesomeIcon icon={faFile} size="xl" /></span>
@@ -521,7 +527,6 @@ export default function ChatBox(props) {
                 </Card>
 
                 <Popover
-                    id={popoverAnchor ? 'simple-popover' : undefined}
                     open={popoverAnchor ? true : false}
                     anchorEl={popoverAnchor}
                     onClose={() => setPopoverAnchor(null)}

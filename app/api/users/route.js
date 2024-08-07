@@ -10,25 +10,34 @@ export async function GET(req, res) {
     const jsonData = JSON.parse(jsonFile);
     /** temporary code **/
 
-    let dataArr = [];
-    
+    const url = new URL(req.url);
+    const searchParams = new URLSearchParams(url.searchParams);
+    const userId = searchParams.has('userId') ? searchParams.get('userId') : -1;
+
     for (const key in jsonData) {
-        const dataObj = JSON.parse(JSON.stringify(jsonData[key]));
-        // delete dataObj["username"];
-        // delete dataObj["password"];
+        if (jsonData[key]?.id == userId) {
+          const dataObj = JSON.parse(JSON.stringify(jsonData[key]));
+          delete dataObj['groupIds'];
+          delete dataObj['username'];
+          delete dataObj['password'];
 
-        dataArr.push(dataObj);
-    }
+          return NextResponse.json({
+            status: 200,
+            message: "Data fetch successful.",
+            data: dataObj,
+          }, { status: 200 });
+        }
+      }
 
-    return NextResponse.json({
-      status: 200,
-      message: "Data fetch successful.",
-      data: dataArr,
-    }, { status: 200 });
+      return NextResponse.json({
+        status: 400,
+        message: "Data fetch failed.",
+      }, { status: 400 });
   } catch (e) {
     return NextResponse.json({
-      status: 500,
-      message: "An unexpected error occured.",
+        status: 500,
+        message: "An unexpected error occured.",
+        data: e
     }, { status: 500 });
   }
 }

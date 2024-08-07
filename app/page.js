@@ -73,7 +73,7 @@ export default function Login() {
             localStorage.setItem('login_data', JSON.stringify(dataObj));
           }
 
-          sessionStorage.setItem('authuser_data', JSON.stringify(res?.data))
+          sessionStorage.setItem('userid_data', JSON.stringify(res?.data))
           router.push(`/home`);
         } else {
           res?.message ? alert(res?.message) : null;

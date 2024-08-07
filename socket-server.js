@@ -8,7 +8,7 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 /** refer to .env.local for the correct values **/
-const HOST = '192.168.100.220';
+const HOST = '192.168.100.29';
 // const HOST = 'localhost';
 const PORT = 3000;
 /** refer to .env.local for the correct values **/
@@ -25,7 +25,7 @@ app.prepare().then(() => {
   const io = socketIo(server, {
     cors: {
       origin: `http://${HOST}:${PORT}`,
-      methods: ["GET", "POST", "PUT", "DELETE"]
+      methods: ["GET", "POST", "PUT", "DELETE", "PATCH"]
     }
   });
 
@@ -78,12 +78,26 @@ app.prepare().then(() => {
       const clientSocketId = Object.keys(clientsList).find((id) => clientsList[id] == receiverName);
 
       if(clientSocketId) {
-        io.to(socket.id).emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName });
-        io.to(clientSocketId).emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName });
+        io.to(socket.id).emit('receive_message');
+        io.to(clientSocketId).emit('receive_message');
       } else {
         if(groupsList.hasOwnProperty(receiverName)) {
           groupsList[receiverName].forEach((item) => {
-            io.to(item).emit('receive_message', { senderName: clientsList[socket.id], receiverName: receiverName });
+            io.to(item).emit('receive_message');
+          })
+        }
+      }
+    });
+
+    socket.on('send_notification', ({receiverName}) => {
+      const clientSocketId = Object.keys(clientsList).find((id) => clientsList[id] == receiverName);
+
+      if(clientSocketId) {
+        io.to(clientSocketId).emit('receive_notification');
+      } else {
+        if(groupsList.hasOwnProperty(receiverName)) {
+          groupsList[receiverName].forEach((item) => {
+            io.to(item).emit('receive_notification');
           })
         }
       }

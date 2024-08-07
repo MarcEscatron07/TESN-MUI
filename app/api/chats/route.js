@@ -15,28 +15,29 @@ export async function GET(req, res) {
     const userId = searchParams.has('userId') ? searchParams.get('userId') : -1;
 
     for (const key in jsonData) {
-        if (
-            jsonData[key]?.userId == userId && jsonData[key]?.friends && jsonData[key]?.groups
-        ) {
-            return NextResponse.json({
-              status: 200,
-              message: "Data fetch successful.",
-              data: {
-                friends: jsonData[key]?.friends,
-                groups: jsonData[key]?.groups
-              },
-            }, { status: 200 });
-        }
+      if (
+        jsonData[key]?.userId == userId && jsonData[key]?.friends && jsonData[key]?.groups
+      ) {
+        return NextResponse.json({
+          status: 200,
+          message: "Data fetch successful.",
+          data: {
+            friends: jsonData[key]?.friends,
+            groups: jsonData[key]?.groups
+          },
+        }, { status: 200 });
       }
+    }
 
-      return NextResponse.json({
-        status: 400,
-        message: "Data fetch failed.",
-      }, { status: 400 });
+    return NextResponse.json({
+      status: 400,
+      message: "Data fetch failed.",
+    }, { status: 400 });
   } catch (e) {
     return NextResponse.json({
-        status: 500,
-        message: "An unexpected error occured.",
+      status: 500,
+      message: "An unexpected error occured.",
+      data: e
     }, { status: 500 });
   }
 }

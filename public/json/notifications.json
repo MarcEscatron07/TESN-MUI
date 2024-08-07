@@ -1,0 +1,92 @@
+[
+    {
+        "id": 1,
+        "userId": 1,
+        "groupIds": [7,8],
+        "notifications": {
+            "messages": {
+                "count": 0,
+                "data": []
+            },
+            "notifs": {
+                "count": 0,
+                "data": []
+            }
+        }
+    },
+    {
+        "id": 2,
+        "userId": 2,
+        "groupIds": [7,8],
+        "notifications": {
+            "messages": {
+                "count": 0,
+                "data": []
+            },
+            "notifs": {
+                "count": 0,
+                "data": []
+            }
+        }
+    },
+    {
+        "id": 3,
+        "userId": 3,
+        "groupIds": [7],
+        "notifications": {
+            "messages": {
+                "count": 0,
+                "data": []
+            },
+            "notifs": {
+                "count": 0,
+                "data": []
+            }
+        }
+    },
+    {
+        "id": 4,
+        "userId": 4,
+        "groupIds": [7,8],
+        "notifications": {
+            "messages": {
+                "count": 0,
+                "data": []
+            },
+            "notifs": {
+                "count": 0,
+                "data": []
+            }
+        }
+    },
+    {
+        "id": 5,
+        "userId": 5,
+        "groupIds": [7,8],
+        "notifications": {
+            "messages": {
+                "count": 0,
+                "data": []
+            },
+            "notifs": {
+                "count": 0,
+                "data": []
+            }
+        }
+    },
+    {
+        "id": 6,
+        "userId": 6,
+        "groupIds": [7],
+        "notifications": {
+            "messages": {
+                "count": 0,
+                "data": []
+            },
+            "notifs": {
+                "count": 0,
+                "data": []
+            }
+        }
+    }
+]

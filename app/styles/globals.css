@@ -326,6 +326,30 @@ body {
   object-fit: contain;
 }
 
+.notification-message-container {
+  display: "flex";
+  width: 100%;
+}
+.notification-message-container .notification-message-text {
+  width: 60%;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.notification-message-container .notification-message-timestamp {
+  width: 40%;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.notification-message-container .notification-message-timestamp span {
+  background-color: #28166F;
+  color: #FFFFFF;
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+
 /* Start of FullCalendar CSS */
 .fc a {
   color: #00703C;
