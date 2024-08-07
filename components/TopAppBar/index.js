@@ -26,8 +26,9 @@ import ChatIcon from '@mui/icons-material/Chat';
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
-import { AppBar, Search, SearchIconWrapper, StyledInputBase, StyledBadge } from "@/components/function";
+import { AppBar, Search, SearchIconWrapper, StyledInputBase } from "@/components/function";
 import { TOP_APP_BAR } from '@/components/styles';
+import { formatDateTime } from '@/lib/helpers';
 
 export default function TopAppBar(props) {
     const router = useRouter();
@@ -109,6 +110,11 @@ export default function TopAppBar(props) {
         switch(origin) {
             case 'messages':
                 if(props.onAppBarNotificationItemClick) {
+                    setMenuAnchorEl(null);
+                    setMobileMenuAnchorEl(null);
+                    setMessageMenuEl(null);
+                    setNotifsMenuEl(null);
+                    
                     props.onAppBarNotificationItemClick(value);
                 }
                 break;
@@ -316,7 +322,7 @@ export default function TopAppBar(props) {
                         sx={{
                             display: 'flex',
                             flexDirection: 'column',
-                            minWidth: 300,
+                            width: 340,
                             py: 1,
                             pl: 1,
                             pr: 2
@@ -330,6 +336,7 @@ export default function TopAppBar(props) {
                                 onClick={(event) => onNotificationItemClick(event, 'messages', item?.chatObj)}
                                 sx={{ 
                                     cursor: 'pointer', 
+                                    display: 'flex',
                                     width: '100%',
                                     borderRadius: 1,
                                     "&:hover": {
@@ -345,12 +352,15 @@ export default function TopAppBar(props) {
                                 </IconButton>
 
                                 <Box 
+                                    className="notification-message"
                                     sx={{
                                         display: 'flex',
-                                        flexDirection: 'column'
+                                        flexDirection: 'column',
+                                        width: '100%',
                                     }}
                                 >
                                     <Box
+                                        className="notification-message-name"
                                         sx={{
                                             fontSize: '1rem',
                                             fontWeight: 'bold'
@@ -359,12 +369,20 @@ export default function TopAppBar(props) {
                                         {item?.chatInput?.receiverType == 'single' ? item?.chatInput?.sender : item?.chatInput?.receiver}
                                     </Box>
                                     <Box
+                                        className="notification-message-container"
                                         sx={{
                                             fontSize: '.75rem',
+                                            display: 'flex',
+                                            justifyContent: 'space-between'
                                         }}
                                     >
-                                        {item?.chatInput?.receiverType == 'multiple' ? (<span style={{marginRight: 5}}>{item?.chatInput?.sender}:</span>) : null}
-                                        <span>{item?.chatInput?.message}</span>
+                                        <Box className="notification-message-text">
+                                            {item?.chatInput?.receiverType == 'multiple' ? (<span style={{marginRight: 5}}>{item?.chatInput?.sender}:</span>) : null}
+                                            <span>{item?.chatInput?.message}</span>
+                                        </Box>
+                                        <Box className="notification-message-timestamp">
+                                            <span>{`${formatDateTime(item?.chatInput?.timestamp, 'MMMM DD, YYYY', { origin: 'notification-timestamp', suffix: ' ago' })}`}</span>
+                                        </Box>
                                     </Box>
                                 </Box>
                             </ListItem>

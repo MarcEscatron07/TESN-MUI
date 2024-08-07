@@ -383,6 +383,33 @@ body {
     }
 }
 
+.notification-message-container {
+    display: 'flex';
+    width: 100%;
+
+    .notification-message-text {
+        width: 60%;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .notification-message-timestamp {
+        width: 40%;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        span {
+            background-color: $accent1-color;
+            color: $light-color;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+    }
+}
+
 /* Start of FullCalendar CSS */
 .fc {
     a {

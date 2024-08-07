@@ -123,6 +123,13 @@ export default function ChatBox(props) {
     }, [props.selectedChat, props.userData, actChatData])
 
     useEffect(() => {
+        if(!isChatBoxLoading) {
+            chatBoxContentRef?.current?.lastElementChild?.scrollIntoView();
+            chatBoxInputRef?.current?.focus();
+        }
+    }, [isChatBoxLoading])
+
+    useEffect(() => {
         // console.log('ChatBox > actThreadData', actThreadData)
 
         if(actThreadData.length > 0 && !isChatBoxScrolling) {
@@ -141,7 +148,7 @@ export default function ChatBox(props) {
     const onAttachFileChange = (event) => {
         const filesArr = event?.target?.files ? [...event?.target?.files] : [];
         setChatAttachments(filesArr);
-        chatBoxInputRef.current?.focus();
+        chatBoxInputRef?.current?.focus();
     }
 
     const onAttachFileClick = (event) => {
@@ -259,8 +266,9 @@ export default function ChatBox(props) {
 
     const onChatBoxContentScroll = (event) => {
         // console.log('onChatBoxContentScroll > event', event)
+        
         setIsChatBoxScrolling(true);
-        chatBoxInputRef.current?.blur();
+        // chatBoxInputRef?.current?.blur();
     }
 
     function renderSystemChatView(idx) {
