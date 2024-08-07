@@ -224,7 +224,7 @@ export default function ChatBox(props) {
                         receiverImage: actChatData.image,
                         message: chatMessage,
                         timestamp: moment().toISOString(),
-                        status: null,
+                        status: 'unread',
                         attachments: null
                     },
                     chatAttachments

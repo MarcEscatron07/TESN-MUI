@@ -447,6 +447,7 @@ export default function GlobalLayout(props) {
 
             postChatAttachments(formData, (attachments) => {
                 chatInput ? chatInput.attachments = attachments : null;
+                
                 formData.append('chatInput', JSON.stringify(chatInput));
                 postChatThread(formData, chatObj);
                 postChatNotification(formData, chatObj);
