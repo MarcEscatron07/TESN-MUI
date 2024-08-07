@@ -15,13 +15,9 @@ import Menu from "@mui/material/Menu";
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
-import Popover from '@mui/material/Popover';
+import Typography from '@mui/material/Typography';
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import ListSubheader from '@mui/material/ListSubheader';
 
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
@@ -127,13 +123,13 @@ export default function TopAppBar(props) {
                 horizontal: "right",
             }}
             id={menuId}
-            keepMounted
             transformOrigin={{
                 vertical: "top",
                 horizontal: "right",
             }}
             open={isMenuOpen}
             onClose={onMenuClose}
+            keepMounted
         >
             <MenuItem onClick={onMenuClose}>Profile</MenuItem>
             <MenuItem onClick={onLogoutClick}>Logout</MenuItem>
@@ -148,13 +144,13 @@ export default function TopAppBar(props) {
                 horizontal: "right",
             }}
             id={mobileMenuId}
-            keepMounted
             transformOrigin={{
                 vertical: "top",
                 horizontal: "right",
             }}
             open={isMobileMenuOpen}
             onClose={onMobileMenuClose}
+            keepMounted
         >
             <MenuItem onClick={(event) => onNotificationButtonClick(event, 'messages')}>
                 <IconButton
@@ -306,6 +302,15 @@ export default function TopAppBar(props) {
                 onClose={() => setMessageMenuEl(null)}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             >
+                <Typography
+                    variant="h6"
+                    noWrap
+                    component="div"
+                    color="dark"
+                    sx={{px: 1.5}}
+                >
+                    Unread Messages
+                </Typography>
                 <Box>
                     <List
                         sx={{
@@ -371,7 +376,7 @@ export default function TopAppBar(props) {
                                     justifyContent: 'center'
                                 }}
                             >
-                                <span style={{fontSize: '.85rem', fontWeight: 'bold'}}>You have no message notifications.</span>
+                                <span style={{fontSize: '.85rem', fontWeight: 'bold'}}>You have no unread messages.</span>
                             </Box>
                         )}
                     </List>
@@ -384,6 +389,15 @@ export default function TopAppBar(props) {
                 onClose={() => setNotifsMenuEl(null)}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             >
+                <Typography
+                    variant="h6"
+                    noWrap
+                    component="div"
+                    color="dark"
+                    sx={{px: 1.5}}
+                >
+                    New Notifications
+                </Typography>
                 <Box>
                     <List
                         sx={{
