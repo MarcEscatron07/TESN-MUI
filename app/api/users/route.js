@@ -16,11 +16,16 @@ export async function GET(req, res) {
 
     for (const key in jsonData) {
         if (jsonData[key]?.id == userId) {
-            return NextResponse.json({
-              status: 200,
-              message: "Data fetch successful.",
-              data: jsonData[key],
-            }, { status: 200 });
+          const dataObj = JSON.parse(JSON.stringify(jsonData[key]));
+          delete dataObj['groupIds'];
+          delete dataObj['username'];
+          delete dataObj['password'];
+
+          return NextResponse.json({
+            status: 200,
+            message: "Data fetch successful.",
+            data: dataObj,
+          }, { status: 200 });
         }
       }
 

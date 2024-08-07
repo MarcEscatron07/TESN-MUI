@@ -450,11 +450,13 @@ export default function GlobalLayout(props) {
                 
                 formData.append('chatInput', JSON.stringify(chatInput));
                 postChatThread(formData, chatObj);
+                formData.append('chatObj', JSON.stringify(chatObj?.type == 'single' ? {...userData, type: 'single', isOnline: true} : chatObj));
                 postChatNotification(formData, chatObj);
             })
         } else {
             formData.append('chatInput', JSON.stringify(chatInput));
             postChatThread(formData, chatObj);
+            formData.append('chatObj', JSON.stringify(chatObj?.type == 'single' ? {...userData, type: 'single', isOnline: true} : chatObj));
             postChatNotification(formData, chatObj);
         }
     }
@@ -531,6 +533,7 @@ export default function GlobalLayout(props) {
                 notificationData={notificationData}
                 isLeftDrawerOpen={isLeftDrawerOpen}
                 onDrawerToggleClick={onDrawerToggleClick}
+                onAppBarNotificationItemClick={onSelectedChatClick}
                 onLoading={(value) => setIsLayoutLoading(value)}
             />
 

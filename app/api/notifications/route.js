@@ -51,11 +51,13 @@ export async function POST(req, res) {
         const userId = formData.has('userId') ? parseInt(formData.get('userId')) : -1;
         const chatId = formData.has('chatId') ? parseInt(formData.get('chatId')) : -1;
         const chatType = formData.has('chatType') ? formData.get('chatType') : '';
+        const chatObj = formData.has('chatObj') ? JSON.parse(formData.get('chatObj')) : null;
         const chatInput = formData.has('chatInput') ? JSON.parse(formData.get('chatInput')) : null;
         console.log('NOTIFICATIONS > POST > formData', formData)
         console.log('NOTIFICATIONS > POST > userId', userId)
         console.log('NOTIFICATIONS > POST > chatId', chatId)
         console.log('NOTIFICATIONS > POST > chatType', chatType)
+        console.log('NOTIFICATIONS > POST > chatObj', chatObj)
         console.log('NOTIFICATIONS > POST > chatInput', chatInput)
     
         let dataArr = [];
@@ -67,16 +69,16 @@ export async function POST(req, res) {
             for (const key in jsonData) {
               if(jsonData[key]?.userId == chatId && jsonData[key]['notifications'] && jsonData[key]['notifications']['messages']) {
                 dataArr = jsonData[key]['notifications']['messages']['data'];
-                dataIdx = dataArr.map((i) => i?.sender).indexOf(chatInput?.sender);
+                dataIdx = dataArr.map((i) => i?.chatInput?.sender).indexOf(chatInput?.sender);
 
                 if(dataIdx != -1) {
-                  dataArr[dataIdx] = chatInput;
+                  dataArr[dataIdx] = { chatObj: chatObj, chatInput: chatInput };
                 } else {
-                  dataArr = [...jsonData[key]['notifications']['messages']['data'], chatInput];
+                  dataArr = [...jsonData[key]['notifications']['messages']['data'], { chatObj: chatObj, chatInput: chatInput }];
                 }
 
                 jsonData[key]['notifications']['messages']['data'] = dataArr;
-                jsonData[key]['notifications']['messages']['count'] = dataArr.map((i) => i.status == 'unread').length;
+                jsonData[key]['notifications']['messages']['count'] = dataArr.map((i) => i?.chatInput?.status == 'unread').length;
     
                 dataObj = jsonData[key]['notifications'];
         
@@ -99,16 +101,16 @@ export async function POST(req, res) {
             for (const key in jsonData) {
               if(jsonData[key]?.userId != userId && jsonData[key]?.groupIds && jsonData[key]?.groupIds.includes(chatId) && jsonData[key]['notifications'] && jsonData[key]['notifications']['messages']) {
                 dataArr = jsonData[key]['notifications']['messages']['data'];
-                dataIdx = dataArr.map((i) => i?.receiver).indexOf(chatInput?.receiver);
+                dataIdx = dataArr.map((i) => i?.chatInput?.receiver).indexOf(chatInput?.receiver);
 
                 if(dataIdx != -1) {
-                  dataArr[dataIdx] = chatInput;
+                  dataArr[dataIdx] = { chatObj: chatObj, chatInput: chatInput };
                 } else {
-                  dataArr = [...jsonData[key]['notifications']['messages']['data'], chatInput];
+                  dataArr = [...jsonData[key]['notifications']['messages']['data'], { chatObj: chatObj, chatInput: chatInput }];
                 }
 
                 jsonData[key]['notifications']['messages']['data'] = dataArr;
-                jsonData[key]['notifications']['messages']['count'] = dataArr.map((i) => i.status == 'unread').length;
+                jsonData[key]['notifications']['messages']['count'] = dataArr.map((i) => i?.chatInput?.status == 'unread').length;
     
                 dataObj = jsonData[key]['notifications'];
         

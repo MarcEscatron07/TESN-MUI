@@ -109,6 +109,16 @@ export default function TopAppBar(props) {
         }
     }
 
+    const onNotificationItemClick = (event, origin, value) => {
+        switch(origin) {
+            case 'messages':
+                if(props.onAppBarNotificationItemClick) {
+                    props.onAppBarNotificationItemClick(value);
+                }
+                break;
+        }
+    }
+
     const renderMenu = (
         <Menu
             anchorEl={menuAnchorEl}
@@ -312,9 +322,10 @@ export default function TopAppBar(props) {
                     >
                         {props.notificationData?.messages?.data && props.notificationData?.messages?.data.length > 0 ? 
                         props.notificationData?.messages?.data.map((item, idx) => (
-                            <ListItem key={idx}
+                            <ListItem 
+                                key={idx}
                                 disablePadding
-                                onClick={(event) => { /** SHOULD OPEN TARGET CHATBOX **/ }}
+                                onClick={(event) => onNotificationItemClick(event, 'messages', item?.chatObj)}
                                 sx={{ 
                                     cursor: 'pointer', 
                                     width: '100%',
@@ -328,7 +339,7 @@ export default function TopAppBar(props) {
                                     color="light"
                                     sx={{ width: 48, mr: 1 }}
                                 >
-                                    <Avatar alt={item.name} src={item.receiverType == 'single' ? item.senderImage : item.receiverImage} />
+                                    <Avatar alt={item?.chatInput?.name} src={item?.chatInput?.receiverType == 'single' ? item?.chatInput?.senderImage : item?.chatInput?.receiverImage} />
                                 </IconButton>
 
                                 <Box 
@@ -343,15 +354,15 @@ export default function TopAppBar(props) {
                                             fontWeight: 'bold'
                                         }}
                                     >
-                                        {item.receiverType == 'single' ? item.sender : item.receiver}
+                                        {item?.chatInput?.receiverType == 'single' ? item?.chatInput?.sender : item?.chatInput?.receiver}
                                     </Box>
                                     <Box
                                         sx={{
                                             fontSize: '.75rem',
                                         }}
                                     >
-                                        {item.receiverType == 'multiple' ? (<span style={{marginRight: 5}}>{item.sender}:</span>) : null}
-                                        <span>{item.message}</span>
+                                        {item?.chatInput?.receiverType == 'multiple' ? (<span style={{marginRight: 5}}>{item?.chatInput?.sender}:</span>) : null}
+                                        <span>{item?.chatInput?.message}</span>
                                     </Box>
                                 </Box>
                             </ListItem>
@@ -363,7 +374,7 @@ export default function TopAppBar(props) {
                                     justifyContent: 'center'
                                 }}
                             >
-                                <span style={{fontSize: '.85rem', fontWeight: 'bold'}}>You have no chat notifications.</span>
+                                <span style={{fontSize: '.85rem', fontWeight: 'bold'}}>You have no message notifications.</span>
                             </Box>
                         )}
                     </List>
