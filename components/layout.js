@@ -436,7 +436,6 @@ export default function GlobalLayout(props) {
         const formData = new FormData();
         formData.append('userId', userData.id);
         formData.append('chatId', chatObj?.id);
-        formData.append('chatName', chatObj?.name);
         formData.append('chatType', chatObj?.type);
 
         if (attachmentsList && attachmentsList.length > 0) {
@@ -513,7 +512,6 @@ export default function GlobalLayout(props) {
         const formData = new FormData();
         formData.append('userId', userData.id);
         formData.append('chatId', chatObj?.id);
-        formData.append('chatName', chatObj?.name);
         formData.append('chatType', chatObj?.type);
 
         patchChatNotification(formData);

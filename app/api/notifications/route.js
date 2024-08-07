@@ -146,13 +146,58 @@ export async function POST(req, res) {
 
 export async function PATCH(req, res) {
   try {
-    // TO-DO: code logic for patching notification on ChatBox > Focus
+    /** temporary code **/
+    const jsonPath = "/public/json/tests/notifications.json";
+    const jsonFile = await fs.readFile(path.join(process.cwd(), jsonPath), "utf8");
+    const jsonData = JSON.parse(jsonFile);
+    /** temporary code **/
+
+    const formData = await req.formData();
+    const userId = formData.has('userId') ? parseInt(formData.get('userId')) : -1;
+    const chatId = formData.has('chatId') ? parseInt(formData.get('chatId')) : -1;
+    const chatType = formData.has('chatType') ? formData.get('chatType') : '';
+    console.log('NOTIFICATIONS > PATCH > formData', formData)
+    console.log('NOTIFICATIONS > PATCH > userId', userId)
+    console.log('NOTIFICATIONS > PATCH > chatId', chatId)
+    console.log('NOTIFICATIONS > PATCH > chatType', chatType)
+
+    switch(chatType) {
+      case 'single':
+        for (const key in jsonData) {
+          if(jsonData[key]?.userId == chatId && jsonData[key]['notifications'] && jsonData[key]['notifications']['messages']) {
+            // TO-DO: code logic here
+          }
+        }
+
+        return NextResponse.json({
+          status: 200,
+          message: "Post notification successful.",
+          data: {
+            ...dataObj,
+            chatType: chatType
+          }
+        }, { status: 200 });
+      case 'multiple':
+        for (const key in jsonData) {
+          if(jsonData[key]?.userId != userId && jsonData[key]?.groupIds && jsonData[key]?.groupIds.includes(chatId) && jsonData[key]['notifications'] && jsonData[key]['notifications']['messages']) {
+            // TO-DO: code logic here
+          }
+        }
+        
+        return NextResponse.json({
+          status: 200,
+          message: "Post notification successful.",
+          data: {
+            ...dataObj,
+            chatType: chatType
+          }
+        }, { status: 200 });
+    }
 
     return NextResponse.json({
-      status: 200,
-      message: "Patch notification successful.",
-      data: null
-    }, { status: 200 });
+      status: 400,
+      message: "Unable to patch notification.",
+    }, { status: 400 });
   } catch (e) {
     return NextResponse.json({
       status: 500,
