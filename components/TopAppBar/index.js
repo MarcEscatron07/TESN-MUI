@@ -310,10 +310,11 @@ export default function TopAppBar(props) {
                             pr: 2
                         }}
                     >
-                        {props.notificationData?.messages?.data && props.notificationData?.messages?.data.map((item, idx) => (
+                        {props.notificationData?.messages?.data && props.notificationData?.messages?.data.length > 0 ? 
+                        props.notificationData?.messages?.data.map((item, idx) => (
                             <ListItem key={idx}
                                 disablePadding
-                                onClick={(event) => {}}
+                                onClick={(event) => { /** SHOULD OPEN TARGET CHATBOX **/ }}
                                 sx={{ 
                                     cursor: 'pointer', 
                                     width: '100%',
@@ -354,7 +355,17 @@ export default function TopAppBar(props) {
                                     </Box>
                                 </Box>
                             </ListItem>
-                        ))}
+                        )) : (
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                            >
+                                <span style={{fontSize: '.85rem', fontWeight: 'bold'}}>You have no chat notifications.</span>
+                            </Box>
+                        )}
                     </List>
                 </Box>
             </Popover>
@@ -368,7 +379,31 @@ export default function TopAppBar(props) {
                 disablePortal
             >
                 <Box>
-                    {/* TO-DO: Finish partial UI applied in Notifications > Messages then proceed to Notifications > Notifs */}
+                    <List
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            minWidth: 300,
+                            py: 1,
+                            pl: 1,
+                            pr: 2
+                        }}
+                    >
+                        {props.notificationData?.notifs?.data && props.notificationData?.notifs?.data.length > 0 ? (
+                            <>
+                            </>
+                        ) : (
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                            >
+                                <span style={{fontSize: '.85rem', fontWeight: 'bold'}}>You have no new notifications.</span>
+                            </Box>
+                        )}
+                    </List>
                 </Box>
             </Popover>
         </>
