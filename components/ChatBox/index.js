@@ -519,7 +519,6 @@ export default function ChatBox(props) {
                 </Card>
 
                 <Popover
-                    id={popoverAnchor ? 'chatbox-popover' : undefined}
                     open={popoverAnchor ? true : false}
                     anchorEl={popoverAnchor}
                     onClose={() => setPopoverAnchor(null)}

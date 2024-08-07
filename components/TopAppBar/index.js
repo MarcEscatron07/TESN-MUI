@@ -39,8 +39,8 @@ export default function TopAppBar(props) {
 
     const [menuAnchorEl, setMenuAnchorEl] = useState(null);
     const [mobileMenuAnchorEl, setMobileMenuAnchorEl] = useState(null);
-    const [messagePopoverEl, setMessagePopoverEl] = useState(null);
-    const [notifsPopoverEl, setNotifsPopoverEl] = useState(null);
+    const [messageMenuEl, setMessageMenuEl] = useState(null);
+    const [notifsMenuEl, setNotifsMenuEl] = useState(null);
 
     const menuId = "topappbar-menu";
     const mobileMenuId = "topappbar-menu-mobile";
@@ -101,10 +101,10 @@ export default function TopAppBar(props) {
     const onNotificationButtonClick = (event, origin) => {
         switch (origin) {
             case 'messages':
-                setMessagePopoverEl(event.target);
+                setMessageMenuEl(event.target);
                 break;
             case 'notifs':
-                setNotifsPopoverEl(event.target);
+                setNotifsMenuEl(event.target);
                 break;
         }
     }
@@ -156,12 +156,11 @@ export default function TopAppBar(props) {
             open={isMobileMenuOpen}
             onClose={onMobileMenuClose}
         >
-            <MenuItem>
+            <MenuItem onClick={(event) => onNotificationButtonClick(event, 'messages')}>
                 <IconButton
                     aria-label="topappbar-messages-mobile"
                     size="large"
                     color="inherit"
-                    onClick={(event) => onNotificationButtonClick(event, 'messages')}
                 >
                     <Badge badgeContent={props.notificationData?.messages.count} color="error">
                         <ChatIcon />
@@ -169,12 +168,11 @@ export default function TopAppBar(props) {
                 </IconButton>
                 <p>Messages</p>
             </MenuItem>
-            <MenuItem>
+            <MenuItem onClick={(event) => onNotificationButtonClick(event, 'notifs')}>
                 <IconButton
                     aria-label="topappbar-notifications-mobile"
                     size="large"
                     color="inherit"
-                    onClick={(event) => onNotificationButtonClick(event, 'notifs')}
                 >
                     <Badge badgeContent={props.notificationData?.notifs.count} color="error">
                         <NotificationsIcon />
@@ -298,16 +296,15 @@ export default function TopAppBar(props) {
                     </Box>
                 </Toolbar>
             </AppBar>
+
             {renderMobileMenu}
             {renderMenu}
 
-            <Popover
-                id={messagePopoverEl ? 'message-popover' : undefined}
-                open={messagePopoverEl ? true : false}
-                anchorEl={messagePopoverEl}
-                onClose={() => setMessagePopoverEl(null)}
+            <Menu
+                open={messageMenuEl ? true : false}
+                anchorEl={messageMenuEl}
+                onClose={() => setMessageMenuEl(null)}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-                disablePortal
             >
                 <Box>
                     <List
@@ -379,15 +376,13 @@ export default function TopAppBar(props) {
                         )}
                     </List>
                 </Box>
-            </Popover>
+            </Menu>
 
-            <Popover
-                id={notifsPopoverEl ? 'notifs-popover' : undefined}
-                open={notifsPopoverEl ? true : false}
-                anchorEl={notifsPopoverEl}
-                onClose={() => setNotifsPopoverEl(null)}
+            <Menu
+                open={notifsMenuEl ? true : false}
+                anchorEl={notifsMenuEl}
+                onClose={() => setNotifsMenuEl(null)}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-                disablePortal
             >
                 <Box>
                     <List
@@ -416,7 +411,7 @@ export default function TopAppBar(props) {
                         )}
                     </List>
                 </Box>
-            </Popover>
+            </Menu>
         </>
     )
 }
