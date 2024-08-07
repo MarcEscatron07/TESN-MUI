@@ -9,7 +9,7 @@ export async function GET(req, res) {
 export async function POST(req, res) {
   try {
     /** temporary code **/
-    const jsonPath = "/public/json/tests/users.json";
+    const jsonPath = "/public/json/users.json";
     const jsonFile = await fs.readFile(path.join(process.cwd(), jsonPath), "utf8");
     const jsonData = JSON.parse(jsonFile);
     /** temporary code **/

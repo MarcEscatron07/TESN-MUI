@@ -52,7 +52,7 @@ export default function ChatBox(props) {
         name: '',
         image: '',
         type: '',
-        unread: 0
+        isOnline: false,
     });
     const [actThreadData, setActThreadData] = useState([]);
 
@@ -219,11 +219,12 @@ export default function ChatBox(props) {
                     actChatData,
                     {
                         sender: props.userData?.name,
+                        senderImage: props.userData?.image,
                         receiver: actChatData.name,
+                        receiverImage: actChatData.image,
                         message: chatMessage,
                         timestamp: moment().toISOString(),
                         status: null,
-                        image: props.userData?.image,
                         attachments: null
                     },
                     chatAttachments
@@ -280,7 +281,7 @@ export default function ChatBox(props) {
                     {source == 'receiver' ? (
                         <Image
                             title={item.sender}
-                            src={item.image}
+                            src={item.senderImage}
                             width={40}
                             height={40}
                             alt={item.sender}
