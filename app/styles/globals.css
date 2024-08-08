@@ -331,7 +331,7 @@ body {
   width: 100%;
 }
 .notification-message-container .notification-message-text {
-  width: 60%;
+  width: 70%;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -339,7 +339,10 @@ body {
   text-overflow: ellipsis;
 }
 .notification-message-container .notification-message-timestamp {
-  width: 40%;
+  width: 30%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
   padding-left: 10px;
   padding-right: 10px;
 }

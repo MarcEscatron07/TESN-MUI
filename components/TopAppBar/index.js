@@ -321,7 +321,7 @@ export default function TopAppBar(props) {
                     <List
                         sx={{
                             display: 'flex',
-                            flexDirection: 'column',
+                            flexDirection: 'column-reverse',
                             width: 340,
                             py: 1,
                             pl: 1,
@@ -376,12 +376,19 @@ export default function TopAppBar(props) {
                                             justifyContent: 'space-between'
                                         }}
                                     >
-                                        <Box className="notification-message-text">
+                                        <Box 
+                                            className="notification-message-text" 
+                                            sx={{
+                                                fontWeight: item?.chatInput?.status == 'unread' ? 'bold' : 'unset'
+                                            }}
+                                        >
                                             {item?.chatInput?.receiverType == 'multiple' ? (<span style={{marginRight: 5}}>{item?.chatInput?.sender}:</span>) : null}
                                             <span>{item?.chatInput?.message}</span>
                                         </Box>
                                         <Box className="notification-message-timestamp">
-                                            <span>{`${formatDateTime(item?.chatInput?.timestamp, 'MMMM DD, YYYY', { origin: 'notification-timestamp', suffix: ' ago' })}`}</span>
+                                            <span title={formatDateTime(item?.chatInput?.timestamp, 'dddd, MMMM DD, YYYY @ hh:mm A')}>
+                                                {`• ${formatDateTime(item?.chatInput?.timestamp, 'MMMM DD, YYYY', { origin: 'notification-timestamp' })}`}
+                                            </span>
                                         </Box>
                                     </Box>
                                 </Box>
@@ -420,7 +427,7 @@ export default function TopAppBar(props) {
                     <List
                         sx={{
                             display: 'flex',
-                            flexDirection: 'column',
+                            flexDirection: 'column-reverse',
                             minWidth: 300,
                             py: 1,
                             pl: 1,

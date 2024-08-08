@@ -318,7 +318,7 @@ export default function ChatBox(props) {
                     <Box className="chat-box-message-text">{parseStringToHtml(item.message)}</Box>
                     <Box 
                         className="chat-box-message-timestamp" 
-                        title={formatDateTime(item.timestamp, 'MMMM DD, YYYY h:mm A', { origin: 'chat-timestamp' })}
+                        title={formatDateTime(item.timestamp, 'dddd, MMMM DD, YYYY @ hh:mm A', { origin: 'chat-timestamp' })}
                         sx={{
                             backgroundColor: theme.palette.dark.light,
                             color: theme.palette.light.main
