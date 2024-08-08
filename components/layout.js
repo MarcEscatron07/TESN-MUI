@@ -546,7 +546,7 @@ export default function GlobalLayout(props) {
                 onDrawerToggleClick={onDrawerToggleClick}
             />
 
-            <Box sx={{ paddingTop: isMobileView ? '55px' : 'unset' }}>
+            <Box component="section" sx={{ ...GLOBAL.globalMainSection, paddingTop: isMobileView ? '55px' : 'unset' }}>
                 {props.children}
             </Box>
 

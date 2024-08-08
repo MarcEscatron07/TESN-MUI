@@ -2,6 +2,10 @@ export const GLOBAL = {
     globalMainContainer: {
         position: 'relative',
         display: 'flex'
+    },
+    globalMainSection: {
+        height: '100%',
+        width: '100%'
     }
 }
 
