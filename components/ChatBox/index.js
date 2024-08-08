@@ -123,11 +123,11 @@ export default function ChatBox(props) {
     }, [props.selectedChat, props.userData, actChatData])
 
     useEffect(() => {
-        if(!isChatBoxLoading) {
+        if(props.userData?.id != -1 && actChatData.id != -1 && !isChatBoxLoading) {
             chatBoxContentRef?.current?.lastElementChild?.scrollIntoView();
             chatBoxInputRef?.current?.focus();
         }
-    }, [isChatBoxLoading])
+    }, [props.userData, actChatData, isChatBoxLoading])
 
     useEffect(() => {
         // console.log('ChatBox > actThreadData', actThreadData)

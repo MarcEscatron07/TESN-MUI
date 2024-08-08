@@ -67,9 +67,13 @@ export async function POST(req, res) {
         switch (chatType) {
           case 'single':
             for (const key in jsonData) {
-              if(jsonData[key]?.userId == chatId && jsonData[key]['notifications'] && jsonData[key]['notifications']['messages']) {
+              if(
+                jsonData[key]?.userId == chatId && 
+                jsonData[key]['notifications'] && 
+                jsonData[key]['notifications']['messages']
+              ) {
                 dataArr = jsonData[key]['notifications']['messages']['data'];
-                dataIdx = dataArr.map((i) => i?.chatInput?.sender).indexOf(chatInput?.sender);
+                dataIdx = dataArr.map((i) => i?.chatObj?.id).indexOf(userId);
 
                 if(dataIdx != -1) {
                   dataArr[dataIdx] = { chatObj: chatObj, chatInput: chatInput };
@@ -82,8 +86,7 @@ export async function POST(req, res) {
     
                 dataObj = jsonData[key]['notifications'];
         
-                console.log('NOTIFICATIONS > POST > single > count', parseInt(jsonData[key]['notifications']['messages']['count']))
-                console.log('NOTIFICATIONS > POST > single > data', jsonData[key]['notifications']['messages']['data'])
+                console.log('NOTIFICATIONS > POST > single > dataObj', dataObj)
               }
             }
     
@@ -99,9 +102,14 @@ export async function POST(req, res) {
             }, { status: 200 });
           case 'multiple':
             for (const key in jsonData) {
-              if(jsonData[key]?.userId != userId && jsonData[key]?.groupIds && jsonData[key]?.groupIds.includes(chatId) && jsonData[key]['notifications'] && jsonData[key]['notifications']['messages']) {
+              if(
+                jsonData[key]?.userId != userId && 
+                jsonData[key]?.groupIds && 
+                jsonData[key]?.groupIds.includes(chatId) && 
+                jsonData[key]['notifications'] && jsonData[key]['notifications']['messages']
+              ) {
                 dataArr = jsonData[key]['notifications']['messages']['data'];
-                dataIdx = dataArr.map((i) => i?.chatInput?.receiver).indexOf(chatInput?.receiver);
+                dataIdx = dataArr.map((i) => i?.chatObj?.id).indexOf(chatId);
 
                 if(dataIdx != -1) {
                   dataArr[dataIdx] = { chatObj: chatObj, chatInput: chatInput };
@@ -114,8 +122,7 @@ export async function POST(req, res) {
     
                 dataObj = jsonData[key]['notifications'];
         
-                console.log('NOTIFICATIONS > POST > multiple > count', parseInt(jsonData[key]['notifications']['messages']['count']))
-                console.log('NOTIFICATIONS > POST > multiple > data', jsonData[key]['notifications']['messages']['data'])
+                console.log('NOTIFICATIONS > POST > multiple > dataObj', dataObj)
               }
             }
     
@@ -161,17 +168,39 @@ export async function PATCH(req, res) {
     console.log('NOTIFICATIONS > PATCH > chatId', chatId)
     console.log('NOTIFICATIONS > PATCH > chatType', chatType)
 
+    let dataArr = [];
+    let dataIdx = -1;
+    let dataObj = {};
+
     switch(chatType) {
       case 'single':
         for (const key in jsonData) {
-          if(jsonData[key]?.userId == chatId && jsonData[key]['notifications'] && jsonData[key]['notifications']['messages']) {
-            // TO-DO: code logic here
+          if(
+            jsonData[key]?.userId == userId && 
+            jsonData[key]['notifications'] && 
+            jsonData[key]['notifications']['messages']
+          ) {
+            dataArr = jsonData[key]['notifications']['messages']['data'];
+            dataIdx = dataArr.map((i) => i?.chatObj?.id).indexOf(chatId);
+
+            if(dataIdx != -1) {
+              dataArr = dataArr.filter((_i, idx) => idx != dataIdx);
+            }
+
+            jsonData[key]['notifications']['messages']['data'] = dataArr;
+            jsonData[key]['notifications']['messages']['count'] = dataArr.length;
+
+            dataObj = jsonData[key]['notifications'];
+    
+            console.log('NOTIFICATIONS > PATCH > single > dataObj', dataObj)
           }
         }
 
+        await fs.writeFile(path.join(process.cwd(), jsonPath), JSON.stringify(jsonData));
+
         return NextResponse.json({
           status: 200,
-          message: "Post notification successful.",
+          message: "Patch notification successful.",
           data: {
             ...dataObj,
             chatType: chatType
@@ -179,14 +208,34 @@ export async function PATCH(req, res) {
         }, { status: 200 });
       case 'multiple':
         for (const key in jsonData) {
-          if(jsonData[key]?.userId != userId && jsonData[key]?.groupIds && jsonData[key]?.groupIds.includes(chatId) && jsonData[key]['notifications'] && jsonData[key]['notifications']['messages']) {
-            // TO-DO: code logic here
+          if(
+            jsonData[key]?.userId == userId && 
+            jsonData[key]?.groupIds && 
+            jsonData[key]?.groupIds.includes(chatId) && 
+            jsonData[key]['notifications'] && 
+            jsonData[key]['notifications']['messages']
+          ) {
+            dataArr = jsonData[key]['notifications']['messages']['data'];
+            dataIdx = dataArr.map((i) => i?.chatObj?.id).indexOf(chatId);
+
+            if(dataIdx != -1) {
+              dataArr = dataArr.filter((_i, idx) => idx != dataIdx);
+            }
+
+            jsonData[key]['notifications']['messages']['data'] = dataArr;
+            jsonData[key]['notifications']['messages']['count'] = dataArr.length;
+
+            dataObj = jsonData[key]['notifications'];
+
+            console.log('NOTIFICATIONS > PATCH > multiple > dataObj', dataObj)
           }
         }
+
+        await fs.writeFile(path.join(process.cwd(), jsonPath), JSON.stringify(jsonData));
         
         return NextResponse.json({
           status: 200,
-          message: "Post notification successful.",
+          message: "Patch notification successful.",
           data: {
             ...dataObj,
             chatType: chatType
