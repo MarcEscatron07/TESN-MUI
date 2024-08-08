@@ -514,7 +514,9 @@ export default function GlobalLayout(props) {
         formData.append('chatId', chatObj?.id);
         formData.append('chatType', chatObj?.type);
 
-        patchChatNotification(formData);
+        patchChatNotification(formData, () => {
+            getChatNotification(userData.id);
+        });
     }
 
     return (
