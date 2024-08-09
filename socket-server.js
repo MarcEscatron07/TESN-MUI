@@ -93,11 +93,11 @@ app.prepare().then(() => {
       const clientSocketId = Object.keys(clientsList).find((id) => clientsList[id] == receiverName);
 
       if(clientSocketId) {
-        io.to(clientSocketId).emit('receive_notification');
+        io.to(clientSocketId).emit('receive_notification', { notifType: 'single' });
       } else {
         if(groupsList.hasOwnProperty(receiverName)) {
           groupsList[receiverName].forEach((item) => {
-            io.to(item).emit('receive_notification');
+            io.to(item).emit('receive_notification', { notifType: item == socket.id ? 'multiple' : 'single' });
           })
         }
       }

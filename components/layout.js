@@ -87,16 +87,18 @@ export default function GlobalLayout(props) {
             getChatData(userData.id);
             getChatNotification(userData.id);
 
-            socket.on('receive_notification', () => {
+            socket.on('receive_notification', ({notifType}) => {
                 getChatNotification(userData.id, () => {
-                    const audio = new Audio('/sounds/chat-notification.mp3');                
-                    audio.play()
-                        .then(() => {
-                            // console.info('User HAS interacted with document yet.');
-                        })
-                        .catch(error => {
-                            console.info('User HAS NOT interacted with document yet.');
-                        });
+                    if(notifType == 'single') {
+                        const audio = new Audio('/sounds/chat-notification.mp3');                
+                        audio.play()
+                            .then(() => {
+                                // console.info('User HAS interacted with document yet.');
+                            })
+                            .catch(error => {
+                                console.info('User HAS NOT interacted with document yet.');
+                            });
+                    }
                 });
             });
         }
