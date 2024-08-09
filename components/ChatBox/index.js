@@ -62,6 +62,7 @@ export default function ChatBox(props) {
 
     const [chatMessage, setChatMessage] = useState('');
     const [chatAttachments, setChatAttachments] = useState([]);
+    const [hoveredChatView, setHoveredChatView] = useState(-1);
 
     const chatBoxHeight = props.isMobileView ? props.isMobilePortrait ? '395px' : '365px' : '450px';
     const chatBoxWidth = props.isMobileView ? '265px' : '310px';
@@ -290,7 +291,13 @@ export default function ChatBox(props) {
         const source = item.sender == props.userData?.name ? 'sender' : 'receiver';
 
         return (
-            <Box key={idx} sx={CHAT_BOX.chatBoxCardContentDefaultBox} className={`chat-box-${source}`}>
+            <Box 
+                key={idx} 
+                sx={CHAT_BOX.chatBoxCardContentDefaultBox} 
+                className={`chat-box-${source}`} 
+                onMouseEnter={() => setHoveredChatView(idx)} 
+                onMouseLeave={() => setHoveredChatView(-1)}
+            >
                 {source == 'receiver' ? (
                     <Box className="chat-box-avatar">
                             <Image
@@ -309,44 +316,44 @@ export default function ChatBox(props) {
                         color: source == 'receiver' ? theme.palette.light.main : theme.palette.primary.contrastText,
                     }}
                 >
-                    <List
-                        className="chat-box-options"
-                    >
-                        <ListItem
-                            disablePadding
-                            onClick={() => {}}
-                            sx={{ 
-                                cursor: 'pointer', 
-                                display: 'flex',
-                                width: '100%'
-                            }}
-                        >
-                            <IconButton
-                                color="dark.light"
-                                sx={{ width: 15, px: 2 }}
-                                title="Reply"
+                    {hoveredChatView == idx ? (
+                        <List className="chat-box-options">
+                            <ListItem
+                                disablePadding
+                                onClick={() => {}}
+                                sx={{ 
+                                    cursor: 'pointer', 
+                                    display: 'flex',
+                                    width: '100%'
+                                }}
                             >
-                                <ReplyIcon />
-                            </IconButton>
-                        </ListItem>
-                        <ListItem
-                            disablePadding
-                            onClick={() => {}}
-                            sx={{ 
-                                cursor: 'pointer', 
-                                display: 'flex',
-                                width: '100%'
-                            }}
-                        >
-                            <IconButton
-                                color="dark.light"
-                                sx={{ width: 15, px: 2 }}
-                                title="More"
+                                <IconButton
+                                    color="dark.light"
+                                    sx={{ width: 15, px: 2 }}
+                                    title="Reply"
+                                >
+                                    <ReplyIcon />
+                                </IconButton>
+                            </ListItem>
+                            <ListItem
+                                disablePadding
+                                onClick={() => {}}
+                                sx={{ 
+                                    cursor: 'pointer', 
+                                    display: 'flex',
+                                    width: '100%'
+                                }}
                             >
-                                <MoreIcon />
-                            </IconButton>
-                        </ListItem>
-                    </List>
+                                <IconButton
+                                    color="dark.light"
+                                    sx={{ width: 15, px: 2 }}
+                                    title="More"
+                                >
+                                    <MoreIcon />
+                                </IconButton>
+                            </ListItem>
+                        </List>
+                    ) : null}
 
                     {item.attachments && item.attachments.length > 0 ? (
                         <Box className="chat-box-message-attachments">
