@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import useSound from "use-sound";
 
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -17,6 +18,8 @@ export default function GlobalLayout(props) {
     const appBarHeight = 65;
     const menuBarHeight = 55;
 
+    const [play] = useSound('/sounds/notification.mp3');
+    
     const [isLayoutLoading, setIsLayoutLoading] = useState(props.isLoading);
     const [userData, setUserData] = useState({
         id: -1,
@@ -88,7 +91,9 @@ export default function GlobalLayout(props) {
             getChatNotification(userData.id);
 
             socket.on('receive_notification', () => {
-                getChatNotification(userData.id);
+                getChatNotification(userData.id, () => {
+                    play();
+                });
             });
         }
     }, [userData])
@@ -304,7 +309,7 @@ export default function GlobalLayout(props) {
         callback ? callback(attachmentsArr) : null;
     }
 
-    async function getChatNotification(userId) {
+    async function getChatNotification(userId, callback) {
         await getNotifications(`userId=${userId}`).then(
             (res) => {
                 // console.log('getChatNotification > res', res)
@@ -334,6 +339,8 @@ export default function GlobalLayout(props) {
                 });
             },
         );
+
+        callback ? callback() : null;
     }
 
     async function postChatNotification(formData, chatObj, callback) {

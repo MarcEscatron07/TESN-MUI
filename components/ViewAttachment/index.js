@@ -35,13 +35,13 @@ function ViewAttachment(props) {
     }
   }
 
-  function renderAttachmentByType(item, key, type) {
+  function renderAttachmentByType(item, idx, type) {
     if (type && type.includes('image')) {
-      return (<img key={key} className="view-attachment-item" src={`./attachments/${item?.name}`} />);
+      return (<img key={idx} className="view-attachment-item" src={`./attachments/${item?.name}`} />);
     }
     if (type && type.includes('video')) {
       return (
-        <video key={key} className="view-attachment-item" autoPlay controls>
+        <video key={idx} className="view-attachment-item" autoPlay controls>
           <source src={`./attachments/${item?.name}`} />
         </video>
       )
