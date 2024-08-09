@@ -40,9 +40,6 @@ export default function TopAppBar(props) {
     const [messageMenuEl, setMessageMenuEl] = useState(null);
     const [notifsMenuEl, setNotifsMenuEl] = useState(null);
 
-    const menuId = "topappbar-menu";
-    const mobileMenuId = "topappbar-menu-mobile";
-
     const isMenuOpen = Boolean(menuAnchorEl);
     const isMobileMenuOpen = Boolean(mobileMenuAnchorEl);
 
@@ -129,7 +126,6 @@ export default function TopAppBar(props) {
                 vertical: "top",
                 horizontal: "right",
             }}
-            id={menuId}
             transformOrigin={{
                 vertical: "top",
                 horizontal: "right",
@@ -150,7 +146,6 @@ export default function TopAppBar(props) {
                 vertical: "top",
                 horizontal: "right",
             }}
-            id={mobileMenuId}
             transformOrigin={{
                 vertical: "top",
                 horizontal: "right",
@@ -161,7 +156,6 @@ export default function TopAppBar(props) {
         >
             <MenuItem onClick={(event) => onNotificationButtonClick(event, 'messages')}>
                 <IconButton
-                    aria-label="topappbar-messages-mobile"
                     size="large"
                     color="inherit"
                 >
@@ -173,7 +167,6 @@ export default function TopAppBar(props) {
             </MenuItem>
             <MenuItem onClick={(event) => onNotificationButtonClick(event, 'notifs')}>
                 <IconButton
-                    aria-label="topappbar-notifications-mobile"
                     size="large"
                     color="inherit"
                 >
@@ -184,7 +177,7 @@ export default function TopAppBar(props) {
                 <p>Notifications</p>
             </MenuItem>
             <MenuItem onClick={onProfileMenuOpen}>
-                <IconButton aria-label="topappbar-profile-mobile" size="large" aria-controls="topappbar-menu" aria-haspopup="true" color="inherit">
+                <IconButton color="inherit">
                     <Stack direction="row" spacing={1}>
                         <Chip
                             avatar={<Avatar alt={props.userData?.name} src={props.userData?.image} />}
@@ -214,7 +207,6 @@ export default function TopAppBar(props) {
                 <Toolbar sx={TOP_APP_BAR.topAppBarToolbar}>
                     {!props.isMobileView ? (
                         <IconButton
-                            aria-label="topappbar-left-drawer-toggle"
                             color="inherit"
                             onClick={onToggleClick}
                             edge="start"
@@ -243,14 +235,13 @@ export default function TopAppBar(props) {
                         </SearchIconWrapper>
                         <StyledInputBase
                             placeholder="Search…"
-                            inputProps={{ "aria-label": "search", style: TOP_APP_BAR.topAppBarSearchInput }}
+                            inputProps={{ style: TOP_APP_BAR.topAppBarSearchInput }}
                         />
                     </Search>
 
                     <Box sx={TOP_APP_BAR.topAppBarSpacer} />
                     <Box sx={TOP_APP_BAR.topAppBarNotifications}>
                         <IconButton
-                            aria-label="topappbar-messages"
                             size="large"
                             color="inherit"
                             sx={TOP_APP_BAR.topAppBarNotificationButtons}
@@ -261,7 +252,6 @@ export default function TopAppBar(props) {
                             </Badge>
                         </IconButton>
                         <IconButton
-                            aria-label="topappbar-notifications"
                             size="large"
                             color="inherit"
                             sx={TOP_APP_BAR.topAppBarNotificationButtons}
@@ -272,11 +262,8 @@ export default function TopAppBar(props) {
                             </Badge>
                         </IconButton>
                         <IconButton
-                            aria-label="topappbar-profile"
                             size="large"
                             edge="end"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
                             onClick={onProfileMenuOpen}
                             color="inherit"
                             sx={TOP_APP_BAR.topAppBarAvatar}
@@ -292,10 +279,7 @@ export default function TopAppBar(props) {
                     </Box>
                     <Box sx={TOP_APP_BAR.topAppBarMobileMenuToggle}>
                         <IconButton
-                            aria-label="topappbar-show-more"
                             size="large"
-                            aria-controls={mobileMenuId}
-                            aria-haspopup="true"
                             onClick={onMobileMenuOpen}
                             color="inherit"
                         >

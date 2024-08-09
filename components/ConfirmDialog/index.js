@@ -32,8 +32,6 @@ export default function ConfirmDialog(props) {
             className="alert-dialog"
             open={isConfirmDialogOpen}
             onClose={() => setIsConfirmDialogOpen(false)}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title">
                 {props.dialogTitle}

@@ -431,15 +431,13 @@ export default function ChatBox(props) {
                             title={<span style={CHAT_BOX.chatBoxCardHeaderTitle}>{actChatData.name}</span>}
                             action={
                                 <>
-                                    <IconButton 
-                                        aria-label="chat-box-minimize" 
+                                    <IconButton
                                         sx={{color: theme.palette.light.main}}
                                         onClick={(event) => onMinimizeClick(event, actChatData)}
                                     >
                                         <RemoveIcon />
                                     </IconButton>
-                                    <IconButton 
-                                        aria-label="chat-box-close" 
+                                    <IconButton
                                         sx={{color: theme.palette.light.main}}
                                         onClick={(event) => onCloseClick(event, actChatData)}
                                     >
@@ -468,10 +466,10 @@ export default function ChatBox(props) {
                     <CardActions sx={{ ...CHAT_BOX.chatBoxCardActions, backgroundColor: theme.palette.secondary.main }} disableSpacing>
                         <Box sx={CHAT_BOX.chatBoxCardActionsBox}>
                             <input key={chatAttachments} type="file" ref={chatBoxAttachmentRef} accept="*/*" multiple hidden onChange={onAttachFileChange} />
-                            <IconButton aria-label="chat-box-attachment" onClick={onAttachFileClick}>
+                            <IconButton onClick={onAttachFileClick}>
                                 <AttachmentIcon />
                             </IconButton>
-                            <IconButton aria-label="chat-box-emoji" onClick={onEmojiPickerClick}>
+                            <IconButton onClick={onEmojiPickerClick}>
                                 <AddReactionIcon />
                             </IconButton>
                         </Box>
@@ -483,7 +481,6 @@ export default function ChatBox(props) {
                                             <Box className="chat-attachment-thumbnail" title="Cancel Attachment">
                                                 <span 
                                                     className="chat-attachment-cancel"
-                                                    aria-label="chat-attachment-cancel"
                                                     onClick={onAttachFileCancel}
                                                 >
                                                     <FontAwesomeIcon icon={faRectangleXmark} size="lg" />
@@ -494,7 +491,6 @@ export default function ChatBox(props) {
                                                 <Box key={idx} className="chat-attachment-thumbnail" title={item?.name}>
                                                     <span 
                                                         className="chat-attachment-remove"
-                                                        aria-label="chat-attachment-remove"
                                                         onClick={() => onAttachFileRemove(idx)}
                                                     >
                                                         <FontAwesomeIcon icon={faTimes} size="sm" />

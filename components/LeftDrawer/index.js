@@ -209,7 +209,7 @@ export default function LeftDrawer(props) {
               </Typography>
             </Paper>
             <Box sx={LEFT_DRAWER.leftDrawerBoxToggle}>
-              <IconButton aria-label="left-drawer-toggle" onClick={onToggleClick} sx={{ color: theme.palette.light.main }}>
+              <IconButton onClick={onToggleClick} sx={{ color: theme.palette.light.main }}>
                 {theme.direction === "rtl" ? (
                   <ChevronRightIcon />
                 ) : (

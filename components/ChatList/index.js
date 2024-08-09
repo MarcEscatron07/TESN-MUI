@@ -108,7 +108,6 @@ export default function ChatList(props) {
 
           {fabAvatarIdx == idx ? (
             <span 
-              aria-label="fab-avatar-close" 
               style={{ ...CHAT_LIST.chatListFabClose, top: props.isMobileView ? -8 : -2, backgroundColor: theme.palette.secondary.main }} 
               onClick={(event) => onRemoveClick(event, item)}
             >
@@ -120,7 +119,6 @@ export default function ChatList(props) {
 
       {pasChatList.length >= 2 ? (
         <IconButton
-          aria-label="chat-icon-option"
           sx={{ 
             ...CHAT_LIST.chatListOption,
             "&:hover": {

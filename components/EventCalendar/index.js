@@ -411,10 +411,10 @@ export default function EventCalendar() {
                         <Box>
                             {popoverData?.type == 'event' ? (
                                 <>
-                                    <IconButton aria-label="event-calendar-edit" sx={{ color: theme.palette.light.main }} onClick={onPopoverEditClick}>
+                                    <IconButton sx={{ color: theme.palette.light.main }} onClick={onPopoverEditClick}>
                                         <EditIcon />
                                     </IconButton>
-                                    <IconButton aria-label="event-calendar-delete" sx={{ color: theme.palette.light.main }} onClick={onPopoverDeleteClick}>
+                                    <IconButton sx={{ color: theme.palette.light.main }} onClick={onPopoverDeleteClick}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </>
