@@ -92,7 +92,7 @@ export default function GlobalLayout(props) {
 
             socket.on('receive_notification', () => {
                 getChatNotification(userData.id, () => {
-                    play();
+                    // play();
                 });
             });
         }
