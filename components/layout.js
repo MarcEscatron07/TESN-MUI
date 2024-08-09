@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import useSound from "use-sound";
 
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -17,8 +16,6 @@ export default function GlobalLayout(props) {
     const maxPassiveChatCnt = 6
     const appBarHeight = 65;
     const menuBarHeight = 55;
-
-    const [play] = useSound('/sounds/notification.mp3');
     
     const [isLayoutLoading, setIsLayoutLoading] = useState(props.isLoading);
     const [userData, setUserData] = useState({
@@ -92,7 +89,14 @@ export default function GlobalLayout(props) {
 
             socket.on('receive_notification', () => {
                 getChatNotification(userData.id, () => {
-                    // play();
+                    const audio = new Audio('/sounds/notification.mp3');                
+                    audio.play()
+                        .then(() => {
+                            // console.info('User HAS interacted with document yet.');
+                        })
+                        .catch(error => {
+                            console.info('User HAS NOT interacted with document yet.');
+                        });
                 });
             });
         }
