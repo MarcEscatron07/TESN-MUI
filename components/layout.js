@@ -90,7 +90,7 @@ export default function GlobalLayout(props) {
             socket.on('receive_notification', ({notifType}) => {
                 getChatNotification(userData.id, () => {
                     if(notifType == 'single') {
-                        const audio = new Audio('/sounds/chat-notification.mp3');                
+                        const audio = new Audio('/sounds/msg-notification.mp3');                
                         audio.play()
                             .then(() => {
                                 // console.info('User HAS interacted with document yet.');
