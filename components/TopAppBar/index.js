@@ -25,6 +25,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import ChatIcon from '@mui/icons-material/Chat';
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import { AppBar, Search, SearchIconWrapper, StyledInputBase } from "@/components/function";
 import { TOP_APP_BAR } from '@/components/styles';
@@ -137,8 +138,8 @@ export default function TopAppBar(props) {
             onClose={onMenuClose}
             keepMounted
         >
-            <MenuItem onClick={onMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={onLogoutClick}>Logout</MenuItem>
+            <MenuItem onClick={onMenuClose}><AccountCircle /> <span style={{marginLeft: 10}}>Profile</span></MenuItem>
+            <MenuItem onClick={onLogoutClick}><LogoutIcon /> <span style={{marginLeft: 10}}>Logout</span></MenuItem>
         </Menu>
     );
 
@@ -184,9 +185,14 @@ export default function TopAppBar(props) {
             </MenuItem>
             <MenuItem onClick={onProfileMenuOpen}>
                 <IconButton aria-label="topappbar-profile-mobile" size="large" aria-controls="topappbar-menu" aria-haspopup="true" color="inherit">
-                    <AccountCircle />
+                    <Stack direction="row" spacing={1}>
+                        <Chip
+                            avatar={<Avatar alt={props.userData?.name} src={props.userData?.image} />}
+                            label={props.userData?.name}
+                            sx={{ ...TOP_APP_BAR.topAppBarAvatarChip, backgroundColor: theme.palette.secondary.main }}
+                        />
+                    </Stack>
                 </IconButton>
-                <p>Profile</p>
             </MenuItem>
         </Menu>
     );
