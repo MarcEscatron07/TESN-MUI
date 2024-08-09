@@ -308,10 +308,10 @@ export default function ChatBox(props) {
                     {item.attachments && item.attachments.length > 0 ? (
                         <Box className="chat-box-message-attachments">
                             {item.attachments.map((atchItem, atchIdx) => (
-                                <>
+                                <div key={idx}>
                                     {renderAttachmentActionByType(atchItem, atchIdx, atchItem?.type)}
                                     {renderAttachmentItemByType(atchItem, atchIdx, atchItem?.type)}
-                                </>
+                                </div>
                             ))}
                         </Box>
                     ) : null}
@@ -351,12 +351,12 @@ export default function ChatBox(props) {
         ) : null;
     }
 
-    function renderAttachmentActionByType(item, key, type) {
+    function renderAttachmentActionByType(item, idx, type) {
         if (type && (type.includes('image') || type.includes('video'))) {
             return (
                 <>
                     {props.isMobileView ? (
-                        <span key={key} className="attachment-thumbnail-action" onClick={(event) => onMessageAttachmentClick(event, item)}>
+                        <span key={idx} className="attachment-thumbnail-action" onClick={(event) => onMessageAttachmentClick(event, item)}>
                             <PreviewIcon />
                         </span>
                     ) : null}
@@ -365,18 +365,18 @@ export default function ChatBox(props) {
         }
     }
 
-    function renderAttachmentItemByType(item, key, type) {
+    function renderAttachmentItemByType(item, idx, type) {
         if (type && type.includes('image')) {
             return (
                 <>
-                    <img key={key} className="attachment-thumbnail-item" src={`./attachments/${item?.name}`} onClick={(event) => !props.isMobileView ? onMessageAttachmentClick(event, item) : null} />
+                    <img key={idx} className="attachment-thumbnail-item" src={`./attachments/${item?.name}`} onClick={(event) => !props.isMobileView ? onMessageAttachmentClick(event, item) : null} />
                 </>
             );
         }
         if (type && type.includes('video')) {
             return (
                 <>
-                    <video key={key} className="attachment-thumbnail-item" onClick={(event) => !props.isMobileView ?onMessageAttachmentClick(event, item) : null} autoPlay controls muted>
+                    <video key={idx} className="attachment-thumbnail-item" onClick={(event) => !props.isMobileView ?onMessageAttachmentClick(event, item) : null} autoPlay controls muted>
                         <source src={`./attachments/${item?.name}`} />
                     </video>
                 </>
@@ -384,7 +384,7 @@ export default function ChatBox(props) {
         }
 
         return item?.name ? (
-            <a key={key} href={`./attachments/${item?.name}`} className="attachment-thumbnail-default" target='_blank'>
+            <a key={idx} href={`./attachments/${item?.name}`} className="attachment-thumbnail-default" target='_blank'>
                 <Grid container spacing={2}>
                     <Grid item xs={2} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', pr: 0}}>
                         <span className="icon"><FontAwesomeIcon icon={faFile} size="xl" /></span>
