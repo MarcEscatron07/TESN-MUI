@@ -311,10 +311,6 @@ export default function ChatBox(props) {
                 >
                     <List
                         className="chat-box-options"
-                        sx={{
-                            display: 'flex',
-                            p: 1
-                        }}
                     >
                         <ListItem
                             disablePadding
