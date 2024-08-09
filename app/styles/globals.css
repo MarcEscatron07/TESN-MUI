@@ -89,6 +89,10 @@ body {
   display: flex;
   flex-direction: row-reverse;
 }
+.chat-box .chat-box-content .chat-box-sender .chat-box-options {
+  left: -80px;
+  flex-direction: row;
+}
 .chat-box .chat-box-content .chat-box-receiver {
   display: flex;
   flex-direction: row;
@@ -96,13 +100,23 @@ body {
 .chat-box .chat-box-content .chat-box-receiver .chat-box-avatar {
   margin-right: 5px;
 }
+.chat-box .chat-box-content .chat-box-receiver .chat-box-options {
+  right: -80px;
+  flex-direction: row-reverse;
+}
 .chat-box .chat-box-content .chat-box-avatar {
   display: flex;
   justify-content: flex-start;
 }
 .chat-box .chat-box-content .chat-box-message {
+  position: relative;
   width: auto;
   border-radius: 10px;
+}
+.chat-box .chat-box-content .chat-box-message .chat-box-options {
+  position: absolute;
+  top: 0;
+  display: flex;
 }
 .chat-box .chat-box-content .chat-box-message .chat-box-message-attachments {
   position: relative;

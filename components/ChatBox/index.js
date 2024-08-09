@@ -19,6 +19,8 @@ import Input from '@mui/material/Input';
 import Typography from "@mui/material/Typography";
 import CircularProgress from '@mui/material/CircularProgress';
 import Popover from '@mui/material/Popover';
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
 
 import EmojiPicker from 'emoji-picker-react';
 
@@ -29,6 +31,8 @@ import AddReactionIcon from '@mui/icons-material/AddReaction';
 import SendIcon from '@mui/icons-material/Send';
 import LinkIcon from '@mui/icons-material/Link';
 import PreviewIcon from '@mui/icons-material/Preview';
+import MoreIcon from "@mui/icons-material/MoreVert";
+import ReplyIcon from '@mui/icons-material/Reply';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faRectangleXmark, faFile, faMagnifyingGlassPlus } from "@fortawesome/free-solid-svg-icons";
@@ -46,7 +50,7 @@ export default function ChatBox(props) {
 
     const [isChatBoxLoading, setIsChatBoxLoading] = useState(false);
     const [isChatBoxScrolling, setIsChatBoxScrolling] = useState(false);
-    const [popoverAnchor, setPopoverAnchor] = useState(null);
+    const [emojiPopover, setEmojiPopover] = useState(null);
     const [actChatData, setActChatData] = useState({
         id: -1,
         name: '',
@@ -175,7 +179,7 @@ export default function ChatBox(props) {
     }
 
     const onEmojiPickerClick = (event) => {
-        setPopoverAnchor(event.target);
+        setEmojiPopover(event.target);
     }
 
     const onEmojiClick = (emojiData, event) => {
@@ -287,17 +291,17 @@ export default function ChatBox(props) {
 
         return (
             <Box key={idx} sx={CHAT_BOX.chatBoxCardContentDefaultBox} className={`chat-box-${source}`}>
-                <Box className="chat-box-avatar">
-                    {source == 'receiver' ? (
-                        <Image
-                            title={item.sender}
-                            src={item.senderImage}
-                            width={40}
-                            height={40}
-                            alt={item.sender}
-                        />
-                    ) : null}
-                </Box>
+                {source == 'receiver' ? (
+                    <Box className="chat-box-avatar">
+                            <Image
+                                title={item.sender}
+                                src={item.senderImage}
+                                width={40}
+                                height={40}
+                                alt={item.sender}
+                            />
+                    </Box>
+                ) : null}
                 <Box 
                     className="chat-box-message" 
                     sx={{
@@ -305,6 +309,49 @@ export default function ChatBox(props) {
                         color: source == 'receiver' ? theme.palette.light.main : theme.palette.primary.contrastText,
                     }}
                 >
+                    <List
+                        className="chat-box-options"
+                        sx={{
+                            display: 'flex',
+                            p: 1
+                        }}
+                    >
+                        <ListItem
+                            disablePadding
+                            onClick={() => {}}
+                            sx={{ 
+                                cursor: 'pointer', 
+                                display: 'flex',
+                                width: '100%'
+                            }}
+                        >
+                            <IconButton
+                                color="dark.light"
+                                sx={{ width: 15, px: 2 }}
+                                title="Reply"
+                            >
+                                <ReplyIcon />
+                            </IconButton>
+                        </ListItem>
+                        <ListItem
+                            disablePadding
+                            onClick={() => {}}
+                            sx={{ 
+                                cursor: 'pointer', 
+                                display: 'flex',
+                                width: '100%'
+                            }}
+                        >
+                            <IconButton
+                                color="dark.light"
+                                sx={{ width: 15, px: 2 }}
+                                title="More"
+                            >
+                                <MoreIcon />
+                            </IconButton>
+                        </ListItem>
+                    </List>
+
                     {item.attachments && item.attachments.length > 0 ? (
                         <Box className="chat-box-message-attachments">
                             {item.attachments.map((atchItem, atchIdx) => (
@@ -523,9 +570,9 @@ export default function ChatBox(props) {
                 </Card>
 
                 <Popover
-                    open={popoverAnchor ? true : false}
-                    anchorEl={popoverAnchor}
-                    onClose={() => setPopoverAnchor(null)}
+                    open={emojiPopover ? true : false}
+                    anchorEl={emojiPopover}
+                    onClose={() => setEmojiPopover(null)}
                     anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                     disablePortal
                 >
@@ -535,7 +582,7 @@ export default function ChatBox(props) {
                             emojiStyle="native" 
                             defaultSkinTone="neutral" 
                             suggestedEmojisMode="recent" 
-                            open={popoverAnchor ? true : false} 
+                            open={emojiPopover ? true : false} 
                             onEmojiClick={onEmojiClick} 
                             skinTonesDisabled 
                         />

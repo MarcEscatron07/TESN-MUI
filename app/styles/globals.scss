@@ -111,6 +111,11 @@ body {
         .chat-box-sender {
             display: flex;
             flex-direction: row-reverse;
+
+            .chat-box-options {
+                left: -80px;
+                flex-direction: row;
+            }
         }
 
         .chat-box-receiver {
@@ -120,6 +125,11 @@ body {
             .chat-box-avatar {
                 margin-right: 5px;
             }
+
+            .chat-box-options {
+                right: -80px;
+                flex-direction: row-reverse;
+            }
         }
 
         .chat-box-avatar {
@@ -128,8 +138,15 @@ body {
         }
 
         .chat-box-message {
+            position: relative;
             width: auto;
             border-radius: 10px;
+
+            .chat-box-options {
+                position: absolute;
+                top: 0;
+                display: flex;
+            }
 
             .chat-box-message-attachments {
                 position: relative;

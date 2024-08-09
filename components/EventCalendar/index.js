@@ -102,7 +102,7 @@ export default function EventCalendar() {
     const [holidaysList, setHolidaysList] = useState([]);
     const [eventsList, setEventsList] = useState([]);
 
-    const [popoverAnchor, setPopoverAnchor] = useState(null);
+    const [eventPopover, setEventPopover] = useState(null);
     const [popoverData, setPopoverData] = useState({
         id: -1,
         title: '',
@@ -152,9 +152,9 @@ export default function EventCalendar() {
 
     /** POPOVER useEffect **/
     useEffect(() => {
-        // console.log('EventCalendar > popoverAnchor', popoverAnchor)
+        // console.log('EventCalendar > eventPopover', eventPopover)
 
-        if (popoverAnchor == null) {
+        if (eventPopover == null) {
             setPopoverData({
                 id: -1,
                 title: '',
@@ -168,7 +168,7 @@ export default function EventCalendar() {
                 type: ''
             });
         }
-    }, [popoverAnchor])
+    }, [eventPopover])
     /** POPOVER useEffect **/
 
     /** MODAL useEffect **/
@@ -274,9 +274,9 @@ export default function EventCalendar() {
         evtIdx != -1 ? setPopoverData({ ...eventsList[evtIdx], type: 'event' }) : null;
 
         if (eventId && (holIdx != -1 || evtIdx != -1)) {
-            setPopoverAnchor(event.el);
+            setEventPopover(event.el);
         } else {
-            setPopoverAnchor(null);
+            setEventPopover(null);
         }
     }
 
@@ -295,7 +295,7 @@ export default function EventCalendar() {
         const evtIdx = eventsList.map((i) => i.id).indexOf(popoverData?.id);
 
         if (evtIdx != -1) {
-            setPopoverAnchor(null);
+            setEventPopover(null);
 
             setModalData({ ...eventsList[evtIdx], start: moment(eventsList[evtIdx]?.start), end: moment(eventsList[evtIdx]?.end) });
             setIsModalOpen(true);
@@ -358,7 +358,7 @@ export default function EventCalendar() {
     const onConfirmDialogConfirm = () => {
         onConfirmDialogCancel();
 
-        setPopoverAnchor(null);
+        setEventPopover(null);
         const filteredArr = eventsList.filter((i) => i.id != popoverData?.id);
         sessionStorage.setItem('events_data', JSON.stringify(filteredArr));
         setEventsList(filteredArr);
@@ -390,9 +390,9 @@ export default function EventCalendar() {
             />
 
             <Popover
-                open={popoverAnchor ? true : false}
-                anchorEl={popoverAnchor}
-                onClose={() => setPopoverAnchor(null)}
+                open={eventPopover ? true : false}
+                anchorEl={eventPopover}
+                onClose={() => setEventPopover(null)}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
             >
                 <Box sx={EVENT_CALENDAR.eventCalendarPopoverBox}>
