@@ -267,7 +267,7 @@ export default function ChatBox(props) {
     const onChatBoxContentScroll = (event) => {
         // console.log('onChatBoxContentScroll > event', event)
         
-        setIsChatBoxScrolling(true);
+        // setIsChatBoxScrolling(true); // temporarily commented
         // chatBoxInputRef?.current?.blur();
     }
 
