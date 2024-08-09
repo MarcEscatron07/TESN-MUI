@@ -89,7 +89,7 @@ export default function GlobalLayout(props) {
 
             socket.on('receive_notification', () => {
                 getChatNotification(userData.id, () => {
-                    const audio = new Audio('/sounds/notification.mp3');                
+                    const audio = new Audio('/sounds/chat-notification.mp3');                
                     audio.play()
                         .then(() => {
                             // console.info('User HAS interacted with document yet.');
