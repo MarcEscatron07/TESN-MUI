@@ -25,7 +25,7 @@ export default function ChatList(props) {
 
   const [pasChatList, setPasChatList] = useState([]);
   const [fabAvatarIdx, setFabAvatarIdx] = useState(-1);
-  const [popoverAnchor, setPopoverAnchor] = useState(null);
+  const [actionsPopover, setActionsPopover] = useState(null);
 
   const chatListBotPos = props.isMobileView ? props.isRightDrawerMobileOpen ? 83 : (83-50) : 0;
   const chatListLeftPos = props.isMobileView ? 5 : 285;
@@ -53,11 +53,11 @@ export default function ChatList(props) {
   }
 
   const onOptionClick = (event) => {
-    setPopoverAnchor(event.target);
+    setActionsPopover(event.target);
   }
 
   const onOptionCloseClick = () => {
-    setPopoverAnchor(null);
+    setActionsPopover(null);
 
     if (props.onChatListCloseClick) {
       props.onChatListCloseClick();
@@ -65,7 +65,7 @@ export default function ChatList(props) {
   }
 
   const onOptionMinimizeClick = () => {
-    setPopoverAnchor(null);
+    setActionsPopover(null);
 
     if (props.onChatListMinimizeClick) {
       props.onChatListMinimizeClick();
@@ -135,9 +135,9 @@ export default function ChatList(props) {
       ) : null}
 
       <Popover
-        open={popoverAnchor ? true : false}
-        anchorEl={popoverAnchor}
-        onClose={() => setPopoverAnchor(null)}
+        open={actionsPopover ? true : false}
+        anchorEl={actionsPopover}
+        onClose={() => setActionsPopover(null)}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         disablePortal
       >

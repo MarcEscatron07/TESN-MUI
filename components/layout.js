@@ -450,6 +450,7 @@ export default function GlobalLayout(props) {
         formData.append('userId', userData.id);
         formData.append('chatId', chatObj?.id);
         formData.append('chatType', chatObj?.type);
+        console.log('')
 
         if (attachmentsList && attachmentsList.length > 0) {
             formData.append('userName', userData.name);

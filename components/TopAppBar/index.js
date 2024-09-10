@@ -35,13 +35,10 @@ export default function TopAppBar(props) {
     const router = useRouter();
     const theme = useTheme();
 
-    const [menuAnchorEl, setMenuAnchorEl] = useState(null);
-    const [mobileMenuAnchorEl, setMobileMenuAnchorEl] = useState(null);
-    const [messageMenuEl, setMessageMenuEl] = useState(null);
-    const [notifsMenuEl, setNotifsMenuEl] = useState(null);
-
-    const isMenuOpen = Boolean(menuAnchorEl);
-    const isMobileMenuOpen = Boolean(mobileMenuAnchorEl);
+    const [accountMenu, setAccountMenu] = useState(null);
+    const [mobileNotificationsMenu, setMobileNotificationsMenu] = useState(null);
+    const [messageNotificationsMenu, setMessageNotificationsMenu] = useState(null);
+    const [notifNotificationsMenu, setNotifNotificationsMenu] = useState(null);
 
     useEffect(() => {
     }, []);
@@ -64,20 +61,20 @@ export default function TopAppBar(props) {
     };
 
     const onProfileMenuOpen = (event) => {
-        setMenuAnchorEl(event.currentTarget);
+        setAccountMenu(event.currentTarget);
     };
 
     const onMobileMenuClose = () => {
-        setMobileMenuAnchorEl(null);
+        setMobileNotificationsMenu(null);
     };
 
     const onMenuClose = () => {
-        setMenuAnchorEl(null);
+        setAccountMenu(null);
         onMobileMenuClose();
     };
 
     const onMobileMenuOpen = (event) => {
-        setMobileMenuAnchorEl(event.currentTarget);
+        setMobileNotificationsMenu(event.currentTarget);
     };
 
     const onLogoutClick = () => {
@@ -96,10 +93,10 @@ export default function TopAppBar(props) {
     const onNotificationButtonClick = (event, origin) => {
         switch (origin) {
             case 'messages':
-                setMessageMenuEl(event.target);
+                setMessageNotificationsMenu(event.target);
                 break;
             case 'notifs':
-                setNotifsMenuEl(event.target);
+                setNotifNotificationsMenu(event.target);
                 break;
         }
     }
@@ -108,10 +105,10 @@ export default function TopAppBar(props) {
         switch(origin) {
             case 'messages':
                 if(props.onAppBarNotificationItemClick) {
-                    setMenuAnchorEl(null);
-                    setMobileMenuAnchorEl(null);
-                    setMessageMenuEl(null);
-                    setNotifsMenuEl(null);
+                    setAccountMenu(null);
+                    setMobileNotificationsMenu(null);
+                    setMessageNotificationsMenu(null);
+                    setNotifNotificationsMenu(null);
                     
                     props.onAppBarNotificationItemClick(value);
                 }
@@ -121,7 +118,7 @@ export default function TopAppBar(props) {
 
     const renderMenu = (
         <Menu
-            anchorEl={menuAnchorEl}
+            anchorEl={accountMenu}
             anchorOrigin={{
                 vertical: "top",
                 horizontal: "right",
@@ -130,7 +127,7 @@ export default function TopAppBar(props) {
                 vertical: "top",
                 horizontal: "right",
             }}
-            open={isMenuOpen}
+            open={accountMenu ? true : false}
             onClose={onMenuClose}
             keepMounted
         >
@@ -141,7 +138,7 @@ export default function TopAppBar(props) {
 
     const renderMobileMenu = (
         <Menu
-            anchorEl={mobileMenuAnchorEl}
+            anchorEl={mobileNotificationsMenu}
             anchorOrigin={{
                 vertical: "top",
                 horizontal: "right",
@@ -150,7 +147,7 @@ export default function TopAppBar(props) {
                 vertical: "top",
                 horizontal: "right",
             }}
-            open={isMobileMenuOpen}
+            open={mobileNotificationsMenu ? true : false}
             onClose={onMobileMenuClose}
             keepMounted
         >
@@ -293,9 +290,9 @@ export default function TopAppBar(props) {
             {renderMenu}
 
             <Menu
-                open={messageMenuEl ? true : false}
-                anchorEl={messageMenuEl}
-                onClose={() => setMessageMenuEl(null)}
+                open={messageNotificationsMenu ? true : false}
+                anchorEl={messageNotificationsMenu}
+                onClose={() => setMessageNotificationsMenu(null)}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             >
                 <Typography
@@ -399,9 +396,9 @@ export default function TopAppBar(props) {
             </Menu>
 
             <Menu
-                open={notifsMenuEl ? true : false}
-                anchorEl={notifsMenuEl}
-                onClose={() => setNotifsMenuEl(null)}
+                open={notifNotificationsMenu ? true : false}
+                anchorEl={notifNotificationsMenu}
+                onClose={() => setNotifNotificationsMenu(null)}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             >
                 <Typography

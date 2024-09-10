@@ -79,11 +79,13 @@ export const CHAT_BOX = {
         fontWeight: 'bold'
     },
     chatBoxCardContentDefaultBox: {
+        position: 'relative',
         width: '100%',
         display: 'flex',
         my: 2
     },
     chatBoxCardActions: {
+        position: 'relative',
         height: '12%',
         display: 'flex',
         justifyContent: 'space-between'
