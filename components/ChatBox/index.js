@@ -236,6 +236,7 @@ export default function ChatBox(props) {
 
         if(chatMessage.trim().length > 0 || chatAttachments.length > 0) {
             if(props.onChatBoxSendInput) {
+                console.log('onChatInputSendClick > chatReplyState', chatReplyState)
                 props.onChatBoxSendInput(
                     actChatData,
                     {
@@ -248,12 +249,17 @@ export default function ChatBox(props) {
                         message: chatMessage,
                         timestamp: moment().toISOString(),
                         status: 'unread',
-                        attachments: null
+                        attachments: null,
+                        reply: chatReplyState.data,
                     },
                     chatAttachments
                 );
 
                 setChatMessage('');
+                setChatReplyState({
+                    isOpen: false,
+                    data: null
+                });
             }
         }
 
@@ -312,7 +318,7 @@ export default function ChatBox(props) {
         return (
             <Box 
                 key={idx} 
-                sx={CHAT_BOX.chatBoxCardContentDefaultBox} 
+                sx={{...CHAT_BOX.chatBoxCardContentDefaultBox, marginTop: item.reply ? '65px' : 2}} 
                 className={`chat-box-${source}`} 
                 onMouseEnter={() => setChatHoverIdx(idx)} 
                 onMouseLeave={() => setChatHoverIdx(-1)}
@@ -328,6 +334,14 @@ export default function ChatBox(props) {
                             />
                     </Box>
                 ) : null}
+
+                {item.reply ? (
+                    <Box className="chat-box-reply" sx={{width: source == 'receiver' ? '80% !important' : '82% !important', marginLeft: source == 'receiver' ? '45px' : 'unset'}}>
+                        <Box className="chat-box-reply-target"><b>{item.reply.sender == props.userData?.name ? 'You' : item.reply.sender}</b> replied to:</Box>
+                        <Box className="chat-box-reply-message">{item.reply.attachments?.length > 0 ? '[Attachment] ' + item.reply.message : item.reply.message}</Box>
+                    </Box>
+                ) : null}
+
                 <Box 
                     className="chat-box-message" 
                     sx={{
@@ -336,7 +350,7 @@ export default function ChatBox(props) {
                     }}
                 >
                     {chatHoverIdx == idx ? (
-                        <List className="chat-box-options">
+                        <List className="chat-box-message-options">
                             <ListItem
                                 disablePadding
                                 onClick={() => onChatBoxOptionsClick('reply', {isOpen: true, data: item})}

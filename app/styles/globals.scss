@@ -112,7 +112,7 @@ body {
             display: flex;
             flex-direction: row-reverse;
 
-            .chat-box-options {
+            .chat-box-message-options {
                 left: -65px;
                 flex-direction: row;
             }
@@ -126,7 +126,7 @@ body {
                 margin-right: 5px;
             }
 
-            .chat-box-options {
+            .chat-box-message-options {
                 right: -65px;
                 flex-direction: row-reverse;
             }
@@ -137,13 +137,39 @@ body {
             justify-content: flex-start;
         }
 
+        .chat-box-reply {
+            position: absolute;
+            top: -55px;
+            height: 65px;
+            width: 80%;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            background-color: #777777;
+            color: $light-color;
+            padding: .5rem;
+
+            .chat-box-reply-target {
+                font-size: .8rem;
+            }
+
+            .chat-box-reply-message {
+                font-size: .9rem;
+                display: -webkit-box;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+
         .chat-box-message {
             position: relative;
             width: auto;
-            max-width: 75%;
+            max-width: 65%;
             border-radius: 10px;
 
-            .chat-box-options {
+            .chat-box-message-options {
                 position: absolute;
                 top: 0;
                 display: flex;
@@ -173,7 +199,7 @@ body {
 
                 .attachment-thumbnail-item {
                     cursor: pointer;
-                    max-width: 180px;
+                    max-width: 170px;
                     border-radius: 10px;
                     background-color: #DDDDDD;
                     color: $dark-color;
@@ -218,6 +244,7 @@ body {
             .chat-box-message-text {
                 font-size: .95rem;
                 padding: .4rem .8rem;
+                word-wrap: break-word;
             }
 
             .chat-box-message-timestamp {

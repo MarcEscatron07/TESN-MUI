@@ -59,8 +59,8 @@ export async function POST(req, res) {
     const chatId = formData.has('chatId') ? parseInt(formData.get('chatId')) : -1;
     const chatType = formData.has('chatType') ? formData.get('chatType') : '';
     const chatInput = formData.has('chatInput') ? JSON.parse(formData.get('chatInput')) : null;
-    // console.log('THREADS > POST > formData', formData)
-    // console.log('THREADS > POST > chatInput', chatInput)
+    console.log('THREADS > POST > formData', formData)
+    console.log('THREADS > POST > chatInput', chatInput)
   
     for (const key in jsonData) {
       if (
