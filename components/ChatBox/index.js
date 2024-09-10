@@ -538,7 +538,7 @@ export default function ChatBox(props) {
                                 <Box className="chat-reply-container">
                                     <Box className="chat-reply-content">
                                         <Box className="chat-reply-target">Replying to&nbsp;<b>{chatReplyState?.data?.sender == props.userData?.name ? 'yourself' : chatReplyState?.data?.sender}</b>:</Box>
-                                        <Box className="chat-reply-message">{chatReplyState?.data?.message == '' && chatReplyState?.data?.attachments?.length > 0 ? '[Attachment]' : chatReplyState?.data?.message}</Box>
+                                        <Box className="chat-reply-message">{chatReplyState?.data?.attachments?.length > 0 ? '[Attachment] ' + chatReplyState?.data?.message : chatReplyState?.data?.message}</Box>
                                     </Box>
                                     <Box className="chat-reply-action">
                                         <IconButton
