@@ -337,7 +337,7 @@ export default function ChatBox(props) {
 
                 {item.reply ? (
                     <Box className="chat-box-reply" sx={{width: source == 'receiver' ? '80% !important' : '82% !important', marginLeft: source == 'receiver' ? '45px' : 'unset'}}>
-                        <Box className="chat-box-reply-target"><b>{item.reply.sender == props.userData?.name ? 'You' : item.reply.sender}</b> replied to:</Box>
+                        <Box className="chat-box-reply-target"><b>{item.reply.receiver == props.userData?.name ? 'You' : item.reply.receiver}</b> replied to:</Box>
                         <Box className="chat-box-reply-message">{item.reply.attachments?.length > 0 ? '[Attachment] ' + item.reply.message : item.reply.message}</Box>
                     </Box>
                 ) : null}
