@@ -111,6 +111,7 @@ body {
 .chat-box .chat-box-content .chat-box-message {
   position: relative;
   width: auto;
+  max-width: 75%;
   border-radius: 10px;
 }
 .chat-box .chat-box-content .chat-box-message .chat-box-options {
@@ -196,6 +197,29 @@ body {
   flex-direction: column-reverse;
   align-items: center;
   z-index: 99995;
+}
+
+.chat-reply-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  height: 70px;
+  top: -70px;
+  left: 0px;
+  width: 100%;
+  background-color: #FBD11A;
+  padding: 0.5rem;
+}
+.chat-reply-container .chat-reply-target {
+  display: flex;
+  align-items: center;
+}
+.chat-reply-container .chat-reply-message {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .chat-attachment-container {

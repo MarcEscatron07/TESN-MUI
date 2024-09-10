@@ -84,6 +84,7 @@ export const CHAT_BOX = {
         my: 2
     },
     chatBoxCardActions: {
+        position: 'relative',
         height: '12%',
         display: 'flex',
         justifyContent: 'space-between'

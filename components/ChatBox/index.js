@@ -62,7 +62,12 @@ export default function ChatBox(props) {
 
     const [chatMessage, setChatMessage] = useState('');
     const [chatAttachments, setChatAttachments] = useState([]);
-    const [hoveredChatView, setHoveredChatView] = useState(-1);
+
+    const [chatHoverId, setChatHoverId] = useState(-1);
+    const [chatReplyState, setChatReplyState] = useState({
+        isOpen: false,
+        data: null
+    });
 
     const chatBoxHeight = props.isMobileView ? props.isMobilePortrait ? '395px' : '365px' : '450px';
     const chatBoxWidth = props.isMobileView ? '265px' : '310px';
@@ -149,6 +154,10 @@ export default function ChatBox(props) {
     useEffect(() => {
         // console.log('ChatBox > chatAttachments', chatAttachments)
     }, [chatAttachments])
+
+    useEffect(() => {
+        console.log('ChatBox > chatReplyState', chatReplyState)
+    }, [chatReplyState])
 
     const onAttachFileChange = (event) => {
         const filesArr = event?.target?.files ? [...event?.target?.files] : [];
@@ -276,6 +285,19 @@ export default function ChatBox(props) {
         // chatBoxInputRef?.current?.blur();
     }
 
+    const onChatBoxOptionsClick = (option, item) => {
+        switch(option) {
+            case 'reply':
+                setChatReplyState({
+                    isOpen: true,
+                    data: item
+                });
+                break;
+            case 'more':
+                break;
+        }
+    }
+
     function renderSystemChatView(idx) {
         return (
             <Box key={idx} sx={CHAT_BOX.chatBoxCardContentSystemBox}>
@@ -295,8 +317,8 @@ export default function ChatBox(props) {
                 key={idx} 
                 sx={CHAT_BOX.chatBoxCardContentDefaultBox} 
                 className={`chat-box-${source}`} 
-                onMouseEnter={() => setHoveredChatView(idx)} 
-                onMouseLeave={() => setHoveredChatView(-1)}
+                onMouseEnter={() => setChatHoverId(item.id)} 
+                onMouseLeave={() => setChatHoverId(-1)}
             >
                 {source == 'receiver' ? (
                     <Box className="chat-box-avatar">
@@ -316,11 +338,11 @@ export default function ChatBox(props) {
                         color: source == 'receiver' ? theme.palette.light.main : theme.palette.primary.contrastText,
                     }}
                 >
-                    {hoveredChatView == idx ? (
+                    {/* {chatHoverId == idx ? ( */}
                         <List className="chat-box-options">
                             <ListItem
                                 disablePadding
-                                onClick={() => {}}
+                                onClick={() => onChatBoxOptionsClick('reply', item)}
                                 sx={{ 
                                     cursor: 'pointer', 
                                     display: 'flex',
@@ -337,7 +359,7 @@ export default function ChatBox(props) {
                             </ListItem>
                             <ListItem
                                 disablePadding
-                                onClick={() => {}}
+                                onClick={() => onChatBoxOptionsClick('more', item)}
                                 sx={{ 
                                     cursor: 'pointer', 
                                     display: 'flex',
@@ -353,7 +375,7 @@ export default function ChatBox(props) {
                                 </IconButton>
                             </ListItem>
                         </List>
-                    ) : null}
+                    {/* ) : null} */}
 
                     {item.attachments && item.attachments.length > 0 ? (
                         <Box className="chat-box-message-attachments">
@@ -514,6 +536,14 @@ export default function ChatBox(props) {
                     </CardContent>
 
                     <CardActions sx={{ ...CHAT_BOX.chatBoxCardActions, backgroundColor: theme.palette.secondary.main }} disableSpacing>
+                        {chatReplyState.isOpen ? (
+                            <>
+                                <Box className="chat-reply-container">
+                                    <Box className="chat-reply-target">Replying to&nbsp;<b>{chatReplyState?.data?.sender == props.userData?.name ? 'yourself' : chatReplyState?.data?.sender}</b>:</Box>
+                                    <Box className="chat-reply-message">{chatReplyState?.data?.message}</Box>
+                                </Box>
+                            </>
+                        ) : null}
                         <Box sx={CHAT_BOX.chatBoxCardActionsBox}>
                             <input key={chatAttachments} type="file" ref={chatBoxAttachmentRef} accept="*/*" multiple hidden onChange={onAttachFileChange} />
                             <IconButton onClick={onAttachFileClick}>
