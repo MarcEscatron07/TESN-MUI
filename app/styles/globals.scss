@@ -243,7 +243,6 @@ body {
 .chat-reply-container {
     position: absolute;
     display: flex;
-    flex-direction: column;
     height: 70px;
     top: -70px;
     left: 0px;
@@ -251,18 +250,29 @@ body {
     background-color: $secondary-color;
     padding: .5rem;
 
-    .chat-reply-target {
+    .chat-reply-content {
         display: flex;
-        align-items: center;
+        width: 85%;
+        flex-direction: column;
+
+        .chat-reply-target {
+            display: flex;
+            align-items: center;
+        }
+    
+        .chat-reply-message {
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #555555;
+        }
     }
 
-    .chat-reply-message {
-        display: -webkit-box;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        color: #555555;
+    .chat-reply-action {
+        display: flex;
+        width: 15%;
     }
 }
 

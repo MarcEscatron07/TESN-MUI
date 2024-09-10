@@ -63,7 +63,7 @@ export default function ChatBox(props) {
     const [chatMessage, setChatMessage] = useState('');
     const [chatAttachments, setChatAttachments] = useState([]);
 
-    const [chatHoverId, setChatHoverId] = useState(-1);
+    const [chatHoverIdx, setChatHoverIdx] = useState(-1);
     const [chatReplyState, setChatReplyState] = useState({
         isOpen: false,
         data: null
@@ -140,7 +140,7 @@ export default function ChatBox(props) {
     }, [props.userData, actChatData, isChatBoxLoading])
 
     useEffect(() => {
-        // console.log('ChatBox > actThreadData', actThreadData)
+        console.log('ChatBox > actThreadData', actThreadData)
 
         if(actThreadData.length > 0 && !isChatBoxScrolling) {
             chatBoxContentRef?.current?.lastElementChild?.scrollIntoView();
@@ -285,13 +285,10 @@ export default function ChatBox(props) {
         // chatBoxInputRef?.current?.blur();
     }
 
-    const onChatBoxOptionsClick = (option, item) => {
+    const onChatBoxOptionsClick = (option, value) => {
         switch(option) {
             case 'reply':
-                setChatReplyState({
-                    isOpen: true,
-                    data: item
-                });
+                setChatReplyState(value);
                 break;
             case 'more':
                 break;
@@ -317,8 +314,8 @@ export default function ChatBox(props) {
                 key={idx} 
                 sx={CHAT_BOX.chatBoxCardContentDefaultBox} 
                 className={`chat-box-${source}`} 
-                onMouseEnter={() => setChatHoverId(item.id)} 
-                onMouseLeave={() => setChatHoverId(-1)}
+                onMouseEnter={() => setChatHoverIdx(idx)} 
+                onMouseLeave={() => setChatHoverIdx(-1)}
             >
                 {source == 'receiver' ? (
                     <Box className="chat-box-avatar">
@@ -338,11 +335,11 @@ export default function ChatBox(props) {
                         color: source == 'receiver' ? theme.palette.light.main : theme.palette.primary.contrastText,
                     }}
                 >
-                    {/* {chatHoverId == idx ? ( */}
+                    {chatHoverIdx == idx ? (
                         <List className="chat-box-options">
                             <ListItem
                                 disablePadding
-                                onClick={() => onChatBoxOptionsClick('reply', item)}
+                                onClick={() => onChatBoxOptionsClick('reply', {isOpen: true, data: item})}
                                 sx={{ 
                                     cursor: 'pointer', 
                                     display: 'flex',
@@ -359,7 +356,7 @@ export default function ChatBox(props) {
                             </ListItem>
                             <ListItem
                                 disablePadding
-                                onClick={() => onChatBoxOptionsClick('more', item)}
+                                onClick={() => onChatBoxOptionsClick('more')}
                                 sx={{ 
                                     cursor: 'pointer', 
                                     display: 'flex',
@@ -375,7 +372,7 @@ export default function ChatBox(props) {
                                 </IconButton>
                             </ListItem>
                         </List>
-                    {/* ) : null} */}
+                     ) : null}
 
                     {item.attachments && item.attachments.length > 0 ? (
                         <Box className="chat-box-message-attachments">
@@ -539,8 +536,18 @@ export default function ChatBox(props) {
                         {chatReplyState.isOpen ? (
                             <>
                                 <Box className="chat-reply-container">
-                                    <Box className="chat-reply-target">Replying to&nbsp;<b>{chatReplyState?.data?.sender == props.userData?.name ? 'yourself' : chatReplyState?.data?.sender}</b>:</Box>
-                                    <Box className="chat-reply-message">{chatReplyState?.data?.message}</Box>
+                                    <Box className="chat-reply-content">
+                                        <Box className="chat-reply-target">Replying to&nbsp;<b>{chatReplyState?.data?.sender == props.userData?.name ? 'yourself' : chatReplyState?.data?.sender}</b>:</Box>
+                                        <Box className="chat-reply-message">{chatReplyState?.data?.message == '' && chatReplyState?.data?.attachments?.length > 0 ? '[Attachment]' : chatReplyState?.data?.message}</Box>
+                                    </Box>
+                                    <Box className="chat-reply-action">
+                                        <IconButton
+                                            sx={{color: theme.palette.dark.main}}
+                                            onClick={() => onChatBoxOptionsClick('reply', {isOpen: false, data: null})}
+                                        >
+                                            <CloseIcon />
+                                        </IconButton>
+                                    </Box>
                                 </Box>
                             </>
                         ) : null}
