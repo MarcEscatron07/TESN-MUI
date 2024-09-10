@@ -59,14 +59,14 @@ app.prepare().then(() => {
 
       if(groups.length > 0) {
         groups.forEach((item) => {
-          if(!groupsList.hasOwnProperty(item.name)) {
-            groupsList[item.name] = [clientSocketId];
-          } else {
+          if(groupsList.hasOwnProperty(item.name)) {
             const clientIdx = groupsList[item.name] ? groupsList[item.name].indexOf(clientSocketId) : -1;
 
             if(clientIdx == -1) {
               groupsList[item.name] ? groupsList[item.name] = [...groupsList[item.name], clientSocketId] : null;
             }
+          } else {
+            groupsList[item.name] = [clientSocketId];
           }
         })
       }
@@ -77,29 +77,25 @@ app.prepare().then(() => {
     socket.on('send_message', ({receiverName}) => {
       const clientSocketId = Object.keys(clientsList).find((id) => clientsList[id] == receiverName);
 
-      if(clientSocketId) {
-        io.to(socket.id).emit('receive_message');
-        io.to(clientSocketId).emit('receive_message');
+      if(groupsList.hasOwnProperty(receiverName)) {
+        groupsList[receiverName].forEach((item) => {
+          io.to(item).emit('receive_message');
+        })
       } else {
-        if(groupsList.hasOwnProperty(receiverName)) {
-          groupsList[receiverName].forEach((item) => {
-            io.to(item).emit('receive_message');
-          })
-        }
+        socket.id ? io.to(socket.id).emit('receive_message') : null;
+        clientSocketId ? io.to(clientSocketId).emit('receive_message') : null;
       }
     });
 
     socket.on('send_notification', ({receiverName}) => {
       const clientSocketId = Object.keys(clientsList).find((id) => clientsList[id] == receiverName);
 
-      if(clientSocketId) {
-        io.to(clientSocketId).emit('receive_notification', { notifType: 'single' });
+      if(groupsList.hasOwnProperty(receiverName)) {
+        groupsList[receiverName].forEach((item) => {
+          io.to(item).emit('receive_notification', { notifType: item == socket.id ? 'multiple' : 'single' });
+        })
       } else {
-        if(groupsList.hasOwnProperty(receiverName)) {
-          groupsList[receiverName].forEach((item) => {
-            io.to(item).emit('receive_notification', { notifType: item == socket.id ? 'multiple' : 'single' });
-          })
-        }
+        clientSocketId ? io.to(clientSocketId).emit('receive_notification', { notifType: 'single' }) : null;
       }
     });
   });
