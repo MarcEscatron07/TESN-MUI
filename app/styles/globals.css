@@ -89,6 +89,9 @@ body {
   display: flex;
   flex-direction: row-reverse;
 }
+.chat-box .chat-box-content .chat-box-sender .chat-box-message {
+  max-width: 65%;
+}
 .chat-box .chat-box-content .chat-box-sender .chat-box-message-options {
   left: -65px;
   flex-direction: row;
@@ -99,6 +102,9 @@ body {
 }
 .chat-box .chat-box-content .chat-box-receiver .chat-box-avatar {
   margin-right: 5px;
+}
+.chat-box .chat-box-content .chat-box-receiver .chat-box-message {
+  max-width: 55%;
 }
 .chat-box .chat-box-content .chat-box-receiver .chat-box-message-options {
   right: -65px;
@@ -112,7 +118,6 @@ body {
   position: absolute;
   top: -52px;
   height: 65px;
-  width: 80%;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -134,7 +139,6 @@ body {
 .chat-box .chat-box-content .chat-box-message {
   position: relative;
   width: auto;
-  max-width: 65%;
   border-radius: 10px;
 }
 .chat-box .chat-box-content .chat-box-message .chat-box-message-options {
@@ -165,7 +169,7 @@ body {
 }
 .chat-box .chat-box-content .chat-box-message .chat-box-message-attachments .attachment-thumbnail-item {
   cursor: pointer;
-  max-width: 170px;
+  max-width: 93%;
   border-radius: 10px;
   background-color: #DDDDDD;
   color: #000000;
