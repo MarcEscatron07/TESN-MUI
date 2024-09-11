@@ -35,7 +35,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import ReplyIcon from '@mui/icons-material/Reply';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faRectangleXmark, faFile, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faRectangleXmark, faFile, faEdit, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 
 import { StyledBadge } from "@/components/function";
 import { CHAT_BOX } from '@/components/styles';
@@ -72,6 +72,11 @@ export default function ChatBox(props) {
         isOpen: false,
         active: null,
         menu: [
+            {
+                icon: faEdit,
+                label: 'Edit',
+                value: 'edit'
+            },
             {
                 icon: faTimes,
                 label: 'Remove',
@@ -439,12 +444,13 @@ export default function ChatBox(props) {
                                     <List 
                                         sx={{
                                             position: 'absolute',
-                                            top: '-75px',
-                                            left: '-20px',
+                                            top: '-102px',
+                                            left: '-32px',
                                             backgroundColor: theme.palette.light.main,
                                             color: theme.palette.dark.main,
                                             borderRadius: '10px',
-                                            padding: '.5rem'
+                                            padding: '.5rem',
+                                            zIndex: 20,
                                         }}
                                     >
                                         {chatMoreState.menu ? chatMoreState.menu.map((mItem, mIdx) => (
