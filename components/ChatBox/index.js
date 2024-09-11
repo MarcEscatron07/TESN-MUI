@@ -77,11 +77,11 @@ export default function ChatBox(props) {
                 label: 'Edit',
                 value: 'edit'
             },
-            {
-                icon: faAnglesRight,
-                label: 'Forward',
-                value: 'forward'
-            },
+            // {
+            //     icon: faAnglesRight,
+            //     label: 'Forward',
+            //     value: 'forward'
+            // },
             {
                 icon: faTimes,
                 label: 'Remove',
@@ -286,8 +286,9 @@ export default function ChatBox(props) {
                         receiver: actChatData.name,
                         receiverImage: actChatData.image,
                         receiverType: actChatData.type,
-                        receiverIsOnline: actChatData.isOnline,
+                        isReceiverOnline: actChatData.isOnline,
                         message: chatMessage,
+                        isMessageRemoved: false,
                         timestamp: moment().toISOString(),
                         status: 'unread',
                         attachments: null,
@@ -444,7 +445,8 @@ export default function ChatBox(props) {
                                     <List 
                                         sx={{
                                             position: 'absolute',
-                                            top: '-102px',
+                                            // top: '-102px',
+                                            top: '-72px',
                                             left: '-32px',
                                             backgroundColor: theme.palette.light.main,
                                             color: theme.palette.dark.main,
