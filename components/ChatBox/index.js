@@ -78,14 +78,14 @@ export default function ChatBox(props) {
                 value: 'edit'
             },
             {
-                icon: faTimes,
-                label: 'Remove',
-                value: 'remove'
-            },
-            {
                 icon: faAnglesRight,
                 label: 'Forward',
                 value: 'forward'
+            },
+            {
+                icon: faTimes,
+                label: 'Remove',
+                value: 'remove'
             },
         ],
     });
