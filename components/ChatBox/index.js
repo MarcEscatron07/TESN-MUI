@@ -74,11 +74,13 @@ export default function ChatBox(props) {
         menu: [
             {
                 icon: faTimes,
-                label: 'Remove'
+                label: 'Remove',
+                value: 'remove'
             },
             {
                 icon: faAnglesRight,
-                label: 'Forward'
+                label: 'Forward',
+                value: 'forward'
             },
         ],
     });
