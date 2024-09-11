@@ -169,7 +169,7 @@ body {
 }
 .chat-box .chat-box-content .chat-box-message .chat-box-message-attachments .attachment-thumbnail-item {
   cursor: pointer;
-  max-width: 93%;
+  max-width: 94%;
   border-radius: 10px;
   background-color: #DDDDDD;
   color: #000000;
