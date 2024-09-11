@@ -163,7 +163,7 @@ export default function Login() {
                       style: LOGIN.loginFormInputLabelProps,
                     }}
                     value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={(event) => setUsername(event.target.value)}
                   />
                   <TextField
                     required
@@ -204,7 +204,7 @@ export default function Login() {
                       style: LOGIN.loginFormInputLabelProps,
                     }}
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(event) => setPassword(event.target.value)}
                   />
                   <FormControlLabel
                     style={LOGIN.loginFormControlLabel}

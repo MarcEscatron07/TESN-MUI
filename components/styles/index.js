@@ -139,16 +139,11 @@ export const CHAT_LIST = {
         alignItems: 'center',
         justifyContent: 'center',
     },
-    chatListPopoverOptionClose: {
+    chatListPopoverButton: {
         width: '100%',
         display: 'flex',
         justifyContent: 'flex-start',
     },
-    chatListPopoverOptionMinimize: {
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'flex-start',
-    }
 }
 
 export const EVENT_CALENDAR = {

@@ -58,7 +58,7 @@ export default function GlobalLayout(props) {
         checkMobileOrientation(window.matchMedia("(orientation: portrait)").matches);
 
         window.addEventListener('resize', checkMobileView);
-        window.matchMedia("(orientation: portrait)").addEventListener("change", (e) => checkMobileOrientation(e.matches));
+        window.matchMedia("(orientation: portrait)").addEventListener("change", (event) => checkMobileOrientation(event.matches));
 
         socket.on('clients_list', (clientsList) => {
             console.log('GlobalLayout > clientsList', clientsList)

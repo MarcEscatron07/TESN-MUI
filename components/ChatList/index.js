@@ -146,7 +146,7 @@ export default function ChatList(props) {
         >
           <Button
             sx={{
-              ...CHAT_LIST.chatListPopoverOptionClose,
+              ...CHAT_LIST.chatListPopoverButton,
               color: theme.palette.dark.main
             }}
             startIcon={<CancelIcon />}
@@ -157,7 +157,7 @@ export default function ChatList(props) {
           {props.activeChatList && props.activeChatList.length > 0 ? (
             <Button
               sx={{
-                ...CHAT_LIST.chatListPopoverOptionMinimize,
+                ...CHAT_LIST.chatListPopoverButton,
                 color: theme.palette.dark.main
               }}
               startIcon={<RemoveIcon />}

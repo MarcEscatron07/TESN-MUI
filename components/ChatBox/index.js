@@ -35,7 +35,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import ReplyIcon from '@mui/icons-material/Reply';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faRectangleXmark, faFile, faMagnifyingGlassPlus } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faRectangleXmark, faFile, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 
 import { StyledBadge } from "@/components/function";
 import { CHAT_BOX } from '@/components/styles';
@@ -67,6 +67,20 @@ export default function ChatBox(props) {
     const [chatReplyState, setChatReplyState] = useState({
         isOpen: false,
         data: null
+    });
+    const [chatMoreState, setChatMoreState] = useState({
+        isOpen: false,
+        active: null,
+        menu: [
+            {
+                icon: faTimes,
+                label: 'Remove'
+            },
+            {
+                icon: faAnglesRight,
+                label: 'Forward'
+            },
+        ],
     });
 
     const chatBoxHeight = props.isMobileView ? props.isMobilePortrait ? '395px' : '365px' : '450px';
@@ -156,6 +170,17 @@ export default function ChatBox(props) {
     }, [chatAttachments])
 
     useEffect(() => {
+        // console.log('ChatBox > chatHoverIdx', chatHoverIdx)
+
+        if(chatHoverIdx == -1) {
+            setChatMoreState({
+                ...chatMoreState,
+                isOpen: false
+            });
+        }
+    }, [chatHoverIdx])
+
+    useEffect(() => {
         // console.log('ChatBox > chatReplyState', chatReplyState)
 
         if(chatReplyState.isOpen) {
@@ -164,6 +189,10 @@ export default function ChatBox(props) {
             chatBoxInputRef?.current?.blur();
         }
     }, [chatReplyState])
+
+    useEffect(() => {
+        // console.log('ChatBox > chatMoreState', chatMoreState)
+    }, [chatMoreState])
 
     const onAttachFileChange = (event) => {
         const filesArr = event?.target?.files ? [...event?.target?.files] : [];
@@ -242,7 +271,6 @@ export default function ChatBox(props) {
 
         if(chatMessage.trim().length > 0 || chatAttachments.length > 0) {
             if(props.onChatBoxSendInput) {
-                console.log('onChatInputSendClick > chatReplyState', chatReplyState)
                 props.onChatBoxSendInput(
                     actChatData,
                     {
@@ -297,12 +325,25 @@ export default function ChatBox(props) {
         // chatBoxInputRef?.current?.blur();
     }
 
-    const onChatBoxOptionsClick = (option, value) => {
-        switch(option) {
+    const onChatBoxChatHover = (event, type, value) => {
+        switch(type) {
+            case 'mouseenter':
+                setChatHoverIdx(value);
+                break;
+            case 'mouseleave':
+                setChatHoverIdx(value);
+                setChatMoreState({...chatMoreState, isOpen: false});
+                break;
+        }
+    }
+
+    const onChatBoxOptionsClick = (event, type, value) => {
+        switch(type) {
             case 'reply':
                 setChatReplyState(value);
                 break;
             case 'more':
+                setChatMoreState({...chatMoreState, ...value});
                 break;
         }
     }
@@ -326,8 +367,8 @@ export default function ChatBox(props) {
                 key={idx} 
                 sx={{...CHAT_BOX.chatBoxCardContentDefaultBox, marginTop: item.reply ? '65px' : 2}} 
                 className={`chat-box-${source}`} 
-                onMouseEnter={() => setChatHoverIdx(idx)} 
-                onMouseLeave={() => setChatHoverIdx(-1)}
+                onMouseEnter={(event) => onChatBoxChatHover(event, 'mouseenter', idx)} 
+                onMouseLeave={(event) => onChatBoxChatHover(event, 'mouseleave', -1)}
             >
                 {source == 'receiver' ? (
                     <Box className="chat-box-avatar">
@@ -359,7 +400,7 @@ export default function ChatBox(props) {
                         <List className="chat-box-message-options">
                             <ListItem
                                 disablePadding
-                                onClick={() => onChatBoxOptionsClick('reply', {isOpen: true, data: item})}
+                                onClick={(event) => onChatBoxOptionsClick(event, 'reply', {isOpen: true, data: item})}
                                 sx={{ 
                                     cursor: 'pointer', 
                                     display: 'flex',
@@ -376,8 +417,9 @@ export default function ChatBox(props) {
                             </ListItem>
                             <ListItem
                                 disablePadding
-                                onClick={() => onChatBoxOptionsClick('more')}
+                                onClick={(event) => onChatBoxOptionsClick(event, 'more', {isOpen: !chatMoreState.isOpen})}
                                 sx={{ 
+                                    position: 'relative',
                                     cursor: 'pointer', 
                                     display: 'flex',
                                     width: '100%'
@@ -390,6 +432,40 @@ export default function ChatBox(props) {
                                 >
                                     <MoreIcon />
                                 </IconButton>
+
+                                {chatMoreState.isOpen ? (
+                                    <List 
+                                        sx={{
+                                            position: 'absolute',
+                                            top: '-75px',
+                                            left: '-20px',
+                                            backgroundColor: theme.palette.light.main,
+                                            color: theme.palette.dark.main,
+                                            borderRadius: '10px',
+                                            padding: '.5rem'
+                                        }}
+                                    >
+                                        {chatMoreState.menu ? chatMoreState.menu.map((mItem, mIdx) => (
+                                            <ListItem
+                                                key={mIdx}
+                                                disablePadding
+                                                onClick={() => {}}
+                                                sx={{ 
+                                                    "&:hover": {
+                                                        backgroundColor: theme.palette.light.dark,
+                                                        borderRadius: '10px',
+                                                    },
+                                                    cursor: 'pointer', 
+                                                    display: 'flex',
+                                                    width: '100%',
+                                                    padding: '.2rem .5rem'
+                                                }}
+                                            >
+                                                <span style={{minWidth: '25px'}}><FontAwesomeIcon icon={mItem.icon} size="lg" /></span> {mItem.label}
+                                            </ListItem>
+                                        )) : null}
+                                    </List>
+                                ) : null}
                             </ListItem>
                         </List>
                     ) : null}
@@ -563,7 +639,7 @@ export default function ChatBox(props) {
                                     <Box className="chat-reply-action">
                                         <IconButton
                                             sx={{color: theme.palette.dark.main}}
-                                            onClick={() => onChatBoxOptionsClick('reply', {isOpen: false, data: null})}
+                                            onClick={(event) => onChatBoxOptionsClick(event, 'reply', {isOpen: false, data: null})}
                                         >
                                             <CloseIcon />
                                         </IconButton>
