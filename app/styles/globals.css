@@ -237,6 +237,7 @@ body {
   background-color: #FBD11A;
   padding: 0.5rem;
   border-bottom: 1px solid black;
+  z-index: 20;
 }
 .chat-reply-container .chat-reply-content {
   display: flex;
