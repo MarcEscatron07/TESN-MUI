@@ -156,7 +156,13 @@ export default function ChatBox(props) {
     }, [chatAttachments])
 
     useEffect(() => {
-        console.log('ChatBox > chatReplyState', chatReplyState)
+        // console.log('ChatBox > chatReplyState', chatReplyState)
+
+        if(chatReplyState.isOpen) {
+            chatBoxInputRef?.current?.focus();
+        } else {
+            chatBoxInputRef?.current?.blur();
+        }
     }, [chatReplyState])
 
     const onAttachFileChange = (event) => {
