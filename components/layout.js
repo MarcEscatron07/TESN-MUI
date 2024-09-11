@@ -8,7 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { GLOBAL } from "@/app/styles";
 import { Loader, TopAppBar, LeftDrawer, RightDrawer, ChatBox, ChatList, ViewAttachment } from '@/components';
 import { socket } from '@/components/socket-client';
-import { getUsers, getChats, getThreads, postThreads, postAttachments, getNotifications, postNotifications, patchNotifications } from "@/lib/api";
+import { getUsers, getChats, getThreads, postThreads, patchThreads, postAttachments, getNotifications, postNotifications, patchNotifications } from "@/lib/api";
 
 export default function GlobalLayout(props) {
     const viewBreakpoint = 992;
@@ -295,6 +295,21 @@ export default function GlobalLayout(props) {
 
         callback ? callback() : null;
     }
+    
+    async function patchChatThread(formData, callback) {
+        await patchThreads(formData).then(
+            (res) => {
+                // console.log('GlobalLayout > patchChatThread > res', res)
+
+                socket.emit('update_message');
+            },
+            (err) => {
+                console.log('GlobalLayout > patchChatThread > err', err)
+            },
+        );
+
+        callback ? callback() : null;
+    }
 
     async function postChatAttachments(formData, callback) {
         // console.log('postChatAttachments > formData', formData)
@@ -472,6 +487,12 @@ export default function GlobalLayout(props) {
             formData.append('chatObj', JSON.stringify(chatObj?.type == 'single' ? {...userData, type: 'single', isOnline: true} : chatObj));
             postChatNotification(formData, chatObj);
         }
+    }
+
+    const onUpdateChatMessageClick = (chatObj, chatInput) => { // TO-DO: apply logic on Chat > Options > click
+        const formData = new FormData();
+
+        patchChatThread(formData);
     }
 
     const onViewChatAttachmentClick = (value) => {

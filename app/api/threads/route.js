@@ -93,3 +93,26 @@ export async function POST(req, res) {
     }, { status: 500 });
   }
 }
+
+export async function PATCH(req, res) {
+  try {
+    /** temporary code **/
+    const jsonPath = "/public/json/tests/threads.json";
+    const jsonFile = await fs.readFile(path.join(process.cwd(), jsonPath), "utf8");
+    const jsonData = JSON.parse(jsonFile);
+    /** temporary code **/
+
+    const formData = await req.formData();
+
+    return NextResponse.json({
+      status: 400,
+      message: "Unable to patch thread.",
+    }, { status: 400 });
+  } catch (e) {
+    return NextResponse.json({
+      status: 500,
+      message: "An unexpected error occured.",
+      data: e
+    }, { status: 500 });
+  }
+}
