@@ -450,7 +450,7 @@ export default function ChatBox(props) {
                                         sx={{
                                             position: 'absolute',
                                             // top: '-102px',
-                                            top: '-72px',
+                                            top: source == 'sender' ? '-72px' : '-42px',
                                             left: '-32px',
                                             backgroundColor: theme.palette.light.main,
                                             color: theme.palette.dark.main,
