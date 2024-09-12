@@ -459,25 +459,36 @@ export default function ChatBox(props) {
                                             zIndex: 20,
                                         }}
                                     >
-                                        {chatMoreState.menu ? chatMoreState.menu.map((mItem, mIdx) => (
-                                            <ListItem
-                                                key={mIdx}
-                                                disablePadding
-                                                onClick={() => {}}
-                                                sx={{ 
-                                                    "&:hover": {
-                                                        backgroundColor: theme.palette.light.dark,
-                                                        borderRadius: '10px',
-                                                    },
-                                                    cursor: 'pointer', 
-                                                    display: 'flex',
-                                                    width: '100%',
-                                                    padding: '.2rem .5rem'
-                                                }}
-                                            >
-                                                <span style={{minWidth: '25px'}}><FontAwesomeIcon icon={mItem.icon} size="lg" /></span> {mItem.label}
-                                            </ListItem>
-                                        )) : null}
+                                        {chatMoreState.menu ? chatMoreState.menu.map((mItem, mIdx) => {
+                                            if(item.sender == props.userData?.name && mItem.value && !['edit','remove'].includes(mItem.value)) {
+                                                return null;
+                                            }
+
+                                            if(item.receiver == props.userData?.name && mItem.value && !['remove'].includes(mItem.value)) {
+                                                return null;
+                                            }
+
+                                            return (
+                                                <ListItem
+                                                    key={mIdx}
+                                                    disablePadding
+                                                    onClick={() => {}}
+                                                    sx={{ 
+                                                        "&:hover": {
+                                                            backgroundColor: theme.palette.light.dark,
+                                                            borderRadius: '10px',
+                                                        },
+                                                        cursor: 'pointer', 
+                                                        display: 'flex',
+                                                        width: '100%',
+                                                        padding: '.2rem .5rem'
+                                                    }}
+                                                >
+                                                    <span style={{minWidth: '25px'}}><FontAwesomeIcon icon={mItem.icon} size="lg" /></span> {mItem.label}
+                                                </ListItem>
+                                            )
+                                        })
+                                        : null}
                                     </List>
                                 ) : null}
                             </ListItem>
