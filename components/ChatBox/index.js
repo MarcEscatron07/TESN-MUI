@@ -308,6 +308,10 @@ export default function ChatBox(props) {
         clearObjectUrl(chatAttachments, () => setChatAttachments([]));
     }
 
+    const onChatUpdateMessageClick = (event) => {
+
+    }
+
     const onMinimizeClick = (event, value) => {
         setIsChatBoxScrolling(false);
         clearObjectUrl(chatAttachments, () => setChatAttachments([]));

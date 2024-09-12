@@ -621,6 +621,7 @@ export default function GlobalLayout(props) {
                     onChatBoxCloseClick={(value) => onRemoveChatClick(value, 'chat-box')}
                     onChatBoxMinimizeClick={onMinimizeChatClick}
                     onChatBoxSendInput={onSendChatInputClick}
+                    onChatBoxUpdateMessage={onUpdateChatMessageClick}
                     onChatBoxViewAttachment={onViewChatAttachmentClick}
                     onChatBoxInputFocus={onChatInputFocus}
                     onResetSelectedChat={() => setSelectedChat(null)}
