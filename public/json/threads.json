@@ -8,6 +8,7 @@
         "type": "single",
         "threads": [
             {
+                "threadId": 1,
                 "sender": "system",
                 "senderImage": null,
                 "receiver": null,
@@ -32,6 +33,7 @@
         "type": "single",
         "threads": [
             {
+                "threadId": 1,
                 "sender": "system",
                 "senderImage": null,
                 "receiver": null,
@@ -56,6 +58,7 @@
         "type": "single",
         "threads": [
             {
+                "threadId": 1,
                 "sender": "system",
                 "senderImage": null,
                 "receiver": null,
@@ -80,6 +83,7 @@
         "type": "single",
         "threads": [
             {
+                "threadId": 1,
                 "sender": "system",
                 "senderImage": null,
                 "receiver": null,
@@ -104,6 +108,7 @@
         "type": "single",
         "threads": [
             {
+                "threadId": 1,
                 "sender": "system",
                 "senderImage": null,
                 "receiver": null,
@@ -128,6 +133,7 @@
         "type": "single",
         "threads": [
             {
+                "threadId": 1,
                 "sender": "system",
                 "senderImage": null,
                 "receiver": null,
@@ -152,6 +158,7 @@
         "type": "single",
         "threads": [
             {
+                "threadId": 1,
                 "sender": "system",
                 "senderImage": null,
                 "receiver": null,
@@ -176,6 +183,7 @@
         "type": "single",
         "threads": [
             {
+                "threadId": 1,
                 "sender": "system",
                 "senderImage": null,
                 "receiver": null,
@@ -200,6 +208,7 @@
         "type": "single",
         "threads": [
             {
+                "threadId": 1,
                 "sender": "system",
                 "senderImage": null,
                 "receiver": null,
@@ -224,6 +233,7 @@
         "type": "single",
         "threads": [
             {
+                "threadId": 1,
                 "sender": "system",
                 "senderImage": null,
                 "receiver": null,
@@ -253,6 +263,7 @@
         "type": "multiple",
         "threads": [
             {
+                "threadId": 1,
                 "sender": "system",
                 "senderImage": null,
                 "receiver": null,
@@ -280,6 +291,7 @@
         "type": "multiple",
         "threads": [
             {
+                "threadId": 1,
                 "sender": "system",
                 "senderImage": null,
                 "receiver": null,

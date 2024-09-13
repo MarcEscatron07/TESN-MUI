@@ -498,7 +498,7 @@ export default function GlobalLayout(props) {
         formData.append('chatType', chatObj?.type);
         formData.append('chatInput', JSON.stringify(chatInput));
 
-        // patchChatThread(formData); // TO-DO
+        patchChatThread(formData);
     }
 
     const onViewChatAttachmentClick = (value) => {

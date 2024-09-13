@@ -106,13 +106,16 @@ export async function PATCH(req, res) {
     const userId = formData.has('userId') ? parseInt(formData.get('userId')) : -1;
     const chatId = formData.has('chatId') ? parseInt(formData.get('chatId')) : -1;
     const chatType = formData.has('chatType') ? formData.get('chatType') : '';
+    const chatInput = formData.has('chatInput') ? JSON.parse(formData.get('chatInput')) : null;
     console.log('THREADS > PATCH > formData', formData)
+    console.log('THREADS > PATCH > chatInput', chatInput)
   
     for (const key in jsonData) {
       if (
         jsonData[key]?.chatIds?.includes(userId) && jsonData[key]?.chatIds?.includes(chatId) &&
         jsonData[key]?.type == chatType && 
-        jsonData[key]?.threads
+        jsonData[key]?.threads && 
+        chatInput
       ) {
         // UPDATE TARGET THREAD HERE
 
