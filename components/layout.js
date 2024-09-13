@@ -296,12 +296,12 @@ export default function GlobalLayout(props) {
         callback ? callback() : null;
     }
     
-    async function patchChatThread(formData, callback) {
+    async function patchChatThread(formData, chatObj, callback) {
         await patchThreads(formData).then(
             (res) => {
                 // console.log('GlobalLayout > patchChatThread > res', res)
 
-                socket.emit('update_message');
+                socket.emit('send_message', { receiverName: chatObj?.name });
             },
             (err) => {
                 console.log('GlobalLayout > patchChatThread > err', err)
@@ -488,17 +488,28 @@ export default function GlobalLayout(props) {
         }
     }
 
-    const onUpdateChatMessageClick = (chatObj, chatInput) => {
-        console.log('onUpdateChatMessageClick > chatObj', chatObj)
-        console.log('onUpdateChatMessageClick > chatInput', chatInput)
-
+    const onUpdateChatMessageClick = (chatObj, chatInput, attachmentsList) => {
         const formData = new FormData();
         formData.append('userId', userData.id);
         formData.append('chatId', chatObj?.id);
         formData.append('chatType', chatObj?.type);
-        formData.append('chatInput', JSON.stringify(chatInput));
 
-        patchChatThread(formData);
+        if (attachmentsList && attachmentsList.length > 0) {
+            formData.append('userName', userData.name);
+            Array.from(attachmentsList).forEach((item) => {
+                formData.append('attachments', item);
+            })
+
+            postChatAttachments(formData, (attachments) => {
+                chatInput ? chatInput.attachments = attachments : null;
+                
+                formData.append('chatInput', JSON.stringify(chatInput));
+                patchChatThread(formData, chatObj);
+            })
+        } else {
+            formData.append('chatInput', JSON.stringify(chatInput));
+            patchChatThread(formData, chatObj);
+        }
     }
 
     const onViewChatAttachmentClick = (value) => {

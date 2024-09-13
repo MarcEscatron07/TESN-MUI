@@ -291,16 +291,16 @@ export default function ChatBox(props) {
     const onChatInputSendClick = (event) => {
         setIsChatBoxScrolling(false);
 
-        if(chatEditState.isEditing) {
-            if(props.onChatBoxUpdateMessage) {
-                const dataObj = {
-                    ...chatEditState.data,
-                    message: chatMessage
+        if(chatMessage.trim().length > 0 || chatAttachments.length > 0) {
+            if(chatEditState.isEditing) {
+                if(props.onChatBoxUpdateMessage) {
+                    const dataObj = {
+                        ...chatEditState.data,
+                        message: chatMessage
+                    }
+                    props.onChatBoxUpdateMessage(actChatData, dataObj, chatAttachments);
                 }
-                props.onChatBoxUpdateMessage(actChatData, dataObj);
-            }
-        } else {
-            if(chatMessage.trim().length > 0 || chatAttachments.length > 0) {
+            } else {
                 if(props.onChatBoxSendInput) {
                     props.onChatBoxSendInput(
                         actChatData,
@@ -411,7 +411,7 @@ export default function ChatBox(props) {
                         ...valueObj.data,
                         isMessageRemoved: true
                     }
-                    props.onChatBoxUpdateMessage(actChatData, dataObj);
+                    props.onChatBoxUpdateMessage(actChatData, dataObj, null);
                 }
                 break;
         }
@@ -430,7 +430,7 @@ export default function ChatBox(props) {
 
     function renderDefaultChatView(item, idx) {
         const source = item.sender == props.userData?.name ? 'sender' : 'receiver';
-
+        
         return (
             <Box 
                 key={idx} 
@@ -461,11 +461,12 @@ export default function ChatBox(props) {
                 <Box 
                     className="chat-box-message" 
                     sx={{
+                        maxWidth: item.isMessageRemoved ? '100% !important' : 'auto',
                         backgroundColor: source == 'receiver' ? theme.palette.dark.main : theme.palette.primary.main,
                         color: source == 'receiver' ? theme.palette.light.main : theme.palette.primary.contrastText,
                     }}
                 >
-                    {chatHoverIdx == idx ? (
+                    {chatHoverIdx == idx && !item.isMessageRemoved ? (
                         <List className="chat-box-message-options">
                             <ListItem
                                 disablePadding
@@ -568,7 +569,7 @@ export default function ChatBox(props) {
                             ))}
                         </Box>
                     ) : null}
-                    <Box className="chat-box-message-text">{parseStringToHtml(item.message)}</Box>
+                    <Box className="chat-box-message-text">{item.isMessageRemoved ? <i>{source == 'sender' ? 'You' : item.sender} unsent a message</i> : parseStringToHtml(item.message)}</Box>
                     <Box 
                         className="chat-box-message-timestamp" 
                         title={formatDateTime(item.timestamp, 'dddd, MMMM DD, YYYY @ hh:mm A', { origin: 'chat-timestamp' })}
@@ -581,7 +582,7 @@ export default function ChatBox(props) {
                     </Box>
                 </Box>
             </Box>
-        )
+        );
     }
 
     function renderAttachmentThumbByType(item, type) {

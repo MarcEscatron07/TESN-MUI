@@ -115,11 +115,15 @@ export async function PATCH(req, res) {
         jsonData[key]?.chatIds?.includes(userId) && jsonData[key]?.chatIds?.includes(chatId) &&
         jsonData[key]?.type == chatType && 
         jsonData[key]?.threads && 
-        chatInput
+        chatInput && chatInput.threadId
       ) {
-        // UPDATE TARGET THREAD HERE
+        const threadIdx = jsonData[key]['threads'].map((i) => i.threadId).indexOf(chatInput.threadId);
+        
+        if(threadIdx != -1) {
+          jsonData[key]['threads'][threadIdx] = chatInput;
+        }
 
-        // await fs.writeFile(path.join(process.cwd(), jsonPath), JSON.stringify(jsonData));
+        await fs.writeFile(path.join(process.cwd(), jsonPath), JSON.stringify(jsonData));
 
         return NextResponse.json({
           status: 200,
