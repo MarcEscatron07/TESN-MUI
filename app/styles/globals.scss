@@ -112,10 +112,6 @@ body {
             display: flex;
             flex-direction: row-reverse;
 
-            .chat-box-message {
-                max-width: 65%;
-            }
-
             .chat-box-message-options {
                 left: -65px;
                 flex-direction: row;
@@ -128,10 +124,6 @@ body {
 
             .chat-box-avatar {
                 margin-right: 5px;
-            }
-
-            .chat-box-message {
-                max-width: 55%;
             }
 
             .chat-box-message-options {

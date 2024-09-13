@@ -89,9 +89,6 @@ body {
   display: flex;
   flex-direction: row-reverse;
 }
-.chat-box .chat-box-content .chat-box-sender .chat-box-message {
-  max-width: 65%;
-}
 .chat-box .chat-box-content .chat-box-sender .chat-box-message-options {
   left: -65px;
   flex-direction: row;
@@ -102,9 +99,6 @@ body {
 }
 .chat-box .chat-box-content .chat-box-receiver .chat-box-avatar {
   margin-right: 5px;
-}
-.chat-box .chat-box-content .chat-box-receiver .chat-box-message {
-  max-width: 55%;
 }
 .chat-box .chat-box-content .chat-box-receiver .chat-box-message-options {
   right: -65px;
