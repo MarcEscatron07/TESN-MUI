@@ -517,11 +517,11 @@ export default function ChatBox(props) {
                                         }}
                                     >
                                         {chatMoreState.menu ? chatMoreState.menu.map((mItem, mIdx) => {
-                                            if(item.sender == props.userData?.name && mItem.value && !['edit','remove'].includes(mItem.value)) {
+                                            if(source == 'sender' && mItem.value && !['edit','remove'].includes(mItem.value)) {
                                                 return null;
                                             }
 
-                                            if(item.receiver == props.userData?.name && mItem.value && !['remove'].includes(mItem.value)) {
+                                            if(source == 'receiver' && mItem.value && !['remove'].includes(mItem.value)) {
                                                 return null;
                                             }
 
