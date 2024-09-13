@@ -305,6 +305,7 @@ export default function ChatBox(props) {
                     props.onChatBoxSendInput(
                         actChatData,
                         {
+                            threadId: actThreadData.length + 1,
                             sender: props.userData?.name,
                             senderImage: props.userData?.image,
                             receiver: actChatData.name,
