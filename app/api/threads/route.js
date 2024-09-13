@@ -101,9 +101,31 @@ export async function PATCH(req, res) {
     const jsonFile = await fs.readFile(path.join(process.cwd(), jsonPath), "utf8");
     const jsonData = JSON.parse(jsonFile);
     /** temporary code **/
-
+  
     const formData = await req.formData();
+    const userId = formData.has('userId') ? parseInt(formData.get('userId')) : -1;
+    const chatId = formData.has('chatId') ? parseInt(formData.get('chatId')) : -1;
+    const chatType = formData.has('chatType') ? formData.get('chatType') : '';
+    console.log('THREADS > PATCH > formData', formData)
+  
+    for (const key in jsonData) {
+      if (
+        jsonData[key]?.chatIds?.includes(userId) && jsonData[key]?.chatIds?.includes(chatId) &&
+        jsonData[key]?.type == chatType && 
+        jsonData[key]?.threads
+      ) {
+        // UPDATE TARGET THREAD HERE
 
+        // await fs.writeFile(path.join(process.cwd(), jsonPath), JSON.stringify(jsonData));
+
+        return NextResponse.json({
+          status: 200,
+          message: "Patch thread successful.",
+          data: chatInput
+        }, { status: 200 });
+      }
+    }
+  
     return NextResponse.json({
       status: 400,
       message: "Unable to patch thread.",

@@ -465,7 +465,6 @@ export default function GlobalLayout(props) {
         formData.append('userId', userData.id);
         formData.append('chatId', chatObj?.id);
         formData.append('chatType', chatObj?.type);
-        console.log('')
 
         if (attachmentsList && attachmentsList.length > 0) {
             formData.append('userName', userData.name);
@@ -489,10 +488,17 @@ export default function GlobalLayout(props) {
         }
     }
 
-    const onUpdateChatMessageClick = (chatObj, chatInput) => { // TO-DO: apply logic on Chat > Options > click
-        const formData = new FormData();
+    const onUpdateChatMessageClick = (chatObj, chatInput) => {
+        console.log('onUpdateChatMessageClick > chatObj', chatObj)
+        console.log('onUpdateChatMessageClick > chatInput', chatInput)
 
-        patchChatThread(formData);
+        const formData = new FormData();
+        formData.append('userId', userData.id);
+        formData.append('chatId', chatObj?.id);
+        formData.append('chatType', chatObj?.type);
+        formData.append('chatInput', JSON.stringify(chatInput));
+
+        // patchChatThread(formData); // TO-DO
     }
 
     const onViewChatAttachmentClick = (value) => {

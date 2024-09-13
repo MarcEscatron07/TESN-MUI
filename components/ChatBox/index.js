@@ -89,6 +89,11 @@ export default function ChatBox(props) {
             },
         ],
     });
+    const [chatEditState, setChatEditState] = useState({
+        isEditing: false,
+        data: null,
+        message: ''
+    });
 
     const chatBoxHeight = props.isMobileView ? props.isMobilePortrait ? '395px' : '365px' : '450px';
     const chatBoxWidth = props.isMobileView ? '265px' : '310px';
@@ -201,6 +206,16 @@ export default function ChatBox(props) {
         // console.log('ChatBox > chatMoreState', chatMoreState)
     }, [chatMoreState])
 
+    useEffect(() => {
+        // console.log('ChatBox > chatEditState', chatEditState)
+
+        if(chatEditState.isEditing) {
+            setChatMessage(chatEditState.message);
+        } else {
+            setChatMessage('');
+        }
+    }, [chatEditState])
+
     const onAttachFileChange = (event) => {
         const filesArr = event?.target?.files ? [...event?.target?.files] : [];
         setChatAttachments(filesArr);
@@ -276,40 +291,51 @@ export default function ChatBox(props) {
     const onChatInputSendClick = (event) => {
         setIsChatBoxScrolling(false);
 
-        if(chatMessage.trim().length > 0 || chatAttachments.length > 0) {
-            if(props.onChatBoxSendInput) {
-                props.onChatBoxSendInput(
-                    actChatData,
-                    {
-                        sender: props.userData?.name,
-                        senderImage: props.userData?.image,
-                        receiver: actChatData.name,
-                        receiverImage: actChatData.image,
-                        receiverType: actChatData.type,
-                        isReceiverOnline: actChatData.isOnline,
-                        message: chatMessage,
-                        isMessageRemoved: false,
-                        timestamp: moment().toISOString(),
-                        status: 'unread',
-                        attachments: null,
-                        reply: chatReplyState.data,
-                    },
-                    chatAttachments
-                );
-
-                setChatMessage('');
-                setChatReplyState({
-                    isOpen: false,
-                    data: null
-                });
+        if(chatEditState.isEditing) {
+            if(props.onChatBoxUpdateMessage) {
+                const dataObj = {
+                    ...chatEditState.data,
+                    message: chatMessage
+                }
+                props.onChatBoxUpdateMessage(actChatData, dataObj);
+            }
+        } else {
+            if(chatMessage.trim().length > 0 || chatAttachments.length > 0) {
+                if(props.onChatBoxSendInput) {
+                    props.onChatBoxSendInput(
+                        actChatData,
+                        {
+                            sender: props.userData?.name,
+                            senderImage: props.userData?.image,
+                            receiver: actChatData.name,
+                            receiverImage: actChatData.image,
+                            receiverType: actChatData.type,
+                            isReceiverOnline: actChatData.isOnline,
+                            message: chatMessage,
+                            isMessageRemoved: false,
+                            timestamp: moment().toISOString(),
+                            status: 'unread',
+                            attachments: null,
+                            reply: chatReplyState.data,
+                        },
+                        chatAttachments
+                    );
+                }
             }
         }
 
+        setChatMessage('');
+        setChatReplyState({
+            isOpen: false,
+            data: null
+        });
+        setChatEditState({
+            isEditing: false,
+            data: null,
+            message: ''
+        });
+
         clearObjectUrl(chatAttachments, () => setChatAttachments([]));
-    }
-
-    const onChatUpdateMessageClick = (event) => {
-
     }
 
     const onMinimizeClick = (event, value) => {
@@ -349,13 +375,43 @@ export default function ChatBox(props) {
         }
     }
 
-    const onChatBoxOptionsClick = (event, type, value) => {
+    const onChatBoxMessageOptionsClick = (event, type, value) => {
         switch(type) {
             case 'reply':
                 setChatReplyState(value);
+                setChatEditState({
+                    isEditing: false,
+                    data: null,
+                    message: ''
+                });
                 break;
             case 'more':
                 setChatMoreState({...chatMoreState, ...value});
+                break;
+        }
+    }
+    
+    const onChatBoxMoreListItemsClick = (event, type, valueObj) => {
+        switch(type) {
+            case 'edit':
+                setChatReplyState({
+                    isOpen: false,
+                    data: null
+                });
+                setChatEditState({
+                    isEditing: valueObj.isEditing,
+                    data: valueObj.data,
+                    message: valueObj.data?.message ?? ''
+                });
+                break;
+            case 'remove':
+                if(props.onChatBoxUpdateMessage) {
+                    const dataObj = {
+                        ...valueObj.data,
+                        isMessageRemoved: true
+                    }
+                    props.onChatBoxUpdateMessage(actChatData, dataObj);
+                }
                 break;
         }
     }
@@ -412,7 +468,7 @@ export default function ChatBox(props) {
                         <List className="chat-box-message-options">
                             <ListItem
                                 disablePadding
-                                onClick={(event) => onChatBoxOptionsClick(event, 'reply', {isOpen: true, data: item})}
+                                onClick={(event) => onChatBoxMessageOptionsClick(event, 'reply', {isOpen: true, data: item})}
                                 sx={{ 
                                     cursor: 'pointer', 
                                     display: 'flex',
@@ -429,7 +485,7 @@ export default function ChatBox(props) {
                             </ListItem>
                             <ListItem
                                 disablePadding
-                                onClick={(event) => onChatBoxOptionsClick(event, 'more', {isOpen: !chatMoreState.isOpen})}
+                                onClick={(event) => onChatBoxMessageOptionsClick(event, 'more', {isOpen: !chatMoreState.isOpen})}
                                 sx={{ 
                                     position: 'relative',
                                     cursor: 'pointer', 
@@ -471,7 +527,14 @@ export default function ChatBox(props) {
                                                 <ListItem
                                                     key={mIdx}
                                                     disablePadding
-                                                    onClick={() => {}}
+                                                    onClick={(event) => onChatBoxMoreListItemsClick(
+                                                        event, 
+                                                        mItem.value,
+                                                        {
+                                                            isEditing: mItem.value == 'edit' ? true : false,
+                                                            data: item
+                                                        }
+                                                    )}
                                                     sx={{ 
                                                         "&:hover": {
                                                             backgroundColor: theme.palette.light.dark,
@@ -663,7 +726,22 @@ export default function ChatBox(props) {
                                     <Box className="chat-reply-action">
                                         <IconButton
                                             sx={{color: theme.palette.dark.main}}
-                                            onClick={(event) => onChatBoxOptionsClick(event, 'reply', {isOpen: false, data: null})}
+                                            onClick={(event) => onChatBoxMessageOptionsClick(event, 'reply', {isOpen: false, data: null})}
+                                        >
+                                            <CloseIcon />
+                                        </IconButton>
+                                    </Box>
+                                </Box>
+                            </>
+                        ) : null}
+                        {chatEditState.isEditing ? (
+                            <>
+                                <Box className="chat-edit-container">
+                                    <Box className="chat-edit-content">Edit Message</Box>
+                                    <Box className="chat-edit-action">
+                                        <IconButton
+                                            sx={{color: theme.palette.dark.main}}
+                                            onClick={(event) => onChatBoxMoreListItemsClick(event, 'edit', {isEditing: false, data: null})}
                                         >
                                             <CloseIcon />
                                         </IconButton>

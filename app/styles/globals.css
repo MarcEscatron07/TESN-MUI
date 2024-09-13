@@ -261,6 +261,29 @@ body {
   width: 15%;
 }
 
+.chat-edit-container {
+  position: absolute;
+  display: flex;
+  height: 65px;
+  top: -65px;
+  left: 0px;
+  width: 100%;
+  background-color: #FBD11A;
+  padding: 0.5rem;
+  border-bottom: 1px solid black;
+  z-index: 20;
+}
+.chat-edit-container .chat-edit-content {
+  display: flex;
+  align-items: center;
+  width: 85%;
+  font-weight: bold;
+}
+.chat-edit-container .chat-edit-action {
+  display: flex;
+  width: 15%;
+}
+
 .chat-attachment-container {
   position: absolute;
   top: -78px;
