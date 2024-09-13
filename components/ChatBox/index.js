@@ -474,7 +474,7 @@ export default function ChatBox(props) {
                         </>
                     ) : (
                         <>
-                            {source == 'sender' && chatHoverIdx == idx ? (
+                            {chatHoverIdx == idx ? (
                                 <List className="chat-box-message-options">
                                     <ListItem
                                         disablePadding
@@ -493,69 +493,71 @@ export default function ChatBox(props) {
                                             <ReplyIcon />
                                         </IconButton>
                                     </ListItem>
-                                    <ListItem
-                                        disablePadding
-                                        onClick={(event) => onChatBoxMessageOptionsClick(event, 'more', {isOpen: !chatMoreState.isOpen})}
-                                        sx={{ 
-                                            position: 'relative',
-                                            cursor: 'pointer', 
-                                            display: 'flex',
-                                            width: '100%'
-                                        }}
-                                    >
-                                        <IconButton
-                                            color="dark.light"
-                                            sx={{ width: 12, px: 2 }}
-                                            title="More"
+                                    {source == 'sender' ? (
+                                        <ListItem
+                                            disablePadding
+                                            onClick={(event) => onChatBoxMessageOptionsClick(event, 'more', {isOpen: !chatMoreState.isOpen})}
+                                            sx={{ 
+                                                position: 'relative',
+                                                cursor: 'pointer', 
+                                                display: 'flex',
+                                                width: '100%'
+                                            }}
                                         >
-                                            <MoreIcon />
-                                        </IconButton>
-
-                                        {chatMoreState.isOpen ? (
-                                            <List 
-                                                sx={{
-                                                    position: 'absolute',
-                                                    top: source == 'sender' ? '-72px' : '-42px',
-                                                    left: '-32px',
-                                                    backgroundColor: theme.palette.light.main,
-                                                    color: theme.palette.dark.main,
-                                                    borderRadius: '10px',
-                                                    padding: '.5rem',
-                                                    zIndex: 20,
-                                                }}
+                                            <IconButton
+                                                color="dark.light"
+                                                sx={{ width: 12, px: 2 }}
+                                                title="More"
                                             >
-                                                {chatMoreState.menu ? chatMoreState.menu.map((mItem, mIdx) => {
-                                                    return (
-                                                        <ListItem
-                                                            key={mIdx}
-                                                            disablePadding
-                                                            onClick={(event) => onChatBoxMoreListItemsClick(
-                                                                event, 
-                                                                mItem.value,
-                                                                {
-                                                                    isEditing: mItem.value == 'edit' ? true : false,
-                                                                    data: item
-                                                                }
-                                                            )}
-                                                            sx={{ 
-                                                                "&:hover": {
-                                                                    backgroundColor: theme.palette.light.dark,
-                                                                    borderRadius: '10px',
-                                                                },
-                                                                cursor: 'pointer', 
-                                                                display: 'flex',
-                                                                width: '100%',
-                                                                padding: '.2rem .5rem'
-                                                            }}
-                                                        >
-                                                            <span style={{minWidth: '25px'}}><FontAwesomeIcon icon={mItem.icon} size="lg" /></span> {mItem.label}
-                                                        </ListItem>
-                                                    )
-                                                })
-                                                : null}
-                                            </List>
-                                        ) : null}
-                                    </ListItem>
+                                                <MoreIcon />
+                                            </IconButton>
+
+                                            {chatMoreState.isOpen ? (
+                                                <List 
+                                                    sx={{
+                                                        position: 'absolute',
+                                                        top: source == 'sender' ? '-72px' : '-42px',
+                                                        left: '-32px',
+                                                        backgroundColor: theme.palette.light.main,
+                                                        color: theme.palette.dark.main,
+                                                        borderRadius: '10px',
+                                                        padding: '.5rem',
+                                                        zIndex: 20,
+                                                    }}
+                                                >
+                                                    {chatMoreState.menu ? chatMoreState.menu.map((mItem, mIdx) => {
+                                                        return (
+                                                            <ListItem
+                                                                key={mIdx}
+                                                                disablePadding
+                                                                onClick={(event) => onChatBoxMoreListItemsClick(
+                                                                    event, 
+                                                                    mItem.value,
+                                                                    {
+                                                                        isEditing: mItem.value == 'edit' ? true : false,
+                                                                        data: item
+                                                                    }
+                                                                )}
+                                                                sx={{ 
+                                                                    "&:hover": {
+                                                                        backgroundColor: theme.palette.light.dark,
+                                                                        borderRadius: '10px',
+                                                                    },
+                                                                    cursor: 'pointer', 
+                                                                    display: 'flex',
+                                                                    width: '100%',
+                                                                    padding: '.2rem .5rem'
+                                                                }}
+                                                            >
+                                                                <span style={{minWidth: '25px'}}><FontAwesomeIcon icon={mItem.icon} size="lg" /></span> {mItem.label}
+                                                            </ListItem>
+                                                        )
+                                                    })
+                                                    : null}
+                                                </List>
+                                            ) : null}
+                                        </ListItem>
+                                    ) : null}
                                 </List>
                             ) : null}
 

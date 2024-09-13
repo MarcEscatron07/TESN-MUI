@@ -101,7 +101,7 @@ body {
   margin-right: 5px;
 }
 .chat-box .chat-box-content .chat-box-receiver .chat-box-message-options {
-  right: -65px;
+  right: -35px;
   flex-direction: row-reverse;
 }
 .chat-box .chat-box-content .chat-box-avatar {
