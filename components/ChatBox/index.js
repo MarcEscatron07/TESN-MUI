@@ -400,6 +400,10 @@ export default function ChatBox(props) {
     }
 
     const onChatBoxReplyClick = (event, index, value) => {
+        console.log('onChatBoxReplyClick > event', event)
+        console.log('onChatBoxReplyClick > index', index)
+        console.log('onChatBoxReplyClick > value', value)
+
         // TO-DO: programmatically jump to target Chat Message upon clicking Reply
     }
 
@@ -495,7 +499,7 @@ export default function ChatBox(props) {
 
                     {item.reply?.message ? (
                         <Box className="chat-box-reply" sx={{width: source == 'receiver' ? '80%' : '82%', marginLeft: source == 'receiver' ? '45px' : 'unset'}}>
-                            <Box className="chat-box-reply-wrapper" onClick={(event) => onChatBoxReplyClick(event, idx, item)}>
+                            <Box className="chat-box-reply-wrapper" onClick={(event) => onChatBoxReplyClick(event, idx, item.reply)}>
                                 <Box className="chat-box-reply-target"><b>{source == 'sender' ? 'You' : item.sender}</b>&nbsp;replied to:</Box>
                                 {item.reply?.isMessageRemoved ? (
                                     <Box className="chat-box-reply-message"><i>Message removed</i></Box>
