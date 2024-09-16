@@ -319,7 +319,11 @@ export default function ChatBox(props) {
                             timestamp: moment().toISOString(),
                             status: 'unread',
                             attachments: null,
-                            reply: { message: chatReplyState?.data?.message, attachments: chatReplyState?.data?.attachments },
+                            reply: { 
+                                threadId: chatReplyState?.data?.threadId, 
+                                message: chatReplyState?.data?.message, 
+                                attachments: chatReplyState?.data?.attachments 
+                            },
                         },
                         chatAttachments
                     );
