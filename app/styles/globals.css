@@ -132,7 +132,6 @@ body {
 }
 .chat-box .chat-box-content .chat-box-message {
   position: relative;
-  width: auto;
   border-radius: 10px;
 }
 .chat-box .chat-box-content .chat-box-message .chat-box-message-options {
@@ -200,7 +199,6 @@ body {
   font-size: 0.75rem;
 }
 .chat-box .chat-box-content .chat-box-message .chat-box-message-text {
-  font-size: 0.95rem;
   padding: 0.4rem 0.8rem;
   word-wrap: break-word;
 }

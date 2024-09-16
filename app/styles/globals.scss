@@ -164,7 +164,6 @@ body {
 
         .chat-box-message {
             position: relative;
-            width: auto;
             border-radius: 10px;
 
             .chat-box-message-options {
@@ -240,7 +239,6 @@ body {
             }
 
             .chat-box-message-text {
-                font-size: .95rem;
                 padding: .4rem .8rem;
                 word-wrap: break-word;
             }

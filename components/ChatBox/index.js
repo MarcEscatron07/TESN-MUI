@@ -39,7 +39,7 @@ import { faTimes, faRectangleXmark, faFile, faEdit, faAnglesRight } from "@forta
 
 import { StyledBadge } from "@/components/function";
 import { CHAT_BOX } from '@/components/styles';
-import { parseStringToHtml, formatDateTime, formatFilesize, clearObjectUrl } from '@/lib/helpers';
+import { parseStringToHtml, formatDateTime, formatFilesize, clearObjectUrl, checkIfEmojiOnly } from '@/lib/helpers';
 
 export default function ChatBox(props) {
     const theme = useTheme();
@@ -503,7 +503,7 @@ export default function ChatBox(props) {
                     <Box 
                         className="chat-box-message" 
                         sx={{
-                            maxWidth: item.isMessageRemoved ? '100%' : source == 'sender' ? '65%' : '55%',
+                            maxWidth: item.isMessageRemoved ? '100%' : source == 'sender' ? '65%' : '58%',
                             backgroundColor: source == 'receiver' ? theme.palette.dark.main : theme.palette.primary.main,
                             color: source == 'receiver' ? theme.palette.light.main : theme.palette.primary.contrastText,
                         }}
@@ -609,7 +609,9 @@ export default function ChatBox(props) {
                                     </Box>
                                 ) : null}
 
-                                <Box className="chat-box-message-text">{parseStringToHtml(item.message)}</Box>
+                                <Box className="chat-box-message-text" sx={{fontSize: checkIfEmojiOnly(item.message) ? '2rem' : '.95rem'}}>
+                                    {parseStringToHtml(item.message)}
+                                </Box>
                                 <Box 
                                     className="chat-box-message-timestamp" 
                                     title={formatDateTime(item.timestamp, 'dddd, MMMM DD, YYYY @ hh:mm A', { origin: 'chat-timestamp' })}
