@@ -338,7 +338,8 @@ export default function ChatBox(props) {
                             reply: { 
                                 threadId: chatReplyState?.data?.threadId, 
                                 message: chatReplyState?.data?.message, 
-                                attachments: chatReplyState?.data?.attachments 
+                                attachments: chatReplyState?.data?.attachments, 
+                                isMessageRemoved: chatReplyState?.data?.isMessageRemoved 
                             },
                         },
                         chatAttachments
@@ -491,7 +492,11 @@ export default function ChatBox(props) {
                     {item.reply?.message ? (
                         <Box className="chat-box-reply" sx={{width: source == 'receiver' ? '80%' : '82%', marginLeft: source == 'receiver' ? '45px' : 'unset'}}>
                             <Box className="chat-box-reply-target"><b>{source == 'sender' ? 'You' : item.sender}</b>&nbsp;replied to:</Box>
-                            <Box className="chat-box-reply-message">{item.reply?.attachments?.length > 0 ? '[Attachment] ' + item.reply.message : item.reply?.message}</Box>
+                            {item.reply?.isMessageRemoved ? (
+                                <Box className="chat-box-reply-message">Message removed</Box>
+                            ) : (
+                                <Box className="chat-box-reply-message">{item.reply?.attachments?.length > 0 ? '[Attachment] ' + item.reply.message : item.reply?.message}</Box>
+                            )}
                         </Box>
                     ) : null}
 
