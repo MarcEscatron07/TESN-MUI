@@ -319,7 +319,7 @@ export default function ChatBox(props) {
                             timestamp: moment().toISOString(),
                             status: 'unread',
                             attachments: null,
-                            reply: chatReplyState.data,
+                            reply: { message: chatReplyState?.data?.message, attachments: chatReplyState?.data?.attachments },
                         },
                         chatAttachments
                     );
@@ -443,7 +443,7 @@ export default function ChatBox(props) {
         return (
             <Box 
                 key={idx} 
-                sx={{...CHAT_BOX.chatBoxCardContentDefaultBox, marginTop: item.reply ? '65px' : 2}} 
+                sx={{...CHAT_BOX.chatBoxCardContentDefaultBox, marginTop: item.reply?.message ? '65px' : 2}} 
                 className={`chat-box-${source}`} 
                 onMouseEnter={(event) => onChatBoxChatHover(event, 'mouseenter', idx)} 
                 onMouseLeave={(event) => onChatBoxChatHover(event, 'mouseleave', -1)}
@@ -460,10 +460,10 @@ export default function ChatBox(props) {
                     </Box>
                 ) : null}
 
-                {item.reply ? (
+                {item.reply?.message ? (
                     <Box className="chat-box-reply" sx={{width: source == 'receiver' ? '80%' : '82%', marginLeft: source == 'receiver' ? '45px' : 'unset'}}>
                         <Box className="chat-box-reply-target"><b>{source == 'sender' ? 'You' : item.sender}</b>&nbsp;replied to:</Box>
-                        <Box className="chat-box-reply-message">{item.reply.attachments?.length > 0 ? '[Attachment] ' + item.reply.message : item.reply.message}</Box>
+                        <Box className="chat-box-reply-message">{item.reply?.attachments?.length > 0 ? '[Attachment] ' + item.reply.message : item.reply?.message}</Box>
                     </Box>
                 ) : null}
 
