@@ -419,6 +419,13 @@ export default function ChatBox(props) {
         }
     }
 
+    const checkCondition = (key) => {
+        switch(key) {
+            case 'attachment-reply':
+                return chatAttachments.length > 0 && chatReplyState.isOpen ? true : false;
+        }
+    }
+
     function renderSystemChatView(idx) {
         return (
             <Box key={idx} sx={CHAT_BOX.chatBoxCardContentSystemBox}>
@@ -671,7 +678,12 @@ export default function ChatBox(props) {
                 <Card sx={{...CHAT_BOX.chatBoxCardContainer, backgroundColor: theme.palette.muted.main}}>
                     <Paper elevation={2}>
                         <CardHeader
-                            sx={{ ...CHAT_BOX.chatBoxCardHeader, backgroundColor: theme.palette.dark.light, color: theme.palette.light.main }}
+                            sx={{ 
+                                ...CHAT_BOX.chatBoxCardHeader, 
+                                backgroundColor: theme.palette.dark.light, 
+                                color: theme.palette.light.main, 
+                                height: '12%' 
+                            }}
                             avatar={
                                 <StyledBadge
                                     overlap="circular"
@@ -707,7 +719,15 @@ export default function ChatBox(props) {
                         />
                     </Paper>
 
-                    <CardContent ref={chatBoxContentRef} sx={CHAT_BOX.chatBoxCardContent} className="chat-box-content" onScroll={onChatBoxContentScroll}>
+                    <CardContent 
+                        ref={chatBoxContentRef} 
+                        sx={{ 
+                            ...CHAT_BOX.chatBoxCardContent, 
+                            height: !checkCondition('attachment-reply') ? '76%' : '60%'
+                        }} 
+                        className="chat-box-content" 
+                        onScroll={onChatBoxContentScroll}
+                    >
                         {isChatBoxLoading? (
                             <Box sx={CHAT_BOX.chatBoxCardLoaderBox}>
                                 <CircularProgress color="primary" />
@@ -722,7 +742,14 @@ export default function ChatBox(props) {
                         }) : null}
                     </CardContent>
 
-                    <CardActions sx={{ ...CHAT_BOX.chatBoxCardActions, backgroundColor: theme.palette.secondary.main }} disableSpacing>
+                    <CardActions 
+                        sx={{ 
+                            ...CHAT_BOX.chatBoxCardActions, 
+                            backgroundColor: theme.palette.secondary.main, 
+                            height: !checkCondition('attachment-reply') ? '12%' : '28%'
+                        }} 
+                        disableSpacing
+                    >
                         {chatReplyState.isOpen ? (
                             <>
                                 <Box className="chat-reply-container">
