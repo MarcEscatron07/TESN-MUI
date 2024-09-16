@@ -112,10 +112,6 @@ body {
             display: flex;
             flex-direction: row-reverse;
 
-            .chat-box-message {
-                max-width: 65%;
-            }
-
             .chat-box-message-options {
                 left: -65px;
                 flex-direction: row;
@@ -128,10 +124,6 @@ body {
 
             .chat-box-avatar {
                 margin-right: 5px;
-            }
-
-            .chat-box-message {
-                max-width: 55%;
             }
 
             .chat-box-message-options {
@@ -172,7 +164,6 @@ body {
 
         .chat-box-message {
             position: relative;
-            width: auto;
             border-radius: 10px;
 
             .chat-box-message-options {
@@ -248,7 +239,6 @@ body {
             }
 
             .chat-box-message-text {
-                font-size: .95rem;
                 padding: .4rem .8rem;
                 word-wrap: break-word;
             }
@@ -311,6 +301,31 @@ body {
     }
 }
 
+.chat-edit-container {
+    position: absolute;
+    display: flex;
+    height: 65px;
+    top: -65px;
+    left: 0px;
+    width: 100%;
+    background-color: $secondary-color;
+    padding: .5rem;
+    border-bottom: 1px solid black;
+    z-index: 20;
+
+    .chat-edit-content {
+        display: flex;
+        align-items: center;
+        width: 85%;
+        font-weight: bold;
+    }
+
+    .chat-edit-action {
+        display: flex;
+        width: 15%;
+    }
+}
+
 .chat-attachment-container {
     position: absolute;
     top: -78px;
@@ -318,6 +333,7 @@ body {
     width: 100%;
     background-color: $light-color;
     border-radius: 10px 10px 0px 0px;
+    z-index: 30;
 
     .chat-attachment-content {
         display: flex;
@@ -377,7 +393,6 @@ body {
                 height: 50px;
                 border-radius: 10px;
                 font-size: .85rem;
-                background-color: $light-color;
                 padding: 1px 10px;
 
                 span {

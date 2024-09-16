@@ -39,7 +39,7 @@ import { faTimes, faRectangleXmark, faFile, faEdit, faAnglesRight } from "@forta
 
 import { StyledBadge } from "@/components/function";
 import { CHAT_BOX } from '@/components/styles';
-import { parseStringToHtml, formatDateTime, formatFilesize, clearObjectUrl } from '@/lib/helpers';
+import { parseStringToHtml, formatDateTime, formatFilesize, clearObjectUrl, checkIfEmojiOnly } from '@/lib/helpers';
 
 export default function ChatBox(props) {
     const theme = useTheme();
@@ -47,6 +47,38 @@ export default function ChatBox(props) {
     const chatBoxContentRef = useRef();
     const chatBoxAttachmentRef = useRef();
     const chatBoxInputRef = useRef();
+
+    const chatBoxMoreItems = {
+        sender: [
+            {
+                icon: faEdit,
+                label: 'Edit',
+                value: 'edit'
+            },
+            // {
+            //     icon: faAnglesRight,
+            //     label: 'Forward',
+            //     value: 'forward'
+            // },
+            {
+                icon: faTimes,
+                label: 'Remove',
+                value: 'remove'
+            },
+        ],
+        receiver: [
+            // {
+            //     icon: faAnglesRight,
+            //     label: 'Forward',
+            //     value: 'forward'
+            // },
+            {
+                icon: faTimes,
+                label: 'Remove',
+                value: 'remove'
+            },
+        ],
+    };
 
     const [isChatBoxLoading, setIsChatBoxLoading] = useState(false);
     const [isChatBoxScrolling, setIsChatBoxScrolling] = useState(false);
@@ -70,24 +102,12 @@ export default function ChatBox(props) {
     });
     const [chatMoreState, setChatMoreState] = useState({
         isOpen: false,
-        active: null,
-        menu: [
-            {
-                icon: faEdit,
-                label: 'Edit',
-                value: 'edit'
-            },
-            {
-                icon: faAnglesRight,
-                label: 'Forward',
-                value: 'forward'
-            },
-            {
-                icon: faTimes,
-                label: 'Remove',
-                value: 'remove'
-            },
-        ],
+        active: null
+    });
+    const [chatEditState, setChatEditState] = useState({
+        isEditing: false,
+        data: null,
+        message: ''
     });
 
     const chatBoxHeight = props.isMobileView ? props.isMobilePortrait ? '395px' : '365px' : '450px';
@@ -201,6 +221,16 @@ export default function ChatBox(props) {
         // console.log('ChatBox > chatMoreState', chatMoreState)
     }, [chatMoreState])
 
+    useEffect(() => {
+        // console.log('ChatBox > chatEditState', chatEditState)
+
+        if(chatEditState.isEditing) {
+            setChatMessage(chatEditState.message);
+        } else {
+            setChatMessage('');
+        }
+    }, [chatEditState])
+
     const onAttachFileChange = (event) => {
         const filesArr = event?.target?.files ? [...event?.target?.files] : [];
         setChatAttachments(filesArr);
@@ -277,32 +307,57 @@ export default function ChatBox(props) {
         setIsChatBoxScrolling(false);
 
         if(chatMessage.trim().length > 0 || chatAttachments.length > 0) {
-            if(props.onChatBoxSendInput) {
-                props.onChatBoxSendInput(
-                    actChatData,
-                    {
-                        sender: props.userData?.name,
-                        senderImage: props.userData?.image,
-                        receiver: actChatData.name,
-                        receiverImage: actChatData.image,
-                        receiverType: actChatData.type,
-                        receiverIsOnline: actChatData.isOnline,
+            if(chatEditState.isEditing) {
+                if(props.onChatBoxUpdateMessage) {
+                    const dataObj = {
+                        ...chatEditState.data,
                         message: chatMessage,
-                        timestamp: moment().toISOString(),
-                        status: 'unread',
-                        attachments: null,
-                        reply: chatReplyState.data,
-                    },
-                    chatAttachments
-                );
-
-                setChatMessage('');
-                setChatReplyState({
-                    isOpen: false,
-                    data: null
-                });
+                        isMessageEdited: true,
+                    }
+                    props.onChatBoxUpdateMessage(actChatData, dataObj, chatAttachments);
+                }
+            } else {
+                if(props.onChatBoxSendInput) {
+                    props.onChatBoxSendInput(
+                        actChatData,
+                        {
+                            threadId: actThreadData.length + 1, // temporary code
+                            sender: props.userData?.name,
+                            senderImage: props.userData?.image,
+                            receiver: actChatData.name,
+                            receiverImage: actChatData.image,
+                            receiverType: actChatData.type,
+                            isReceiverOnline: actChatData.isOnline,
+                            message: chatMessage,
+                            isMessageEdited: false,
+                            isMessageRemoved: false,
+                            isMessageHidden: false,
+                            timestamp: moment().toISOString(),
+                            status: 'unread',
+                            attachments: null,
+                            reply: { 
+                                threadId: chatReplyState?.data?.threadId, 
+                                message: chatReplyState?.data?.message, 
+                                attachments: chatReplyState?.data?.attachments, 
+                                isMessageRemoved: chatReplyState?.data?.isMessageRemoved 
+                            },
+                        },
+                        chatAttachments
+                    );
+                }
             }
         }
+
+        setChatMessage('');
+        setChatReplyState({
+            isOpen: false,
+            data: null
+        });
+        setChatEditState({
+            isEditing: false,
+            data: null,
+            message: ''
+        });
 
         clearObjectUrl(chatAttachments, () => setChatAttachments([]));
     }
@@ -344,14 +399,57 @@ export default function ChatBox(props) {
         }
     }
 
-    const onChatBoxOptionsClick = (event, type, value) => {
+    const onChatBoxMessageOptionsClick = (event, type, value) => {
         switch(type) {
             case 'reply':
                 setChatReplyState(value);
+                setChatEditState({
+                    isEditing: false,
+                    data: null,
+                    message: ''
+                });
                 break;
             case 'more':
                 setChatMoreState({...chatMoreState, ...value});
                 break;
+        }
+    }
+    
+    const onChatBoxMoreListItemsClick = (event, type, valueObj) => {
+        switch(type) {
+            case 'edit':
+                setChatReplyState({
+                    isOpen: false,
+                    data: null
+                });
+                setChatEditState({
+                    isEditing: valueObj.isEditing,
+                    data: valueObj.data,
+                    message: valueObj.data?.message ?? ''
+                });
+                break;
+            case 'remove':
+                if(props.onChatBoxUpdateMessage) {
+                    const dataObj = { ...valueObj.data };
+
+                    if(valueObj.data?.sender == props.userData?.name) {
+                        dataObj['isMessageRemoved'] = true;
+                    }
+                    
+                    if(valueObj.data?.receiver == props.userData?.name) {
+                        dataObj['isMessageHidden'] = true;
+                    }
+
+                    props.onChatBoxUpdateMessage(actChatData, dataObj, null);
+                }
+                break;
+        }
+    }
+
+    const checkCondition = (key) => {
+        switch(key) {
+            case 'attachment-reply':
+                return chatAttachments.length > 0 && chatReplyState.isOpen ? true : false;
         }
     }
 
@@ -368,140 +466,169 @@ export default function ChatBox(props) {
 
     function renderDefaultChatView(item, idx) {
         const source = item.sender == props.userData?.name ? 'sender' : 'receiver';
-
+        
         return (
-            <Box 
-                key={idx} 
-                sx={{...CHAT_BOX.chatBoxCardContentDefaultBox, marginTop: item.reply ? '65px' : 2}} 
-                className={`chat-box-${source}`} 
-                onMouseEnter={(event) => onChatBoxChatHover(event, 'mouseenter', idx)} 
-                onMouseLeave={(event) => onChatBoxChatHover(event, 'mouseleave', -1)}
-            >
-                {source == 'receiver' ? (
-                    <Box className="chat-box-avatar">
-                            <Image
-                                title={item.sender}
-                                src={item.senderImage}
-                                width={40}
-                                height={40}
-                                alt={item.sender}
-                            />
-                    </Box>
-                ) : null}
-
-                {item.reply ? (
-                    <Box className="chat-box-reply" sx={{width: source == 'receiver' ? '80%' : '82%', marginLeft: source == 'receiver' ? '45px' : 'unset'}}>
-                        <Box className="chat-box-reply-target"><b>{source == 'sender' ? 'You' : item.sender}</b>&nbsp;replied to:</Box>
-                        <Box className="chat-box-reply-message">{item.reply.attachments?.length > 0 ? '[Attachment] ' + item.reply.message : item.reply.message}</Box>
-                    </Box>
-                ) : null}
-
+            <>
+            {source == 'receiver' && item.isMessageHidden ? null : (
                 <Box 
-                    className="chat-box-message" 
-                    sx={{
-                        backgroundColor: source == 'receiver' ? theme.palette.dark.main : theme.palette.primary.main,
-                        color: source == 'receiver' ? theme.palette.light.main : theme.palette.primary.contrastText,
-                    }}
+                    key={idx} 
+                    sx={{...CHAT_BOX.chatBoxCardContentDefaultBox, marginTop: item.reply?.message ? '65px' : 2}} 
+                    className={`chat-box-${source}`} 
+                    onMouseEnter={(event) => onChatBoxChatHover(event, 'mouseenter', idx)} 
+                    onMouseLeave={(event) => onChatBoxChatHover(event, 'mouseleave', -1)}
                 >
-                    {chatHoverIdx == idx ? (
-                        <List className="chat-box-message-options">
-                            <ListItem
-                                disablePadding
-                                onClick={(event) => onChatBoxOptionsClick(event, 'reply', {isOpen: true, data: item})}
-                                sx={{ 
-                                    cursor: 'pointer', 
-                                    display: 'flex',
-                                    width: '100%'
-                                }}
-                            >
-                                <IconButton
-                                    color="dark.light"
-                                    sx={{ width: 15, px: 2 }}
-                                    title="Reply"
-                                >
-                                    <ReplyIcon />
-                                </IconButton>
-                            </ListItem>
-                            <ListItem
-                                disablePadding
-                                onClick={(event) => onChatBoxOptionsClick(event, 'more', {isOpen: !chatMoreState.isOpen})}
-                                sx={{ 
-                                    position: 'relative',
-                                    cursor: 'pointer', 
-                                    display: 'flex',
-                                    width: '100%'
-                                }}
-                            >
-                                <IconButton
-                                    color="dark.light"
-                                    sx={{ width: 12, px: 2 }}
-                                    title="More"
-                                >
-                                    <MoreIcon />
-                                </IconButton>
-
-                                {chatMoreState.isOpen ? (
-                                    <List 
-                                        sx={{
-                                            position: 'absolute',
-                                            top: '-102px',
-                                            left: '-32px',
-                                            backgroundColor: theme.palette.light.main,
-                                            color: theme.palette.dark.main,
-                                            borderRadius: '10px',
-                                            padding: '.5rem',
-                                            zIndex: 20,
-                                        }}
-                                    >
-                                        {chatMoreState.menu ? chatMoreState.menu.map((mItem, mIdx) => (
-                                            <ListItem
-                                                key={mIdx}
-                                                disablePadding
-                                                onClick={() => {}}
-                                                sx={{ 
-                                                    "&:hover": {
-                                                        backgroundColor: theme.palette.light.dark,
-                                                        borderRadius: '10px',
-                                                    },
-                                                    cursor: 'pointer', 
-                                                    display: 'flex',
-                                                    width: '100%',
-                                                    padding: '.2rem .5rem'
-                                                }}
-                                            >
-                                                <span style={{minWidth: '25px'}}><FontAwesomeIcon icon={mItem.icon} size="lg" /></span> {mItem.label}
-                                            </ListItem>
-                                        )) : null}
-                                    </List>
-                                ) : null}
-                            </ListItem>
-                        </List>
-                    ) : null}
-
-                    {item.attachments && item.attachments.length > 0 ? (
-                        <Box className="chat-box-message-attachments">
-                            {item.attachments.map((atchItem, atchIdx) => (
-                                <div key={idx}>
-                                    {renderAttachmentActionByType(atchItem, atchIdx, atchItem?.type)}
-                                    {renderAttachmentItemByType(atchItem, atchIdx, atchItem?.type)}
-                                </div>
-                            ))}
+                    {source == 'receiver' ? (
+                        <Box className="chat-box-avatar">
+                                <Image
+                                    title={item.sender}
+                                    src={item.senderImage}
+                                    width={40}
+                                    height={40}
+                                    alt={item.sender}
+                                />
                         </Box>
                     ) : null}
-                    <Box className="chat-box-message-text">{parseStringToHtml(item.message)}</Box>
+
+                    {item.reply?.message ? (
+                        <Box className="chat-box-reply" sx={{width: source == 'receiver' ? '80%' : '82%', marginLeft: source == 'receiver' ? '45px' : 'unset'}}>
+                            <Box className="chat-box-reply-target"><b>{source == 'sender' ? 'You' : item.sender}</b>&nbsp;replied to:</Box>
+                            {item.reply?.isMessageRemoved ? (
+                                <Box className="chat-box-reply-message"><i>Message removed</i></Box>
+                            ) : (
+                                <Box className="chat-box-reply-message">{item.reply?.attachments?.length > 0 ? '[Attachment] ' + item.reply.message : item.reply?.message}</Box>
+                            )}
+                        </Box>
+                    ) : null}
+
                     <Box 
-                        className="chat-box-message-timestamp" 
-                        title={formatDateTime(item.timestamp, 'dddd, MMMM DD, YYYY @ hh:mm A', { origin: 'chat-timestamp' })}
+                        className="chat-box-message" 
                         sx={{
-                            backgroundColor: theme.palette.dark.light,
-                            color: theme.palette.light.main
+                            maxWidth: item.isMessageRemoved ? '100%' : source == 'sender' ? '65%' : '58%',
+                            backgroundColor: source == 'receiver' ? theme.palette.dark.main : theme.palette.primary.main,
+                            color: source == 'receiver' ? theme.palette.light.main : theme.palette.primary.contrastText,
                         }}
                     >
-                        {formatDateTime(item.timestamp, 'h:mm A')}
+                        {item.isMessageRemoved ? (
+                            <>
+                                <Box className="chat-box-message-text">{<i>{source == 'sender' ? 'You' : item.sender} unsent a message</i>}</Box>
+                            </>
+                        ) : (
+                            <>
+                                {chatHoverIdx == idx ? (
+                                    <List className="chat-box-message-options">
+                                        <ListItem
+                                            disablePadding
+                                            onClick={(event) => onChatBoxMessageOptionsClick(event, 'reply', {isOpen: true, data: item})}
+                                            sx={{ 
+                                                cursor: 'pointer', 
+                                                display: 'flex',
+                                                width: '100%'
+                                            }}
+                                        >
+                                            <IconButton
+                                                color="dark.light"
+                                                sx={{ width: 15, px: 2 }}
+                                                title="Reply"
+                                            >
+                                                <ReplyIcon />
+                                            </IconButton>
+                                        </ListItem>
+                                        <ListItem
+                                            disablePadding
+                                            onClick={(event) => onChatBoxMessageOptionsClick(event, 'more', {isOpen: !chatMoreState.isOpen})}
+                                            sx={{ 
+                                                position: 'relative',
+                                                cursor: 'pointer', 
+                                                display: 'flex',
+                                                width: '100%'
+                                            }}
+                                        >
+                                            <IconButton
+                                                color="dark.light"
+                                                sx={{ width: 12, px: 2 }}
+                                                title="More"
+                                            >
+                                                <MoreIcon />
+                                            </IconButton>
+
+                                            {chatMoreState.isOpen ? (
+                                                <List 
+                                                    sx={{
+                                                        position: 'absolute',
+                                                        top: source == 'sender' ? '-72px' : '-42px',
+                                                        left: '-32px',
+                                                        backgroundColor: theme.palette.light.main,
+                                                        color: theme.palette.dark.main,
+                                                        borderRadius: '10px',
+                                                        padding: '.5rem',
+                                                        zIndex: 20,
+                                                    }}
+                                                >
+                                                    {chatBoxMoreItems[source] ? chatBoxMoreItems[source].map((mItem, mIdx) => {
+                                                        return (
+                                                            <ListItem
+                                                                key={mIdx}
+                                                                disablePadding
+                                                                onClick={(event) => onChatBoxMoreListItemsClick(
+                                                                    event, 
+                                                                    mItem.value,
+                                                                    {
+                                                                        isEditing: mItem.value == 'edit' ? true : false,
+                                                                        data: item
+                                                                    }
+                                                                )}
+                                                                sx={{ 
+                                                                    "&:hover": {
+                                                                        backgroundColor: theme.palette.light.dark,
+                                                                        borderRadius: '10px',
+                                                                    },
+                                                                    cursor: 'pointer', 
+                                                                    display: 'flex',
+                                                                    width: '100%',
+                                                                    padding: '.2rem .5rem'
+                                                                }}
+                                                            >
+                                                                <span style={{minWidth: '25px'}}><FontAwesomeIcon icon={mItem.icon} size="lg" /></span> {mItem.label}
+                                                            </ListItem>
+                                                        )
+                                                    }) : null}
+                                                </List>
+                                            ) : null}
+                                        </ListItem>
+                                    </List>
+                                ) : null}
+
+                                {item.attachments && item.attachments.length > 0 ? (
+                                    <Box className="chat-box-message-attachments">
+                                        {item.attachments.map((atchItem, atchIdx) => (
+                                            <div key={idx}>
+                                                {renderAttachmentActionByType(atchItem, atchIdx, atchItem?.type)}
+                                                {renderAttachmentItemByType(atchItem, atchIdx, atchItem?.type)}
+                                            </div>
+                                        ))}
+                                    </Box>
+                                ) : null}
+
+                                <Box className="chat-box-message-text" sx={{fontSize: checkIfEmojiOnly(item.message) ? '1.8rem' : '.95rem'}}>
+                                    {parseStringToHtml(item.message)}
+                                </Box>
+                                <Box 
+                                    className="chat-box-message-timestamp" 
+                                    title={formatDateTime(item.timestamp, 'dddd, MMMM DD, YYYY @ hh:mm A', { origin: 'chat-timestamp' })}
+                                    sx={{
+                                        backgroundColor: theme.palette.dark.light,
+                                        color: theme.palette.light.main
+                                    }}
+                                >
+                                    {formatDateTime(item.timestamp, 'h:mm A')} {item.isMessageEdited ? '(Edited)' : null}
+                                </Box>
+                            </>
+                        )}
                     </Box>
                 </Box>
-            </Box>
-        )
+            )}
+            </>
+        );
     }
 
     function renderAttachmentThumbByType(item, type) {
@@ -585,7 +712,12 @@ export default function ChatBox(props) {
                 <Card sx={{...CHAT_BOX.chatBoxCardContainer, backgroundColor: theme.palette.muted.main}}>
                     <Paper elevation={2}>
                         <CardHeader
-                            sx={{ ...CHAT_BOX.chatBoxCardHeader, backgroundColor: theme.palette.dark.light, color: theme.palette.light.main }}
+                            sx={{ 
+                                ...CHAT_BOX.chatBoxCardHeader, 
+                                backgroundColor: theme.palette.dark.light, 
+                                color: theme.palette.light.main, 
+                                height: '12%' 
+                            }}
                             avatar={
                                 <StyledBadge
                                     overlap="circular"
@@ -621,7 +753,15 @@ export default function ChatBox(props) {
                         />
                     </Paper>
 
-                    <CardContent ref={chatBoxContentRef} sx={CHAT_BOX.chatBoxCardContent} className="chat-box-content" onScroll={onChatBoxContentScroll}>
+                    <CardContent 
+                        ref={chatBoxContentRef} 
+                        sx={{ 
+                            ...CHAT_BOX.chatBoxCardContent, 
+                            height: !checkCondition('attachment-reply') ? '76%' : '60%'
+                        }} 
+                        className="chat-box-content" 
+                        onScroll={onChatBoxContentScroll}
+                    >
                         {isChatBoxLoading? (
                             <Box sx={CHAT_BOX.chatBoxCardLoaderBox}>
                                 <CircularProgress color="primary" />
@@ -636,7 +776,14 @@ export default function ChatBox(props) {
                         }) : null}
                     </CardContent>
 
-                    <CardActions sx={{ ...CHAT_BOX.chatBoxCardActions, backgroundColor: theme.palette.secondary.main }} disableSpacing>
+                    <CardActions 
+                        sx={{ 
+                            ...CHAT_BOX.chatBoxCardActions, 
+                            backgroundColor: theme.palette.secondary.main, 
+                            height: !checkCondition('attachment-reply') ? '12%' : '28%'
+                        }} 
+                        disableSpacing
+                    >
                         {chatReplyState.isOpen ? (
                             <>
                                 <Box className="chat-reply-container">
@@ -647,7 +794,22 @@ export default function ChatBox(props) {
                                     <Box className="chat-reply-action">
                                         <IconButton
                                             sx={{color: theme.palette.dark.main}}
-                                            onClick={(event) => onChatBoxOptionsClick(event, 'reply', {isOpen: false, data: null})}
+                                            onClick={(event) => onChatBoxMessageOptionsClick(event, 'reply', {isOpen: false, data: null})}
+                                        >
+                                            <CloseIcon />
+                                        </IconButton>
+                                    </Box>
+                                </Box>
+                            </>
+                        ) : null}
+                        {chatEditState.isEditing ? (
+                            <>
+                                <Box className="chat-edit-container">
+                                    <Box className="chat-edit-content">Edit Message</Box>
+                                    <Box className="chat-edit-action">
+                                        <IconButton
+                                            sx={{color: theme.palette.dark.main}}
+                                            onClick={(event) => onChatBoxMoreListItemsClick(event, 'edit', {isEditing: false, data: null})}
                                         >
                                             <CloseIcon />
                                         </IconButton>

@@ -8,7 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { GLOBAL } from "@/app/styles";
 import { Loader, TopAppBar, LeftDrawer, RightDrawer, ChatBox, ChatList, ViewAttachment } from '@/components';
 import { socket } from '@/components/socket-client';
-import { getUsers, getChats, getThreads, postThreads, postAttachments, getNotifications, postNotifications, patchNotifications } from "@/lib/api";
+import { getUsers, getChats, getThreads, postThreads, patchThreads, postAttachments, getNotifications, postNotifications, patchNotifications } from "@/lib/api";
 
 export default function GlobalLayout(props) {
     const viewBreakpoint = 992;
@@ -295,6 +295,21 @@ export default function GlobalLayout(props) {
 
         callback ? callback() : null;
     }
+    
+    async function patchChatThread(formData, chatObj, callback) {
+        await patchThreads(formData).then(
+            (res) => {
+                // console.log('GlobalLayout > patchChatThread > res', res)
+
+                socket.emit('send_message', { receiverName: chatObj?.name });
+            },
+            (err) => {
+                console.log('GlobalLayout > patchChatThread > err', err)
+            },
+        );
+
+        callback ? callback() : null;
+    }
 
     async function postChatAttachments(formData, callback) {
         // console.log('postChatAttachments > formData', formData)
@@ -450,7 +465,6 @@ export default function GlobalLayout(props) {
         formData.append('userId', userData.id);
         formData.append('chatId', chatObj?.id);
         formData.append('chatType', chatObj?.type);
-        console.log('')
 
         if (attachmentsList && attachmentsList.length > 0) {
             formData.append('userName', userData.name);
@@ -471,6 +485,30 @@ export default function GlobalLayout(props) {
             postChatThread(formData, chatObj);
             formData.append('chatObj', JSON.stringify(chatObj?.type == 'single' ? {...userData, type: 'single', isOnline: true} : chatObj));
             postChatNotification(formData, chatObj);
+        }
+    }
+
+    const onUpdateChatMessageClick = (chatObj, chatInput, attachmentsList) => {
+        const formData = new FormData();
+        formData.append('userId', userData.id);
+        formData.append('chatId', chatObj?.id);
+        formData.append('chatType', chatObj?.type);
+
+        if (attachmentsList && attachmentsList.length > 0) {
+            formData.append('userName', userData.name);
+            Array.from(attachmentsList).forEach((item) => {
+                formData.append('attachments', item);
+            })
+
+            postChatAttachments(formData, (attachments) => {
+                chatInput ? chatInput.attachments = attachments : null;
+                
+                formData.append('chatInput', JSON.stringify(chatInput));
+                patchChatThread(formData, chatObj);
+            })
+        } else {
+            formData.append('chatInput', JSON.stringify(chatInput));
+            patchChatThread(formData, chatObj);
         }
     }
 
@@ -600,6 +638,7 @@ export default function GlobalLayout(props) {
                     onChatBoxCloseClick={(value) => onRemoveChatClick(value, 'chat-box')}
                     onChatBoxMinimizeClick={onMinimizeChatClick}
                     onChatBoxSendInput={onSendChatInputClick}
+                    onChatBoxUpdateMessage={onUpdateChatMessageClick}
                     onChatBoxViewAttachment={onViewChatAttachmentClick}
                     onChatBoxInputFocus={onChatInputFocus}
                     onResetSelectedChat={() => setSelectedChat(null)}

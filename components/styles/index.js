@@ -25,7 +25,6 @@ export const CHAT_BOX = {
         height: '100%',
     },
     chatBoxCardHeader: {
-        height: '12%',
         display: 'flex',
         alignItems: 'center',
         padding: 1,
@@ -51,7 +50,6 @@ export const CHAT_BOX = {
     },
     chatBoxCardContent: {
         position: 'relative',
-        height: '76%',
         overflowX: 'hidden',
         overflowY: 'auto',
         px: 1,
@@ -86,9 +84,9 @@ export const CHAT_BOX = {
     },
     chatBoxCardActions: {
         position: 'relative',
-        height: '12%',
         display: 'flex',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        alignItems: 'flex-end'
     },
     chatBoxCardActionsBox: {
         display: 'flex',

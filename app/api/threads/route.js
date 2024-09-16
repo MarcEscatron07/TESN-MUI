@@ -93,3 +93,66 @@ export async function POST(req, res) {
     }, { status: 500 });
   }
 }
+
+export async function PATCH(req, res) {
+  try {
+    /** temporary code **/
+    const jsonPath = "/public/json/tests/threads.json";
+    const jsonFile = await fs.readFile(path.join(process.cwd(), jsonPath), "utf8");
+    const jsonData = JSON.parse(jsonFile);
+    /** temporary code **/
+  
+    const formData = await req.formData();
+    const userId = formData.has('userId') ? parseInt(formData.get('userId')) : -1;
+    const chatId = formData.has('chatId') ? parseInt(formData.get('chatId')) : -1;
+    const chatType = formData.has('chatType') ? formData.get('chatType') : '';
+    const chatInput = formData.has('chatInput') ? JSON.parse(formData.get('chatInput')) : null;
+    console.log('THREADS > PATCH > formData', formData)
+    console.log('THREADS > PATCH > chatInput', chatInput)
+  
+    for (const key in jsonData) {
+      if (
+        jsonData[key]?.chatIds?.includes(userId) && jsonData[key]?.chatIds?.includes(chatId) &&
+        jsonData[key]?.type == chatType && 
+        jsonData[key]?.threads && 
+        chatInput && chatInput.threadId
+      ) {
+        const threadIdx = jsonData[key]['threads'].map((i) => i.threadId).indexOf(chatInput.threadId);
+        
+        if(threadIdx != -1) {
+          jsonData[key]['threads'][threadIdx] = chatInput;
+        }
+
+        /** CHECK ALL REPLIES WITH THE THE SAME 'threadId' AND UPDATE DATA **/
+        if(chatInput.isMessageRemoved) {
+          jsonData[key]['threads'].map((item) => {
+            if(item['reply'] && item['reply']['threadId'] == chatInput.threadId) {
+              item['reply']['isMessageRemoved'] = true;
+            }
+
+            return item;
+          })
+        }
+
+        await fs.writeFile(path.join(process.cwd(), jsonPath), JSON.stringify(jsonData));
+
+        return NextResponse.json({
+          status: 200,
+          message: "Patch thread successful.",
+          data: chatInput
+        }, { status: 200 });
+      }
+    }
+  
+    return NextResponse.json({
+      status: 400,
+      message: "Unable to patch thread.",
+    }, { status: 400 });
+  } catch (e) {
+    return NextResponse.json({
+      status: 500,
+      message: "An unexpected error occured.",
+      data: e
+    }, { status: 500 });
+  }
+}
