@@ -609,7 +609,7 @@ export default function ChatBox(props) {
                                     </Box>
                                 ) : null}
 
-                                <Box className="chat-box-message-text" sx={{fontSize: checkIfEmojiOnly(item.message) ? '2rem' : '.95rem'}}>
+                                <Box className="chat-box-message-text" sx={{fontSize: checkIfEmojiOnly(item.message) ? '1.8rem' : '.95rem'}}>
                                     {parseStringToHtml(item.message)}
                                 </Box>
                                 <Box 
