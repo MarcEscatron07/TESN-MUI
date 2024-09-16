@@ -399,6 +399,10 @@ export default function ChatBox(props) {
         }
     }
 
+    const onChatBoxReplyClick = (event, index, value) => {
+        // TO-DO: programmatically jump to target Chat Message upon clicking Reply
+    }
+
     const onChatBoxMessageOptionsClick = (event, type, value) => {
         switch(type) {
             case 'reply':
@@ -491,12 +495,14 @@ export default function ChatBox(props) {
 
                     {item.reply?.message ? (
                         <Box className="chat-box-reply" sx={{width: source == 'receiver' ? '80%' : '82%', marginLeft: source == 'receiver' ? '45px' : 'unset'}}>
-                            <Box className="chat-box-reply-target"><b>{source == 'sender' ? 'You' : item.sender}</b>&nbsp;replied to:</Box>
-                            {item.reply?.isMessageRemoved ? (
-                                <Box className="chat-box-reply-message"><i>Message removed</i></Box>
-                            ) : (
-                                <Box className="chat-box-reply-message">{item.reply?.attachments?.length > 0 ? '[Attachment] ' + item.reply.message : item.reply?.message}</Box>
-                            )}
+                            <Box className="chat-box-reply-wrapper" onClick={(event) => onChatBoxReplyClick(event, idx, item)}>
+                                <Box className="chat-box-reply-target"><b>{source == 'sender' ? 'You' : item.sender}</b>&nbsp;replied to:</Box>
+                                {item.reply?.isMessageRemoved ? (
+                                    <Box className="chat-box-reply-message"><i>Message removed</i></Box>
+                                ) : (
+                                    <Box className="chat-box-reply-message">{item.reply?.attachments?.length > 0 ? '[Attachment] ' + item.reply.message : item.reply?.message}</Box>
+                                )}
+                            </Box>
                         </Box>
                     ) : null}
 

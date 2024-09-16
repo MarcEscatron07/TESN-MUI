@@ -148,17 +148,22 @@ body {
             color: $light-color;
             padding: .5rem;
 
-            .chat-box-reply-target {
-                font-size: .8rem;
-            }
+            .chat-box-reply-wrapper {
+                cursor: pointer;
+                padding: .2rem;
 
-            .chat-box-reply-message {
-                font-size: .9rem;
-                display: -webkit-box;
-                -webkit-line-clamp: 1;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                .chat-box-reply-target {
+                    font-size: .8rem;
+                }
+    
+                .chat-box-reply-message {
+                    font-size: .9rem;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 1;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
             }
         }
 
