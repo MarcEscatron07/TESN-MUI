@@ -399,6 +399,11 @@ export default function ChatBox(props) {
         }
     }
 
+    const onChatBoxReplyClick = (event, value) => {
+        const element = value && value.threadId ? document.getElementById(`chat_message_${value.threadId}`) : null;
+        element ? element.scrollIntoView({ behavior: 'smooth' }) : null; 
+    }
+
     const onChatBoxMessageOptionsClick = (event, type, value) => {
         switch(type) {
             case 'reply':
@@ -468,166 +473,168 @@ export default function ChatBox(props) {
         const source = item.sender == props.userData?.name ? 'sender' : 'receiver';
         
         return (
-            <>
-            {source == 'receiver' && item.isMessageHidden ? null : (
-                <Box 
-                    key={idx} 
-                    sx={{...CHAT_BOX.chatBoxCardContentDefaultBox, marginTop: item.reply?.message ? '65px' : 2}} 
-                    className={`chat-box-${source}`} 
-                    onMouseEnter={(event) => onChatBoxChatHover(event, 'mouseenter', idx)} 
-                    onMouseLeave={(event) => onChatBoxChatHover(event, 'mouseleave', -1)}
-                >
-                    {source == 'receiver' ? (
-                        <Box className="chat-box-avatar">
-                                <Image
-                                    title={item.sender}
-                                    src={item.senderImage}
-                                    width={40}
-                                    height={40}
-                                    alt={item.sender}
-                                />
-                        </Box>
-                    ) : null}
+            <div key={idx}>
+                {source == 'receiver' && item.isMessageHidden ? null : (
+                    <Box
+                        id={`chat_message_${item.threadId ? item.threadId : 0}`}
+                        sx={{...CHAT_BOX.chatBoxCardContentDefaultBox, marginTop: item.reply?.message ? '65px' : 2}} 
+                        className={`chat-box-${source}`} 
+                        onMouseEnter={(event) => onChatBoxChatHover(event, 'mouseenter', idx)} 
+                        onMouseLeave={(event) => onChatBoxChatHover(event, 'mouseleave', -1)}
+                    >
+                        {source == 'receiver' ? (
+                            <Box className="chat-box-avatar">
+                                    <Image
+                                        title={item.sender}
+                                        src={item.senderImage}
+                                        width={40}
+                                        height={40}
+                                        alt={item.sender}
+                                    />
+                            </Box>
+                        ) : null}
 
-                    {item.reply?.message ? (
-                        <Box className="chat-box-reply" sx={{width: source == 'receiver' ? '80%' : '82%', marginLeft: source == 'receiver' ? '45px' : 'unset'}}>
-                            <Box className="chat-box-reply-target"><b>{source == 'sender' ? 'You' : item.sender}</b>&nbsp;replied to:</Box>
-                            {item.reply?.isMessageRemoved ? (
-                                <Box className="chat-box-reply-message"><i>Message removed</i></Box>
+                        {item.reply?.message ? (
+                            <Box className="chat-box-reply" sx={{width: source == 'receiver' ? '80%' : '82%', marginLeft: source == 'receiver' ? '45px' : 'unset'}}>
+                                <Box className="chat-box-reply-wrapper" onClick={(event) => onChatBoxReplyClick(event, item.reply)}>
+                                    <Box className="chat-box-reply-target"><b>{source == 'sender' ? 'You' : item.sender}</b>&nbsp;replied to:</Box>
+                                    {item.reply?.isMessageRemoved ? (
+                                        <Box className="chat-box-reply-message"><i>Message removed</i></Box>
+                                    ) : (
+                                        <Box className="chat-box-reply-message">{item.reply?.attachments?.length > 0 ? '[Attachment] ' + item.reply.message : item.reply?.message}</Box>
+                                    )}
+                                </Box>
+                            </Box>
+                        ) : null}
+
+                        <Box 
+                            className="chat-box-message" 
+                            sx={{
+                                maxWidth: item.isMessageRemoved ? '100%' : source == 'sender' ? '65%' : '58%',
+                                backgroundColor: source == 'receiver' ? theme.palette.dark.main : theme.palette.primary.main,
+                                color: source == 'receiver' ? theme.palette.light.main : theme.palette.primary.contrastText,
+                            }}
+                        >
+                            {item.isMessageRemoved ? (
+                                <>
+                                    <Box className="chat-box-message-text">{<i>{source == 'sender' ? 'You' : item.sender} unsent a message</i>}</Box>
+                                </>
                             ) : (
-                                <Box className="chat-box-reply-message">{item.reply?.attachments?.length > 0 ? '[Attachment] ' + item.reply.message : item.reply?.message}</Box>
+                                <>
+                                    {chatHoverIdx == idx ? (
+                                        <List className="chat-box-message-options">
+                                            <ListItem
+                                                disablePadding
+                                                onClick={(event) => onChatBoxMessageOptionsClick(event, 'reply', {isOpen: true, data: item})}
+                                                sx={{ 
+                                                    cursor: 'pointer', 
+                                                    display: 'flex',
+                                                    width: '100%'
+                                                }}
+                                            >
+                                                <IconButton
+                                                    color="dark.light"
+                                                    sx={{ width: 15, px: 2 }}
+                                                    title="Reply"
+                                                >
+                                                    <ReplyIcon />
+                                                </IconButton>
+                                            </ListItem>
+                                            <ListItem
+                                                disablePadding
+                                                onClick={(event) => onChatBoxMessageOptionsClick(event, 'more', {isOpen: !chatMoreState.isOpen})}
+                                                sx={{ 
+                                                    position: 'relative',
+                                                    cursor: 'pointer', 
+                                                    display: 'flex',
+                                                    width: '100%'
+                                                }}
+                                            >
+                                                <IconButton
+                                                    color="dark.light"
+                                                    sx={{ width: 12, px: 2 }}
+                                                    title="More"
+                                                >
+                                                    <MoreIcon />
+                                                </IconButton>
+
+                                                {chatMoreState.isOpen ? (
+                                                    <List 
+                                                        sx={{
+                                                            position: 'absolute',
+                                                            top: source == 'sender' ? '-72px' : '-42px',
+                                                            left: '-32px',
+                                                            backgroundColor: theme.palette.light.main,
+                                                            color: theme.palette.dark.main,
+                                                            borderRadius: '10px',
+                                                            padding: '.5rem',
+                                                            zIndex: 20,
+                                                        }}
+                                                    >
+                                                        {chatBoxMoreItems[source] ? chatBoxMoreItems[source].map((mItem, mIdx) => {
+                                                            return (
+                                                                <ListItem
+                                                                    key={mIdx}
+                                                                    disablePadding
+                                                                    onClick={(event) => onChatBoxMoreListItemsClick(
+                                                                        event, 
+                                                                        mItem.value,
+                                                                        {
+                                                                            isEditing: mItem.value == 'edit' ? true : false,
+                                                                            data: item
+                                                                        }
+                                                                    )}
+                                                                    sx={{ 
+                                                                        "&:hover": {
+                                                                            backgroundColor: theme.palette.light.dark,
+                                                                            borderRadius: '10px',
+                                                                        },
+                                                                        cursor: 'pointer', 
+                                                                        display: 'flex',
+                                                                        width: '100%',
+                                                                        padding: '.2rem .5rem'
+                                                                    }}
+                                                                >
+                                                                    <span style={{minWidth: '25px'}}><FontAwesomeIcon icon={mItem.icon} size="lg" /></span> {mItem.label}
+                                                                </ListItem>
+                                                            )
+                                                        }) : null}
+                                                    </List>
+                                                ) : null}
+                                            </ListItem>
+                                        </List>
+                                    ) : null}
+
+                                    {item.attachments && item.attachments.length > 0 ? (
+                                        <Box className="chat-box-message-attachments">
+                                            {item.attachments.map((atchItem, atchIdx) => (
+                                                <div key={idx}>
+                                                    {renderAttachmentActionByType(atchItem, atchIdx, atchItem?.type)}
+                                                    {renderAttachmentItemByType(atchItem, atchIdx, atchItem?.type)}
+                                                </div>
+                                            ))}
+                                        </Box>
+                                    ) : null}
+
+                                    <Box className="chat-box-message-text" sx={{fontSize: checkIfEmojiOnly(item.message) ? '1.8rem' : '.95rem'}}>
+                                        {parseStringToHtml(item.message)}
+                                    </Box>
+                                    <Box 
+                                        className="chat-box-message-timestamp" 
+                                        title={formatDateTime(item.timestamp, 'dddd, MMMM DD, YYYY @ hh:mm A', { origin: 'chat-timestamp' })}
+                                        sx={{
+                                            backgroundColor: theme.palette.dark.light,
+                                            color: theme.palette.light.main
+                                        }}
+                                    >
+                                        {formatDateTime(item.timestamp, 'h:mm A')} {item.isMessageEdited ? '(Edited)' : null}
+                                    </Box>
+                                </>
                             )}
                         </Box>
-                    ) : null}
-
-                    <Box 
-                        className="chat-box-message" 
-                        sx={{
-                            maxWidth: item.isMessageRemoved ? '100%' : source == 'sender' ? '65%' : '58%',
-                            backgroundColor: source == 'receiver' ? theme.palette.dark.main : theme.palette.primary.main,
-                            color: source == 'receiver' ? theme.palette.light.main : theme.palette.primary.contrastText,
-                        }}
-                    >
-                        {item.isMessageRemoved ? (
-                            <>
-                                <Box className="chat-box-message-text">{<i>{source == 'sender' ? 'You' : item.sender} unsent a message</i>}</Box>
-                            </>
-                        ) : (
-                            <>
-                                {chatHoverIdx == idx ? (
-                                    <List className="chat-box-message-options">
-                                        <ListItem
-                                            disablePadding
-                                            onClick={(event) => onChatBoxMessageOptionsClick(event, 'reply', {isOpen: true, data: item})}
-                                            sx={{ 
-                                                cursor: 'pointer', 
-                                                display: 'flex',
-                                                width: '100%'
-                                            }}
-                                        >
-                                            <IconButton
-                                                color="dark.light"
-                                                sx={{ width: 15, px: 2 }}
-                                                title="Reply"
-                                            >
-                                                <ReplyIcon />
-                                            </IconButton>
-                                        </ListItem>
-                                        <ListItem
-                                            disablePadding
-                                            onClick={(event) => onChatBoxMessageOptionsClick(event, 'more', {isOpen: !chatMoreState.isOpen})}
-                                            sx={{ 
-                                                position: 'relative',
-                                                cursor: 'pointer', 
-                                                display: 'flex',
-                                                width: '100%'
-                                            }}
-                                        >
-                                            <IconButton
-                                                color="dark.light"
-                                                sx={{ width: 12, px: 2 }}
-                                                title="More"
-                                            >
-                                                <MoreIcon />
-                                            </IconButton>
-
-                                            {chatMoreState.isOpen ? (
-                                                <List 
-                                                    sx={{
-                                                        position: 'absolute',
-                                                        top: source == 'sender' ? '-72px' : '-42px',
-                                                        left: '-32px',
-                                                        backgroundColor: theme.palette.light.main,
-                                                        color: theme.palette.dark.main,
-                                                        borderRadius: '10px',
-                                                        padding: '.5rem',
-                                                        zIndex: 20,
-                                                    }}
-                                                >
-                                                    {chatBoxMoreItems[source] ? chatBoxMoreItems[source].map((mItem, mIdx) => {
-                                                        return (
-                                                            <ListItem
-                                                                key={mIdx}
-                                                                disablePadding
-                                                                onClick={(event) => onChatBoxMoreListItemsClick(
-                                                                    event, 
-                                                                    mItem.value,
-                                                                    {
-                                                                        isEditing: mItem.value == 'edit' ? true : false,
-                                                                        data: item
-                                                                    }
-                                                                )}
-                                                                sx={{ 
-                                                                    "&:hover": {
-                                                                        backgroundColor: theme.palette.light.dark,
-                                                                        borderRadius: '10px',
-                                                                    },
-                                                                    cursor: 'pointer', 
-                                                                    display: 'flex',
-                                                                    width: '100%',
-                                                                    padding: '.2rem .5rem'
-                                                                }}
-                                                            >
-                                                                <span style={{minWidth: '25px'}}><FontAwesomeIcon icon={mItem.icon} size="lg" /></span> {mItem.label}
-                                                            </ListItem>
-                                                        )
-                                                    }) : null}
-                                                </List>
-                                            ) : null}
-                                        </ListItem>
-                                    </List>
-                                ) : null}
-
-                                {item.attachments && item.attachments.length > 0 ? (
-                                    <Box className="chat-box-message-attachments">
-                                        {item.attachments.map((atchItem, atchIdx) => (
-                                            <div key={idx}>
-                                                {renderAttachmentActionByType(atchItem, atchIdx, atchItem?.type)}
-                                                {renderAttachmentItemByType(atchItem, atchIdx, atchItem?.type)}
-                                            </div>
-                                        ))}
-                                    </Box>
-                                ) : null}
-
-                                <Box className="chat-box-message-text" sx={{fontSize: checkIfEmojiOnly(item.message) ? '1.8rem' : '.95rem'}}>
-                                    {parseStringToHtml(item.message)}
-                                </Box>
-                                <Box 
-                                    className="chat-box-message-timestamp" 
-                                    title={formatDateTime(item.timestamp, 'dddd, MMMM DD, YYYY @ hh:mm A', { origin: 'chat-timestamp' })}
-                                    sx={{
-                                        backgroundColor: theme.palette.dark.light,
-                                        color: theme.palette.light.main
-                                    }}
-                                >
-                                    {formatDateTime(item.timestamp, 'h:mm A')} {item.isMessageEdited ? '(Edited)' : null}
-                                </Box>
-                            </>
-                        )}
                     </Box>
-                </Box>
-            )}
-            </>
+                )}
+            </div>
         );
     }
 

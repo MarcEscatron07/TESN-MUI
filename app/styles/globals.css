@@ -119,10 +119,14 @@ body {
   color: #FFFFFF;
   padding: 0.5rem;
 }
-.chat-box .chat-box-content .chat-box-reply .chat-box-reply-target {
+.chat-box .chat-box-content .chat-box-reply .chat-box-reply-wrapper {
+  cursor: pointer;
+  padding: 0.2rem;
+}
+.chat-box .chat-box-content .chat-box-reply .chat-box-reply-wrapper .chat-box-reply-target {
   font-size: 0.8rem;
 }
-.chat-box .chat-box-content .chat-box-reply .chat-box-reply-message {
+.chat-box .chat-box-content .chat-box-reply .chat-box-reply-wrapper .chat-box-reply-message {
   font-size: 0.9rem;
   display: -webkit-box;
   -webkit-line-clamp: 1;
