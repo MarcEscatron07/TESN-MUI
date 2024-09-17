@@ -654,14 +654,12 @@ body {
 
 @keyframes startHighlight {
     100% {
-        background-color: $secondary-color;
-        color: $dark-color;
+        background-color: $accent1-color;
     }
 }
 
 @keyframes endHighlight {
     0% {
-        background-color: $secondary-color;
-        color: $dark-color;
+        background-color: $accent1-color;
     }
 }
