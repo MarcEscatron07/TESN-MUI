@@ -62,7 +62,6 @@ body {
             border-radius: 50%;
             border-top: 15px solid $accent2-color;
             z-index: 99997;
-            -webkit-animation: spin .7s linear infinite;
             animation: spin .7s linear infinite;
         }
     }
@@ -106,6 +105,13 @@ body {
     
         &::-webkit-scrollbar-thumb:hover {
             background: #555555;
+        }
+
+        .chat-box-highlight {
+            animation-name: startHighlight, endHighlight;
+            animation-duration: .8s, .8s;
+            animation-delay: 0s, .8s;
+            animation-timing-function: linear;
         }
 
         .chat-box-sender {
@@ -636,16 +642,6 @@ body {
 }
 /* End of FullCalendar CSS */
 
-@-webkit-keyframes spin {
-    0% {
-        -webkit-transform: rotate(0deg);
-    }
-
-    100% {
-        -webkit-transform: rotate(360deg);
-    }
-}
-
 @keyframes spin {
     0% {
         transform: rotate(0deg);
@@ -653,5 +649,19 @@ body {
 
     100% {
         transform: rotate(360deg);
+    }
+}
+
+@keyframes startHighlight {
+    100% {
+        background-color: $secondary-color;
+        color: $dark-color;
+    }
+}
+
+@keyframes endHighlight {
+    0% {
+        background-color: $secondary-color;
+        color: $dark-color;
     }
 }

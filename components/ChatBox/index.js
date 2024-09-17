@@ -401,7 +401,16 @@ export default function ChatBox(props) {
 
     const onChatBoxReplyClick = (event, value) => {
         const element = value && value.threadId ? document.getElementById(`chat_message_${value.threadId}`) : null;
-        element ? element.scrollIntoView({ behavior: 'smooth' }) : null; 
+        
+        if(element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => {
+                element.querySelector('.chat-box-message').classList.add('chat-box-highlight');
+                setTimeout(() => {
+                    element.querySelector('.chat-box-message').classList.remove('chat-box-highlight');
+                }, 2500);
+            }, 500);
+        }
     }
 
     const onChatBoxMessageOptionsClick = (event, type, value) => {
