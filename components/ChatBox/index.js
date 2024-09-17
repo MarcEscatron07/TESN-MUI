@@ -337,6 +337,8 @@ export default function ChatBox(props) {
                             attachments: null,
                             reply: { 
                                 threadId: chatReplyState?.data?.threadId, 
+                                sender: chatReplyState?.data?.sender, 
+                                receiver: chatReplyState?.data?.receiver, 
                                 message: chatReplyState?.data?.message, 
                                 attachments: chatReplyState?.data?.attachments, 
                                 isMessageEdited: chatReplyState?.data?.isMessageEdited, 
@@ -488,7 +490,12 @@ export default function ChatBox(props) {
                 {source == 'receiver' && item.isMessageHidden ? null : (
                     <Box
                         id={`chat_message_${item.threadId ? item.threadId : 0}`}
-                        sx={{...CHAT_BOX.chatBoxCardContentDefaultBox, marginTop: item.reply?.message ? '65px' : 2}} 
+                        sx={{
+                            ...CHAT_BOX.chatBoxCardContentDefaultBox, 
+                            marginTop: item.reply?.receiver == props.userData?.name && item.reply?.isMessageHidden 
+                                ? 2 : item.reply?.message 
+                                    ? '65px' : 2
+                        }} 
                         className={`chat-box-${source}`} 
                         onMouseEnter={(event) => onChatBoxChatHover(event, 'mouseenter', idx)} 
                         onMouseLeave={(event) => onChatBoxChatHover(event, 'mouseleave', -1)}
@@ -505,7 +512,7 @@ export default function ChatBox(props) {
                             </Box>
                         ) : null}
 
-                        {item.reply?.message ? (
+                        {item.reply?.receiver == props.userData?.name && item.reply?.isMessageHidden ? null : item.reply?.message ? (
                             <Box className="chat-box-reply" sx={{width: source == 'receiver' ? '80%' : '82%', marginLeft: source == 'receiver' ? '45px' : 'unset'}}>
                                 <Box className="chat-box-reply-wrapper" onClick={(event) => onChatBoxReplyClick(event, item.reply)}>
                                     <Box className="chat-box-reply-target"><b>{source == 'sender' ? 'You' : item.sender}</b>&nbsp;replied to:</Box>
