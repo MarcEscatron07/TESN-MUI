@@ -123,16 +123,16 @@ export async function PATCH(req, res) {
           jsonData[key]['threads'][threadIdx] = chatInput;
         }
 
-        /** CHECK ALL REPLIES WITH THE THE SAME 'threadId' AND UPDATE DATA **/
-        if(chatInput.isMessageRemoved) {
-          jsonData[key]['threads'].map((item) => {
-            if(item['reply'] && item['reply']['threadId'] == chatInput.threadId) {
-              item['reply']['isMessageRemoved'] = true;
-            }
+        jsonData[key]['threads'].map((item) => {
+          if(item['reply'] && item['reply']['threadId'] == chatInput.threadId) {
+            item['reply']['message'] = chatInput.message;
+            item['reply']['isMessageEdited'] = chatInput.isMessageEdited;
+            item['reply']['isMessageRemoved'] = chatInput.isMessageRemoved;
+            item['reply']['isMessageHidden'] = chatInput.isMessageHidden;
+          }
 
-            return item;
-          })
-        }
+          return item;
+        });
 
         await fs.writeFile(path.join(process.cwd(), jsonPath), JSON.stringify(jsonData));
 

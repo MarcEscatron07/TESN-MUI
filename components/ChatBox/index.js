@@ -339,7 +339,9 @@ export default function ChatBox(props) {
                                 threadId: chatReplyState?.data?.threadId, 
                                 message: chatReplyState?.data?.message, 
                                 attachments: chatReplyState?.data?.attachments, 
-                                isMessageRemoved: chatReplyState?.data?.isMessageRemoved 
+                                isMessageEdited: chatReplyState?.data?.isMessageEdited, 
+                                isMessageRemoved: chatReplyState?.data?.isMessageRemoved,
+                                isMessageHidden: chatReplyState?.data?.isMessageHidden, 
                             },
                         },
                         chatAttachments
@@ -401,7 +403,7 @@ export default function ChatBox(props) {
 
     const onChatBoxReplyClick = (event, value) => {
         const element = value && value.threadId ? document.getElementById(`chat_message_${value.threadId}`) : null;
-        
+
         if(element) {
             element.scrollIntoView({ behavior: 'smooth' });
             setTimeout(() => {
