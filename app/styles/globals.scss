@@ -532,9 +532,20 @@ body {
     background-color: $dark-color;
 
     .not-found-text {
-        font-size: 1.4rem;
-        font-weight: bold;
         color: $light-color;
+        display: flex;
+        align-items: center;
+
+        b {
+            font-size: 1.8rem;
+            border-right: 1px solid gray;
+            padding: 1.2rem;
+        }
+
+        span {
+            font-size: 1.2rem;
+            margin-left: 1rem;
+        }
     }
 }
 
