@@ -29,7 +29,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 import { AppBar, Search, SearchIconWrapper, StyledInputBase } from "@/components/function";
 import { TOP_APP_BAR } from '@/components/styles';
-import { deleteLogin } from "@/lib/api";
+import { getLogin, deleteLogin } from "@/lib/api";
 import { formatDateTime } from '@/lib/helpers';
 
 export default function TopAppBar(props) {
@@ -46,6 +46,19 @@ export default function TopAppBar(props) {
 
     useEffect(() => {
     }, [props.userData]);
+
+    async function getUserLogin(callback) {
+        await getLogin().then(
+            (res) => {
+                console.log('TopAppBar > getUserLogin > res', res)
+            },
+            (err) => {
+                console.log('TopAppBar > getUserLogin > err', err)
+            }
+        )
+
+        callback ? callback() : null;
+    }
 
     async function deleteUserLogin(callback) {
         await deleteLogin().then(
@@ -91,18 +104,29 @@ export default function TopAppBar(props) {
         setMobileNotificationsMenu(event.currentTarget);
     };
 
-    const onLogoutClick = () => {
-        props.onLoading ? props.onLoading(true) : null;
+    const onMenuItemClick = (event, origin) => {
+        switch(origin) {
+            case 'profile':
+                onMenuClose();
 
-        onMenuClose();
-        clearLocalStorage();
-        clearSessionStorage();
-        deleteUserLogin();
+                getUserLogin(); // temporary code
+                // TO-DO: redirect to Profile page
+                break;
+            case 'logout':
+                props.onLoading ? props.onLoading(true) : null;
+        
+                onMenuClose();
+                clearLocalStorage();
+                clearSessionStorage();
+                deleteUserLogin();
+        
+                router.push(`/`);
 
-        router.push(`/`);
-        setTimeout(() => {
-            props.onLoading ? props.onLoading(false) : null;
-        }, 1000)
+                setTimeout(() => {
+                    props.onLoading ? props.onLoading(false) : null;
+                }, 1000)
+                break;
+        }
     };
 
     const onNotificationButtonClick = (event, origin) => {
@@ -146,8 +170,8 @@ export default function TopAppBar(props) {
             onClose={onMenuClose}
             keepMounted
         >
-            <MenuItem onClick={onMenuClose}><AccountCircle /> <span style={{marginLeft: 10}}>Profile</span></MenuItem>
-            <MenuItem onClick={onLogoutClick}><LogoutIcon /> <span style={{marginLeft: 10}}>Logout</span></MenuItem>
+            <MenuItem onClick={(event) => onMenuItemClick(event, 'profile')}><AccountCircle /> <span style={{marginLeft: 10}}>Profile</span></MenuItem>
+            <MenuItem onClick={(event) => onMenuItemClick(event, 'logout')}><LogoutIcon /> <span style={{marginLeft: 10}}>Logout</span></MenuItem>
         </Menu>
     );
 

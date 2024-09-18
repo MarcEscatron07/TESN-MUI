@@ -66,7 +66,7 @@ export default function WelcomeLogin() {
 
         if(res?.status && res?.data) {
           if(isRememberMe) {
-            const dataObj = {
+            let dataObj = {
               username: username,
               password: CryptoJS.AES.encrypt(password, 'secret-key').toString()
             };
