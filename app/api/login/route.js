@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
+import CryptoJS from 'crypto-js';
 
 export async function GET(req, res) {
 
@@ -24,11 +25,23 @@ export async function POST(req, res) {
         jsonData[key]?.username == username &&
         jsonData[key]?.password == password
       ) {
-        return NextResponse.json({
+        const tokenString = `${username}|${password}`;
+        const authToken = CryptoJS.AES.encrypt(tokenString, 'secret-key').toString();
+
+        const response = NextResponse.json({
           status: 200,
           message: "Post login successful.",
           data: jsonData[key]?.id
         }, { status: 200 });
+
+        response.cookies.set('authToken', authToken, {
+          httpOnly: true, // Ensures the cookie is only sent over HTTP(S), not JavaScript
+          secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+          maxAge: 60 * 60 * 24, // 1 day
+          path: '/', // Available throughout the site
+        });
+    
+        return response;
       }
     }
 
