@@ -6,6 +6,12 @@ import { cookies } from 'next/headers';
 
 export async function GET(req, res) {
   try {
+    /** temporary code **/
+    const jsonPath = "/public/json/users.json";
+    const jsonFile = await fs.readFile(path.join(process.cwd(), jsonPath), "utf8");
+    const jsonData = JSON.parse(jsonFile);
+    /** temporary code **/
+
     const cookieStore = cookies();
     const authToken = cookieStore.get('authToken');
 
@@ -13,18 +19,31 @@ export async function GET(req, res) {
       const tokenString = authToken.value;
       const tokenValue = CryptoJS.AES.decrypt(tokenString, 'secret-key').toString(CryptoJS.enc.Utf8);
 
-      let dataObj = {
-        id: tokenValue && tokenValue.split('|')[0]
-          && !isNaN(tokenValue.split('|')[0]) ? parseInt(tokenValue.split('|')[0]) : '',
-        username: tokenValue && tokenValue.split('|')[1] ? tokenValue.split('|')[1] : '',
-        password: tokenValue && tokenValue.split('|')[2] ? tokenValue.split('|')[2] : '',
+      const username = tokenValue && tokenValue.split('|')[0] ? tokenValue.split('|')[0] : '';
+      const password = tokenValue && tokenValue.split('|')[1] ? tokenValue.split('|')[1] : '';
+
+      for (const key in jsonData) {
+        if (
+          jsonData[key]?.username == username &&
+          jsonData[key]?.password == password
+        ) {
+          const dataObj = JSON.parse(JSON.stringify(jsonData[key]));
+          delete dataObj['groupIds'];
+          delete dataObj['username'];
+          delete dataObj['password'];
+
+          return NextResponse.json({
+            status: 200,
+            message: "Get login successful.",
+            data: dataObj
+          }, { status: 200 });
+        }
       }
 
       return NextResponse.json({
-        status: 200,
-        message: "Get login successful.",
-        data: dataObj
-      }, { status: 200 });
+        status: 400,
+        message: "Unable to get login.",
+      }, { status: 400 });
     } else {
       return NextResponse.json({
         status: 400,
@@ -54,17 +73,16 @@ export async function POST(req, res) {
 
     for (const key in jsonData) {
       if (
-        jsonData[key]?.id &&
         jsonData[key]?.username == username &&
         jsonData[key]?.password == password
       ) {
-        const tokenString = `${jsonData[key]?.id}|${username}|${password}`;
+        const tokenString = `${username}|${password}`;
         const tokenValue = CryptoJS.AES.encrypt(tokenString, 'secret-key').toString();
 
         const response = NextResponse.json({
           status: 200,
           message: "Post login successful.",
-          data: jsonData[key]?.id
+          data: true
         }, { status: 200 });
 
         response.cookies.set('authToken', tokenValue, {

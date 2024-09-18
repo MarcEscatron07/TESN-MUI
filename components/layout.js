@@ -8,7 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { GLOBAL } from "@/app/styles";
 import { Loader, TopAppBar, LeftDrawer, RightDrawer, ChatBox, ChatList, ViewAttachment } from '@/components';
 import { socket } from '@/components/socket-client';
-import { getUsers, getChats, getThreads, postThreads, patchThreads, postAttachments, getNotifications, postNotifications, patchNotifications } from "@/lib/api";
+import { getLogin, getChats, getThreads, postThreads, patchThreads, postAttachments, getNotifications, postNotifications, patchNotifications } from "@/lib/api";
 
 export default function GlobalLayout(props) {
     const viewBreakpoint = 992;
@@ -34,7 +34,6 @@ export default function GlobalLayout(props) {
         }
     });
 
-    const [sessionUserId, setSessionUserId] = useState(-1);
     const [sessionNav, setSessionNav] = useState('');
     const [sessionFriends, setSessionFriends] = useState([]);
     const [sessionGroups, setSessionGroups] = useState([]);
@@ -67,6 +66,8 @@ export default function GlobalLayout(props) {
         socket.on('groups_list', (groupsList) => {
             console.log('GlobalLayout > groupsList', groupsList)
         });
+
+        getUserLogin();
 
         fetchSessionStorage();
 
@@ -103,14 +104,6 @@ export default function GlobalLayout(props) {
             });
         }
     }, [userData])
-
-    useEffect(() => {
-        // console.log('GlobalLayout > sessionUserId', sessionUserId)
-
-        if (sessionUserId != -1) {
-            getUserData(sessionUserId);
-        }
-    }, [sessionUserId])
 
     useEffect(() => {
         // console.log('GlobalLayout > sessionNav', sessionNav)
@@ -226,16 +219,15 @@ export default function GlobalLayout(props) {
     }
 
     async function fetchSessionStorage() {
-        sessionStorage.getItem('userid_data') ? setSessionUserId(parseInt(sessionStorage.getItem('userid_data'))) : null;
         sessionStorage.getItem('nav_data') ? setSessionNav(sessionStorage.getItem('nav_data')) : null;
         sessionStorage.getItem('active_chat_data') ? setActiveChatList(JSON.parse(sessionStorage.getItem('active_chat_data'))) : null;
         sessionStorage.getItem('passive_chat_data') ? setPassiveChatList(JSON.parse(sessionStorage.getItem('passive_chat_data'))) : null;
     }
 
-    async function getUserData(userId) {
-        await getUsers(`userId=${userId}`).then(
+    async function getUserLogin(callback) {
+        await getLogin().then(
             (res) => {
-                // console.log('getUserData > res', res)
+                // console.log('getUserLogin > res', res)
 
                 setUserData(res?.status == 200 && res?.data ? res?.data : {
                     id: -1,
@@ -244,14 +236,16 @@ export default function GlobalLayout(props) {
                 });
             },
             (err) => {
-                console.log('getUserData > err', err)
+                console.log('getUserLogin > err', err)
                 setUserData({
                     id: -1,
                     name: '',
                     image: ''
                 });
-            },
+            }
         )
+
+        callback ? callback() : null;
     }
 
     async function getChatData(userId) {

@@ -29,7 +29,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 import { AppBar, Search, SearchIconWrapper, StyledInputBase } from "@/components/function";
 import { TOP_APP_BAR } from '@/components/styles';
-import { getLogin, deleteLogin } from "@/lib/api";
+import { deleteLogin } from "@/lib/api";
 import { formatDateTime } from '@/lib/helpers';
 
 export default function TopAppBar(props) {
@@ -46,19 +46,6 @@ export default function TopAppBar(props) {
 
     useEffect(() => {
     }, [props.userData]);
-
-    async function getUserLogin(callback) {
-        await getLogin().then(
-            (res) => {
-                console.log('TopAppBar > getUserLogin > res', res)
-            },
-            (err) => {
-                console.log('TopAppBar > getUserLogin > err', err)
-            }
-        )
-
-        callback ? callback() : null;
-    }
 
     async function deleteUserLogin(callback) {
         await deleteLogin().then(
@@ -109,7 +96,6 @@ export default function TopAppBar(props) {
             case 'profile':
                 onMenuClose();
 
-                getUserLogin(); // temporary code
                 // TO-DO: redirect to Profile page
                 break;
             case 'logout':
@@ -118,13 +104,13 @@ export default function TopAppBar(props) {
                 onMenuClose();
                 clearLocalStorage();
                 clearSessionStorage();
-                deleteUserLogin();
-        
-                router.push(`/`);
-
-                setTimeout(() => {
-                    props.onLoading ? props.onLoading(false) : null;
-                }, 1000)
+                deleteUserLogin(() => {
+                    router.push(`/`);
+    
+                    setTimeout(() => {
+                        props.onLoading ? props.onLoading(false) : null;
+                    }, 1000)
+                });
                 break;
         }
     };

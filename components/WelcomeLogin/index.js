@@ -51,9 +51,9 @@ export default function WelcomeLogin() {
 
   async function fetchLocalStorage() {
     if(localStorage.getItem('login_data')) {
-      const dataObj = JSON.parse(localStorage.getItem('login_data'));
+      const dataObj = JSON.parse(CryptoJS.AES.decrypt(localStorage.getItem('login_data'), 'secret-key').toString(CryptoJS.enc.Utf8));
       setIsLoading(true);
-      processFormData(dataObj?.username ?? '', dataObj?.password ? CryptoJS.AES.decrypt(dataObj?.password, 'secret-key').toString(CryptoJS.enc.Utf8) : '')
+      processFormData(dataObj?.username ?? '', dataObj?.password ?? '');
     } else {
       setIsLoading(false);
     }
@@ -66,15 +66,12 @@ export default function WelcomeLogin() {
 
         if(res?.status && res?.data) {
           if(isRememberMe) {
-            let dataObj = {
+            localStorage.setItem('login_data', CryptoJS.AES.encrypt(JSON.stringify({
               username: username,
-              password: CryptoJS.AES.encrypt(password, 'secret-key').toString()
-            };
-      
-            localStorage.setItem('login_data', JSON.stringify(dataObj));
+              password: password
+            }), 'secret-key').toString());
           }
 
-          sessionStorage.setItem('userid_data', JSON.stringify(res?.data))
           router.push(`/home`);
         } else {
           res?.message ? alert(res?.message) : null;

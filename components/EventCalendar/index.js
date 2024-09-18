@@ -42,40 +42,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import { ConfirmDialog } from "@/components";
 import { EVENT_CALENDAR } from '@/components/styles';
-import { getLocalHolidays } from "@/lib/api";
-
-const OPTION_USERS = [ // replace with getUsers() API
-    {
-        id: 1,
-        name: "Marc Escatron",
-        image: "/images/avatars/avatar_male_1.png"
-    },
-    {
-        id: 2,
-        name: "Jerson Albit",
-        image: "/images/avatars/avatar_male_2.png"
-    },
-    {
-        id: 3,
-        name: "Joel Buena",
-        image: "/images/avatars/avatar_male_3.png"
-    },
-    {
-        id: 4,
-        name: "Rommel Digal",
-        image: "/images/avatars/avatar_male_4.png"
-    },
-    {
-        id: 5,
-        name: "Junjie Bautista",
-        image: "/images/avatars/avatar_male_5.png"
-    },
-    {
-        id: 6,
-        name: "Ian Tambis",
-        image: "/images/avatars/avatar_male_6.png"
-    }
-];
+import { getUsers, getLocalHolidays } from "@/lib/api";
 
 const OPTION_VISIBILITY = [
     {
@@ -99,6 +66,7 @@ export default function EventCalendar() {
     const theme = useTheme();
     const hd = new Holidays('PH');
 
+    const [usersList, setUsersList] = useState([]);
     const [holidaysList, setHolidaysList] = useState([]);
     const [eventsList, setEventsList] = useState([]);
 
@@ -136,9 +104,14 @@ export default function EventCalendar() {
     });
 
     useEffect(() => {
+        getUsersList();
         fetchHolidays();
         fetchEvents();
     }, [])
+
+    useEffect(() => {
+        // console.log('EventCalendar > usersList', usersList)
+    }, [usersList])
 
     /** FULLCALENDAR useEffect **/
     useEffect(() => {
@@ -190,6 +163,23 @@ export default function EventCalendar() {
         }
     }, [isModalOpen])
     /** MODAL useEffect **/
+
+    async function getUsersList(callback) {
+        // await getUsers(`userId=${props.userData?.id}`).then(
+        await getUsers().then(
+            (res) => {
+                console.log('getUsersList > res', res)
+
+                setUsersList(res?.status == 200 && res?.data ? res?.data : []);
+            },
+            (err) => {
+                console.log('getUsersList > err', err)
+                setUsersList([]);
+            }
+        )
+
+        callback ? callback() : null;
+    }
 
     async function fetchHolidays() {
         let regularHolidayArr = [];
@@ -549,7 +539,6 @@ export default function EventCalendar() {
             </Popover>
 
             <Dialog
-                className="alert-dialog"
                 open={isModalOpen}
                 onClose={() => onModalToggleClick(false)}
                 PaperProps={{ component: 'form', onSubmit: (event) => onModalFormSubmit(event) }}
@@ -600,7 +589,7 @@ export default function EventCalendar() {
                                 fullWidth
                                 defaultValue={[]}
                                 value={modalData.guests}
-                                options={OPTION_USERS} // OPTION_USERS: temporary options
+                                options={usersList}
                                 getOptionLabel={(option) => option.name}
                                 renderOption={(props, option) => {
                                     const { key, ...optionProps } = props;
