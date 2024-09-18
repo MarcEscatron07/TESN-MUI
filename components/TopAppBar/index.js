@@ -29,6 +29,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 import { AppBar, Search, SearchIconWrapper, StyledInputBase } from "@/components/function";
 import { TOP_APP_BAR } from '@/components/styles';
+import { deleteLogin } from "@/lib/api";
 import { formatDateTime } from '@/lib/helpers';
 
 export default function TopAppBar(props) {
@@ -45,6 +46,19 @@ export default function TopAppBar(props) {
 
     useEffect(() => {
     }, [props.userData]);
+
+    async function deleteUserLogin(callback) {
+        await deleteLogin().then(
+            (res) => {
+                console.log('TopAppBar > deleteUserLogin > res', res)
+            },
+            (err) => {
+                console.log('TopAppBar > deleteUserLogin > err', err)
+            }
+        )
+
+        callback ? callback() : null;
+    }
 
     const clearSessionStorage = () => {
         sessionStorage.clear();
@@ -83,6 +97,7 @@ export default function TopAppBar(props) {
         onMenuClose();
         clearLocalStorage();
         clearSessionStorage();
+        deleteUserLogin();
 
         router.push(`/`);
         setTimeout(() => {

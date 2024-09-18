@@ -64,9 +64,12 @@ export const LOGIN = {
     loginFormControlLabel: {
         color: '#FFFFFF'
     },
-    loginFormButtonSignIn: {
+    loginFormButtonContainer: {
         mt: 4, 
         mb: 2
+    },
+    loginFormButtonAction: {
+        my: .5
     },
     loginFormForgotPassword: { 
         display: 'flex', 

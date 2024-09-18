@@ -26,7 +26,7 @@ export async function POST(req, res) {
         jsonData[key]?.password == password
       ) {
         const tokenString = `${username}|${password}`;
-        const authToken = CryptoJS.AES.encrypt(tokenString, 'secret-key').toString();
+        const tokenValue = CryptoJS.AES.encrypt(tokenString, 'secret-key').toString();
 
         const response = NextResponse.json({
           status: 200,
@@ -34,11 +34,11 @@ export async function POST(req, res) {
           data: jsonData[key]?.id
         }, { status: 200 });
 
-        response.cookies.set('authToken', authToken, {
-          httpOnly: true, // Ensures the cookie is only sent over HTTP(S), not JavaScript
-          secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-          maxAge: 60 * 60 * 24, // 1 day
-          path: '/', // Available throughout the site
+        response.cookies.set('authToken', tokenValue, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          maxAge: 60 * 60 * 24,
+          path: '/',
         });
     
         return response;
@@ -49,6 +49,30 @@ export async function POST(req, res) {
       status: 400,
       message: "Unable to post login.",
     }, { status: 400 });
+  } catch (e) {
+    return NextResponse.json({
+      status: 500,
+      message: "An unexpected error occured.",
+      data: e
+    }, { status: 500 });
+  }
+}
+
+export async function DELETE(req, res) {
+  try {
+    const response = NextResponse.json({
+      status: 200,
+      message: "Delete login successful.",
+    }, { status: 200 });
+
+    response.cookies.set('authToken', null, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: -1,
+      path: '/',
+    });
+
+    return response;
   } catch (e) {
     return NextResponse.json({
       status: 500,
