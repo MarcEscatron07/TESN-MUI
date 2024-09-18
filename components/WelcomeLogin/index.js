@@ -109,7 +109,7 @@ export default function WelcomeLogin() {
   }
 
   const onRegisterClick = (event) => {
-    // TO-DO: redirect to /register. UI to be developed.
+    // TO-DO: redirect to /register. UI will be developed.
   }
 
   return (
