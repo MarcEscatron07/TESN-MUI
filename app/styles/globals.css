@@ -448,6 +448,31 @@ body {
   padding-right: 10px;
 }
 
+.not-found {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: -8px;
+  overflow: hidden;
+  background-color: #000000;
+}
+.not-found .not-found-text {
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+}
+.not-found .not-found-text b {
+  font-size: 1.8rem;
+  border-right: 1px solid gray;
+  padding: 1.2rem;
+}
+.not-found .not-found-text span {
+  font-size: 1.2rem;
+  margin-left: 1rem;
+}
+
 /* Start of FullCalendar CSS */
 .fc a {
   color: #00703C;

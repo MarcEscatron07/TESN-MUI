@@ -14,25 +14,23 @@ export async function GET(req, res) {
     const searchParams = new URLSearchParams(url.searchParams);
     const userId = searchParams.has('userId') ? searchParams.get('userId') : -1;
 
-    for (const key in jsonData) {
-        if (jsonData[key]?.id == userId) {
-          const dataObj = JSON.parse(JSON.stringify(jsonData[key]));
-          delete dataObj['groupIds'];
-          delete dataObj['username'];
-          delete dataObj['password'];
-
-          return NextResponse.json({
-            status: 200,
-            message: "Data fetch successful.",
-            data: dataObj,
-          }, { status: 200 });
-        }
+    let usersArr = jsonData ? jsonData.map((item) => {
+      return {
+        id: item.id ?? -1,
+        name: item.name ?? '',
+        image: item.image ?? ''
       }
+    }) : [];
 
-      return NextResponse.json({
-        status: 400,
-        message: "Data fetch failed.",
-      }, { status: 400 });
+    if(userId != -1) {
+      usersArr = usersArr.filter((i) => i.id != userId);
+    }
+
+    return NextResponse.json({
+      status: 200,
+      message: "Data fetch successful.",
+      data: usersArr,
+    }, { status: 200 });
   } catch (e) {
     return NextResponse.json({
         status: 500,

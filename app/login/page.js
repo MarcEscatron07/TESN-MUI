@@ -1,6 +1,6 @@
 import { WelcomeLogin } from '@/components';
 
-export default function Welcome() {
+export default function Login() {
   return (
     <WelcomeLogin />
   )
