@@ -1,4 +1,5 @@
 import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
 import TopAppBar from "./TopAppBar";
 import LeftDrawer from "./LeftDrawer";
 import RightDrawer from "./RightDrawer";
@@ -12,6 +13,7 @@ import ViewAttachment from "./ViewAttachment";
 
 export {
     LoginForm,
+    RegisterForm,
     TopAppBar,
     LeftDrawer,
     RightDrawer,    

@@ -28,7 +28,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { LOGIN } from "@/app/styles";
-import { Loader } from '@/components';
+import { Loader, RegisterForm } from '@/components';
 import { postLogin } from "@/lib/api";
 import { SITENAME_FULL, SITENAME_ABBR } from "@/lib/variables";
 
@@ -40,6 +40,11 @@ export default function LoginForm() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isRememberMe, setIsRememberMe] = useState(false);
+
+  const [registerDialogState, setRegisterDialogState] = useState({
+    isOpen: false,
+    dialogTitle: 'Registration Form',
+});
 
   useEffect(() => {
     fetchLocalStorage();
@@ -108,8 +113,22 @@ export default function LoginForm() {
     setIsRememberMe(event.target.checked);
   }
 
-  const onRegisterClick = (event) => {
-    // TO-DO: show UI of Register component
+  const onRegisterButtonClick = (event) => {
+    setRegisterDialogState({
+      isOpen: true,
+      dialogTitle: 'Registration Form',
+  });
+  }
+
+  const onRegisterDialogConfirm = (value) => {
+    console.log('LoginForm > value', value)
+  }
+
+  const onRegisterDialogCancel = (event) => {
+    setRegisterDialogState({
+      ...registerDialogState,
+      isOpen: false,
+  });
   }
 
   return (
@@ -231,7 +250,7 @@ export default function LoginForm() {
                       sx={LOGIN.loginFormButtonAction}
                       color="primary"
                       startIcon={<FontAwesomeIcon icon={faAddressCard} size="lg" />}
-                      onClick={(event) => onRegisterClick(event)}
+                      onClick={(event) => onRegisterButtonClick(event)}
                     >
                       Register
                     </Button>
@@ -261,6 +280,13 @@ export default function LoginForm() {
           />
         </Grid>
       </Box>
+
+      <RegisterForm
+          isOpen={registerDialogState.isOpen}
+          dialogTitle={registerDialogState.dialogTitle}
+          onRegisterDialogConfirm={onRegisterDialogConfirm}
+          onRegisterDialogCancel={onRegisterDialogCancel}
+      />
     </>
   );
 }

@@ -23,7 +23,7 @@ export default function ConfirmDialog(props) {
         props.onConfirmDialogCancel ? props.onConfirmDialogCancel() : null;
     }
 
-    const onButtonCancelConfirmClick = () => {
+    const onButtonConfirmClick = () => {
         props.onConfirmDialogConfirm ? props.onConfirmDialogConfirm() : null;
     }
 
@@ -36,14 +36,16 @@ export default function ConfirmDialog(props) {
             <DialogTitle id="alert-dialog-title">
                 {props.dialogTitle}
             </DialogTitle>
+
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
                     {props.dialogContentText}
                 </DialogContentText>
             </DialogContent>
+
             <DialogActions>
                 <Button onClick={onButtonCancelClick}>{props.dialogCancelText ?? 'Cancel'}</Button>
-                <Button onClick={onButtonCancelConfirmClick} autoFocus>{props.dialogConfirmText ?? 'Confirm'}</Button>
+                <Button onClick={onButtonConfirmClick} autoFocus>{props.dialogConfirmText ?? 'Confirm'}</Button>
             </DialogActions>
         </Dialog>
     );
