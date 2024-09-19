@@ -1,4 +1,4 @@
-import WelcomeLogin from "./WelcomeLogin";
+import LoginForm from "./LoginForm";
 import TopAppBar from "./TopAppBar";
 import LeftDrawer from "./LeftDrawer";
 import RightDrawer from "./RightDrawer";
@@ -11,7 +11,7 @@ import ConfirmDialog from "./ConfirmDialog";
 import ViewAttachment from "./ViewAttachment";
 
 export {
-    WelcomeLogin,
+    LoginForm,
     TopAppBar,
     LeftDrawer,
     RightDrawer,    

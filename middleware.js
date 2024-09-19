@@ -17,7 +17,7 @@ export function middleware(req) {
   const isAuthenticated = authToken;
 
   if (!isAuthenticated && protectedRoutes.some(route => pathname.startsWith(route))) {
-    const url = new URL('/login', req.url);
+    const url = new URL('/', req.url);
     return NextResponse.redirect(url);
   }
 

@@ -11,7 +11,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from '@mui/material/Link';
+// import Link from '@mui/material/Link';
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -32,7 +32,7 @@ import { Loader } from '@/components';
 import { postLogin } from "@/lib/api";
 import { SITENAME_FULL, SITENAME_ABBR } from "@/lib/variables";
 
-export default function WelcomeLogin() {
+export default function LoginForm() {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -109,7 +109,7 @@ export default function WelcomeLogin() {
   }
 
   const onRegisterClick = (event) => {
-    // TO-DO: redirect to /register. UI will be developed.
+    // TO-DO: show UI of Register component
   }
 
   return (
