@@ -80,6 +80,15 @@ export const LOGIN = {
     }
 }
 
+export const REGISTER = {
+    registerMainContainer: {
+        p: 1
+    },
+    registerDatePicker: {
+        width: '100%'
+    },
+}
+
 export const HOME = {
     homeSectionContent: {
         display: 'flex',

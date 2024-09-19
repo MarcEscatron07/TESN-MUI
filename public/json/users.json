@@ -5,7 +5,9 @@
         "username": "ticto_marc",
         "password": "password1",
         "name": "Marc Escatron",
-        "image": "/images/avatars/avatar_male_1.png"
+        "image": "/images/avatars/avatar_male_1.png",
+        "email": null,
+        "birthdate": null
     },
     {
         "id": 2,
@@ -13,7 +15,9 @@
         "username": "ticto_jerson",
         "password": "password2",
         "name": "Jerson Albit",
-        "image": "/images/avatars/avatar_male_2.png"
+        "image": "/images/avatars/avatar_male_2.png",
+        "email": null,
+        "birthdate": null
     },
     {
         "id": 3,
@@ -21,7 +25,9 @@
         "username": "ticto_joel",
         "password": "password3",
         "name": "Joel Buena",
-        "image": "/images/avatars/avatar_male_3.png"
+        "image": "/images/avatars/avatar_male_3.png",
+        "email": null,
+        "birthdate": null
     },
     {
         "id": 4,
@@ -29,7 +35,9 @@
         "username": "ticto_rommel",
         "password": "password4",
         "name": "Rommel Digal",
-        "image": "/images/avatars/avatar_male_4.png"
+        "image": "/images/avatars/avatar_male_4.png",
+        "email": null,
+        "birthdate": null
     },
     {
         "id": 5,
@@ -37,7 +45,9 @@
         "username": "ticto_junjie",
         "password": "password5",
         "name": "Junjie Bautista",
-        "image": "/images/avatars/avatar_male_5.png"
+        "image": "/images/avatars/avatar_male_5.png",
+        "email": null,
+        "birthdate": null
     },
     {
         "id": 6,
@@ -45,6 +55,8 @@
         "username": "ticto_head",
         "password": "password6",
         "name": "Ian Tambis",
-        "image": "/images/avatars/avatar_male_6.png"
+        "image": "/images/avatars/avatar_male_6.png",
+        "email": null,
+        "birthdate": null
     }
 ]

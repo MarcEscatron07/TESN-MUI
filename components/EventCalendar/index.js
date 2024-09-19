@@ -544,6 +544,7 @@ export default function EventCalendar() {
                 PaperProps={{ component: 'form', onSubmit: (event) => onModalFormSubmit(event) }}
             >
                 <DialogTitle>Add Event</DialogTitle>
+
                 <DialogContent>
                     <input type="hidden" name="id" value={modalData.id} />
 
@@ -683,6 +684,7 @@ export default function EventCalendar() {
                         </Grid>
                     </Grid>
                 </DialogContent>
+                
                 <DialogActions>
                     <Button onClick={() => onModalToggleClick(false)}>Cancel</Button>
                     <Button type="submit">Confirm</Button>

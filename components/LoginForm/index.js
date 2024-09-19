@@ -11,7 +11,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from '@mui/material/Link';
+// import Link from '@mui/material/Link';
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -28,11 +28,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { LOGIN } from "@/app/styles";
-import { Loader } from '@/components';
+import { Loader, RegisterForm } from '@/components';
 import { postLogin } from "@/lib/api";
 import { SITENAME_FULL, SITENAME_ABBR } from "@/lib/variables";
 
-export default function WelcomeLogin() {
+export default function LoginForm() {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -40,6 +40,11 @@ export default function WelcomeLogin() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isRememberMe, setIsRememberMe] = useState(false);
+
+  const [registerDialogState, setRegisterDialogState] = useState({
+    isOpen: false,
+    dialogTitle: 'Registration Form',
+});
 
   useEffect(() => {
     fetchLocalStorage();
@@ -108,8 +113,22 @@ export default function WelcomeLogin() {
     setIsRememberMe(event.target.checked);
   }
 
-  const onRegisterClick = (event) => {
-    // TO-DO: redirect to /register. UI will be developed.
+  const onRegisterButtonClick = (event) => {
+    setRegisterDialogState({
+      isOpen: true,
+      dialogTitle: 'Registration Form',
+  });
+  }
+
+  const onRegisterDialogConfirm = (value) => {
+    console.log('LoginForm > value', value)
+  }
+
+  const onRegisterDialogCancel = (event) => {
+    setRegisterDialogState({
+      ...registerDialogState,
+      isOpen: false,
+  });
   }
 
   return (
@@ -231,7 +250,7 @@ export default function WelcomeLogin() {
                       sx={LOGIN.loginFormButtonAction}
                       color="primary"
                       startIcon={<FontAwesomeIcon icon={faAddressCard} size="lg" />}
-                      onClick={(event) => onRegisterClick(event)}
+                      onClick={(event) => onRegisterButtonClick(event)}
                     >
                       Register
                     </Button>
@@ -261,6 +280,13 @@ export default function WelcomeLogin() {
           />
         </Grid>
       </Box>
+
+      <RegisterForm
+          isOpen={registerDialogState.isOpen}
+          dialogTitle={registerDialogState.dialogTitle}
+          onRegisterDialogConfirm={onRegisterDialogConfirm}
+          onRegisterDialogCancel={onRegisterDialogCancel}
+      />
     </>
   );
 }
