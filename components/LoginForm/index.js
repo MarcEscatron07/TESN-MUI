@@ -121,7 +121,20 @@ export default function LoginForm() {
   }
 
   const onRegisterDialogConfirm = (value) => {
-    console.log('LoginForm > value', value)
+    console.log('LoginForm > onRegisterDialogConfirm > value', value)
+
+    let dataObj = {
+      groupIds: null,
+      username: value.username,
+      password: value.password,
+      name: `${value.fname} ${value.lname}`,
+      image: null,
+      email: value.email ?? null,
+      birthdate: value.birthdate ?? null
+    }
+    console.log('LoginForm > onRegisterDialogConfirm > dataObj', dataObj)
+
+    /** API call here **/
   }
 
   const onRegisterDialogCancel = (event) => {

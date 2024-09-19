@@ -14,13 +14,13 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  groupIds  Json?    // array of integers
-  username  String   @unique
+  id        Int         @id @default(autoincrement())
+  groupIds  Json?       // array of integers
+  username  String      @unique
   password  String
   name      String
   image     String?
   email     String?
-  birthdate DateTime? @db.Date
-  createdAt DateTime @default(now())
+  birthdate DateTime?   @db.Date
+  createdAt DateTime    @default(now())
 }
