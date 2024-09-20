@@ -1,3 +1,5 @@
+# Yoga GraphiQL URL: http://192.168.100.29:3000/api/graphql
+
 # query { # SHOW ALL USERS
 #   users {
 #     id
