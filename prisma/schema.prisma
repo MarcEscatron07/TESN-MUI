@@ -14,14 +14,61 @@ datasource db {
 }
 
 model User {
-  id        Int         @id @default(autoincrement())
-  groupIds  Json?       // array of integers
-  username  String      @unique
-  password  String
-  name      String
-  image     String?
-  email     String?
-  birthdate DateTime?   @db.Date
-  createdAt DateTime?   @default(now())
-  updatedAt DateTime?   @default(now())
+  id            Int         @id @default(autoincrement())
+  groupIds      Json?       // array of integers
+  username      String      @unique
+  password      String
+  name          String
+  image         String?
+  email         String?
+  birthdate     DateTime?   @db.Date
+  createdAt     DateTime?   @default(now())
+  updatedAt     DateTime?   @default(now())
 }
+
+model Group {
+  id            Int         @id @default(autoincrement())
+  userIds       Json?       // array of integers
+  name          String
+  image         String?
+  createdAt     DateTime?   @default(now())
+  updatedAt     DateTime?   @default(now())
+}
+
+model Chat {
+  id            Int         @id @default(autoincrement())
+  userId        Int
+  friends       Json?       // [Users]
+  groups        Json?       // [Groups]
+}
+
+model Thread {
+  id            Int         @id @default(autoincrement())
+  chatIds       Json?       // array of integers
+  type          String
+  data          Json?
+}
+
+model Notification {
+  id            Int         @id @default(autoincrement())
+  userId        Int
+  groupIds      Json?       // array of integers
+  data          Json?
+}
+
+model Post {
+  id            Int         @id @default(autoincrement())
+  owner         Json?
+  thumbnail     Json?
+  title         String
+  description   String
+  tags          Json?
+}
+
+model Holiday {
+  id            Int         @id @default(autoincrement())
+  date          DateTime?   @db.Date
+  name          String
+}
+
+// TO-DO: try to establish relationship between models
