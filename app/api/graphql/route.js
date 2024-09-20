@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { DateResolver, JSONObjectResolver } from 'graphql-scalars';
 import { createSchema, createYoga } from 'graphql-yoga';
+import moment from 'moment-timezone';
 
 const prisma = new PrismaClient();
  
@@ -91,7 +92,7 @@ const { handleRequest } = createYoga({
                         image: args?.image, 
                         email: args?.email, 
                         birthdate: args?.birthdate,
-                        updatedAt: args?.updatedAt
+                        updatedAt: args?.updatedAt ?? moment().toISOString()
                     },
                 });
             },
