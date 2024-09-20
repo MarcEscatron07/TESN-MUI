@@ -1,4 +1,25 @@
-# Yoga GraphiQL URL: http://192.168.100.29:3000/api/graphql
+# # Yoga GraphiQL URL: http://192.168.100.29:3000/api/graphql
+
+# mutation { # CREATE USER
+#     createUser(
+#         groupIds: null, 
+#         username: "ticto_marcus", 
+#         password: "password1", 
+#         name: "Marc Benedict Escatron", 
+#         image: null, 
+#         email: null, 
+#         birthdate: null
+#     ) {
+#         id
+#         groupIds, 
+#         username, 
+#         password, 
+#         name, 
+#         image, 
+#         email, 
+#         birthdate
+#     }
+# }
 
 # query { # SHOW ALL USERS
 #   users {
@@ -10,11 +31,13 @@
 #     image
 #     email
 #     birthdate
+#     createdAt
+#     updatedAt
 #   }
 # }
 
 # query { # SHOW SPECIFIC USER
-#   user(id: 6) {
+#   user(id: 1) {
 #     id
 #     groupIds
 #     username
@@ -23,40 +46,22 @@
 #     image
 #     email
 #     birthdate
+#     createdAt
+#     updatedAt
 #   }
-# }
-
-# mutation { # CREATE USER
-#     createUser(
-#         groupIds: null, 
-#         username: "ticto_mariano", 
-#         password: "password7", 
-#         name: "Mariano Tambis", 
-#         image: null, 
-#         email: null, 
-#         birthdate: null
-#     ) {
-#         id
-#         groupIds, 
-#         username, 
-#         password, 
-#         name, 
-#         image, 
-#         email, 
-#         birthdate 
-#     }
 # }
 
 # mutation { # UPDATE USER
 #     updateUser(
-#         id: 8,
+#         id: 1,
 #         groupIds: null, 
-#         username: "ticto_head", 
-#         password: "password7", 
-#         name: "Mariano Tambis", 
+#         username: "ticto_marc", 
+#         password: "password1", 
+#         name: "Marc Benedict Escatron", 
 #         image: null, 
 #         email: null, 
-#         birthdate: null
+#         birthdate: null, 
+#         updatedAt: null
 #     ) {
 #         id
 #         groupIds, 
@@ -65,13 +70,14 @@
 #         name, 
 #         image, 
 #         email, 
-#         birthdate 
+#         birthdate, 
+#         updatedAt 
 #     }
 # }
 
 # mutation { # DELETE USER
 #     deleteUser(
-#         id: 7,
+#         id: 1,
 #     ) {
 #         id
 #     }
