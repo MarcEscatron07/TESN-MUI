@@ -1,4 +1,4 @@
-# query { # ALL USERS
+# query { # SHOW ALL USERS
 #   users {
 #     id
 #     groupIds
@@ -11,7 +11,7 @@
 #   }
 # }
 
-# query { # SPECIFIC USER
+# query { # SHOW SPECIFIC USER
 #   user(id: 6) {
 #     id
 #     groupIds
