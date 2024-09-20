@@ -37,6 +37,19 @@ const { handleRequest } = createYoga({
                 email: String
                 birthdate: Date
             ): User!
+            updateUser(
+                id: ID!
+                groupIds: JSON
+                username: String!
+                password: String!
+                name: String!
+                image: String
+                email: String
+                birthdate: Date
+            ): User!
+            deleteUser(
+                id: ID!
+            ): User!
         }
     `,
     resolvers: {
@@ -50,26 +63,41 @@ const { handleRequest } = createYoga({
         },
     
         Mutation: {
-            createUser: async (_, { 
-                groupIds, 
-                username, 
-                password, 
-                name, 
-                image, 
-                email, 
-                birthdate 
-            }) => {
+            createUser: async (_, args) => {
                 return await prisma.user.create({
                     data: {
-                        groupIds, 
-                        username, 
-                        password, 
-                        name, 
-                        image, 
-                        email, 
-                        birthdate
+                        groupIds: args?.groupIds, 
+                        username: args.username, 
+                        password: args.password,
+                        name: args.name, 
+                        image: args?.image, 
+                        email: args?.email, 
+                        birthdate: args?.birthdate
                     },
                 });
+            },
+            updateUser: async (_, args) => {
+                return await prisma.user.update({
+                    where: {
+                        id: +args.id
+                    },
+                    data: {
+                        groupIds: args?.groupIds, 
+                        username: args.username, 
+                        password: args.password,
+                        name: args.name, 
+                        image: args?.image, 
+                        email: args?.email, 
+                        birthdate: args?.birthdate
+                    },
+                });
+            },
+            deleteUser: async (_, args) => {
+                return await prisma.user.delete({
+                    where: {
+                        id: +args.id
+                    }
+                })
             },
         },
     }
