@@ -69,7 +69,7 @@
 
 # mutation { # DELETE USER
 #     deleteUser(
-#       	id: 7,
+#         id: 7,
 #     ) {
 #         id
 #     }
