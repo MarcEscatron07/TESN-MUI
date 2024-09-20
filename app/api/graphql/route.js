@@ -1,8 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import {
-    DateResolver,
-    JSONObjectResolver,
-} from 'graphql-scalars';
+import { DateResolver, JSONObjectResolver } from 'graphql-scalars';
 import { createSchema, createYoga } from 'graphql-yoga';
 
 const prisma = new PrismaClient();
