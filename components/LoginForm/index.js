@@ -29,7 +29,7 @@ import {
 
 import { LOGIN } from "@/app/styles";
 import { Loader, RegisterForm } from '@/components';
-import { postLogin } from "@/lib/api";
+import { postLogin, postUsers } from "@/lib/api";
 import { SITENAME_FULL, SITENAME_ABBR } from "@/lib/variables";
 
 export default function LoginForm() {
@@ -90,6 +90,19 @@ export default function LoginForm() {
     callback ? callback() : null;
   }
 
+  async function postUserData(formData, callback) {
+    await postUsers(formData).then(
+      (res) => {
+        // console.log('Login > postUserData > res', res)
+      },
+      (err) => {
+        console.log('Login > postUserData > err', err)
+      },
+    )
+
+    callback ? callback() : null;
+  }
+
   const processFormData = (username, password) => {
     const formData = new FormData();
     formData.append('username', username);
@@ -121,20 +134,17 @@ export default function LoginForm() {
   }
 
   const onRegisterDialogConfirm = (value) => {
-    console.log('LoginForm > onRegisterDialogConfirm > value', value)
+    const formData = new FormData();
+    formData.append('groupIds', null);
+    formData.append('username', value.username);
+    formData.append('password', value.password);
+    formData.append('name', `${value.fname} ${value.lname}`);
+    formData.append('image', null);
+    formData.append('email', value.email ?? null);
+    formData.append('birthdate', value.birthdate ?? null);
 
-    let dataObj = {
-      groupIds: null,
-      username: value.username,
-      password: value.password,
-      name: `${value.fname} ${value.lname}`,
-      image: null,
-      email: value.email ?? null,
-      birthdate: value.birthdate ?? null
-    }
-    console.log('LoginForm > onRegisterDialogConfirm > dataObj', dataObj)
-
-    /** API call here **/
+    setIsLoading(true);
+    postUserData(formData, () => setIsLoading(false));
   }
 
   const onRegisterDialogCancel = (event) => {
