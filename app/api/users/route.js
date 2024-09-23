@@ -52,7 +52,7 @@ export async function POST(req, res) {
     const name = formData.has('name') ? formData.get('name') : '';
     const image = formData.has('image') ? formData.get('image') : null;
     const email = formData.has('email') ? formData.get('email') : null;
-    const birthdate = formData.has('birthdate') ? moment(formData.get('birthdate')).toISOString() : '';
+    const birthdate = formData.has('birthdate') ? moment(formData.get('birthdate')).toISOString() : null;
     console.log('USER > POST > formData', formData)
 
     const user = await prisma.user.create({
