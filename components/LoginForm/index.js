@@ -28,7 +28,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { LOGIN } from "@/app/styles";
-import { Loader, RegisterForm } from '@/components';
+import { Loader, RegisterForm, AlertToast } from '@/components';
 import { postLogin, postUsers } from "@/lib/api";
 import { SITENAME_FULL, SITENAME_ABBR } from "@/lib/variables";
 
@@ -44,7 +44,13 @@ export default function LoginForm() {
   const [registerDialogState, setRegisterDialogState] = useState({
     isOpen: false,
     dialogTitle: 'Registration Form',
-});
+  });
+
+  const [alertToastState, setAlertToastState] = useState({
+    isOpen: false,
+    toastMessage: '',
+    toastSeverity: ''   // 'success', 'info', 'warning', 'error'
+  })
 
   useEffect(() => {
     fetchLocalStorage();
@@ -55,7 +61,7 @@ export default function LoginForm() {
   }, [isRememberMe]);
 
   async function fetchLocalStorage() {
-    if(localStorage.getItem('login_data')) {
+    if (localStorage.getItem('login_data')) {
       const dataObj = JSON.parse(CryptoJS.AES.decrypt(localStorage.getItem('login_data'), 'secret-key').toString(CryptoJS.enc.Utf8));
       setIsLoading(true);
       processFormData(dataObj?.username ?? '', dataObj?.password ?? '');
@@ -69,8 +75,8 @@ export default function LoginForm() {
       (res) => {
         // console.log('Login > postUserLogin > res', res)
 
-        if(res?.status && res?.data) {
-          if(isRememberMe) {
+        if (res?.status == 200 && res?.data) {
+          if (isRememberMe) {
             localStorage.setItem('login_data', CryptoJS.AES.encrypt(JSON.stringify({
               username: username,
               password: password
@@ -94,6 +100,19 @@ export default function LoginForm() {
     await postUsers(formData).then(
       (res) => {
         // console.log('Login > postUserData > res', res)
+        if (res?.status == 200 && res?.data) {
+          setAlertToastState({
+            isOpen: true,
+            toastMessage: 'You have successfully registered!',
+            toastSeverity: 'success'
+          })
+        } else {
+          setAlertToastState({
+            isOpen: true,
+            toastMessage: 'Unable to register new user.',
+            toastSeverity: 'error'
+          })
+        }
       },
       (err) => {
         console.log('Login > postUserData > err', err)
@@ -130,7 +149,7 @@ export default function LoginForm() {
     setRegisterDialogState({
       isOpen: true,
       dialogTitle: 'Registration Form',
-  });
+    });
   }
 
   const onRegisterDialogConfirm = (value) => {
@@ -144,14 +163,28 @@ export default function LoginForm() {
     formData.append('birthdate', value.birthdate ?? null);
 
     setIsLoading(true);
-    postUserData(formData, () => setIsLoading(false));
+    postUserData(formData, () => {
+      setIsLoading(false);
+      setRegisterDialogState({
+        isOpen: false,
+        dialogTitle: 'Registration Form',
+      });
+    });
   }
 
   const onRegisterDialogCancel = (event) => {
     setRegisterDialogState({
-      ...registerDialogState,
       isOpen: false,
-  });
+      dialogTitle: 'Registration Form',
+    });
+  }
+
+  const onAlertToastClose = () => {
+    setAlertToastState({
+      isOpen: false,
+      toastMessage: '',
+      toastSeverity: ''
+    });
   }
 
   return (
@@ -305,10 +338,18 @@ export default function LoginForm() {
       </Box>
 
       <RegisterForm
-          isOpen={registerDialogState.isOpen}
-          dialogTitle={registerDialogState.dialogTitle}
-          onRegisterDialogConfirm={onRegisterDialogConfirm}
-          onRegisterDialogCancel={onRegisterDialogCancel}
+        isOpen={registerDialogState.isOpen}
+        dialogTitle={registerDialogState.dialogTitle}
+        onRegisterDialogConfirm={onRegisterDialogConfirm}
+        onRegisterDialogCancel={onRegisterDialogCancel}
+      />
+
+      <AlertToast
+        isOpen={alertToastState.isOpen}
+        toastKey={alertToastState.toastMessage}
+        toastMessage={alertToastState.toastMessage}
+        toastSeverity={alertToastState.toastSeverity}
+        onAlertToastClose={onAlertToastClose}
       />
     </>
   );

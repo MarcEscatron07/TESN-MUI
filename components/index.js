@@ -10,6 +10,7 @@ import ChatList from "./ChatList";
 import EventCalendar from "./EventCalendar";
 import ConfirmDialog from "./ConfirmDialog";
 import ViewAttachment from "./ViewAttachment";
+import AlertToast from "./AlertToast";
 
 export {
     LoginForm,
@@ -23,5 +24,6 @@ export {
     ChatList,
     EventCalendar,
     ConfirmDialog,
-    ViewAttachment
+    ViewAttachment,
+    AlertToast,
 }
