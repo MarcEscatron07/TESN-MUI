@@ -23,7 +23,7 @@ export default function RegisterForm(props) {
         username: '',
         password: '',
         email: '',
-        birthdate: moment(),
+        birthdate: null,
     });
 
     useEffect(() => {
@@ -36,7 +36,7 @@ export default function RegisterForm(props) {
                 username: '',
                 password: '',
                 email: '',
-                birthdate: moment(),
+                birthdate: null,
             })
         }
     }, [props.isOpen])
