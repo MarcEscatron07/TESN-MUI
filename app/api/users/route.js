@@ -3,6 +3,7 @@ import { promises as fs } from "fs";
 import path from "path";
 
 import prisma from '@/lib/prisma';
+import CryptoJS from 'crypto-js';
 import moment from 'moment-timezone';
 
 export async function GET(req, res) {
@@ -48,7 +49,7 @@ export async function POST(req, res) {
     const formData = await req.formData();
     const groupIds = formData.has('groupIds') ? formData.get('groupIds') : null;
     const username = formData.has('username') ? formData.get('username') : '';
-    const password = formData.has('password') ? formData.get('password') : '';
+    const password = formData.has('password') ? CryptoJS.AES.encrypt(formData.get('password'), 'secret-key').toString() : '';
     const name = formData.has('name') ? formData.get('name') : '';
     const image = formData.has('image') ? formData.get('image') : null;
     const email = formData.has('email') ? formData.get('email') : null;
